@@ -1,0 +1,600 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8343168A2142AD6600784257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316892142AD6600784257 /* AppDelegate.swift */; };
+		8343168C2142AD6600784257 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8343168B2142AD6600784257 /* ViewController.swift */; };
+		8343168F2142AD6700784257 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8343168D2142AD6700784257 /* Main.storyboard */; };
+		834316922142AD6700784257 /* seemeter.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 834316902142AD6700784257 /* seemeter.xcdatamodeld */; };
+		834316942142AD6900784257 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 834316932142AD6900784257 /* Assets.xcassets */; };
+		834316972142AD6900784257 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 834316952142AD6900784257 /* LaunchScreen.storyboard */; };
+		834316A22142AD6A00784257 /* seemeterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316A12142AD6A00784257 /* seemeterTests.swift */; };
+		834316AD2142AD6A00784257 /* seemeterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316AC2142AD6A00784257 /* seemeterUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8343169E2142AD6A00784257 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8343167E2142AD6600784257 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 834316852142AD6600784257;
+			remoteInfo = seemeter;
+		};
+		834316A92142AD6A00784257 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8343167E2142AD6600784257 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 834316852142AD6600784257;
+			remoteInfo = seemeter;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		834316862142AD6600784257 /* seemeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = seemeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		834316892142AD6600784257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8343168B2142AD6600784257 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8343168E2142AD6700784257 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		834316912142AD6700784257 /* seemeter.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = seemeter.xcdatamodel; sourceTree = "<group>"; };
+		834316932142AD6900784257 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		834316962142AD6900784257 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		834316982142AD6900784257 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8343169D2142AD6A00784257 /* seemeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = seemeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		834316A12142AD6A00784257 /* seemeterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seemeterTests.swift; sourceTree = "<group>"; };
+		834316A32142AD6A00784257 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		834316A82142AD6A00784257 /* seemeterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = seemeterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		834316AC2142AD6A00784257 /* seemeterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seemeterUITests.swift; sourceTree = "<group>"; };
+		834316AE2142AD6A00784257 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		834316832142AD6600784257 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8343169A2142AD6A00784257 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		834316A52142AD6A00784257 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8343167D2142AD6600784257 = {
+			isa = PBXGroup;
+			children = (
+				834316882142AD6600784257 /* seemeter */,
+				834316A02142AD6A00784257 /* seemeterTests */,
+				834316AB2142AD6A00784257 /* seemeterUITests */,
+				834316872142AD6600784257 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		834316872142AD6600784257 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				834316862142AD6600784257 /* seemeter.app */,
+				8343169D2142AD6A00784257 /* seemeterTests.xctest */,
+				834316A82142AD6A00784257 /* seemeterUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		834316882142AD6600784257 /* seemeter */ = {
+			isa = PBXGroup;
+			children = (
+				834316892142AD6600784257 /* AppDelegate.swift */,
+				8343168B2142AD6600784257 /* ViewController.swift */,
+				8343168D2142AD6700784257 /* Main.storyboard */,
+				834316932142AD6900784257 /* Assets.xcassets */,
+				834316952142AD6900784257 /* LaunchScreen.storyboard */,
+				834316982142AD6900784257 /* Info.plist */,
+				834316902142AD6700784257 /* seemeter.xcdatamodeld */,
+			);
+			path = seemeter;
+			sourceTree = "<group>";
+		};
+		834316A02142AD6A00784257 /* seemeterTests */ = {
+			isa = PBXGroup;
+			children = (
+				834316A12142AD6A00784257 /* seemeterTests.swift */,
+				834316A32142AD6A00784257 /* Info.plist */,
+			);
+			path = seemeterTests;
+			sourceTree = "<group>";
+		};
+		834316AB2142AD6A00784257 /* seemeterUITests */ = {
+			isa = PBXGroup;
+			children = (
+				834316AC2142AD6A00784257 /* seemeterUITests.swift */,
+				834316AE2142AD6A00784257 /* Info.plist */,
+			);
+			path = seemeterUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		834316852142AD6600784257 /* seemeter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 834316B12142AD6A00784257 /* Build configuration list for PBXNativeTarget "seemeter" */;
+			buildPhases = (
+				834316822142AD6600784257 /* Sources */,
+				834316832142AD6600784257 /* Frameworks */,
+				834316842142AD6600784257 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = seemeter;
+			productName = seemeter;
+			productReference = 834316862142AD6600784257 /* seemeter.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8343169C2142AD6A00784257 /* seemeterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 834316B42142AD6A00784257 /* Build configuration list for PBXNativeTarget "seemeterTests" */;
+			buildPhases = (
+				834316992142AD6A00784257 /* Sources */,
+				8343169A2142AD6A00784257 /* Frameworks */,
+				8343169B2142AD6A00784257 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8343169F2142AD6A00784257 /* PBXTargetDependency */,
+			);
+			name = seemeterTests;
+			productName = seemeterTests;
+			productReference = 8343169D2142AD6A00784257 /* seemeterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		834316A72142AD6A00784257 /* seemeterUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 834316B72142AD6A00784257 /* Build configuration list for PBXNativeTarget "seemeterUITests" */;
+			buildPhases = (
+				834316A42142AD6A00784257 /* Sources */,
+				834316A52142AD6A00784257 /* Frameworks */,
+				834316A62142AD6A00784257 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				834316AA2142AD6A00784257 /* PBXTargetDependency */,
+			);
+			name = seemeterUITests;
+			productName = seemeterUITests;
+			productReference = 834316A82142AD6A00784257 /* seemeterUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8343167E2142AD6600784257 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Matus Tomlein";
+				TargetAttributes = {
+					834316852142AD6600784257 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					8343169C2142AD6A00784257 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 834316852142AD6600784257;
+					};
+					834316A72142AD6A00784257 = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 834316852142AD6600784257;
+					};
+				};
+			};
+			buildConfigurationList = 834316812142AD6600784257 /* Build configuration list for PBXProject "seemeter" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8343167D2142AD6600784257;
+			productRefGroup = 834316872142AD6600784257 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				834316852142AD6600784257 /* seemeter */,
+				8343169C2142AD6A00784257 /* seemeterTests */,
+				834316A72142AD6A00784257 /* seemeterUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		834316842142AD6600784257 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				834316972142AD6900784257 /* LaunchScreen.storyboard in Resources */,
+				834316942142AD6900784257 /* Assets.xcassets in Resources */,
+				8343168F2142AD6700784257 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8343169B2142AD6A00784257 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		834316A62142AD6A00784257 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		834316822142AD6600784257 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8343168C2142AD6600784257 /* ViewController.swift in Sources */,
+				8343168A2142AD6600784257 /* AppDelegate.swift in Sources */,
+				834316922142AD6700784257 /* seemeter.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		834316992142AD6A00784257 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				834316A22142AD6A00784257 /* seemeterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		834316A42142AD6A00784257 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				834316AD2142AD6A00784257 /* seemeterUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8343169F2142AD6A00784257 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 834316852142AD6600784257 /* seemeter */;
+			targetProxy = 8343169E2142AD6A00784257 /* PBXContainerItemProxy */;
+		};
+		834316AA2142AD6A00784257 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 834316852142AD6600784257 /* seemeter */;
+			targetProxy = 834316A92142AD6A00784257 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8343168D2142AD6700784257 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8343168E2142AD6700784257 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		834316952142AD6900784257 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				834316962142AD6900784257 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		834316AF2142AD6A00784257 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		834316B02142AD6A00784257 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		834316B22142AD6A00784257 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = seemeter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.tomlein.seemeter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		834316B32142AD6A00784257 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = seemeter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.tomlein.seemeter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		834316B52142AD6A00784257 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = seemeterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.tomlein.seemeterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/seemeter.app/seemeter";
+			};
+			name = Debug;
+		};
+		834316B62142AD6A00784257 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = seemeterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.tomlein.seemeterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/seemeter.app/seemeter";
+			};
+			name = Release;
+		};
+		834316B82142AD6A00784257 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = seemeterUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.tomlein.seemeterUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = seemeter;
+			};
+			name = Debug;
+		};
+		834316B92142AD6A00784257 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = seemeterUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.tomlein.seemeterUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = seemeter;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		834316812142AD6600784257 /* Build configuration list for PBXProject "seemeter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				834316AF2142AD6A00784257 /* Debug */,
+				834316B02142AD6A00784257 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		834316B12142AD6A00784257 /* Build configuration list for PBXNativeTarget "seemeter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				834316B22142AD6A00784257 /* Debug */,
+				834316B32142AD6A00784257 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		834316B42142AD6A00784257 /* Build configuration list for PBXNativeTarget "seemeterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				834316B52142AD6A00784257 /* Debug */,
+				834316B62142AD6A00784257 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		834316B72142AD6A00784257 /* Build configuration list for PBXNativeTarget "seemeterUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				834316B82142AD6A00784257 /* Debug */,
+				834316B92142AD6A00784257 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		834316902142AD6700784257 /* seemeter.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				834316912142AD6700784257 /* seemeter.xcdatamodel */,
+			);
+			currentVersion = 834316912142AD6700784257 /* seemeter.xcdatamodel */;
+			path = seemeter.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 8343167E2142AD6600784257 /* Project object */;
+}
