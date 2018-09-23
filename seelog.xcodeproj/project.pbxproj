@@ -21,6 +21,10 @@
 		834316A22142AD6A00784257 /* seelogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316A12142AD6A00784257 /* seelogTests.swift */; };
 		834316AD2142AD6A00784257 /* seelogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316AC2142AD6A00784257 /* seelogUITests.swift */; };
 		834316BB2142D5FD00784257 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316BA2142D5FD00784257 /* Photo.swift */; };
+		83571F7F21564ACA001CEEFC /* HistoryBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83571F7E21564ACA001CEEFC /* HistoryBarChart.swift */; };
+		83C703AC2157903D007853E9 /* ReportSelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */; };
+		83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */; };
+		83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7DD8E21567C120046D8A5 /* ReportViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +65,10 @@
 		834316AC2142AD6A00784257 /* seelogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seelogUITests.swift; sourceTree = "<group>"; };
 		834316AE2142AD6A00784257 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		834316BA2142D5FD00784257 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		83571F7E21564ACA001CEEFC /* HistoryBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryBarChart.swift; sourceTree = "<group>"; };
+		83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSelectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBarChartSelection.swift; sourceTree = "<group>"; };
+		83C7DD8E21567C120046D8A5 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +141,10 @@
 				83221A86214527EC0055D775 /* GeoDatabase.swift */,
 				83221A8821452BE60055D775 /* Geohash.swift */,
 				83221A8E2145780C0055D775 /* DatabaseInitializer.swift */,
+				83571F7E21564ACA001CEEFC /* HistoryBarChart.swift */,
+				83C7DD8E21567C120046D8A5 /* ReportViewController.swift */,
+				83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */,
+				83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */,
 			);
 			path = seelog;
 			sourceTree = "<group>";
@@ -306,12 +318,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */,
 				834316BB2142D5FD00784257 /* Photo.swift in Sources */,
+				83C703AC2157903D007853E9 /* ReportSelectionCollectionViewCell.swift in Sources */,
 				83221A87214527EC0055D775 /* GeoDatabase.swift in Sources */,
+				83571F7F21564ACA001CEEFC /* HistoryBarChart.swift in Sources */,
 				8343168C2142AD6600784257 /* ViewController.swift in Sources */,
 				83221A8921452BE60055D775 /* Geohash.swift in Sources */,
 				8343168A2142AD6600784257 /* AppDelegate.swift in Sources */,
 				834316922142AD6700784257 /* seelog.xcdatamodeld in Sources */,
+				83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */,
 				83221A8F2145780C0055D775 /* DatabaseInitializer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,6 +502,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = V487J8L84E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -507,6 +524,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = V487J8L84E;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

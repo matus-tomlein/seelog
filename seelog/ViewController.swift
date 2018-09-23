@@ -29,15 +29,20 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func requestPhotoAccess() {
-        PHPhotoLibrary.requestAuthorization { (status) in
+    private func requestPhotoAccess() {
+        PHPhotoLibrary.requestAuthorization { status in
             switch status {
             case .authorized:
                 if let persistentContainer = self.persistentContainer {
-                    let databaseInitializer = DatabaseInitializer(context: persistentContainer.viewContext)
-                    databaseInitializer.start()
+                    let context = persistentContainer.newBackgroundContext()
+                    context.perform {
+                        let databaseInitializer = DatabaseInitializer(context: context)
+                        databaseInitializer.start()
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "continue", sender: nil)
+                        }
+                    }
                 }
-                
             case .denied, .restricted:
                 print("Not allowed")
             case .notDetermined:

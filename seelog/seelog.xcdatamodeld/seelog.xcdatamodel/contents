@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G2208" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="17G2307" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Month" representedClassName="Month" syncable="YES" codeGenerationType="class">
+        <attribute name="month" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="photosCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="year" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
         <attribute name="altitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="countryKey" optional="YES" attributeType="String" syncable="YES"/>
@@ -10,7 +15,19 @@
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="stateKey" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="Quarter" representedClassName="Quarter" syncable="YES" codeGenerationType="class">
+        <attribute name="photosCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="quarter" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="year" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="Year" representedClassName="Year" syncable="YES" codeGenerationType="class">
+        <attribute name="countries" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="[String]" syncable="YES"/>
+        <attribute name="year" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <elements>
+        <element name="Month" positionX="630" positionY="288" width="128" height="90"/>
         <element name="Photo" positionX="619" positionY="216" width="128" height="165"/>
+        <element name="Quarter" positionX="639" positionY="297" width="128" height="90"/>
+        <element name="Year" positionX="621" positionY="279" width="128" height="75"/>
     </elements>
 </model>
