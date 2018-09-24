@@ -86,21 +86,36 @@ class HistoryBarChart: UIView {
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             let point = sender.location(in: scrollView)
+            if let layer = getLayer(for: point) {
+                deselectAll()
 
-            guard let sublayers = self.mainLayer.sublayers else { return }
-
-            for layer in sublayers {
-                if layer.frame.contains(point) {
-                    if let title = layer.name,
-                        let dataEntries = self.dataEntries {
+                if let title = layer.name,
+                    let dataEntries = self.dataEntries {
+                    if title != barChartSelection?.currentSelection {
                         for entry in dataEntries {
                             if entry.title == title {
                                 self.barChartSelection?.items = entry.items
                             }
                         }
+
                         selectBar(with: title)
+                        barChartSelection?.currentSelection = title
+                    } else {
+                        barChartSelection?.items.removeAll()
+                        barChartSelection?.currentSelection = nil
                     }
                 }
+            }
+        }
+    }
+
+    func deselectAll() {
+        guard let sublayers = self.mainLayer.sublayers else { return }
+        for layer in sublayers {
+            if let textLayer = layer as? CATextLayer {
+                textLayer.foregroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+            } else {
+                layer.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
             }
         }
     }
@@ -108,13 +123,26 @@ class HistoryBarChart: UIView {
     func selectBar(with name: String) {
         guard let sublayers = self.mainLayer.sublayers else { return }
         for layer in sublayers {
-            let color: CGColor = layer.name == name ? #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1) : #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-            if let textLayer = layer as? CATextLayer {
-                textLayer.foregroundColor = color
-            } else {
-                layer.backgroundColor = color
+            if layer.name == name {
+                if let textLayer = layer as? CATextLayer {
+                    textLayer.foregroundColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+                } else {
+                    layer.backgroundColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+                }
             }
         }
+    }
+
+    func getLayer(for point: CGPoint) -> CALayer? {
+        guard let sublayers = self.mainLayer.sublayers else { return nil }
+
+        for layer in sublayers {
+            if layer.frame.contains(point) {
+                return layer
+            }
+        }
+
+        return nil
     }
 
     override func layoutSubviews() {

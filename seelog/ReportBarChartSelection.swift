@@ -10,15 +10,26 @@ import Foundation
 
 class ReportBarChartSelection {
     var reportViewController: ReportViewController
+    var defaultItems: [String] = []
     var items: [String] = [] {
         didSet {
             self.reportViewController.collectionView.reloadData()
         }
     }
+    var currentItems: [String] {
+        get {
+            if items.count > 0 {
+                return items
+            } else {
+                return defaultItems
+            }
+        }
+    }
+    var currentSelection: String?
 
     var flaggedItems: [String] {
         get {
-            return items.map { flag(country: $0) }
+            return currentItems.sorted().map { flag(country: $0) }
         }
     }
 

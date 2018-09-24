@@ -30,6 +30,7 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
     override func viewDidAppear(_ animated: Bool) {
         let dataEntries = generateDataEntries()
         self.historyBarChartView.dataEntries = dataEntries
+        collectionView.reloadData()
     }
 
     func generateDataEntries() -> [BarEntry] {
@@ -44,6 +45,8 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
         do {
             let years = try context.fetch(request)
             let maxCount = years.map { ($0.countries ?? []).count }.max() ?? 0
+            let allCountries = Array(Set(years.map { ($0.countries ?? []) }.joined()))
+            barChartSelection?.defaultItems = allCountries
 
             for year in years {
                 let value = year.countries?.count ?? 0
@@ -91,7 +94,7 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.barChartSelection?.items.count ?? 0
+        return self.barChartSelection?.currentItems.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
