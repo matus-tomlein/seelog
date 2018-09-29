@@ -50,4 +50,19 @@ class Helpers {
         }
         return l1 + notInL1
     }
+
+    static func flag(country: String) -> String {
+        if let countryCode = CountryCodeMappings.countryCodes[country] {
+            let base = 127397
+            var usv = String.UnicodeScalarView()
+            for i in countryCode.utf16 {
+                if let scalar = UnicodeScalar(base + Int(i)) {
+                    usv.append(scalar)
+                }
+            }
+            return String(usv)
+        } else {
+            return country
+        }
+    }
 }

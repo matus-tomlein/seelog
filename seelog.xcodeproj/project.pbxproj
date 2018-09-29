@@ -12,6 +12,9 @@
 		83221A8921452BE60055D775 /* Geohash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83221A8821452BE60055D775 /* Geohash.swift */; };
 		83221A8C214549E60055D775 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83221A8B214549E60055D775 /* SQLite.framework */; };
 		83221A8F2145780C0055D775 /* DatabaseInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83221A8E2145780C0055D775 /* DatabaseInitializer.swift */; };
+		832B9A1C215FD1E30098A396 /* CountryCodeMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B9A1B215FD1E30098A396 /* CountryCodeMappings.swift */; };
+		832B9A1E215FD4070098A396 /* AggregatedVisitStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B9A1D215FD4070098A396 /* AggregatedVisitStats.swift */; };
+		832B9A20215FD4CD0098A396 /* Aggregate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B9A1F215FD4CD0098A396 /* Aggregate.swift */; };
 		8343168A2142AD6600784257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316892142AD6600784257 /* AppDelegate.swift */; };
 		8343168C2142AD6600784257 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8343168B2142AD6600784257 /* ViewController.swift */; };
 		8343168F2142AD6700784257 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8343168D2142AD6700784257 /* Main.storyboard */; };
@@ -54,6 +57,9 @@
 		83221A8821452BE60055D775 /* Geohash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geohash.swift; sourceTree = "<group>"; };
 		83221A8B214549E60055D775 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		83221A8E2145780C0055D775 /* DatabaseInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseInitializer.swift; sourceTree = "<group>"; };
+		832B9A1B215FD1E30098A396 /* CountryCodeMappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeMappings.swift; sourceTree = "<group>"; };
+		832B9A1D215FD4070098A396 /* AggregatedVisitStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregatedVisitStats.swift; sourceTree = "<group>"; };
+		832B9A1F215FD4CD0098A396 /* Aggregate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aggregate.swift; sourceTree = "<group>"; };
 		834316862142AD6600784257 /* seelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = seelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		834316892142AD6600784257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8343168B2142AD6600784257 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +160,9 @@
 				83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */,
 				83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */,
 				83FF2128215F86C5008E846F /* Helpers.swift */,
+				832B9A1B215FD1E30098A396 /* CountryCodeMappings.swift */,
+				832B9A1D215FD4070098A396 /* AggregatedVisitStats.swift */,
+				832B9A1F215FD4CD0098A396 /* Aggregate.swift */,
 			);
 			path = seelog;
 			sourceTree = "<group>";
@@ -340,12 +349,15 @@
 			files = (
 				83FF2130215FA7AE008E846F /* SeasonStatsUpdater.swift in Sources */,
 				83FF212E215FA699008E846F /* MonthStatsUpdater.swift in Sources */,
+				832B9A1C215FD1E30098A396 /* CountryCodeMappings.swift in Sources */,
 				83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */,
+				832B9A20215FD4CD0098A396 /* Aggregate.swift in Sources */,
 				834316BB2142D5FD00784257 /* Photo.swift in Sources */,
 				83C703AC2157903D007853E9 /* ReportSelectionCollectionViewCell.swift in Sources */,
 				83221A87214527EC0055D775 /* GeoDatabase.swift in Sources */,
 				83571F7F21564ACA001CEEFC /* HistoryBarChart.swift in Sources */,
 				8343168C2142AD6600784257 /* ViewController.swift in Sources */,
+				832B9A1E215FD4070098A396 /* AggregatedVisitStats.swift in Sources */,
 				83221A8921452BE60055D775 /* Geohash.swift in Sources */,
 				83FF2129215F86C5008E846F /* Helpers.swift in Sources */,
 				83FF212C215FA47E008E846F /* YearStatsUpdater.swift in Sources */,

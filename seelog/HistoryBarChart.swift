@@ -42,21 +42,32 @@ class HistoryBarChart: UIView {
 
     var barChartSelection: ReportBarChartSelection?
 
-    var dataEntries: [BarEntry]? = nil {
-        didSet {
+    func loadEntries() {
+        if let aggregates = barChartSelection?.aggregates {
             mainLayer.sublayers?.forEach({$0.removeFromSuperlayer()})
 
-            if let dataEntries = dataEntries {
-                scrollView.contentSize = CGSize(width: (barWidth + space)*CGFloat(dataEntries.count), height: self.frame.size.height)
-                mainLayer.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
+            scrollView.contentSize = CGSize(width: (barWidth + space)*CGFloat(aggregates.count) + 24, height: self.frame.size.height)
+            mainLayer.frame = CGRect(x: 0, y: 0, width: scrollView.contentSize.width, height: scrollView.contentSize.height)
 
-                for i in 0..<dataEntries.count {
-                    showEntry(index: i, entry: dataEntries[i])
-                }
+            let maxCount = aggregates.map { ($0.countries ?? []).count }.max() ?? 0
 
-                let bottomOffset = CGPoint(x: self.scrollView.contentSize.width - self.scrollView.bounds.size.width, y: 0)
-                self.scrollView.setContentOffset(bottomOffset, animated: false)
+            for i in 0..<aggregates.count {
+                let aggregate = aggregates[i]
+                let value = aggregate.countries?.count ?? 0
+                let height: Float = Float(value) / Float(maxCount)
+
+                let entry = BarEntry(
+                    color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1),
+                    height: height,
+                    textValue: "\(value)",
+                    title: aggregate.name,
+                    items: aggregate.countries ?? []
+                )
+                showEntry(index: i, entry: entry)
             }
+
+            let bottomOffset = CGPoint(x: self.scrollView.contentSize.width - self.scrollView.bounds.size.width, y: 0)
+            self.scrollView.setContentOffset(bottomOffset, animated: false)
         }
     }
 
@@ -90,19 +101,11 @@ class HistoryBarChart: UIView {
             if let layer = getLayer(for: point) {
                 deselectAll()
 
-                if let title = layer.name,
-                    let dataEntries = self.dataEntries {
+                if let title = layer.name {
                     if title != barChartSelection?.currentSelection {
-                        for entry in dataEntries {
-                            if entry.title == title {
-                                self.barChartSelection?.items = entry.items
-                            }
-                        }
-
-                        selectBar(with: title)
                         barChartSelection?.currentSelection = title
+                        selectBar(with: title)
                     } else {
-                        barChartSelection?.items.removeAll()
                         barChartSelection?.currentSelection = nil
                     }
                 }
@@ -163,7 +166,7 @@ class HistoryBarChart: UIView {
         drawTextValue(xPos: xPos - space/2, yPos: yPos - 30, textValue: entry.textValue, color: entry.color, name: entry.title)
 
         /// Draw text below the bar
-        drawTitle(xPos: xPos - space/2, yPos: mainLayer.frame.height - bottomSpace + 10, title: entry.title, color: entry.color)
+        drawTitle(xPos: xPos - space/2, yPos: mainLayer.frame.height - bottomSpace + 5, title: entry.title, color: entry.color)
     }
 
     private func drawBar(xPos: CGFloat, yPos: CGFloat, color: UIColor, name: String) {
@@ -190,7 +193,7 @@ class HistoryBarChart: UIView {
 
     private func drawTitle(xPos: CGFloat, yPos: CGFloat, title: String, color: UIColor) {
         let textLayer = CATextLayer()
-        textLayer.frame = CGRect(x: xPos, y: yPos, width: barWidth + space, height: 22)
+        textLayer.frame = CGRect(x: xPos, y: yPos, width: barWidth + space, height: 40)
         textLayer.foregroundColor = color.cgColor
         textLayer.backgroundColor = UIColor.clear.cgColor
         textLayer.alignmentMode = kCAAlignmentCenter

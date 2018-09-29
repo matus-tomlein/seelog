@@ -11,4 +11,5 @@ import UIKit
 class ReportSelectionCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var label: UILabel!
+    
 }
