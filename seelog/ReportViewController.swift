@@ -15,11 +15,15 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
     @IBOutlet weak var numberOfVisitedCountriesLabel: UILabel!
     @IBOutlet weak var historyBarChartView: HistoryBarChart!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
 
     var barChartSelection: ReportBarChartSelection?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.layoutMargins.left += 15
+        view.layoutMargins.right += 15
 
         self.barChartSelection = ReportBarChartSelection(reportViewController: self)
         historyBarChartView.barChartSelection = self.barChartSelection
@@ -30,7 +34,24 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
     override func viewDidAppear(_ animated: Bool) {
         let dataEntries = generateDataEntries()
         self.historyBarChartView.dataEntries = dataEntries
+        reloadData()
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        coordinator.animate(alongsideTransition: { context in
+            self.collectionView.layoutIfNeeded()
+            let contentSize = self.collectionView.collectionViewLayout.collectionViewContentSize
+            self.collectionViewHeightConstraint.constant = contentSize.height
+        }, completion: nil)
+    }
+
+    func reloadData() {
         collectionView.reloadData()
+
+        let contentSize = collectionView.collectionViewLayout.collectionViewContentSize
+        collectionViewHeightConstraint.constant = contentSize.height
     }
 
     func generateDataEntries() -> [BarEntry] {
@@ -67,7 +88,7 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
 
     func load() {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Photo")
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Photo.fetchRequest()
         fetchRequest.propertiesToFetch = ["countryKey"]
         fetchRequest.returnsDistinctResults = true
         fetchRequest.resultType = NSFetchRequestResultType.dictionaryResultType
@@ -89,8 +110,7 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
             print(err.debugDescription)
         }
 
-        self.numberOfVisitedCountriesLabel.text = "Visited " +
-            String(countries.count) + " countries"
+        self.numberOfVisitedCountriesLabel.text = String(countries.count) + " countries"
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

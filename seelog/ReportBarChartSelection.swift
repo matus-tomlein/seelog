@@ -13,7 +13,7 @@ class ReportBarChartSelection {
     var defaultItems: [String] = []
     var items: [String] = [] {
         didSet {
-            self.reportViewController.collectionView.reloadData()
+            self.reportViewController.reloadData()
         }
     }
     var currentItems: [String] {

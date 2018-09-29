@@ -76,6 +76,7 @@ class HistoryBarChart: UIView {
     }
 
     private func setupView() {
+        scrollView.preservesSuperviewLayoutMargins = true
         scrollView.layer.addSublayer(mainLayer)
         self.addSubview(scrollView)
 

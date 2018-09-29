@@ -31,12 +31,13 @@ class GeoDatabase {
     }
     
     func countryKeyFor(geohash: String) -> String? {
+        let allGeohashes = getGeohashesOfAllLengths(geohash: geohash)
+
         if let db = self.db {
             do {
-                if let item = try db.pluck(self.geohashCountries.where(self.geohash == geohash)) {
+                let query = self.geohashCountries.where(allGeohashes.contains(self.geohash)).order(self.geohash.length.desc)
+                if let item = try db.pluck(query) {
                     return item[self.countryKey]
-                } else if (geohash.count > 1) {
-                    return countryKeyFor(geohash: String(geohash.dropLast()))
                 }
             } catch {
                 print("Error querying geo database")
@@ -46,15 +47,16 @@ class GeoDatabase {
         return nil
     }
     
-    func stateKeyFor(geohash: String) -> String? {
+    func stateKeyFor(geohash gh: String) -> String? {
+        let allGeohashes = getGeohashesOfAllLengths(geohash: gh)
+
         if let db = self.db {
             do {
-                if let item = try db.pluck(self.geohashStates.where(self.geohash == geohash)) {
+                let query = self.geohashStates.where(allGeohashes.contains(self.geohash)).order(self.geohash.length.desc)
+                if let item = try db.pluck(query) {
                     let stateKey = item[self.stateKey]
                     if stateKey == "" { return nil }
                     return stateKey
-                } else if (geohash.count > 1) {
-                    return stateKeyFor(geohash: String(geohash.dropLast()))
                 }
             } catch {
                 print("Error querying geo database")
@@ -62,5 +64,16 @@ class GeoDatabase {
         }
         
         return nil
+    }
+
+    func getGeohashesOfAllLengths(geohash: String) -> [String] {
+        var allGeohashes: [String] = []
+        var newGeohash = String(geohash)
+        while (newGeohash.count > 0) {
+            allGeohashes.append(newGeohash)
+            newGeohash = String(newGeohash.dropLast())
+        }
+
+        return allGeohashes
     }
 }

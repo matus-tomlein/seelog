@@ -28,4 +28,27 @@ extension Photo {
         
         return nil
     }
+
+    var year: Int32? {
+        get {
+            if let date = creationDate {
+                return Int32(Calendar.current.component(.year, from: date))
+            }
+            return nil
+        }
+    }
+
+    var month: String? {
+        get {
+            if let date = creationDate { return Helpers.monthForDate(date) }
+            return nil
+        }
+    }
+
+    var season: String? {
+        get {
+            if let date = creationDate { return Helpers.seasonForDate(date) }
+            return nil
+        }
+    }
 }

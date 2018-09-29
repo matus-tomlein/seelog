@@ -25,6 +25,10 @@
 		83C703AC2157903D007853E9 /* ReportSelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */; };
 		83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */; };
 		83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7DD8E21567C120046D8A5 /* ReportViewController.swift */; };
+		83FF2129215F86C5008E846F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF2128215F86C5008E846F /* Helpers.swift */; };
+		83FF212C215FA47E008E846F /* YearStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF212B215FA47E008E846F /* YearStatsUpdater.swift */; };
+		83FF212E215FA699008E846F /* MonthStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF212D215FA699008E846F /* MonthStatsUpdater.swift */; };
+		83FF2130215FA7AE008E846F /* SeasonStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF212F215FA7AE008E846F /* SeasonStatsUpdater.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +73,10 @@
 		83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSelectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBarChartSelection.swift; sourceTree = "<group>"; };
 		83C7DD8E21567C120046D8A5 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		83FF2128215F86C5008E846F /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		83FF212B215FA47E008E846F /* YearStatsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearStatsUpdater.swift; sourceTree = "<group>"; };
+		83FF212D215FA699008E846F /* MonthStatsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthStatsUpdater.swift; sourceTree = "<group>"; };
+		83FF212F215FA7AE008E846F /* SeasonStatsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonStatsUpdater.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +137,7 @@
 		834316882142AD6600784257 /* seelog */ = {
 			isa = PBXGroup;
 			children = (
+				83FF212A215FA439008E846F /* Initialization */,
 				834316892142AD6600784257 /* AppDelegate.swift */,
 				8343168B2142AD6600784257 /* ViewController.swift */,
 				8343168D2142AD6700784257 /* Main.storyboard */,
@@ -140,11 +149,11 @@
 				834316BA2142D5FD00784257 /* Photo.swift */,
 				83221A86214527EC0055D775 /* GeoDatabase.swift */,
 				83221A8821452BE60055D775 /* Geohash.swift */,
-				83221A8E2145780C0055D775 /* DatabaseInitializer.swift */,
 				83571F7E21564ACA001CEEFC /* HistoryBarChart.swift */,
 				83C7DD8E21567C120046D8A5 /* ReportViewController.swift */,
 				83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */,
 				83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */,
+				83FF2128215F86C5008E846F /* Helpers.swift */,
 			);
 			path = seelog;
 			sourceTree = "<group>";
@@ -165,6 +174,17 @@
 				834316AE2142AD6A00784257 /* Info.plist */,
 			);
 			path = seelogUITests;
+			sourceTree = "<group>";
+		};
+		83FF212A215FA439008E846F /* Initialization */ = {
+			isa = PBXGroup;
+			children = (
+				83221A8E2145780C0055D775 /* DatabaseInitializer.swift */,
+				83FF212B215FA47E008E846F /* YearStatsUpdater.swift */,
+				83FF212D215FA699008E846F /* MonthStatsUpdater.swift */,
+				83FF212F215FA7AE008E846F /* SeasonStatsUpdater.swift */,
+			);
+			path = Initialization;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,6 +338,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83FF2130215FA7AE008E846F /* SeasonStatsUpdater.swift in Sources */,
+				83FF212E215FA699008E846F /* MonthStatsUpdater.swift in Sources */,
 				83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */,
 				834316BB2142D5FD00784257 /* Photo.swift in Sources */,
 				83C703AC2157903D007853E9 /* ReportSelectionCollectionViewCell.swift in Sources */,
@@ -325,6 +347,8 @@
 				83571F7F21564ACA001CEEFC /* HistoryBarChart.swift in Sources */,
 				8343168C2142AD6600784257 /* ViewController.swift in Sources */,
 				83221A8921452BE60055D775 /* Geohash.swift in Sources */,
+				83FF2129215F86C5008E846F /* Helpers.swift in Sources */,
+				83FF212C215FA47E008E846F /* YearStatsUpdater.swift in Sources */,
 				8343168A2142AD6600784257 /* AppDelegate.swift in Sources */,
 				834316922142AD6700784257 /* seelog.xcdatamodeld in Sources */,
 				83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */,
