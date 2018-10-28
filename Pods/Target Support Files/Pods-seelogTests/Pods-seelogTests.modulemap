@@ -1,0 +1,6 @@
+framework module Pods_seelogTests {
+  umbrella header "Pods-seelogTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
