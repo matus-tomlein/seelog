@@ -9,30 +9,65 @@
 import UIKit
 import Photos
 import CoreData
+import MapKit
+import GEOSwift
 
-class ReportViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class ReportScrollView: UIScrollView {
+    @IBOutlet weak var mapOverlayView: UIView!
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return point.y > mapOverlayView.frame.maxY
+    }
+}
+
+class ReportViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, MKMapViewDelegate {
 
     @IBOutlet weak var numberOfVisitedCountriesLabel: UILabel!
-    @IBOutlet weak var historyBarChartView: HistoryBarChart!
+    @IBOutlet weak var historyBarChartView: HistoryChartView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var granularitySegmentedControl: UISegmentedControl!
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var scrollView: ReportScrollView!
+    @IBOutlet weak var contentSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var aggregateChartSwitch: UISwitch!
 
-    var barChartSelection: ReportBarChartSelection?
-    
+    var mapViewDelegate: MainMapViewDelegate?
+    var barChartSelection: ReportBarChartSelection? {
+        get {
+            return historyBarChartView.barChartSelection
+        }
+    }
+
+    var aggregateChart: Bool {
+        get {
+            return aggregateChartSwitch.isOn
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.layoutMargins.left += 15
         view.layoutMargins.right += 15
 
-        self.barChartSelection = ReportBarChartSelection(reportViewController: self)
-        historyBarChartView.barChartSelection = self.barChartSelection
+        historyBarChartView.reportViewController = self
+
+        mapViewDelegate = MainMapViewDelegate(mapView: mapView)
+        mapView.delegate = mapViewDelegate
+
+        reloadForCurrentContent()
+        contentSegmentedControl.addTarget(self, action: #selector(reloadForCurrentContent), for: .valueChanged)
 
         reloadForCurrentGranularityChanged()
         granularitySegmentedControl.addTarget(self, action: #selector(reloadForCurrentGranularityChanged), for: .valueChanged)
 
-        self.numberOfVisitedCountriesLabel.text = String(barChartSelection?.countries?.count ?? 0) + " countries"
+        aggregateChartSwitch.addTarget(self, action: #selector(aggregateChartSwitchStateChanged(_:)), for: .valueChanged)
+
+        scrollView.setContentOffset(CGPoint(
+            x: scrollView.contentOffset.x,
+            y: scrollView.contentOffset.y + 75
+        ), animated: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -66,32 +101,55 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
         return cell
     }
 
+    @objc func reloadForCurrentContent() {
+        self.numberOfVisitedCountriesLabel.text = String(barChartSelection?.countries?.count ?? 0) + " countries"
+
+        mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
+
+        if contentSegmentedControl.selectedSegmentIndex == 0 {
+            mapViewDelegate?.loadMapViewHeatmap()
+        } else if contentSegmentedControl.selectedSegmentIndex == 1 {
+            mapViewDelegate?.loadMapViewCountries()
+        } else if contentSegmentedControl.selectedSegmentIndex == 2 {
+            mapViewDelegate?.loadMapViewCities()
+        }
+    }
+
     @objc func reloadForCurrentGranularityChanged() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
-        
-        switch granularitySegmentedControl.selectedSegmentIndex {
-        case 0: // years
-            barChartSelection?.loadEntries(granularity: .years, context: context)
-            break
 
-        case 1: // seasons
-            barChartSelection?.loadEntries(granularity: .seasons, context: context)
-            break
+        if let barChartSelection = self.barChartSelection {
+            switch granularitySegmentedControl.selectedSegmentIndex {
+            case 0: // years
+                barChartSelection.changeGranularity(.years, context: context)
+                break
 
-        case 2: // months
-            barChartSelection?.loadEntries(granularity: .months, context: context)
-            break
+            case 1: // seasons
+                barChartSelection.changeGranularity(.seasons, context: context)
+                break
 
-        default:
-            break
+            case 2: // months
+                barChartSelection.changeGranularity(.months, context: context)
+                break
+
+            default:
+                break
+            }
         }
 
-        historyBarChartView.loadEntries()
-        if barChartSelection?.currentSelection != nil {
-            barChartSelection?.currentSelection = nil
-        }
+        historyBarChartView.load()
+        barChartSelection?.clear()
     }
+
+    @objc func aggregateChartSwitchStateChanged(_ aggregateSwitch: UISwitch) {
+        historyBarChartView.changeChartType()
+        historyBarChartView.update()
+    }
+
+    // MARK: - Map view
+
 
     /*
     // MARK: - Navigation

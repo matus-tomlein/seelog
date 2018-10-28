@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -46,50 +45,87 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentInsetAdjustmentBehavior="always" translatesAutoresizingMaskIntoConstraints="NO" id="HJe-h6-OIp">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="satellite" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IU4-L8-kbv">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </mapView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentInsetAdjustmentBehavior="always" translatesAutoresizingMaskIntoConstraints="NO" id="HJe-h6-OIp" customClass="ReportScrollView" customModule="seelog" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="rvx-ty-5Do">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="466.33333333333331"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rvx-ty-5Do">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1063"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="EiH-Pu-KbN">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                            <view opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V1P-4c-ckx">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="625"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="625" id="3vN-RK-057"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YGm-I1-ROJ">
+                                                <rect key="frame" x="0.0" y="625" width="375" height="56"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" preservesSuperviewLayoutMargins="YES" text="loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="48" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuW-aj-jFH">
-                                                        <rect key="frame" x="16" y="8" width="343" height="40"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="G9p-aa-Wqt"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
-                                                        <color key="textColor" red="0.36892619729042053" green="0.66445672512054443" blue="0.94513219594955444" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="EiH-Pu-KbN">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" preservesSuperviewLayoutMargins="YES" text="loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="48" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuW-aj-jFH">
+                                                                <rect key="frame" x="8" y="8" width="310" height="40"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="40" id="G9p-aa-Wqt"/>
+                                                                </constraints>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
+                                                                <color key="textColor" red="0.36892619729042053" green="0.66445672512054443" blue="0.94513219594955444" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="750" contentHorizontalAlignment="right" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eof-aY-Xa3">
+                                                                <rect key="frame" x="318" y="12.666666666666629" width="51" height="31"/>
+                                                            </switch>
+                                                        </subviews>
+                                                        <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                                    </stackView>
                                                 </subviews>
-                                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
-                                            </stackView>
-                                            <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o7w-ya-eAc" customClass="HistoryBarChart" customModule="seelog" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="64" width="375" height="252"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="EiH-Pu-KbN" firstAttribute="leading" secondItem="YGm-I1-ROJ" secondAttribute="leading" id="6hk-Dj-cDx"/>
+                                                    <constraint firstAttribute="trailing" secondItem="EiH-Pu-KbN" secondAttribute="trailing" id="Tmd-GR-3DX"/>
+                                                    <constraint firstAttribute="bottom" secondItem="EiH-Pu-KbN" secondAttribute="bottom" id="cWX-kU-ptY"/>
+                                                    <constraint firstItem="EiH-Pu-KbN" firstAttribute="top" secondItem="YGm-I1-ROJ" secondAttribute="top" id="elH-zZ-MFi"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o7w-ya-eAc" customClass="HistoryChartView" customModule="seelog" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="681" width="375" height="252"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="252" id="bDO-ve-Oq6"/>
                                                 </constraints>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HDL-Ts-40o">
-                                                <rect key="frame" x="0.0" y="324" width="375" height="36"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="khi-UM-STI">
+                                                <rect key="frame" x="0.0" y="933" width="375" height="50"/>
                                                 <subviews>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="oZO-Yw-NLp">
-                                                        <rect key="frame" x="32" y="0.0" width="311" height="29"/>
-                                                        <segments>
-                                                            <segment title="Years"/>
-                                                            <segment title="Seasons"/>
-                                                            <segment title="Months"/>
-                                                        </segments>
-                                                    </segmentedControl>
+                                                    <stackView contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HDL-Ts-40o">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                        <subviews>
+                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="oZO-Yw-NLp">
+                                                                <rect key="frame" x="32" y="8" width="311" height="35"/>
+                                                                <segments>
+                                                                    <segment title="Years"/>
+                                                                    <segment title="Seasons"/>
+                                                                    <segment title="Months"/>
+                                                                </segments>
+                                                            </segmentedControl>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <edgeInsets key="layoutMargins" top="0.0" left="32" bottom="8" right="32"/>
+                                                    </stackView>
                                                 </subviews>
-                                                <edgeInsets key="layoutMargins" top="0.0" left="32" bottom="8" right="32"/>
-                                            </stackView>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="HDL-Ts-40o" secondAttribute="trailing" id="S1X-oC-H5a"/>
+                                                    <constraint firstItem="HDL-Ts-40o" firstAttribute="leading" secondItem="khi-UM-STI" secondAttribute="leading" id="XnX-j2-okQ"/>
+                                                    <constraint firstAttribute="bottom" secondItem="HDL-Ts-40o" secondAttribute="bottom" id="tmR-jx-0bM"/>
+                                                    <constraint firstItem="HDL-Ts-40o" firstAttribute="top" secondItem="khi-UM-STI" secondAttribute="top" id="wCn-GN-MnR"/>
+                                                </constraints>
+                                            </view>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nda-PP-bw5">
-                                                <rect key="frame" x="0.0" y="368" width="375" height="70"/>
+                                                <rect key="frame" x="0.0" y="983" width="375" height="70"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="70" id="Bhe-hT-yHP"/>
@@ -101,7 +137,7 @@
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells>
-                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cell" id="SvS-r0-RoQ" customClass="ReportSelectionCollectionViewCell" customModule="seelog" customModuleProvider="target">
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="SvS-r0-RoQ" customClass="ReportSelectionCollectionViewCell" customModule="seelog" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="8" width="50" height="50"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -109,7 +145,7 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🇸🇰" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fbx-Kc-rRH">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="331.33333333333331"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -132,12 +168,13 @@
                                                     <outlet property="delegate" destination="mXn-og-8hO" id="0ga-YM-4xx"/>
                                                 </connections>
                                             </collectionView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="    " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfq-3D-6ap">
-                                                <rect key="frame" x="0.0" y="446" width="375" height="20.333333333333314"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tuL-zt-5u1">
+                                                <rect key="frame" x="0.0" y="1053" width="375" height="10"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="10" id="Ez2-cG-UT6"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -147,14 +184,21 @@
                                     <constraint firstItem="rvx-ty-5Do" firstAttribute="leading" secondItem="HJe-h6-OIp" secondAttribute="leading" id="qTw-dE-OeR"/>
                                     <constraint firstAttribute="bottom" secondItem="rvx-ty-5Do" secondAttribute="bottom" id="xVc-u0-wGc"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="mapOverlayView" destination="V1P-4c-ckx" id="5Mc-hx-Kgw"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="IU4-L8-kbv" firstAttribute="leading" secondItem="R46-zw-7Gk" secondAttribute="leading" id="3aS-CE-gMx"/>
                             <constraint firstItem="HJe-h6-OIp" firstAttribute="leading" secondItem="R46-zw-7Gk" secondAttribute="leading" id="AT6-qw-qqW"/>
                             <constraint firstItem="HJe-h6-OIp" firstAttribute="top" secondItem="R46-zw-7Gk" secondAttribute="top" id="HUj-qH-F64"/>
                             <constraint firstAttribute="trailing" secondItem="HJe-h6-OIp" secondAttribute="trailing" id="Hg4-44-SLR"/>
                             <constraint firstItem="rvx-ty-5Do" firstAttribute="width" secondItem="dlJ-Px-4L0" secondAttribute="width" id="M18-6N-veG"/>
+                            <constraint firstItem="IU4-L8-kbv" firstAttribute="trailing" secondItem="R46-zw-7Gk" secondAttribute="trailing" id="S7v-O2-Soq"/>
+                            <constraint firstItem="IU4-L8-kbv" firstAttribute="top" secondItem="R46-zw-7Gk" secondAttribute="top" id="p8W-IX-Oyf"/>
+                            <constraint firstAttribute="bottom" secondItem="IU4-L8-kbv" secondAttribute="bottom" id="qP6-gN-BnV"/>
                             <constraint firstAttribute="bottom" secondItem="HJe-h6-OIp" secondAttribute="bottom" id="yfp-0k-KpN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dlJ-Px-4L0"/>
@@ -163,27 +207,31 @@
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="camera" id="9vf-2d-Jgk"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="avA-Hh-9UM">
-                            <rect key="frame" x="77" y="7.6666666666666679" width="221" height="29.000000000000004"/>
+                            <rect key="frame" x="77" y="7" width="221" height="30"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <segments>
+                                <segment title="Seen"/>
                                 <segment title="Countries"/>
-                                <segment title="Cities"/>
-                                <segment title="Sights"/>
+                                <segment title="Places"/>
                             </segments>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="Bbi-0U-LfO"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="aggregateChartSwitch" destination="Eof-aY-Xa3" id="HrE-aY-cJ2"/>
                         <outlet property="collectionView" destination="nda-PP-bw5" id="Ofq-Aa-pn9"/>
                         <outlet property="collectionViewHeightConstraint" destination="Bhe-hT-yHP" id="Nz5-a7-mkd"/>
+                        <outlet property="contentSegmentedControl" destination="avA-Hh-9UM" id="MXR-Xo-n9w"/>
                         <outlet property="granularitySegmentedControl" destination="oZO-Yw-NLp" id="rxm-Ck-CU6"/>
                         <outlet property="historyBarChartView" destination="o7w-ya-eAc" id="Jrx-cu-azD"/>
+                        <outlet property="mapView" destination="IU4-L8-kbv" id="QJ1-vK-lWG"/>
                         <outlet property="numberOfVisitedCountriesLabel" destination="TuW-aj-jFH" id="O4z-US-sU8"/>
+                        <outlet property="scrollView" destination="HJe-h6-OIp" id="k7M-fZ-y5D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3z5-8u-42p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2316" y="140"/>
+            <point key="canvasLocation" x="2316" y="139.65517241379311"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nNj-ph-FEt">

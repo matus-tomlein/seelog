@@ -19,14 +19,16 @@ class DatabaseInitializer {
     }
 
     func start() {
-        let yearStatsUpdater = YearStatsUpdater()
-        let monthStatsUpdater = MonthStatsUpdater()
-        let seasonStatsUpdater = SeasonStatsUpdater()
+        let yearStatsUpdater = YearStatsUpdater(context: context)
+        let monthStatsUpdater = MonthStatsUpdater(context: context)
+        let seasonStatsUpdater = SeasonStatsUpdater(context: context)
+        let visitedPlacesUpdater = VisitedPlacesStats()
 
         let fetchOptions = PHFetchOptions()
         if let creationDate = Photo.lastCreationDate(context: self.context) {
             fetchOptions.predicate = NSPredicate(format: "creationDate > %@", creationDate as NSDate)
         }
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         
         let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         allPhotos.enumerateObjects { asset, _, _ in
@@ -35,13 +37,27 @@ class DatabaseInitializer {
                     yearStatsUpdater.processNewPhoto(photo: photo)
                     monthStatsUpdater.processNewPhoto(photo: photo)
                     seasonStatsUpdater.processNewPhoto(photo: photo)
+                    visitedPlacesUpdater.processNewPhoto(photo: photo)
                 }
             }
         }
 
-        yearStatsUpdater.update(context: context)
-        monthStatsUpdater.update(context: context)
-        seasonStatsUpdater.update(context: context)
+        do {
+            try context.save()
+        } catch {
+            print("Failed saving")
+        }
+
+        yearStatsUpdater.update()
+        monthStatsUpdater.update()
+        seasonStatsUpdater.update()
+        visitedPlacesUpdater.update(context: context)
+
+        do {
+            try context.save()
+        } catch {
+            print("Failed saving.")
+        }
     }
 
     func savePhoto(asset: PHAsset, location: CLLocation) -> Photo? {
@@ -59,15 +75,9 @@ class DatabaseInitializer {
 
         newPhoto.countryKey = self.geoDatabase.countryKeyFor(geohash: geohash)
         newPhoto.stateKey = self.geoDatabase.stateKeyFor(geohash: geohash)
+        newPhoto.cityKeys = self.geoDatabase.cityKeysFor(geohash: geohash)
 
-        do {
-            try context.save()
-            return newPhoto
-        } catch {
-            print("Failed saving")
-        }
-
-        return nil
+        return newPhoto
     }
     
     

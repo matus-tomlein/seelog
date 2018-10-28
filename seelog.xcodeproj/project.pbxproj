@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		036FE228E2D0B1B1294CA39A /* Pods_seelogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FD6EE0A52036A012C91395 /* Pods_seelogUITests.framework */; };
+		46C076A9D05EB24844896409 /* Pods_seelog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0A53248E77E44A7835ED25 /* Pods_seelog.framework */; };
+		8305ED4A2182671A00630BD6 /* BarChartDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8305ED492182671A00630BD6 /* BarChartDrawer.swift */; };
+		8305ED4C218300F300630BD6 /* LineChartDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8305ED4B218300F300630BD6 /* LineChartDrawer.swift */; };
+		8305ED4E218451E600630BD6 /* ChartDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8305ED4D218451E600630BD6 /* ChartDrawer.swift */; };
 		83221A8521451FB30055D775 /* generated.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 83221A8421451FB30055D775 /* generated.sqlite */; };
 		83221A87214527EC0055D775 /* GeoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83221A86214527EC0055D775 /* GeoDatabase.swift */; };
 		83221A8921452BE60055D775 /* Geohash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83221A8821452BE60055D775 /* Geohash.swift */; };
@@ -24,14 +29,24 @@
 		834316A22142AD6A00784257 /* seelogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316A12142AD6A00784257 /* seelogTests.swift */; };
 		834316AD2142AD6A00784257 /* seelogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316AC2142AD6A00784257 /* seelogUITests.swift */; };
 		834316BB2142D5FD00784257 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316BA2142D5FD00784257 /* Photo.swift */; };
-		83571F7F21564ACA001CEEFC /* HistoryBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83571F7E21564ACA001CEEFC /* HistoryBarChart.swift */; };
+		83571F7F21564ACA001CEEFC /* HistoryChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83571F7E21564ACA001CEEFC /* HistoryChartView.swift */; };
+		835B8057217B44B6001E9B96 /* MainMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835B8056217B44B6001E9B96 /* MainMapViewDelegate.swift */; };
+		83A8ABCB216D384200203402 /* HeatmapSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABCA216D384200203402 /* HeatmapSquare.swift */; };
+		83A8ABCD217326F400203402 /* VisitedCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABCC217326F400203402 /* VisitedCity.swift */; };
+		83A8ABCF2173290400203402 /* CityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABCE2173290400203402 /* CityInfo.swift */; };
+		83A8ABD121733F2600203402 /* CountryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABD021733F2600203402 /* CountryInfo.swift */; };
+		83A8ABD32173459800203402 /* StateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABD22173459800203402 /* StateInfo.swift */; };
 		83C703AC2157903D007853E9 /* ReportSelectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */; };
 		83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */; };
 		83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7DD8E21567C120046D8A5 /* ReportViewController.swift */; };
+		83E80A9221613CEC00A39782 /* AggregatedStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E80A9121613CEC00A39782 /* AggregatedStatsUpdater.swift */; };
+		83E80A9421626D7100A39782 /* VisitedPlacesStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E80A9321626D7100A39782 /* VisitedPlacesStats.swift */; };
+		83E80A992162949400A39782 /* VisitedCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E80A982162949400A39782 /* VisitedCountry.swift */; };
 		83FF2129215F86C5008E846F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF2128215F86C5008E846F /* Helpers.swift */; };
 		83FF212C215FA47E008E846F /* YearStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF212B215FA47E008E846F /* YearStatsUpdater.swift */; };
 		83FF212E215FA699008E846F /* MonthStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF212D215FA699008E846F /* MonthStatsUpdater.swift */; };
 		83FF2130215FA7AE008E846F /* SeasonStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF212F215FA7AE008E846F /* SeasonStatsUpdater.swift */; };
+		A5502DA6450971490B66119E /* Pods_seelogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C4034B3BAC37236CD70496 /* Pods_seelogTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +67,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E0A53248E77E44A7835ED25 /* Pods_seelog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		20C4034B3BAC37236CD70496 /* Pods_seelogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2415C18D330D19815B0937AF /* Pods-seelogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-seelogUITests/Pods-seelogUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		54AC64825E59FFC79F45C7FD /* Pods-seelogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-seelogTests/Pods-seelogTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8305ED492182671A00630BD6 /* BarChartDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDrawer.swift; sourceTree = "<group>"; };
+		8305ED4B218300F300630BD6 /* LineChartDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartDrawer.swift; sourceTree = "<group>"; };
+		8305ED4D218451E600630BD6 /* ChartDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDrawer.swift; sourceTree = "<group>"; };
 		83221A8421451FB30055D775 /* generated.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = generated.sqlite; sourceTree = "<group>"; };
 		83221A86214527EC0055D775 /* GeoDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoDatabase.swift; sourceTree = "<group>"; };
 		83221A8821452BE60055D775 /* Geohash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geohash.swift; sourceTree = "<group>"; };
@@ -75,14 +97,28 @@
 		834316AC2142AD6A00784257 /* seelogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seelogUITests.swift; sourceTree = "<group>"; };
 		834316AE2142AD6A00784257 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		834316BA2142D5FD00784257 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
-		83571F7E21564ACA001CEEFC /* HistoryBarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryBarChart.swift; sourceTree = "<group>"; };
+		83571F7E21564ACA001CEEFC /* HistoryChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryChartView.swift; sourceTree = "<group>"; };
+		835B8056217B44B6001E9B96 /* MainMapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapViewDelegate.swift; sourceTree = "<group>"; };
+		83A8ABCA216D384200203402 /* HeatmapSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatmapSquare.swift; sourceTree = "<group>"; };
+		83A8ABCC217326F400203402 /* VisitedCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitedCity.swift; sourceTree = "<group>"; };
+		83A8ABCE2173290400203402 /* CityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityInfo.swift; sourceTree = "<group>"; };
+		83A8ABD021733F2600203402 /* CountryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryInfo.swift; sourceTree = "<group>"; };
+		83A8ABD22173459800203402 /* StateInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateInfo.swift; sourceTree = "<group>"; };
 		83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSelectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBarChartSelection.swift; sourceTree = "<group>"; };
 		83C7DD8E21567C120046D8A5 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		83E80A9121613CEC00A39782 /* AggregatedStatsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregatedStatsUpdater.swift; sourceTree = "<group>"; };
+		83E80A9321626D7100A39782 /* VisitedPlacesStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitedPlacesStats.swift; sourceTree = "<group>"; };
+		83E80A982162949400A39782 /* VisitedCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitedCountry.swift; sourceTree = "<group>"; };
 		83FF2128215F86C5008E846F /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		83FF212B215FA47E008E846F /* YearStatsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearStatsUpdater.swift; sourceTree = "<group>"; };
 		83FF212D215FA699008E846F /* MonthStatsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthStatsUpdater.swift; sourceTree = "<group>"; };
 		83FF212F215FA7AE008E846F /* SeasonStatsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonStatsUpdater.swift; sourceTree = "<group>"; };
+		85FD6EE0A52036A012C91395 /* Pods_seelogUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelogUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		997FC8762F2CE413825CCB6B /* Pods-seelog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelog.debug.xcconfig"; path = "Pods/Target Support Files/Pods-seelog/Pods-seelog.debug.xcconfig"; sourceTree = "<group>"; };
+		A3EE17F4CCEC392913D7964D /* Pods-seelog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelog.release.xcconfig"; path = "Pods/Target Support Files/Pods-seelog/Pods-seelog.release.xcconfig"; sourceTree = "<group>"; };
+		D2C6379ABAF2E79BDA6AF9DB /* Pods-seelogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-seelogTests/Pods-seelogTests.release.xcconfig"; sourceTree = "<group>"; };
+		FBCA8175EA256CEDDF327643 /* Pods-seelogUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-seelogUITests/Pods-seelogUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				83221A8C214549E60055D775 /* SQLite.framework in Frameworks */,
+				46C076A9D05EB24844896409 /* Pods_seelog.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +135,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5502DA6450971490B66119E /* Pods_seelogTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +143,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				036FE228E2D0B1B1294CA39A /* Pods_seelogUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +154,9 @@
 			isa = PBXGroup;
 			children = (
 				83221A8B214549E60055D775 /* SQLite.framework */,
+				0E0A53248E77E44A7835ED25 /* Pods_seelog.framework */,
+				20C4034B3BAC37236CD70496 /* Pods_seelogTests.framework */,
+				85FD6EE0A52036A012C91395 /* Pods_seelogUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,6 +169,7 @@
 				834316AB2142AD6A00784257 /* seelogUITests */,
 				834316872142AD6600784257 /* Products */,
 				83221A8A214549E60055D775 /* Frameworks */,
+				E6DDB71771A1F308EBED6F81 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,6 +186,9 @@
 		834316882142AD6600784257 /* seelog */ = {
 			isa = PBXGroup;
 			children = (
+				83E80A972162921900A39782 /* Helpers */,
+				83E80A96216291F300A39782 /* BarChart */,
+				83E80A95216291A100A39782 /* Models */,
 				83FF212A215FA439008E846F /* Initialization */,
 				834316892142AD6600784257 /* AppDelegate.swift */,
 				8343168B2142AD6600784257 /* ViewController.swift */,
@@ -152,17 +198,9 @@
 				834316982142AD6900784257 /* Info.plist */,
 				83221A8421451FB30055D775 /* generated.sqlite */,
 				834316902142AD6700784257 /* seelog.xcdatamodeld */,
-				834316BA2142D5FD00784257 /* Photo.swift */,
-				83221A86214527EC0055D775 /* GeoDatabase.swift */,
-				83221A8821452BE60055D775 /* Geohash.swift */,
-				83571F7E21564ACA001CEEFC /* HistoryBarChart.swift */,
 				83C7DD8E21567C120046D8A5 /* ReportViewController.swift */,
 				83C703AB2157903D007853E9 /* ReportSelectionCollectionViewCell.swift */,
-				83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */,
-				83FF2128215F86C5008E846F /* Helpers.swift */,
-				832B9A1B215FD1E30098A396 /* CountryCodeMappings.swift */,
-				832B9A1D215FD4070098A396 /* AggregatedVisitStats.swift */,
-				832B9A1F215FD4CD0098A396 /* Aggregate.swift */,
+				835B8056217B44B6001E9B96 /* MainMapViewDelegate.swift */,
 			);
 			path = seelog;
 			sourceTree = "<group>";
@@ -185,6 +223,45 @@
 			path = seelogUITests;
 			sourceTree = "<group>";
 		};
+		83E80A95216291A100A39782 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				83221A86214527EC0055D775 /* GeoDatabase.swift */,
+				832B9A1F215FD4CD0098A396 /* Aggregate.swift */,
+				834316BA2142D5FD00784257 /* Photo.swift */,
+				83E80A982162949400A39782 /* VisitedCountry.swift */,
+				83A8ABCA216D384200203402 /* HeatmapSquare.swift */,
+				83A8ABCC217326F400203402 /* VisitedCity.swift */,
+				83A8ABCE2173290400203402 /* CityInfo.swift */,
+				83A8ABD021733F2600203402 /* CountryInfo.swift */,
+				83A8ABD22173459800203402 /* StateInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		83E80A96216291F300A39782 /* BarChart */ = {
+			isa = PBXGroup;
+			children = (
+				83571F7E21564ACA001CEEFC /* HistoryChartView.swift */,
+				83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */,
+				832B9A1D215FD4070098A396 /* AggregatedVisitStats.swift */,
+				8305ED492182671A00630BD6 /* BarChartDrawer.swift */,
+				8305ED4B218300F300630BD6 /* LineChartDrawer.swift */,
+				8305ED4D218451E600630BD6 /* ChartDrawer.swift */,
+			);
+			path = BarChart;
+			sourceTree = "<group>";
+		};
+		83E80A972162921900A39782 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				83221A8821452BE60055D775 /* Geohash.swift */,
+				83FF2128215F86C5008E846F /* Helpers.swift */,
+				832B9A1B215FD1E30098A396 /* CountryCodeMappings.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		83FF212A215FA439008E846F /* Initialization */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,8 +269,23 @@
 				83FF212B215FA47E008E846F /* YearStatsUpdater.swift */,
 				83FF212D215FA699008E846F /* MonthStatsUpdater.swift */,
 				83FF212F215FA7AE008E846F /* SeasonStatsUpdater.swift */,
+				83E80A9121613CEC00A39782 /* AggregatedStatsUpdater.swift */,
+				83E80A9321626D7100A39782 /* VisitedPlacesStats.swift */,
 			);
 			path = Initialization;
+			sourceTree = "<group>";
+		};
+		E6DDB71771A1F308EBED6F81 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				997FC8762F2CE413825CCB6B /* Pods-seelog.debug.xcconfig */,
+				A3EE17F4CCEC392913D7964D /* Pods-seelog.release.xcconfig */,
+				54AC64825E59FFC79F45C7FD /* Pods-seelogTests.debug.xcconfig */,
+				D2C6379ABAF2E79BDA6AF9DB /* Pods-seelogTests.release.xcconfig */,
+				2415C18D330D19815B0937AF /* Pods-seelogUITests.debug.xcconfig */,
+				FBCA8175EA256CEDDF327643 /* Pods-seelogUITests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,10 +295,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 834316B12142AD6A00784257 /* Build configuration list for PBXNativeTarget "seelog" */;
 			buildPhases = (
+				239FB34AB74BBD4074750194 /* [CP] Check Pods Manifest.lock */,
 				834316822142AD6600784257 /* Sources */,
 				834316832142AD6600784257 /* Frameworks */,
 				834316842142AD6600784257 /* Resources */,
 				83221A8D214564F40055D775 /* ShellScript */,
+				0D4534FA44ECA16171219AE8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -221,6 +315,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 834316B42142AD6A00784257 /* Build configuration list for PBXNativeTarget "seelogTests" */;
 			buildPhases = (
+				34A03815A236C539042158EC /* [CP] Check Pods Manifest.lock */,
 				834316992142AD6A00784257 /* Sources */,
 				8343169A2142AD6A00784257 /* Frameworks */,
 				8343169B2142AD6A00784257 /* Resources */,
@@ -239,6 +334,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 834316B72142AD6A00784257 /* Build configuration list for PBXNativeTarget "seelogUITests" */;
 			buildPhases = (
+				9DD6EB8688BB3EB522385C9E /* [CP] Check Pods Manifest.lock */,
 				834316A42142AD6A00784257 /* Sources */,
 				834316A52142AD6A00784257 /* Frameworks */,
 				834316A62142AD6A00784257 /* Resources */,
@@ -325,6 +421,74 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0D4534FA44ECA16171219AE8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-seelog/Pods-seelog-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GEOSwift/GEOSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/geos/geos.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GEOSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/geos.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-seelog/Pods-seelog-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		239FB34AB74BBD4074750194 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-seelog-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		34A03815A236C539042158EC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-seelogTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		83221A8D214564F40055D775 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -340,6 +504,28 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
+		9DD6EB8688BB3EB522385C9E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-seelogUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -350,13 +536,19 @@
 				83FF2130215FA7AE008E846F /* SeasonStatsUpdater.swift in Sources */,
 				83FF212E215FA699008E846F /* MonthStatsUpdater.swift in Sources */,
 				832B9A1C215FD1E30098A396 /* CountryCodeMappings.swift in Sources */,
+				8305ED4A2182671A00630BD6 /* BarChartDrawer.swift in Sources */,
 				83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */,
+				83A8ABCD217326F400203402 /* VisitedCity.swift in Sources */,
+				83E80A9221613CEC00A39782 /* AggregatedStatsUpdater.swift in Sources */,
 				832B9A20215FD4CD0098A396 /* Aggregate.swift in Sources */,
 				834316BB2142D5FD00784257 /* Photo.swift in Sources */,
+				83A8ABD121733F2600203402 /* CountryInfo.swift in Sources */,
 				83C703AC2157903D007853E9 /* ReportSelectionCollectionViewCell.swift in Sources */,
 				83221A87214527EC0055D775 /* GeoDatabase.swift in Sources */,
-				83571F7F21564ACA001CEEFC /* HistoryBarChart.swift in Sources */,
+				83571F7F21564ACA001CEEFC /* HistoryChartView.swift in Sources */,
 				8343168C2142AD6600784257 /* ViewController.swift in Sources */,
+				83A8ABCB216D384200203402 /* HeatmapSquare.swift in Sources */,
+				8305ED4C218300F300630BD6 /* LineChartDrawer.swift in Sources */,
 				832B9A1E215FD4070098A396 /* AggregatedVisitStats.swift in Sources */,
 				83221A8921452BE60055D775 /* Geohash.swift in Sources */,
 				83FF2129215F86C5008E846F /* Helpers.swift in Sources */,
@@ -364,7 +556,13 @@
 				8343168A2142AD6600784257 /* AppDelegate.swift in Sources */,
 				834316922142AD6700784257 /* seelog.xcdatamodeld in Sources */,
 				83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */,
+				83E80A9421626D7100A39782 /* VisitedPlacesStats.swift in Sources */,
 				83221A8F2145780C0055D775 /* DatabaseInitializer.swift in Sources */,
+				8305ED4E218451E600630BD6 /* ChartDrawer.swift in Sources */,
+				83A8ABD32173459800203402 /* StateInfo.swift in Sources */,
+				83A8ABCF2173290400203402 /* CityInfo.swift in Sources */,
+				835B8057217B44B6001E9B96 /* MainMapViewDelegate.swift in Sources */,
+				83E80A992162949400A39782 /* VisitedCountry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,6 +733,7 @@
 		};
 		834316B22142AD6A00784257 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 997FC8762F2CE413825CCB6B /* Pods-seelog.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -557,6 +756,7 @@
 		};
 		834316B32142AD6A00784257 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3EE17F4CCEC392913D7964D /* Pods-seelog.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -579,6 +779,7 @@
 		};
 		834316B52142AD6A00784257 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54AC64825E59FFC79F45C7FD /* Pods-seelogTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -599,6 +800,7 @@
 		};
 		834316B62142AD6A00784257 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2C6379ABAF2E79BDA6AF9DB /* Pods-seelogTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -619,6 +821,7 @@
 		};
 		834316B82142AD6A00784257 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2415C18D330D19815B0937AF /* Pods-seelogUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -638,6 +841,7 @@
 		};
 		834316B92142AD6A00784257 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBCA8175EA256CEDDF327643 /* Pods-seelogUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

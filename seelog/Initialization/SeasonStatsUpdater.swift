@@ -10,49 +10,47 @@ import Foundation
 import CoreData
 
 class SeasonStatsUpdater {
-    var countriesForSeasons = [String: [String]]()
-    
+    var updater: AggregatedStatsUpdater<String, Season>?
+    var context: NSManagedObjectContext
+    private var sinceAggregate: Season?
+
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        sinceAggregate = Season.last(context: context)
+    }
+
     func processNewPhoto(photo: Photo) {
-        if let season = photo.season,
-            let countryKey = photo.countryKey {
-            if let countries = countriesForSeasons[season] {
-                if !countries.contains(countryKey) {
-                    countriesForSeasons[season] = countries + [countryKey]
-                }
-            } else {
-                countriesForSeasons[season] = [countryKey]
-            }
+        guard let season = photo.season else { return }
+
+        if updater == nil {
+            updater = AggregatedStatsUpdater<String, Season>(sinceKey: sinceAggregate?.season ?? season,
+                                                     sinceAggregate: sinceAggregate,
+                                                     knownGeohashes: HeatmapSquare.allGeohashes(context: context),
+                                                     getAllSegmentsSince: Helpers.seasonsSince)
+        }
+
+        updater?.processNewPhoto(photo: photo, key: season)
+    }
+
+    func update() {
+        guard let updater = self.updater else { return }
+
+        for season in updater.countriesAggregated.keys {
+            var model = createModel(season: season)
+            updater.updateModel(key: season, model: &model)
         }
     }
 
-    func update(context: NSManagedObjectContext) {
-        for season in countriesForSeasons.keys {
-            let countries = countriesForSeasons[season]!
-
-            let request = NSFetchRequest<Season>(entityName: "Season")
-            request.fetchLimit = 1
-            request.predicate = NSPredicate(format: "season == %@", season)
-
-            do {
-                let models = try context.fetch(request)
-                if let model = models.first,
-                    let oldCountries = model.countries {
-                    let newCountries = Helpers.combineIntoUniqueList(oldCountries, countries)
-                    model.countries = newCountries
-                } else {
-                    let model = Season(context: context)
-                    model.season = season
-                    model.countries = countries
-                }
-            } catch {
-                print("Failed to fetch seasons.")
+    private func createModel(season: String) -> Season {
+        if let model = self.sinceAggregate {
+            if season == model.season {
+                return model
             }
         }
 
-        do {
-            try context.save()
-        } catch {
-            print("Failed to save seasons.")
-        }
+        let model = Season(context: context)
+        model.season = season
+        return model
     }
+
 }

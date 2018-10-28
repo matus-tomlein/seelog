@@ -10,58 +10,47 @@ import Foundation
 import CoreData
 
 class YearStatsUpdater {
+    var updater: AggregatedStatsUpdater<Int32, Year>?
+    var context: NSManagedObjectContext
+    private var sinceAggregate: Year?
 
-    var countriesForYears = [Int32: [String]]()
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        sinceAggregate = Year.last(context: context)
+    }
 
     func processNewPhoto(photo: Photo) {
-        if let countryKey = photo.countryKey,
-            let year = photo.year {
+        guard let year = photo.year else { return }
 
-            if let countries = countriesForYears[year] {
-                if !countries.contains(countryKey) {
-                    countriesForYears[year] = countries + [countryKey]
-                }
-            } else {
-                countriesForYears[year] = [countryKey]
-            }
+        if updater == nil {
+            updater = AggregatedStatsUpdater<Int32, Year>(sinceKey: sinceAggregate?.year ?? year,
+                                                    sinceAggregate: sinceAggregate,
+                                                    knownGeohashes: HeatmapSquare.allGeohashes(context: context),
+                                                    getAllSegmentsSince: Helpers.yearsSince)
+        }
+
+        updater?.processNewPhoto(photo: photo, key: year)
+    }
+
+    func update() {
+        guard let updater = self.updater else { return }
+
+        for year in updater.countriesAggregated.keys {
+            var model = createModel(year: year)
+            updater.updateModel(key: year, model: &model)
         }
     }
 
-    func update(context: NSManagedObjectContext) {
-        updateCountries(context: context)
-    }
-
-    private func updateCountries(context: NSManagedObjectContext) {
-        for year in countriesForYears.keys {
-            let countries = countriesForYears[year]!
-
-            let request = NSFetchRequest<Year>(entityName: "Year")
-            request.fetchLimit = 1
-            request.predicate = NSPredicate(format: "year == %@", NSNumber(value: year))
-
-            do {
-                let years = try context.fetch(request)
-                if let model = years.first {
-                    var newCountries: [String] = []
-                    for country in countries {
-                        if !(model.countries?.contains(country) ?? false) {
-                            newCountries.append(country)
-                        }
-                    }
-                    if newCountries.count > 0 {
-                        model.countries = (model.countries ?? []) + newCountries
-                        try context.save()
-                    }
-                } else {
-                    let model = Year(context: context)
-                    model.year = Int32(year)
-                    model.countries = countries
-                    try context.save()
-                }
-            } catch {
-                print("Failed to fetch years.")
+    private func createModel(year: Int32) -> Year {
+        if let model = self.sinceAggregate {
+            if year == model.year {
+                return model
             }
         }
+
+        let model = Year(context: context)
+        model.year = year
+        return model
     }
 
 }

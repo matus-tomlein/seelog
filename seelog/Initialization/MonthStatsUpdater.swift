@@ -10,52 +10,48 @@ import Foundation
 import CoreData
 
 class MonthStatsUpdater {
-    var countriesForMonths = [String: [String]]()
+    var updater: AggregatedStatsUpdater<String, Month>?
+    var context: NSManagedObjectContext
+    private var sinceAggregate: Month?
+
+    init(context: NSManagedObjectContext) {
+        self.context = context
+        sinceAggregate = Month.last(context: context)
+    }
 
     func processNewPhoto(photo: Photo) {
-        if let countryKey = photo.countryKey, let month = photo.month {
-            if let countries = countriesForMonths[month] {
-                if !countries.contains(countryKey) {
-                    countriesForMonths[month] = countries + [countryKey]
-                }
-            } else {
-                countriesForMonths[month] = [countryKey]
-            }
+        guard let month = photo.month else { return }
+
+        if updater == nil {
+            updater = AggregatedStatsUpdater<String, Month>(sinceKey: sinceAggregate?.month ?? month,
+                                                    sinceAggregate: sinceAggregate,
+                                                    knownGeohashes: HeatmapSquare.allGeohashes(context: context),
+                                                    getAllSegmentsSince: Helpers.monthsSince)
         }
+
+        updater?.processNewPhoto(photo: photo, key: month)
     }
 
-    func update(context: NSManagedObjectContext) {
-        updateCountries(context: context)
-    }
+    func update() {
+        guard let updater = self.updater else { return }
 
-    private func updateCountries(context: NSManagedObjectContext) {
+        let countriesForMonths = updater.countriesAggregated
+
         for month in countriesForMonths.keys {
-            let countries = countriesForMonths[month]!
+            var model = createModel(month: month)
+            updater.updateModel(key: month, model: &model)
+        }
+    }
 
-            let request = NSFetchRequest<Month>(entityName: "Month")
-            request.fetchLimit = 1
-            request.predicate = NSPredicate(format: "month == %@", month)
-
-            do {
-                let models = try context.fetch(request)
-                if let model = models.first,
-                    let oldCountries = model.countries {
-                    let newCountries = Helpers.combineIntoUniqueList(oldCountries, countries)
-                    model.countries = newCountries
-                } else {
-                    let model = Month(context: context)
-                    model.month = month
-                    model.countries = countries
-                }
-            } catch {
-                print("Failed to fetch months.")
+    private func createModel(month: String) -> Month {
+        if let model = self.sinceAggregate {
+            if month == model.month {
+                return model
             }
         }
 
-        do {
-            try context.save()
-        } catch {
-            print("Failed to save months.")
-        }
+        let model = Month(context: context)
+        model.month = month
+        return model
     }
 }

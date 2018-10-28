@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="HeatmapSquare" representedClassName="HeatmapSquare" syncable="YES" codeGenerationType="class">
+        <attribute name="count" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="geohash" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Month" representedClassName="Month" syncable="YES" codeGenerationType="class">
-        <attribute name="countries" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
+        <attribute name="cities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
+        <attribute name="countries" optional="YES" attributeType="Transformable" customClassName="[String: [String]]" syncable="YES"/>
+        <attribute name="cumulativeCities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
+        <attribute name="cumulativeCountries" optional="YES" attributeType="Transformable" customClassName="[String: [String]]" syncable="YES"/>
+        <attribute name="cumulativeHeatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="month" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
         <attribute name="altitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="cityKeys" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
         <attribute name="countryKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="geohash" attributeType="String" syncable="YES"/>
@@ -15,17 +24,35 @@
         <attribute name="stateKey" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Season" representedClassName="Season" syncable="YES" codeGenerationType="class">
-        <attribute name="countries" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="[String]" syncable="YES"/>
+        <attribute name="cities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
+        <attribute name="countries" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="[String: [String]]" syncable="YES"/>
+        <attribute name="cumulativeCities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
+        <attribute name="cumulativeCountries" optional="YES" attributeType="Transformable" customClassName="[String: [String]]" syncable="YES"/>
+        <attribute name="cumulativeHeatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="season" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="VisitedCity" representedClassName="VisitedCity" syncable="YES" codeGenerationType="class">
+        <attribute name="cityKey" attributeType="Integer 64" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="VisitedCountry" representedClassName="VisitedCountry" syncable="YES" codeGenerationType="class">
+        <attribute name="countryKey" attributeType="String" syncable="YES"/>
+        <attribute name="stateKeys" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
+    </entity>
     <entity name="Year" representedClassName="Year" syncable="YES" codeGenerationType="class">
-        <attribute name="countries" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="[String]" syncable="YES"/>
+        <attribute name="cities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
+        <attribute name="countries" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="[String: [String]]" syncable="YES"/>
+        <attribute name="cumulativeCities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
+        <attribute name="cumulativeCountries" optional="YES" attributeType="Transformable" customClassName="[String: [String]]" syncable="YES"/>
+        <attribute name="cumulativeHeatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="year" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Month" positionX="630" positionY="288" width="128" height="75"/>
-        <element name="Photo" positionX="619" positionY="216" width="128" height="165"/>
-        <element name="Season" positionX="639" positionY="297" width="128" height="75"/>
-        <element name="Year" positionX="621" positionY="279" width="128" height="75"/>
+        <element name="HeatmapSquare" positionX="630" positionY="279" width="128" height="75"/>
+        <element name="Month" positionX="630" positionY="288" width="128" height="135"/>
+        <element name="Photo" positionX="619" positionY="216" width="128" height="180"/>
+        <element name="Season" positionX="639" positionY="297" width="128" height="135"/>
+        <element name="VisitedCity" positionX="639" positionY="297" width="128" height="60"/>
+        <element name="VisitedCountry" positionX="630" positionY="279" width="128" height="75"/>
+        <element name="Year" positionX="621" positionY="279" width="128" height="135"/>
     </elements>
 </model>
