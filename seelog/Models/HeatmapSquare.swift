@@ -35,31 +35,19 @@ extension HeatmapSquare {
         return geohashes
     }
 
-    static func polygon(context: NSManagedObjectContext) -> Geometry? {
-        if let p1 = Geometry.create("POLYGON((-180 -90, 0 -90, 0 0, -180 0, -180 -90))"),
-            let p2 = Geometry.create("POLYGON((0 0, 180 0, 180 90, 0 90, 0 0))"),
-            let p3 = Geometry.create("POLYGON((-180 0, 0 0, 0 90, -180 90, -180 0))"),
-            let p4 = Geometry.create("POLYGON((0 -90, 180 -90, 180 0, 0 0, 0 -90))") {
-            if let p12 = p1.union(p2),
-                let p123 = p12.union(p3),
-                var polygon = p123.union(p4) {
-                if let heatmapSquares = HeatmapSquare.all(context: context) {
+    func lastSeenAt(aggregate: Aggregate) -> Bool {
+        switch aggregate {
+        case let month as Month:
+            return month.month == lastMonth
 
-                    for square in heatmapSquares {
-                        guard let geohash = square.geohash else { continue }
-                        if let result = Geohash.decode(hash: geohash) {
-                            if let squarePolygon = Geometry.create("POLYGON((\(result.longitude.min) \(result.latitude.min), \(result.longitude.max) \(result.latitude.min), \(result.longitude.max) \(result.latitude.max), \(result.longitude.min) \(result.latitude.max), \(result.longitude.min) \(result.latitude.min)))") {
-                                if let newPolygon = polygon.difference(squarePolygon) {
-                                    polygon = newPolygon
-                                }
-                            }
-                        }
-                    }
-                }
+        case let year as Year:
+            return year.year == lastYear
 
-                return polygon
-            }
+        case let season as Season:
+            return season.season == lastSeason
+
+        default:
+            return false
         }
-        return nil
     }
 }

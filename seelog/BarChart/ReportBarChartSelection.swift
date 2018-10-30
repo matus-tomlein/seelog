@@ -17,8 +17,14 @@ class ReportBarChartSelection {
         get { return visitStats.aggregates }
     }
 
+    var _currentSelection: String?
     var currentSelection: String? {
-        didSet { reportViewController.reloadData() }
+        set {
+            _currentSelection = newValue
+        }
+        get {
+            return _currentSelection ?? visitStats.aggregates?.last?.name
+        }
     }
     var countries: [String]? {
         get {
@@ -36,17 +42,37 @@ class ReportBarChartSelection {
     var flaggedItems: [String]? {
         get { return currentCountries?.map { Helpers.flag(country: $0) } }
     }
+    var currentTab: SelectedTab { get { return reportViewController.currentTab } }
+    var aggregateChart: Bool { get { return reportViewController.aggregateChart } }
+
+    var currentAggregate: Aggregate? {
+        get {
+            if let selection = currentSelection {
+                if let filtered = visitStats.aggregates?.filter({ $0.name == selection }) {
+                    if filtered.count > 0 {
+                        return filtered[0]
+                    }
+                }
+            }
+            return nil
+        }
+    }
 
     init(reportViewController: ReportViewController) {
         self.reportViewController = reportViewController
     }
 
-    func changeGranularity(_ granularity: Granularity, context: NSManagedObjectContext) {
-        visitStats.loadItems(granularity: granularity, context: context)
+    func loadItems(context: NSManagedObjectContext) {
+        visitStats.loadItems(granularity: reportViewController.granularity,
+                             context: context)
     }
 
     func clear() {
         currentSelection = nil
+    }
+
+    func reload() {
+        reportViewController.reloadAllAndScrollChart(false)
     }
 
 }

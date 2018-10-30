@@ -9,9 +9,16 @@
 import Foundation
 import CoreData
 
+struct HeatmapSquareVisit {
+    var lastSeason: String
+    var lastMonth: String
+    var lastYear: Int32
+    var count: Int64
+}
+
 class VisitedPlacesStats {
     var countryStates = [String: [String]]()
-    var heatmapSquares = [String: Int64]()
+    var heatmapSquares = [String: HeatmapSquareVisit]()
     var cities = [Int64]()
 
     func processNewPhoto(photo: Photo) {
@@ -31,11 +38,18 @@ class VisitedPlacesStats {
                 }
             }
 
-            if let geohash = photo.geohash {
-                if let count = heatmapSquares[geohash] {
-                    heatmapSquares[geohash] = count + 1
+            if let geohash = photo.geohash,
+                let date = photo.creationDate {
+                if var visit = heatmapSquares[geohash] {
+                    visit.count += 1
+                    visit.lastYear = Helpers.yearForDate(date)
+                    visit.lastMonth = Helpers.monthForDate(date)
+                    visit.lastSeason = Helpers.seasonForDate(date)
                 } else {
-                    heatmapSquares[geohash] = 1
+                    heatmapSquares[geohash] = HeatmapSquareVisit(lastSeason: Helpers.seasonForDate(date),
+                                                                 lastMonth: Helpers.monthForDate(date),
+                                                                 lastYear: Helpers.yearForDate(date),
+                                                                 count: 1)
                 }
             }
 
@@ -72,7 +86,7 @@ class VisitedPlacesStats {
         }
 
         for geohash in heatmapSquares.keys {
-            guard let newCount = heatmapSquares[geohash] else { continue }
+            guard let visit = heatmapSquares[geohash] else { continue }
 
             let request = NSFetchRequest<HeatmapSquare>(entityName: "HeatmapSquare")
             request.fetchLimit = 1
@@ -81,11 +95,17 @@ class VisitedPlacesStats {
             do {
                 let models = try context.fetch(request)
                 if let model = models.first {
-                    model.count += newCount
+                    model.lastSeason = visit.lastSeason
+                    model.lastYear = visit.lastYear
+                    model.lastMonth = visit.lastMonth
+                    model.count += visit.count
                 } else {
                     let model = HeatmapSquare(context: context)
-                    model.count = newCount
                     model.geohash = geohash
+                    model.count = visit.count
+                    model.lastSeason = visit.lastSeason
+                    model.lastYear = visit.lastYear
+                    model.lastMonth = visit.lastMonth
                 }
             } catch {
                 print("Failed to fetch heatmap.")

@@ -14,8 +14,50 @@ protocol Aggregate {
     var cumulativeCountries: [String: [String]]? { get set }
     var cities: [Int64]? { get set }
     var cumulativeCities: [Int64]? { get set }
+    var heatmapWKT: String? { get set }
     var cumulativeHeatmapWKT: String? { get set }
+    var seenArea: Double { get set }
+    var cumulativeSeenArea: Double { get set }
     var name: String { get }
+}
+
+extension Aggregate {
+    func chartValue(selectedTab: SelectedTab, cumulative: Bool) -> Double {
+        if cumulative {
+            if selectedTab == .countries {
+                return Double(cumulativeCountries?.count ?? 0)
+            } else {
+                return cumulativeSeenArea
+            }
+        } else {
+            if selectedTab == .countries {
+                return Double(countries?.count ?? 0)
+            } else {
+                return seenArea
+            }
+        }
+    }
+
+    func chartLabel(selectedTab: SelectedTab, cumulative: Bool) -> String {
+        let value = chartValue(selectedTab: selectedTab, cumulative: cumulative)
+        if selectedTab == .countries {
+            return String(Int(value))
+        } else {
+            if value > 1000 {
+                return String(Int(round(value / 1000))) + "k"
+            } else {
+                return String(Int(round(value)))
+            }
+        }
+    }
+
+    func countries(cumulative: Bool) -> [String: [String]]? {
+        return cumulative ? cumulativeCountries : countries
+    }
+
+    func heatmapWKT(cumulative: Bool) -> String? {
+        return cumulative ? cumulativeHeatmapWKT : heatmapWKT
+    }
 }
 
 extension Year: Aggregate {

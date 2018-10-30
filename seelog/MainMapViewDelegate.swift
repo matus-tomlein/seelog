@@ -50,6 +50,7 @@ enum PolygonType: String {
 }
 
 struct PolygonProperties {
+    var name: String
     var zoomTypes: [ZoomType]
     var polygonType: PolygonType
     var alpha: CGFloat = 1
@@ -67,7 +68,7 @@ extension MKPolygon {
         }
         set(properties) {
             if let properties = properties {
-                let t = properties.zoomTypes.map({ $0.rawValue }).joined() + properties.polygonType.rawValue + "\(properties.alpha)"
+                let t = properties.zoomTypes.map({ $0.rawValue }).joined() + properties.polygonType.rawValue + "\(properties.alpha)" + properties.name
                 title = t
                 MKPolygon.allPolygonProperties[t] = properties
             }
@@ -90,7 +91,6 @@ class PolygonRenderer: MKPolygonRenderer {
 
 class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     var mapView: MKMapView
-    var heatmapPolygon: Geometry?
 
     init(mapView: MKMapView) {
         self.mapView = mapView
@@ -108,92 +108,59 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         }
     }
 
-    func loadMapViewCountries() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
+    func loadMapViewCountries(barChartSelection: ReportBarChartSelection?) {
+        let geoDB = GeoDatabase()
 
-        if let visitedCountries = VisitedCountry.all(context: context) {
-            let geoDB = GeoDatabase()
-            for country in visitedCountries {
-                if let stateKeys = country.stateKeys {
+        var existingPolygonProperties = [PolygonProperties]()
+        for overlay in mapView.overlays {
+            if let polygon = overlay as? MKPolygon,
+                let polygonProperties = polygon.polygonProperties {
+                existingPolygonProperties.append(polygonProperties)
+            }
+        }
+
+        var polygonPropertyNamesToKeep = Set<String>()
+        if let visitedCountriesAndStates = barChartSelection?.currentAggregate?.countries(cumulative: barChartSelection?.aggregateChart ?? true) {
+            for countryKey in visitedCountriesAndStates.keys {
+                if let stateKeys = visitedCountriesAndStates[countryKey] {
                     for stateKey in stateKeys {
-                        if let stateInfo = geoDB.stateInfoFor(stateKey: stateKey) {
-                            var closeZoomTypes: [ZoomType] = [.close]
-                            if let geometry50m = stateInfo.geometry50m {
-                                let polygonProperties = PolygonProperties(zoomTypes: [.medium], polygonType: .state, alpha: 0.5)
-                                addGeometryToMap(geometry50m, polygonProperties: polygonProperties)
-                            } else {
-                                closeZoomTypes.append(.medium)
-                            }
-                            if let geometry10m = stateInfo.geometry10m {
-                                let polygonProperties = PolygonProperties(zoomTypes: closeZoomTypes, polygonType: .state, alpha: 0.5)
-                                addGeometryToMap(geometry10m, polygonProperties: polygonProperties)
-                            }
-
-                            let annotation = StateAnnotation(title: stateInfo.name, coordinate: CLLocationCoordinate2D(latitude: stateInfo.latitude, longitude: stateInfo.longitude))
-                            mapView.addAnnotation(annotation)
+                        let existing = existingPolygonProperties.filter({ $0.name == stateKey })
+                        if existing.count == 0 {
+                            createPolygon(forStateKey: stateKey, geoDB: geoDB)
                         }
+
+                        polygonPropertyNamesToKeep.insert(stateKey)
                     }
                 }
 
-                if let countryKey = country.countryKey,
-                    let countryInfo = geoDB.countryInfoFor(countryKey: countryKey) {
-                    var closeZoomTypes: [ZoomType] = [.close]
-                    var mediumZoomTypes: [ZoomType] = [.medium]
+                let existing = existingPolygonProperties.filter({ $0.name == countryKey })
+                if existing.count == 0 {
+                    createPolygon(forCountryKey: countryKey, geoDB: geoDB)
+                }
 
-                    if let geometry110m = countryInfo.geometry110m {
-                        let polygonProperties = PolygonProperties(zoomTypes: [.far], polygonType: .country, alpha: 0.2)
-                        addGeometryToMap(geometry110m, polygonProperties: polygonProperties)
-                    } else {
-                        mediumZoomTypes.append(.far)
-                    }
-                    if let geometry50m = countryInfo.geometry50m {
-                        let polygonProperties = PolygonProperties(zoomTypes: mediumZoomTypes, polygonType: .country, alpha: 0.2)
-                        addGeometryToMap(geometry50m, polygonProperties: polygonProperties)
-                    } else {
-                        for zoomType in mediumZoomTypes {
-                            closeZoomTypes.append(zoomType)
-                        }
-                    }
-                    if let geometry10m = countryInfo.geometry10m {
-                        let polygonProperties = PolygonProperties(zoomTypes: closeZoomTypes, polygonType: .country, alpha: 0.2)
-                        addGeometryToMap(geometry10m, polygonProperties: polygonProperties)
-                    }
+                polygonPropertyNamesToKeep.insert(countryKey)
+            }
+        }
 
-                    let annotation = CountryAnnotation(title: countryInfo.name, coordinate: CLLocationCoordinate2D(latitude: countryInfo.latitude, longitude: countryInfo.longitude))
-                    mapView.addAnnotation(annotation)
+        for overlay in mapView.overlays {
+            if let polygon = overlay as? MKPolygon,
+                let polygonProperties = polygon.polygonProperties {
+                if !polygonPropertyNamesToKeep.contains(polygonProperties.name) {
+                    mapView.remove(overlay)
                 }
             }
         }
     }
 
-    func loadMapViewHeatmap() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
+    func loadMapViewHeatmap(barChartSelection: ReportBarChartSelection?) {
+        mapView.removeOverlays(mapView.overlays)
 
-        if let wkt = Year.last(context: context)?.cumulativeHeatmapWKT {
-            if let polygon = Helpers.geometry(fromWKT: wkt) {
-                self.heatmapPolygon = polygon
-            }
-        }
-
-        if let polygon = self.heatmapPolygon {
-            addGeometryToMap(polygon, polygonProperties: PolygonProperties(zoomTypes: [.close, .medium, .far], polygonType: .heatmap, alpha: 0.8))
-        }
-    }
-
-    func loadMapViewCities() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-
-        if let visitedCities = VisitedCity.all(context: context) {
-            let geoDB = GeoDatabase()
-            for city in visitedCities {
-                if let cityInfo = geoDB.cityInfoFor(cityKey: city.cityKey) {
-                    let annotation = CityAnnotation(title: cityInfo.name, coordinate: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude))
-                    mapView.addAnnotation(annotation)
-                }
-            }
+        if let wkt = barChartSelection?.currentAggregate?.heatmapWKT(cumulative: barChartSelection?.aggregateChart ?? true),
+            let polygon = Helpers.geometry(fromWKT: wkt) {
+            addGeometryToMap(polygon, polygonProperties: PolygonProperties(name: barChartSelection!.currentSelection!,
+                                                                           zoomTypes: [.close, .medium, .far],
+                                                                           polygonType: .heatmap,
+                                                                           alpha: 0.8))
         }
     }
 
@@ -272,4 +239,62 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
             currentZoomType = .far
         }
     }
+
+    private func createPolygon(forStateKey stateKey: String, geoDB: GeoDatabase) {
+        if let stateInfo = geoDB.stateInfoFor(stateKey: stateKey) {
+            var closeZoomTypes: [ZoomType] = [.close]
+            if let geometry50m = stateInfo.geometry50m {
+                let polygonProperties = PolygonProperties(name: stateKey,
+                                                          zoomTypes: [.medium],
+                                                          polygonType: .state,
+                                                          alpha: 0.5)
+                addGeometryToMap(geometry50m, polygonProperties: polygonProperties)
+            } else {
+                closeZoomTypes.append(.medium)
+            }
+            if let geometry10m = stateInfo.geometry10m {
+                let polygonProperties = PolygonProperties(name: stateKey,
+                                                          zoomTypes: closeZoomTypes,
+                                                          polygonType: .state,
+                                                          alpha: 0.5)
+                addGeometryToMap(geometry10m, polygonProperties: polygonProperties)
+            }
+        }
+    }
+
+    private func createPolygon(forCountryKey countryKey: String, geoDB: GeoDatabase) {
+        if let countryInfo = geoDB.countryInfoFor(countryKey: countryKey) {
+            var closeZoomTypes: [ZoomType] = [.close]
+            var mediumZoomTypes: [ZoomType] = [.medium]
+
+            if let geometry110m = countryInfo.geometry110m {
+                let polygonProperties = PolygonProperties(name: countryKey,
+                                                          zoomTypes: [.far],
+                                                          polygonType: .country,
+                                                          alpha: 0.2)
+                addGeometryToMap(geometry110m, polygonProperties: polygonProperties)
+            } else {
+                mediumZoomTypes.append(.far)
+            }
+            if let geometry50m = countryInfo.geometry50m {
+                let polygonProperties = PolygonProperties(name: countryKey,
+                                                          zoomTypes: mediumZoomTypes,
+                                                          polygonType: .country,
+                                                          alpha: 0.2)
+                addGeometryToMap(geometry50m, polygonProperties: polygonProperties)
+            } else {
+                for zoomType in mediumZoomTypes {
+                    closeZoomTypes.append(zoomType)
+                }
+            }
+            if let geometry10m = countryInfo.geometry10m {
+                let polygonProperties = PolygonProperties(name: countryKey,
+                                                          zoomTypes: closeZoomTypes,
+                                                          polygonType: .country,
+                                                          alpha: 0.2)
+                addGeometryToMap(geometry10m, polygonProperties: polygonProperties)
+            }
+        }
+    }
+
 }

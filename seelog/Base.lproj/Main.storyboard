@@ -45,14 +45,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="satellite" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IU4-L8-kbv">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="mutedStandard" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IU4-L8-kbv">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </mapView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentInsetAdjustmentBehavior="always" translatesAutoresizingMaskIntoConstraints="NO" id="HJe-h6-OIp" customClass="ReportScrollView" customModule="seelog" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rvx-ty-5Do">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1063"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="1011"/>
                                         <subviews>
                                             <view opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V1P-4c-ckx">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="625"/>
@@ -91,14 +91,14 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o7w-ya-eAc" customClass="HistoryChartView" customModule="seelog" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="681" width="375" height="252"/>
+                                                <rect key="frame" x="0.0" y="681" width="375" height="200"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="252" id="bDO-ve-Oq6"/>
+                                                    <constraint firstAttribute="height" constant="200" id="bDO-ve-Oq6"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="khi-UM-STI">
-                                                <rect key="frame" x="0.0" y="933" width="375" height="50"/>
+                                                <rect key="frame" x="0.0" y="881" width="375" height="50"/>
                                                 <subviews>
                                                     <stackView contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HDL-Ts-40o">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
@@ -125,7 +125,7 @@
                                                 </constraints>
                                             </view>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nda-PP-bw5">
-                                                <rect key="frame" x="0.0" y="983" width="375" height="70"/>
+                                                <rect key="frame" x="0.0" y="931" width="375" height="70"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="70" id="Bhe-hT-yHP"/>
@@ -169,7 +169,7 @@
                                                 </connections>
                                             </collectionView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tuL-zt-5u1">
-                                                <rect key="frame" x="0.0" y="1053" width="375" height="10"/>
+                                                <rect key="frame" x="0.0" y="1001" width="375" height="10"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="10" id="Ez2-cG-UT6"/>
@@ -205,17 +205,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="JGe-BS-5s1">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="9vf-2d-Jgk"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="avA-Hh-9UM">
                             <rect key="frame" x="77" y="7" width="221" height="30"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="Seen"/>
-                                <segment title="Countries"/>
                                 <segment title="Places"/>
+                                <segment title="Countries"/>
                             </segments>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="Bbi-0U-LfO"/>
                     </navigationItem>
                     <connections>
                         <outlet property="aggregateChartSwitch" destination="Eof-aY-Xa3" id="HrE-aY-cJ2"/>

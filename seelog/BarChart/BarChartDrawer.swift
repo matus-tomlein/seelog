@@ -21,11 +21,11 @@ class BarChartDrawer: ChartDrawer {
         if let aggregates = barChartSelection.aggregates {
             setFrameSize(numberOfItems: aggregates.count)
 
-            let maxCount = aggregates.map { $0.countries?.count ?? 0 }.max() ?? 0
+            let maxCount = aggregates.map { $0.chartValue(selectedTab: barChartSelection.currentTab, cumulative: false) }.max() ?? 0
 
             for i in 0..<aggregates.count {
                 let aggregate = aggregates[i]
-                let value = aggregate.countries?.count ?? 0
+                let value = aggregate.chartValue(selectedTab: barChartSelection.currentTab, cumulative: false)
                 let height: Float = Float(value) / Float(maxCount)
 
                 let xPos: CGFloat = space + CGFloat(i) * (barWidth + space)
@@ -36,16 +36,19 @@ class BarChartDrawer: ChartDrawer {
                         color: color,
                         name: aggregate.name)
 
-                drawTextValue(xPos: xPos - space/2,
+                drawTextValue(xPos: xPos - space / 2,
                               yPos: yPos - 30,
-                              textValue: "\(value)",
+                              textValue: aggregate.chartLabel(selectedTab: barChartSelection.currentTab, cumulative: false),
                               color: color,
                               name: aggregate.name)
 
-                drawTitle(xPos: xPos - space/2,
+                drawTitle(xPos: xPos - space / 2,
                           yPos: mainLayer.frame.height - bottomSpace + 5,
                           title: aggregate.name,
                           color: color)
+
+                drawSelectionArea(xPos: xPos - space / 2,
+                                  name: aggregate.name)
             }
 
             if let currentSelection = barChartSelection.currentSelection {

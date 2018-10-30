@@ -25,7 +25,7 @@ class MonthStatsUpdater {
         if updater == nil {
             updater = AggregatedStatsUpdater<String, Month>(sinceKey: sinceAggregate?.month ?? month,
                                                     sinceAggregate: sinceAggregate,
-                                                    knownGeohashes: HeatmapSquare.allGeohashes(context: context),
+                                                    knownHeatmapSquares: HeatmapSquare.all(context: context),
                                                     getAllSegmentsSince: Helpers.monthsSince)
         }
 

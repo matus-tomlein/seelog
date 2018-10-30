@@ -8,6 +8,7 @@
 
 import Foundation
 import GEOSwift
+import CoreLocation
 
 class Helpers {
     static func seasonForDate(_ date: Date) -> String {
@@ -22,7 +23,7 @@ class Helpers {
         var season = 0
         if month >= 12 {
             season = 0
-            year -= 1
+            year += 1
         } else if month <= 2 {
             season = 0
         } else if month >= 3 && month <= 5 {
@@ -36,20 +37,25 @@ class Helpers {
         return seasonKey(year: year, season: season)
     }
 
-    static func monthKey(year: Int, month: Int) -> String {
-        return String(year) + "-" + String(format: "%02d", month)
-    }
-
-    static func seasonKey(year: Int, season: Int) -> String {
-        return String(year) + "-" + String(season)
-    }
-
     static func monthForDate(_ date: Date) -> String {
         let calendar = Calendar.current
         let year = calendar.component(.year, from: date)
         let month = calendar.component(.month, from: date)
 
         return monthKey(year: year, month: month)
+    }
+
+    static func yearForDate(_ date: Date) -> Int32 {
+        let calendar = Calendar.current
+        return Int32(calendar.component(.year, from: date))
+    }
+
+    static func monthKey(year: Int, month: Int) -> String {
+        return String(year) + "-" + String(format: "%02d", month)
+    }
+
+    static func seasonKey(year: Int, season: Int) -> String {
+        return String(year) + "-" + String(season)
     }
 
     static func yearsSince(_ since: Int32) -> [Int32] {
@@ -141,6 +147,13 @@ class Helpers {
         return p123.union(p4)!
     }
 
+    static func polygonFor(geohash: String) -> Geometry? {
+        if let result = Geohash.decode(hash: geohash) {
+            return Geometry.create("POLYGON((\(result.longitude.min) \(result.latitude.min), \(result.longitude.max) \(result.latitude.min), \(result.longitude.max) \(result.latitude.max), \(result.longitude.min) \(result.latitude.max), \(result.longitude.min) \(result.latitude.min)))")
+        }
+        return nil
+    }
+
     static func geometry(fromWKT wkt: String) -> Geometry? {
         if let polygon = MultiPolygon(WKT: wkt) {
             return polygon
@@ -148,5 +161,19 @@ class Helpers {
             return polygon
         }
         return nil
+    }
+
+    static func areaOf(geohash: String) -> Double {
+        if let decoded = Geohash.decode(hash: geohash) {
+            let a0 = CLLocation(latitude: decoded.latitude.min, longitude: decoded.longitude.min)
+            let a1 = CLLocation(latitude: decoded.latitude.max, longitude: decoded.longitude.min)
+            let width = a0.distance(from: a1) / 1000
+
+            let a2 = CLLocation(latitude: decoded.latitude.min, longitude: decoded.longitude.max)
+            let height = a0.distance(from: a2) / 1000
+
+            return width * height
+        }
+        return 0
     }
 }

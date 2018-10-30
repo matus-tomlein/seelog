@@ -31,9 +31,7 @@ extension Photo {
 
     var year: Int32? {
         get {
-            if let date = creationDate {
-                return Int32(Calendar.current.component(.year, from: date))
-            }
+            if let date = creationDate { return Helpers.yearForDate(date) }
             return nil
         }
     }

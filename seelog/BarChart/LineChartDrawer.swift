@@ -34,11 +34,11 @@ class LineChartDrawer: ChartDrawer {
             linePath.move(to: CGPoint(x: 0,
                                       y: height - bottomSpace))
 
-            let maxCount = aggregates.map { $0.cumulativeCountries?.count ?? 0 }.max() ?? 0
-            
+            let maxCount = aggregates.map { $0.chartValue(selectedTab: barChartSelection.currentTab, cumulative: true) }.max() ?? 0
+
             for i in 0 ..< aggregates.count {
                 let aggregate = aggregates[i]
-                let value = aggregate.cumulativeCountries?.count ?? 0
+                let value = aggregate.chartValue(selectedTab: barChartSelection.currentTab, cumulative: true)
                 let pointHeight = Float(value) / Float(maxCount)
 
                 let xPos: CGFloat = space + CGFloat(i) * (barWidth + space) + barWidth / 2
@@ -59,9 +59,12 @@ class LineChartDrawer: ChartDrawer {
 
                 drawTextValue(xPos: xPos - space * 1.5,
                               yPos: yPos - 30,
-                              textValue: "\(value)",
+                              textValue: aggregate.chartLabel(selectedTab: barChartSelection.currentTab, cumulative: true),
                               color: color,
                               name: aggregate.name)
+
+                drawSelectionArea(xPos: xPos - space / 2,
+                                  name: aggregate.name)
             }
 
             linePath.addLine(to: CGPoint(x: space + CGFloat(aggregates.count - 1) * (barWidth + space) + barWidth / 2,

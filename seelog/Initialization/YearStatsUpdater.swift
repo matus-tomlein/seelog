@@ -25,7 +25,7 @@ class YearStatsUpdater {
         if updater == nil {
             updater = AggregatedStatsUpdater<Int32, Year>(sinceKey: sinceAggregate?.year ?? year,
                                                     sinceAggregate: sinceAggregate,
-                                                    knownGeohashes: HeatmapSquare.allGeohashes(context: context),
+                                                    knownHeatmapSquares: HeatmapSquare.all(context: context),
                                                     getAllSegmentsSince: Helpers.yearsSince)
         }
 

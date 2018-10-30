@@ -58,24 +58,36 @@ class AggregatedStatsUpdater<KeyType: Hashable, ModelType: Aggregate> {
     private var _cumulativeCountriesAggregated = [KeyType: AggregatedCountryList]()
     var citiesAggregated = [KeyType: [Int64]]()
     var cumulativeCitiesAggregated = [KeyType: [Int64]]()
+    var heatmaps = [KeyType: Geometry]()
     var cumulativeHeatmapWKTs = [KeyType: String]()
+    var seenAreas = [KeyType: Double]()
+    var cumulativeSeenAreas = [KeyType: Double]()
     var sinceKey: KeyType
     var sinceAggregate: ModelType?
     var getAllSegmentsSince: (KeyType) -> [KeyType]
-    var heatmap: Geometry
+    var cumulativeHeatmap: Geometry
     var knownGeohashes: Set<String>
+    var knownGeohashesForKey = [KeyType: Set<String>]()
 
-    init(sinceKey: KeyType, sinceAggregate: ModelType?, knownGeohashes: Set<String>, getAllSegmentsSince: @escaping (KeyType) -> [KeyType]) {
+    init(sinceKey: KeyType,
+         sinceAggregate: ModelType?,
+         knownHeatmapSquares: [HeatmapSquare]?,
+         getAllSegmentsSince: @escaping (KeyType) -> [KeyType]) {
         self.sinceKey = sinceKey
         self.sinceAggregate = sinceAggregate
         self.getAllSegmentsSince = getAllSegmentsSince
-        self.knownGeohashes = knownGeohashes
+
+        knownGeohashes = Set(knownHeatmapSquares?.map({ $0.geohash! }) ?? [])
+        if let sinceAggregate = sinceAggregate {
+            let knownForSince = Set(knownHeatmapSquares?.filter({ $0.lastSeenAt(aggregate: sinceAggregate) }).map({ $0.geohash! }) ?? [])
+            knownGeohashesForKey[sinceKey] = knownForSince
+        }
 
         if let wkt = sinceAggregate?.cumulativeHeatmapWKT,
             let heatmap = Helpers.geometry(fromWKT: wkt) {
-            self.heatmap = heatmap
+            self.cumulativeHeatmap = heatmap
         } else {
-            self.heatmap = Helpers.blankWorldwidePolygon()
+            self.cumulativeHeatmap = Helpers.blankWorldwidePolygon()
         }
 
         self.initializeSegments()
@@ -134,16 +146,36 @@ class AggregatedStatsUpdater<KeyType: Hashable, ModelType: Aggregate> {
 
         if let geohash = photo.geohash {
             if !knownGeohashes.contains(geohash) {
-                if let result = Geohash.decode(hash: geohash),
-                    let squarePolygon = Geometry.create("POLYGON((\(result.longitude.min) \(result.latitude.min), \(result.longitude.max) \(result.latitude.min), \(result.longitude.max) \(result.latitude.max), \(result.longitude.min) \(result.latitude.max), \(result.longitude.min) \(result.latitude.min)))"),
-                    let newHeatmap = heatmap.difference(squarePolygon),
+                if let squarePolygon = Helpers.polygonFor(geohash: geohash),
+                    let newHeatmap = cumulativeHeatmap.difference(squarePolygon),
                     let wkt = newHeatmap.WKT {
 
-                    self.heatmap = newHeatmap
-                    knownGeohashes.insert(geohash)
+                    self.cumulativeHeatmap = newHeatmap
                     for nextSegment in getAllSegmentsSince(key) {
                         cumulativeHeatmapWKTs[nextSegment] = wkt
                     }
+                }
+
+                let area = Helpers.areaOf(geohash: geohash)
+                for nextSegment in getAllSegmentsSince(key) {
+                    cumulativeSeenAreas[nextSegment]! += area
+                }
+
+                knownGeohashes.insert(geohash)
+            }
+
+            if var known = knownGeohashesForKey[key] {
+                if !known.contains(geohash) {
+                    seenAreas[key]! = seenAreas[key]! + Helpers.areaOf(geohash: geohash)
+
+                    if let currentHeatmap = heatmaps[key],
+                        let squarePolygon = Helpers.polygonFor(geohash: geohash),
+                        let newHeatmap = currentHeatmap.difference(squarePolygon) {
+                        heatmaps[key] = newHeatmap
+                    }
+
+                    known.insert(geohash)
+                    knownGeohashesForKey[key] = known
                 }
             }
         }
@@ -154,29 +186,10 @@ class AggregatedStatsUpdater<KeyType: Hashable, ModelType: Aggregate> {
         model.cumulativeCountries = cumulativeCountriesAggregated[key]!
         model.cities = citiesAggregated[key] ?? [Int64]()
         model.cumulativeCities = cumulativeCitiesAggregated[key] ?? [Int64]()
+        model.heatmapWKT = heatmaps[key]?.WKT
         model.cumulativeHeatmapWKT = cumulativeHeatmapWKTs[key]
-    }
-
-    func joinCountryLists(oldList: [String: [String]], newList: [String: [String]]) -> [String: [String]] {
-        var product = [String: [String]]()
-        for country in newList.keys {
-            product[country] = newList[country]
-        }
-
-        for country in oldList.keys {
-            let oldStates = oldList[country] ?? []
-            if var newStates = product[country] {
-                for state in oldStates {
-                    if !newStates.contains(state) {
-                        newStates.append(state)
-                    }
-                }
-            } else {
-                product[country] = oldStates
-            }
-        }
-
-        return product
+        model.seenArea = seenAreas[key]!
+        model.cumulativeSeenArea = cumulativeSeenAreas[key]!
     }
 
     private func initializeSegments() {
@@ -185,7 +198,13 @@ class AggregatedStatsUpdater<KeyType: Hashable, ModelType: Aggregate> {
             cumulativeCitiesAggregated[key] = []
             _countriesAggregated[key] = AggregatedCountryList()
             _cumulativeCountriesAggregated[key] = AggregatedCountryList()
-            if let wkt = heatmap.WKT { cumulativeHeatmapWKTs[key] = wkt }
+            seenAreas[key] = 0
+            cumulativeSeenAreas[key] = 0
+            if knownGeohashesForKey[key] == nil {
+                knownGeohashesForKey[key] = Set()
+            }
+            if let wkt = cumulativeHeatmap.WKT { cumulativeHeatmapWKTs[key] = wkt }
+            heatmaps[key] = Helpers.blankWorldwidePolygon()
         }
 
         if let firstAggregate = sinceAggregate,
@@ -201,23 +220,25 @@ class AggregatedStatsUpdater<KeyType: Hashable, ModelType: Aggregate> {
                 }
             }
 
-            for country in cumulativeCountries.keys {
-                for key in getAllSegmentsSince(sinceKey) {
+            for city in cities {
+                citiesAggregated[sinceKey]?.append(city)
+            }
+
+            seenAreas[sinceKey] = firstAggregate.seenArea
+
+            for key in getAllSegmentsSince(sinceKey) {
+                for country in cumulativeCountries.keys {
                     let aggregatedCountry = _cumulativeCountriesAggregated[key]?.add(country: country)
                     for state in cumulativeCountries[country] ?? [] {
                         aggregatedCountry?.add(state: state)
                     }
                 }
-            }
 
-            for city in cities {
-                citiesAggregated[sinceKey]?.append(city)
-            }
-
-            for key in getAllSegmentsSince(sinceKey) {
                 for city in cumulativeCities {
                     cumulativeCitiesAggregated[key]?.append(city)
                 }
+
+                cumulativeSeenAreas[key] = firstAggregate.cumulativeSeenArea
             }
         }
     }

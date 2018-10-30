@@ -54,16 +54,13 @@ class ChartDrawer {
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             let point = sender.location(in: scrollView)
-            if let layer = getLayer(for: point) {
-                deselectAll()
-
-                if let title = layer.name {
-                    if title != barChartSelection.currentSelection {
-                        barChartSelection.currentSelection = title
-                        selectBar(with: title)
-                    } else {
-                        barChartSelection.currentSelection = nil
-                    }
+            if let layer = getLayer(for: point),
+                let title = layer.name {
+                if title != barChartSelection.currentSelection {
+                    barChartSelection.currentSelection = title
+                    barChartSelection.reload()
+                    deselectAll()
+                    selectBar(with: title)
                 }
             }
         }
@@ -74,7 +71,7 @@ class ChartDrawer {
         for layer in sublayers {
             if let textLayer = layer as? CATextLayer {
                 textLayer.foregroundColor = color.cgColor
-            } else {
+            } else if layer.name?.starts(with: "visible-") ?? false {
                 layer.backgroundColor = unselectedBarColor.cgColor
             }
         }
@@ -83,7 +80,7 @@ class ChartDrawer {
     func selectBar(with name: String) {
         guard let sublayers = self.mainLayer.sublayers else { return }
         for layer in sublayers {
-            if layer.name == name {
+            if layer.name == "visible-" + name {
                 if let textLayer = layer as? CATextLayer {
                     textLayer.foregroundColor = selectedColor.cgColor
                 } else {
@@ -97,7 +94,7 @@ class ChartDrawer {
         guard let sublayers = self.mainLayer.sublayers else { return nil }
 
         for layer in sublayers {
-            if layer.frame.contains(point) {
+            if layer.frame.contains(point) && !(layer.name?.starts(with: "visible-") ?? true) {
                 return layer
             }
         }
@@ -109,6 +106,17 @@ class ChartDrawer {
         let barLayer = CALayer()
         barLayer.frame = CGRect(x: xPos, y: yPos, width: barWidth, height: mainLayer.frame.height - bottomSpace - yPos)
         barLayer.backgroundColor = color.cgColor
+        barLayer.name = "visible-" + name
+        mainLayer.addSublayer(barLayer)
+    }
+
+    internal func drawSelectionArea(xPos: CGFloat, name: String) {
+        let barLayer = CALayer()
+        barLayer.frame = CGRect(x: xPos,
+                                y: 0,
+                                width: barWidth + space,
+                                height: mainLayer.frame.height)
+        barLayer.backgroundColor = UIColor.clear.cgColor
         barLayer.name = name
         mainLayer.addSublayer(barLayer)
     }
@@ -123,7 +131,7 @@ class ChartDrawer {
         textLayer.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
         textLayer.fontSize = 14
         textLayer.string = textValue
-        textLayer.name = name
+        textLayer.name = "visible-" + name
         mainLayer.addSublayer(textLayer)
     }
 
@@ -137,7 +145,7 @@ class ChartDrawer {
         textLayer.font = CTFontCreateWithName(UIFont.systemFont(ofSize: 0).fontName as CFString, 0, nil)
         textLayer.fontSize = 14
         textLayer.string = title
-        textLayer.name = title
+        textLayer.name = "visible-" + title
         mainLayer.addSublayer(textLayer)
     }
 
