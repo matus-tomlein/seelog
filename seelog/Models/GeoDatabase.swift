@@ -114,13 +114,17 @@ class GeoDatabase {
         return []
     }
 
+    var cachedCountryInfos = [String: CountryInfo]()
     func countryInfoFor(countryKey ck: String) -> CountryInfo? {
-        if let db = self.db {
+        if let countryInfo = cachedCountryInfos[ck] {
+            return countryInfo
+        }
+        else if let db = self.db {
             do {
                 let query = countries.where(countryKey == ck)
                 if let item = try db.pluck(query) {
 
-                    return CountryInfo(
+                    let countryInfo = CountryInfo(
                         countryKey: ck, name:
                         item[name],
                         geometry10mBytes: item[geometry].bytes,
@@ -128,6 +132,8 @@ class GeoDatabase {
                         geometry110mBytes: item[geometry110m]?.bytes,
                         latitude: item[latitude],
                         longitude: item[longitude])
+                    cachedCountryInfos[ck] = countryInfo
+                    return countryInfo
                 }
             } catch {
                 print("Error querying geo database")
@@ -136,18 +142,25 @@ class GeoDatabase {
         return nil
     }
 
+    var cachedStateInfos = [String: StateInfo]()
     func stateInfoFor(stateKey sk: String) -> StateInfo? {
-        if let db = self.db {
+        if let stateInfo = cachedStateInfos[sk] {
+            return stateInfo
+        }
+        else if let db = self.db {
             do {
                 let query = states.where(stateKey == sk)
                 if let item = try db.pluck(query) {
-                    return StateInfo(stateKey: sk,
+                    let stateInfo = StateInfo(stateKey: sk,
                                      name: item[name],
                                      geometry10mBytes: item[geometry].bytes,
                                      geometry50mBytes: item[geometry50m]?.bytes,
                                      geometry110mBytes: item[geometry110m]?.bytes,
                                      latitude: item[latitude],
                                      longitude: item[longitude])
+
+                    cachedStateInfos[sk] = stateInfo
+                    return stateInfo
                 }
             } catch {
                 print("Error querying geo database")

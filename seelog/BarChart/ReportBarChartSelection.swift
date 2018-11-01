@@ -34,13 +34,18 @@ class ReportBarChartSelection {
     var currentCountries: [String]? {
         get {
             if let selection = self.currentSelection {
-                return visitStats.countriesForSelection(name: selection)
+                return visitStats.countriesForSelection(name: selection, aggregate: aggregateChart)
             }
             return countries
         }
     }
-    var flaggedItems: [String]? {
-        get { return currentCountries?.map { Helpers.flag(country: $0) } }
+    var currentCountriesAndStates: [String: [String]]? {
+        get {
+            if let selection = self.currentSelection {
+                return visitStats.countriesAndStatesForSelection(name: selection, aggregate: aggregateChart)
+            }
+            return nil
+        }
     }
     var currentTab: SelectedTab { get { return reportViewController.currentTab } }
     var aggregateChart: Bool { get { return reportViewController.aggregateChart } }

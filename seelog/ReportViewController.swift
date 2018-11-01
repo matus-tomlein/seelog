@@ -25,17 +25,18 @@ enum SelectedTab {
     case countries
 }
 
-class ReportViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, MKMapViewDelegate {
+class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var numberOfVisitedCountriesLabel: UILabel!
     @IBOutlet weak var historyBarChartView: HistoryChartView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var granularitySegmentedControl: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var scrollView: ReportScrollView!
     @IBOutlet weak var contentSegmentedControl: UISegmentedControl!
     @IBOutlet weak var aggregateChartSwitch: UISwitch!
+    @IBOutlet weak var mapCellHeight: NSLayoutConstraint!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
 
     var mapViewDelegate: MainMapViewDelegate?
     var barChartSelection: ReportBarChartSelection? {
@@ -74,11 +75,16 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
     }
 
+    var geoDB = GeoDatabase()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.layoutMargins.left += 15
         view.layoutMargins.right += 15
+
+        mapCellHeight.constant = 600
+        tableView.isScrollEnabled = false
 
         historyBarChartView.reportViewController = self
 
@@ -106,21 +112,37 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
         super.viewWillTransition(to: size, with: coordinator)
 
         coordinator.animate(alongsideTransition: { context in
-            self.collectionView.layoutIfNeeded()
-            let contentSize = self.collectionView.collectionViewLayout.collectionViewContentSize
-            self.collectionViewHeightConstraint.constant = contentSize.height
+            self.tableView.layoutIfNeeded()
+            let contentSize = self.tableView.contentSize
+            self.tableViewHeight.constant = contentSize.height
         }, completion: nil)
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    // MARK: Table view
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.barChartSelection?.currentCountries?.count ?? 0
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ReportSelectionCollectionViewCell
-        cell.label.text = self.barChartSelection?.flaggedItems?[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ReportTableViewCell
+
+        if let countryKey = self.barChartSelection?.currentCountries?[indexPath.row] {
+            cell.iconLabel.text = Helpers.flag(country: countryKey)
+            cell.descriptionLabel.text = geoDB.countryInfoFor(countryKey: countryKey)?.name
+
+            if let states = self.barChartSelection?.currentCountriesAndStates?[countryKey] {
+                cell.subTextLabel.text = states.map({ geoDB.stateInfoFor(stateKey: $0)?.name ?? "" }).sorted().joined(separator: ", ")
+            }
+        }
         return cell
     }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    // MARK: reloading
 
     @objc func reloadAll() {
         reloadAllAndScrollChart(true)
@@ -134,14 +156,14 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
             updateBarChart()
         }
         reloadStatLabel()
-        reloadCollectionView()
+        reloadTableView()
     }
 
-    func reloadCollectionView() {
-        collectionView.reloadData()
+    func reloadTableView() {
+        tableView.reloadData()
 
-        let contentSize = collectionView.collectionViewLayout.collectionViewContentSize
-        collectionViewHeightConstraint.constant = contentSize.height
+        self.tableView.layoutIfNeeded()
+        tableViewHeight.constant = tableView.contentSize.height
     }
 
     func reloadBarChart() {
@@ -156,7 +178,7 @@ class ReportViewController: UIViewController, UICollectionViewDelegate, UICollec
         if currentTab == .places {
             mapViewDelegate?.loadMapViewHeatmap(barChartSelection: barChartSelection)
         } else if currentTab == .countries {
-            mapViewDelegate?.loadMapViewCountries(barChartSelection: barChartSelection)
+            mapViewDelegate?.loadMapViewCountries(barChartSelection: barChartSelection, geoDB: geoDB)
         }
     }
 

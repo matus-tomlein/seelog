@@ -28,11 +28,15 @@ class AggregatedVisitStats {
         }
     }
 
-    func countriesForSelection(name: String) -> [String]? {
+    func countriesForSelection(name: String, aggregate: Bool) -> [String]? {
+        return countriesAndStatesForSelection(name: name, aggregate: aggregate)?.keys.sorted()
+    }
+
+    func countriesAndStatesForSelection(name: String, aggregate: Bool) -> [String: [String]]? {
         if let aggregates = self.aggregates {
             let filtered = aggregates.filter { $0.name == name }
             if filtered.count > 0 {
-                return filtered[0].countries?.keys.sorted()
+                return aggregate ? filtered[0].cumulativeCountries : filtered[0].countries
             }
         }
         return nil
