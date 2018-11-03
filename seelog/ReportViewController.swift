@@ -29,14 +29,13 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     @IBOutlet weak var numberOfVisitedCountriesLabel: UILabel!
     @IBOutlet weak var historyBarChartView: HistoryChartView!
-    @IBOutlet weak var granularitySegmentedControl: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var scrollView: ReportScrollView!
     @IBOutlet weak var contentSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var aggregateChartSwitch: UISwitch!
     @IBOutlet weak var mapCellHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var accumulateSegmentedContent: UISegmentedControl!
 
     var mapViewDelegate: MainMapViewDelegate?
     var barChartSelection: ReportBarChartSelection? {
@@ -47,7 +46,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     var aggregateChart: Bool {
         get {
-            return aggregateChartSwitch.isOn
+            return accumulateSegmentedContent.selectedSegmentIndex == 0
         }
     }
 
@@ -62,16 +61,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     var granularity: Granularity {
         get {
-            switch granularitySegmentedControl.selectedSegmentIndex {
-            case 0: // years
-                return .years
-
-            case 1: // seasons
-                return .seasons
-
-            default: // months
-                return .months
-            }
+            return .years
         }
     }
 
@@ -85,6 +75,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
         mapCellHeight.constant = 600
         tableView.isScrollEnabled = false
+        tableView.bounces = false
 
         historyBarChartView.reportViewController = self
 
@@ -94,9 +85,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         contentSegmentedControl.addTarget(self, action: #selector(reloadAll), for: .valueChanged)
 
         loadData()
-        granularitySegmentedControl.addTarget(self, action: #selector(changeGranularity), for: .valueChanged)
-
-        aggregateChartSwitch.addTarget(self, action: #selector(aggregateChartSwitchStateChanged(_:)), for: .valueChanged)
+        accumulateSegmentedContent.addTarget(self, action: #selector(accumulateStateChanged), for: .valueChanged)
 
         scrollView.setContentOffset(CGPoint(
             x: scrollView.contentOffset.x,
@@ -121,21 +110,31 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     // MARK: Table view
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.barChartSelection?.currentCountries?.count ?? 0
+        if currentTab == .countries {
+            return self.barChartSelection?.currentCountries?.count ?? 0
+        } else {
+            return 1
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ReportTableViewCell
+        if currentTab == .countries {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ReportTableViewCell
 
-        if let countryKey = self.barChartSelection?.currentCountries?[indexPath.row] {
-            cell.iconLabel.text = Helpers.flag(country: countryKey)
-            cell.descriptionLabel.text = geoDB.countryInfoFor(countryKey: countryKey)?.name
+            if let countryKey = self.barChartSelection?.currentCountries?[indexPath.row] {
+                cell.iconLabel.text = Helpers.flag(country: countryKey)
+                cell.descriptionLabel.text = geoDB.countryInfoFor(countryKey: countryKey)?.name
 
-            if let states = self.barChartSelection?.currentCountriesAndStates?[countryKey] {
-                cell.subTextLabel.text = states.map({ geoDB.stateInfoFor(stateKey: $0)?.name ?? "" }).sorted().joined(separator: ", ")
+                if let states = self.barChartSelection?.currentCountriesAndStates?[countryKey] {
+                    cell.subTextLabel.text = states.map({ geoDB.stateInfoFor(stateKey: $0)?.name ?? "" }).sorted().joined(separator: ", ")
+                }
             }
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! PlaceTableViewCell
+            cell.placeNameLabel.text = String(barChartSelection?.currentCities?.count ?? 0) + " visited towns and cities"
+            return cell
         }
-        return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -162,7 +161,8 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     func reloadTableView() {
         tableView.reloadData()
 
-        self.tableView.layoutIfNeeded()
+        tableView.invalidateIntrinsicContentSize()
+        tableView.layoutIfNeeded()
         tableViewHeight.constant = tableView.contentSize.height
     }
 
@@ -204,7 +204,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         self.barChartSelection?.loadItems(context: context)
     }
 
-    @objc func aggregateChartSwitchStateChanged(_ aggregateSwitch: UISwitch) {
+    @objc func accumulateStateChanged() {
         historyBarChartView.changeChartType()
         reloadAllAndScrollChart(false)
     }

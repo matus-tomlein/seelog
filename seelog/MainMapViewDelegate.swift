@@ -114,6 +114,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
 
         let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(gestureRecognizer:)))
         mapView.addGestureRecognizer(recognizer)
+        mapView.isRotateEnabled = false
     }
 
     var currentZoomType: ZoomType = .close {
@@ -198,6 +199,8 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
                 if !polygonPropertyNamesToKeep.contains(polygonProperties.name) {
                     mapView.remove(overlay)
                 }
+            } else {
+                mapView.remove(overlay)
             }
         }
     }
@@ -207,21 +210,22 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         mapView.removeOverlays(mapView.overlays)
 
         if let wkt = barChartSelection?.currentAggregate?.heatmapWKT(cumulative: barChartSelection?.aggregateChart ?? true),
-            let heatmap = Helpers.geometry(fromWKT: wkt)?.buffer(width: 0.01),
-            let land = landsPolygon?.difference(heatmap),
-            let water = waterPolygon?.difference(heatmap) {
-            addGeometryToMap(land, polygonProperties: PolygonProperties(name: barChartSelection!.currentSelection!,
-                                                                                zoomTypes: [.close, .medium, .far],
-                                                                                polygonType: .heatmapLand,
-                                                                                alpha: 1))
-            addGeometryToMap(water, polygonProperties: PolygonProperties(name: barChartSelection!.currentSelection!,
-                                                                           zoomTypes: [.close, .medium, .far],
-                                                                           polygonType: .heatmap,
-                                                                           alpha: 1))
-            if let boundaries = heatmap.boundary()?.mapShape() as? MKShapesCollection {
-                for boundary in boundaries.shapes {
-                    if let polyline = boundary as? MKPolyline {
-                        mapView.add(polyline)
+            let heatmap = Helpers.geometry(fromWKT: wkt) {
+            if let land = landsPolygon?.difference(heatmap),
+                let water = waterPolygon?.difference(heatmap) {
+                addGeometryToMap(land, polygonProperties: PolygonProperties(name: barChartSelection!.currentSelection!,
+                                                                            zoomTypes: [.close, .medium, .far],
+                                                                            polygonType: .heatmapLand,
+                                                                            alpha: 1))
+                addGeometryToMap(water, polygonProperties: PolygonProperties(name: barChartSelection!.currentSelection!,
+                                                                             zoomTypes: [.close, .medium, .far],
+                                                                             polygonType: .heatmap,
+                                                                             alpha: 1))
+                if let boundaries = heatmap.boundary()?.mapShape() as? MKShapesCollection {
+                    for boundary in boundaries.shapes {
+                        if let polyline = boundary as? MKPolyline {
+                            mapView.add(polyline)
+                        }
                     }
                 }
             }
@@ -248,7 +252,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
             let isCountry = polygonProperties.polygonType == .country
             let isHeatmap = polygonProperties.polygonType == .heatmap || polygonProperties.polygonType == .heatmapLand
             let isHeatmapLand = polygonProperties.polygonType == .heatmapLand
-            let color = isHeatmap ? (isHeatmapLand ? #colorLiteral(red: 0.1326935279, green: 0.08801155267, blue: 0.01743199334, alpha: 1) : #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)) : UIColor.red
+            let color = isHeatmap ? (isHeatmapLand ? #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1) : #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)) : UIColor.red
             let polygonView = PolygonRenderer(overlay: overlay) // TODO: reuse polygon renderer?
             polygonView.fillColor = color.withAlphaComponent(polygonProperties.alpha)
             if isCountry {
@@ -260,7 +264,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         }
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.lineWidth = 1
-        renderer.strokeColor = UIColor.white
+        renderer.strokeColor = UIColor.black
         return renderer
     }
 

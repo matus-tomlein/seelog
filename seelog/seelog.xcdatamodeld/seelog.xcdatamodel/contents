@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="HeatmapSquare" representedClassName="HeatmapSquare" syncable="YES" codeGenerationType="class">
         <attribute name="count" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="geohash" attributeType="String" syncable="YES"/>
@@ -13,8 +13,10 @@
         <attribute name="cumulativeCities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
         <attribute name="cumulativeCountries" optional="YES" attributeType="Transformable" customClassName="[String: [String]]" syncable="YES"/>
         <attribute name="cumulativeHeatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cumulativeHeatmapWKTProcessed" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cumulativeSeenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="heatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="heatmapWKTProcessed" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="month" attributeType="String" syncable="YES"/>
         <attribute name="seenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
@@ -35,8 +37,10 @@
         <attribute name="cumulativeCities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
         <attribute name="cumulativeCountries" optional="YES" attributeType="Transformable" customClassName="[String: [String]]" syncable="YES"/>
         <attribute name="cumulativeHeatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cumulativeHeatmapWKTProcessed" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cumulativeSeenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="heatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="heatmapWKTProcessed" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="season" attributeType="String" syncable="YES"/>
         <attribute name="seenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
@@ -53,18 +57,20 @@
         <attribute name="cumulativeCities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
         <attribute name="cumulativeCountries" optional="YES" attributeType="Transformable" customClassName="[String: [String]]" syncable="YES"/>
         <attribute name="cumulativeHeatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cumulativeHeatmapWKTProcessed" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cumulativeSeenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="heatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="heatmapWKTProcessed" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="seenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="year" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
         <element name="HeatmapSquare" positionX="630" positionY="279" width="128" height="120"/>
-        <element name="Month" positionX="630" positionY="288" width="128" height="180"/>
+        <element name="Month" positionX="630" positionY="288" width="128" height="210"/>
         <element name="Photo" positionX="619" positionY="216" width="128" height="180"/>
-        <element name="Season" positionX="639" positionY="297" width="128" height="180"/>
+        <element name="Season" positionX="639" positionY="297" width="128" height="210"/>
         <element name="VisitedCity" positionX="639" positionY="297" width="128" height="60"/>
         <element name="VisitedCountry" positionX="630" positionY="279" width="128" height="75"/>
-        <element name="Year" positionX="621" positionY="279" width="128" height="180"/>
+        <element name="Year" positionX="621" positionY="279" width="128" height="210"/>
     </elements>
 </model>

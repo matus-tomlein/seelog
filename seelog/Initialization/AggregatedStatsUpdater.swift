@@ -132,14 +132,18 @@ class AggregatedStatsUpdater<KeyType: Hashable, ModelType: Aggregate> {
                 }
 
                 for nextSegment in getAllSegmentsSince(key) {
-                    var cities = citiesAggregated[nextSegment]
-                    if cities?.contains(cityKey) ?? false {
-                        break
-                    } else {
-                        cities?.append(cityKey)
+                    if var cumulativeCities = cumulativeCitiesAggregated[nextSegment] {
+                        if cumulativeCities.contains(cityKey) {
+                            break
+                        } else {
+                            cumulativeCities.append(cityKey)
+                            cumulativeCitiesAggregated[nextSegment] = cumulativeCities
+                        }
                     }
                 }
             }
+
+            citiesAggregated[key] = cities
         }
 
         if let geohash = photo.geohash {
@@ -183,10 +187,17 @@ class AggregatedStatsUpdater<KeyType: Hashable, ModelType: Aggregate> {
         model.cumulativeCountries = cumulativeCountriesAggregated[key]!
         model.cities = citiesAggregated[key] ?? [Int64]()
         model.cumulativeCities = cumulativeCitiesAggregated[key] ?? [Int64]()
-        model.heatmapWKT = heatmaps[key]?.WKT
-        model.cumulativeHeatmapWKT = cumulativeHeatmapWKTs[key]
+        model.heatmapWKTProcessed = processHeatmap(heatmap: heatmaps[key])?.WKT
+        if let wkt = cumulativeHeatmapWKTs[key] { model.cumulativeHeatmapWKTProcessed = processHeatmap(heatmap: Helpers.geometry(fromWKT: wkt))?.WKT }
         model.seenArea = seenAreas[key]!
         model.cumulativeSeenArea = cumulativeSeenAreas[key]!
+    }
+
+    private func processHeatmap(heatmap: Geometry?) -> Geometry? {
+        if let heatmap = heatmap?.buffer(width: 0.05) {
+            return Helpers.convexHeatmap(heatmap: heatmap)
+        }
+        return nil
     }
 
     private func initializeSegments() {

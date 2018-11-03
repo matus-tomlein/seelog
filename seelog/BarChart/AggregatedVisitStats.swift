@@ -28,33 +28,10 @@ class AggregatedVisitStats {
         }
     }
 
-    func countriesForSelection(name: String, aggregate: Bool) -> [String]? {
-        return countriesAndStatesForSelection(name: name, aggregate: aggregate)?.keys.sorted()
-    }
-
-    func countriesAndStatesForSelection(name: String, aggregate: Bool) -> [String: [String]]? {
+    func aggregateWithName(_ name: String) -> Aggregate? {
         if let aggregates = self.aggregates {
             let filtered = aggregates.filter { $0.name == name }
-            if filtered.count > 0 {
-                return aggregate ? filtered[0].cumulativeCountries : filtered[0].countries
-            }
-        }
-        return nil
-    }
-
-    func allCountries() -> [String]? {
-        if let aggregates = self.aggregates {
-            var allCountries: [String] = []
-            for aggregate in aggregates {
-                if let countries = aggregate.countries {
-                    for country in countries.keys {
-                        if !allCountries.contains(country) {
-                            allCountries.append(country)
-                        }
-                    }
-                }
-            }
-            return allCountries.sorted()
+            if filtered.count > 0 { return filtered[0] }
         }
         return nil
     }

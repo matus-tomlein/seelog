@@ -176,4 +176,25 @@ class Helpers {
         }
         return 0
     }
+
+    static func convexHeatmap(heatmap: Geometry) -> Geometry {
+        if let multipolygon = heatmap as? MultiPolygon {
+            var convexPolygonUnion: Geometry?
+            for polygon in multipolygon.geometries {
+                if let convexPolygon = polygon.convexHull() {
+                    if let union = convexPolygonUnion {
+                        convexPolygonUnion = union.union(convexPolygon)
+                    } else {
+                        convexPolygonUnion = convexPolygon
+                    }
+                }
+            }
+            return convexPolygonUnion ?? heatmap
+//            if convexPolygons.count > 0 {
+//                if let result = MultiPolygon(geometries: convexPolygons) { return result }
+//            }
+        }
+
+        return heatmap
+    }
 }

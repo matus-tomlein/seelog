@@ -16,52 +16,35 @@ class ReportBarChartSelection {
     var aggregates: [Aggregate]? {
         get { return visitStats.aggregates }
     }
+    var currentAggregate: Aggregate? {
+        get {
+            if let selection = currentSelection { return visitStats.aggregateWithName(selection) }
+            return nil
+        }
+    }
 
     var _currentSelection: String?
     var currentSelection: String? {
         set {
             _currentSelection = newValue
         }
-        get {
-            return _currentSelection ?? visitStats.aggregates?.last?.name
-        }
-    }
-    var countries: [String]? {
-        get {
-            return visitStats.allCountries()
-        }
+        get { return _currentSelection ?? visitStats.aggregates?.last?.name }
     }
     var currentCountries: [String]? {
-        get {
-            if let selection = self.currentSelection {
-                return visitStats.countriesForSelection(name: selection, aggregate: aggregateChart)
-            }
-            return countries
-        }
+        get { return currentAggregate?.countries(cumulative: aggregateChart)?.keys.sorted() }
     }
     var currentCountriesAndStates: [String: [String]]? {
+        get { return currentAggregate?.countries(cumulative: aggregateChart) }
+    }
+    var currentCities: [CityInfo]? {
         get {
-            if let selection = self.currentSelection {
-                return visitStats.countriesAndStatesForSelection(name: selection, aggregate: aggregateChart)
-            }
-            return nil
+            let cities = currentAggregate?.cities(cumulative: aggregateChart)
+            let cityInfos = cities?.map({ reportViewController.geoDB.cityInfoFor(cityKey: $0) })
+            return cityInfos?.filter({ $0 != nil }).map({ $0! }).sorted(by: { $0.name < $1.name })
         }
     }
     var currentTab: SelectedTab { get { return reportViewController.currentTab } }
     var aggregateChart: Bool { get { return reportViewController.aggregateChart } }
-
-    var currentAggregate: Aggregate? {
-        get {
-            if let selection = currentSelection {
-                if let filtered = visitStats.aggregates?.filter({ $0.name == selection }) {
-                    if filtered.count > 0 {
-                        return filtered[0]
-                    }
-                }
-            }
-            return nil
-        }
-    }
 
     init(reportViewController: ReportViewController) {
         self.reportViewController = reportViewController

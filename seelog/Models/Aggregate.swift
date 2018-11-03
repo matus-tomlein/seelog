@@ -18,6 +18,8 @@ protocol Aggregate {
     var cumulativeHeatmapWKT: String? { get set }
     var seenArea: Double { get set }
     var cumulativeSeenArea: Double { get set }
+    var cumulativeHeatmapWKTProcessed: String? { get set }
+    var heatmapWKTProcessed: String? { get set }
     var name: String { get }
 }
 
@@ -55,8 +57,12 @@ extension Aggregate {
         return cumulative ? cumulativeCountries : countries
     }
 
+    func cities(cumulative: Bool) -> [Int64]? {
+        return cumulative ? cumulativeCities : cities
+    }
+
     func heatmapWKT(cumulative: Bool) -> String? {
-        return cumulative ? cumulativeHeatmapWKT : heatmapWKT
+        return cumulative ? cumulativeHeatmapWKTProcessed : heatmapWKTProcessed
     }
 }
 
