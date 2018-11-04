@@ -272,13 +272,12 @@
                     <navigationItem key="navigationItem" id="JGe-BS-5s1">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="avA-Hh-9UM">
-                            <rect key="frame" x="35.666666666666657" y="7" width="304" height="30"/>
+                            <rect key="frame" x="36" y="7" width="304" height="30"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Explored"/>
                                 <segment title="Countries"/>
                                 <segment title="Cities"/>
-                                <segment title="Nature"/>
                             </segments>
                         </segmentedControl>
                     </navigationItem>

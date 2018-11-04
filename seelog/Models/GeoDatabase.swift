@@ -36,6 +36,8 @@ class GeoDatabase {
     let continent = Expression<String>("continent")
     let region = Expression<String>("region_un")
     let subregion = Expression<String>("subregion")
+    let populationMin = Expression<Int>("pop_min")
+    let populationMax = Expression<Int>("pop_max")
 
     var countriesForStates = [String: String]()
     
@@ -204,7 +206,10 @@ class GeoDatabase {
                     return CityInfo(cityKey: key,
                                     name: item[name],
                                     latitude: item[latitude],
-                                    longitude: item[longitude])
+                                    longitude: item[longitude],
+                                    countryKey: item[countryKey],
+                                    populationMin: item[populationMin],
+                                    populationMax: item[populationMax])
                 }
             } catch {
                 print("Error querying geo database")

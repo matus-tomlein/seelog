@@ -30,18 +30,15 @@ extension Year {
     }
 
     func chartValue(selectedTab: SelectedTab, cumulative: Bool) -> Double {
-        if cumulative {
-            if selectedTab == .countries {
-                return Double(cumulativeCountries?.count ?? 0)
-            } else {
-                return cumulativeSeenArea
-            }
-        } else {
-            if selectedTab == .countries {
-                return Double(countries?.count ?? 0)
-            } else {
-                return seenArea
-            }
+        switch selectedTab {
+        case .countries:
+            return cumulative ? Double(cumulativeCountries?.count ?? 0) : Double(countries?.count ?? 0)
+
+        case .cities:
+            return cumulative ? Double(cumulativeCities?.count ?? 0) : Double(cities?.count ?? 0)
+
+        case .places:
+            return cumulative ? cumulativeSeenArea : seenArea
         }
     }
 

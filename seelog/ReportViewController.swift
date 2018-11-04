@@ -23,6 +23,7 @@ class ReportScrollView: UIScrollView {
 enum SelectedTab {
     case places
     case countries
+    case cities
 }
 
 class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
@@ -54,8 +55,10 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         get {
             if contentSegmentedControl.selectedSegmentIndex == 0 {
                 return .places
+            } else if contentSegmentedControl.selectedSegmentIndex == 1 {
+                return .countries
             }
-            return .countries
+            return .cities
         }
     }
 
@@ -135,9 +138,14 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     func reloadTableView() {
         if let year = barChartSelection?.currentAggregate {
-            if currentTab == .countries {
+            switch currentTab {
+            case .countries:
                 tableViewManager = CountriesTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
-            } else if currentTab == .places {
+
+            case .cities:
+                tableViewManager = CitiesTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+
+            case .places:
                 tableViewManager = HeatmapTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
             }
         }
@@ -157,21 +165,19 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     @objc func reloadMap() {
-        if currentTab == .places {
-            mapViewDelegate?.loadMapViewHeatmap(barChartSelection: barChartSelection)
-        } else if currentTab == .countries {
-            mapViewDelegate?.loadMapViewCountries(barChartSelection: barChartSelection, geoDB: geoDB)
+        if let year = barChartSelection?.currentAggregate {
+            mapViewDelegate?.load(currentTab: currentTab, year: year, cumulative: aggregateChart, geoDB: geoDB)
         }
     }
 
     func reloadStatLabel() {
         let value = barChartSelection?.currentAggregate?.chartValue(selectedTab: currentTab, cumulative: aggregateChart) ?? 0
 
-        if currentTab == .places {
-            numberOfVisitedCountriesLabel.text = String(Int(round(value))) + " km²"
-        } else if currentTab == .countries {
-            numberOfVisitedCountriesLabel.text = String(Int(round(value))) + " countries"
-        }
+        var unit = " km²"
+        if currentTab == .countries { unit = " countries" }
+        else if currentTab == .cities { unit = " cities" }
+
+        numberOfVisitedCountriesLabel.text = String(Int(round(value))) + unit
     }
 
     private func loadData() {
