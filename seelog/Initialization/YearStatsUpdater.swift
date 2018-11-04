@@ -36,8 +36,8 @@ class YearStatsUpdater {
             citiesUpdater = YearCitiesUpdater(sinceKey: sinceKey,
                                               sinceAggregate: sinceAggregate)
 
-            seenAreaAndHeatmapUpdater = YearSeenAreaUpdater(sinceKey: sinceKey,
-                                                            sinceAggregate: sinceAggregate,
+            seenAreaAndHeatmapUpdater = YearSeenAreaUpdater(sinceYear: sinceKey,
+                                                            sinceYearModel: sinceAggregate,
                                                             knownHeatmapSquares: knownHeatmapSquares)
 
             timezonesUpdater = YearTimezonesUpdater(sinceKey: sinceKey,
