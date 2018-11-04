@@ -18,6 +18,8 @@ class GeoDatabase {
     let geohashStates = Table("geohash_states_provinces")
     let geohashCities = Table("geohash_cities")
     let cities = Table("cities")
+    let timezones = Table("timezones")
+    let geohashTimezones = Table("geohash_timezones")
     
     let geohash = Expression<String>("geohash")
     let name = Expression<String>("name")
@@ -29,6 +31,11 @@ class GeoDatabase {
     let geometry50m = Expression<Blob?>("geometry_50m")
     let geometry110m = Expression<Blob?>("geometry_110m")
     let cityKey = Expression<Int64>("ogc_fid")
+    let timezoneId = Expression<Int>("ogc_fid")
+    let places = Expression<String>("places")
+    let continent = Expression<String>("continent")
+    let region = Expression<String>("region_un")
+    let subregion = Expression<String>("subregion")
 
     var countriesForStates = [String: String]()
     
@@ -99,6 +106,23 @@ class GeoDatabase {
         return nil
     }
 
+    func timezoneFor(geohash gh: String) -> Int32? {
+        let allGeohashes = getGeohashesOfAllLengths(geohash: gh)
+
+        if let db = self.db {
+            do {
+                let query = self.geohashTimezones.where(allGeohashes.contains(self.geohash)).order(self.geohash.length.desc)
+                if let item = try db.pluck(query) {
+                    return Int32(item[self.timezoneId])
+                }
+            } catch {
+                print("Error querying geo database")
+            }
+        }
+
+        return nil
+    }
+
     func cityKeysFor(geohash gh: String) -> [Int64] {
         let allGeohashes = getGeohashesOfAllLengths(geohash: gh)
 
@@ -131,7 +155,10 @@ class GeoDatabase {
                         geometry50mBytes: item[geometry50m]?.bytes,
                         geometry110mBytes: item[geometry110m]?.bytes,
                         latitude: item[latitude],
-                        longitude: item[longitude])
+                        longitude: item[longitude],
+                        continent: item[continent],
+                        region: item[region],
+                        subregion: item[subregion])
                     cachedCountryInfos[ck] = countryInfo
                     return countryInfo
                 }
@@ -174,7 +201,26 @@ class GeoDatabase {
             do {
                 let query = cities.where(cityKey == key)
                 if let item = try db.pluck(query) {
-                    return CityInfo(cityKey: key, name: item[name], latitude: item[latitude], longitude: item[longitude])
+                    return CityInfo(cityKey: key,
+                                    name: item[name],
+                                    latitude: item[latitude],
+                                    longitude: item[longitude])
+                }
+            } catch {
+                print("Error querying geo database")
+            }
+        }
+        return nil
+    }
+
+    func timezoneInfoFor(timezoneId id: Int32) -> TimezoneInfo? {
+        if let db = self.db {
+            do {
+                let query = timezones.where(timezoneId == Int(id))
+                if let item = try db.pluck(query) {
+                    return TimezoneInfo(timezoneId: Int32(item[timezoneId]),
+                                        name: item[name],
+                                        places: item[places])
                 }
             } catch {
                 print("Error querying geo database")

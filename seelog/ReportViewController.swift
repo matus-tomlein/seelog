@@ -59,12 +59,6 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         }
     }
 
-    var granularity: Granularity {
-        get {
-            return .years
-        }
-    }
-
     var geoDB = GeoDatabase()
 
     override func viewDidLoad() {
@@ -109,32 +103,13 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     // MARK: Table view
 
+    var tableViewManager: TableViewManager?
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if currentTab == .countries {
-            return self.barChartSelection?.currentCountries?.count ?? 0
-        } else {
-            return 1
-        }
+        return tableViewManager?.numberOfRowsInSection(section) ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if currentTab == .countries {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ReportTableViewCell
-
-            if let countryKey = self.barChartSelection?.currentCountries?[indexPath.row] {
-                cell.iconLabel.text = Helpers.flag(country: countryKey)
-                cell.descriptionLabel.text = geoDB.countryInfoFor(countryKey: countryKey)?.name
-
-                if let states = self.barChartSelection?.currentCountriesAndStates?[countryKey] {
-                    cell.subTextLabel.text = states.map({ geoDB.stateInfoFor(stateKey: $0)?.name ?? "" }).sorted().joined(separator: ", ")
-                }
-            }
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "placeCell", for: indexPath) as! PlaceTableViewCell
-            cell.placeNameLabel.text = String(barChartSelection?.currentCities?.count ?? 0) + " visited towns and cities"
-            return cell
-        }
+        return tableViewManager!.cellForRowAt(indexPath)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -148,7 +123,6 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     func reloadAllAndScrollChart(_ scrollChart: Bool) {
-        reloadMap()
         if scrollChart {
             reloadBarChart()
         } else {
@@ -156,13 +130,21 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         }
         reloadStatLabel()
         reloadTableView()
+        reloadMap()
     }
 
     func reloadTableView() {
+        if let year = barChartSelection?.currentAggregate {
+            if currentTab == .countries {
+                tableViewManager = CountriesTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+            } else if currentTab == .places {
+                tableViewManager = HeatmapTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+            }
+        }
         tableView.reloadData()
-
-        tableView.invalidateIntrinsicContentSize()
-        tableView.layoutIfNeeded()
+        for cell in 0..<tableView(tableView, numberOfRowsInSection: 0) {
+            tableView.rectForRow(at: IndexPath(row: cell, section: 0))
+        }
         tableViewHeight.constant = tableView.contentSize.height
     }
 
@@ -190,12 +172,6 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         } else if currentTab == .countries {
             numberOfVisitedCountriesLabel.text = String(Int(round(value))) + " countries"
         }
-    }
-
-    @objc func changeGranularity() {
-        loadData()
-        barChartSelection?.clear()
-        reloadAll()
     }
 
     private func loadData() {

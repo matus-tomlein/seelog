@@ -76,6 +76,7 @@ class DatabaseInitializer {
         newPhoto.countryKey = self.geoDatabase.countryKeyFor(geohash: geohash)
         newPhoto.stateKey = self.geoDatabase.stateKeyFor(geohash: geohash)
         newPhoto.cityKeys = self.geoDatabase.cityKeysFor(geohash: geohash)
+        newPhoto.timezone = self.geoDatabase.timezoneFor(geohash: geohash) ?? 0
 
         return newPhoto
     }

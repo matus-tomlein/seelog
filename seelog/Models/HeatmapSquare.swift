@@ -35,19 +35,7 @@ extension HeatmapSquare {
         return geohashes
     }
 
-    func lastSeenAt(aggregate: Aggregate) -> Bool {
-        switch aggregate {
-        case let month as Month:
-            return month.month == lastMonth
-
-        case let year as Year:
-            return year.year == lastYear
-
-        case let season as Season:
-            return season.season == lastSeason
-
-        default:
-            return false
-        }
+    func lastSeenAt(aggregate: Year) -> Bool {
+        return aggregate.year == lastYear
     }
 }

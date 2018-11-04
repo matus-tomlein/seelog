@@ -13,10 +13,10 @@ class ReportBarChartSelection {
     var reportViewController: ReportViewController
     var visitStats = AggregatedVisitStats()
 
-    var aggregates: [Aggregate]? {
-        get { return visitStats.aggregates }
+    var aggregates: [Year]? {
+        get { return visitStats.years }
     }
-    var currentAggregate: Aggregate? {
+    var currentAggregate: Year? {
         get {
             if let selection = currentSelection { return visitStats.aggregateWithName(selection) }
             return nil
@@ -28,7 +28,7 @@ class ReportBarChartSelection {
         set {
             _currentSelection = newValue
         }
-        get { return _currentSelection ?? visitStats.aggregates?.last?.name }
+        get { return _currentSelection ?? visitStats.years?.last?.name }
     }
     var currentCountries: [String]? {
         get { return currentAggregate?.countries(cumulative: aggregateChart)?.keys.sorted() }
@@ -51,8 +51,7 @@ class ReportBarChartSelection {
     }
 
     func loadItems(context: NSManagedObjectContext) {
-        visitStats.loadItems(granularity: reportViewController.granularity,
-                             context: context)
+        visitStats.loadItems(context: context)
     }
 
     func clear() {

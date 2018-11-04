@@ -10,9 +10,13 @@ import Foundation
 import CoreData
 
 class YearStatsUpdater {
-    var updater: AggregatedStatsUpdater<Int32, Year>?
     var context: NSManagedObjectContext
     private var sinceAggregate: Year?
+
+    private var citiesUpdater: YearCitiesUpdater?
+    private var countriesUpdater: YearCountriesUpdater?
+    private var seenAreaAndHeatmapUpdater: YearSeenAreaUpdater?
+    private var timezonesUpdater: YearTimezonesUpdater?
 
     init(context: NSManagedObjectContext) {
         self.context = context
@@ -22,22 +26,42 @@ class YearStatsUpdater {
     func processNewPhoto(photo: Photo) {
         guard let year = photo.year else { return }
 
-        if updater == nil {
-            updater = AggregatedStatsUpdater<Int32, Year>(sinceKey: sinceAggregate?.year ?? year,
-                                                    sinceAggregate: sinceAggregate,
-                                                    knownHeatmapSquares: HeatmapSquare.all(context: context),
-                                                    getAllSegmentsSince: Helpers.yearsSince)
+        if countriesUpdater == nil {
+            let sinceKey = sinceAggregate?.year ?? year
+            let knownHeatmapSquares = HeatmapSquare.all(context: context)
+
+            countriesUpdater = YearCountriesUpdater(sinceKey: sinceKey,
+                                                    sinceAggregate: sinceAggregate)
+
+            citiesUpdater = YearCitiesUpdater(sinceKey: sinceKey,
+                                              sinceAggregate: sinceAggregate)
+
+            seenAreaAndHeatmapUpdater = YearSeenAreaUpdater(sinceKey: sinceKey,
+                                                            sinceAggregate: sinceAggregate,
+                                                            knownHeatmapSquares: knownHeatmapSquares)
+
+            timezonesUpdater = YearTimezonesUpdater(sinceKey: sinceKey,
+                                                    sinceAggregate: sinceAggregate)
         }
 
-        updater?.processNewPhoto(photo: photo, key: year)
+        countriesUpdater?.processNewPhoto(photo: photo, key: year)
+        citiesUpdater?.processNewPhoto(photo: photo, key: year)
+        seenAreaAndHeatmapUpdater?.processNewPhoto(photo: photo, key: year)
+        timezonesUpdater?.processNewPhoto(photo: photo, key: year)
     }
 
     func update() {
-        guard let updater = self.updater else { return }
+        guard let countriesUpdater = self.countriesUpdater else { return }
+        guard let citiesUpdater = self.citiesUpdater else { return }
+        guard let seenAreaAndHeatmapUpdater = self.seenAreaAndHeatmapUpdater else { return }
+        guard let timezonesUpdater = self.timezonesUpdater else { return }
 
-        for year in updater.countriesAggregated.keys {
+        for year in countriesUpdater.countriesAggregated.keys {
             var model = createModel(year: year)
-            updater.updateModel(key: year, model: &model)
+            countriesUpdater.updateModel(key: year, model: &model)
+            citiesUpdater.updateModel(key: year, model: &model)
+            timezonesUpdater.updateModel(key: year, model: &model)
+            seenAreaAndHeatmapUpdater.updateModel(key: year, model: &model)
         }
     }
 

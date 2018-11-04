@@ -12,6 +12,9 @@ import GEOSwift
 struct CountryInfo {
     var countryKey: String
     var name: String
+    var continent: String
+    var region: String
+    var subregion: String
     var latitude: Double
     var longitude: Double
     var geometry10mBytes: [UInt8]
@@ -24,7 +27,10 @@ struct CountryInfo {
          geometry50mBytes: [UInt8]?,
          geometry110mBytes: [UInt8]?,
          latitude: Double,
-         longitude: Double) {
+         longitude: Double,
+         continent: String,
+         region: String,
+         subregion: String) {
         self.countryKey = countryKey
         self.name = name
         self.latitude = latitude
@@ -32,6 +38,9 @@ struct CountryInfo {
         self.geometry10mBytes = geometry10mBytes
         self.geometry50mBytes = geometry50mBytes
         self.geometry110mBytes = geometry110mBytes
+        self.continent = continent
+        self.region = region
+        self.subregion = subregion
     }
 
     var geometry10m: Geometry? {

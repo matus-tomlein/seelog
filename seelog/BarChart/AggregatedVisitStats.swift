@@ -16,47 +16,31 @@ enum Granularity {
 }
 
 class AggregatedVisitStats {
-    var granularity: Granularity?
-    var aggregates: [Aggregate]?
+    var years: [Year]?
 
     var names: [String]? {
         get {
-            if let aggregates = self.aggregates {
+            if let aggregates = self.years {
                 return aggregates.map { $0.name }
             }
             return nil
         }
     }
 
-    func aggregateWithName(_ name: String) -> Aggregate? {
-        if let aggregates = self.aggregates {
+    func aggregateWithName(_ name: String) -> Year? {
+        if let aggregates = self.years {
             let filtered = aggregates.filter { $0.name == name }
             if filtered.count > 0 { return filtered[0] }
         }
         return nil
     }
 
-    func loadItems(granularity: Granularity, context: NSManagedObjectContext) {
-        self.granularity = granularity
-
+    func loadItems(context: NSManagedObjectContext) {
         do {
-            self.aggregates = try {
-                switch granularity {
-                case .years:
-                    let request = NSFetchRequest<Year>(entityName: "Year")
-                    request.sortDescriptors = [NSSortDescriptor(key: "year", ascending: true)]
-                    return try context.fetch(request)
-
-                case .months:
-                    let request = NSFetchRequest<Month>(entityName: "Month")
-                    request.sortDescriptors = [NSSortDescriptor(key: "month", ascending: true)]
-                    return try context.fetch(request)
-
-                case .seasons:
-                    let request = NSFetchRequest<Season>(entityName: "Season")
-                    request.sortDescriptors = [NSSortDescriptor(key: "season", ascending: true)]
-                    return try context.fetch(request)
-                }
+            self.years = try {
+                let request = NSFetchRequest<Year>(entityName: "Year")
+                request.sortDescriptors = [NSSortDescriptor(key: "year", ascending: true)]
+                return try context.fetch(request)
             }()
         } catch let err as NSError {
             print(err.debugDescription)
