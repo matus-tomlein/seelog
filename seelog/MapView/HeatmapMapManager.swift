@@ -49,7 +49,7 @@ class HeatmapMapManager: MapManager {
     }
 
     func load(year: Year, cumulative: Bool) {
-        mapView.mapType = .hybrid
+        mapView.mapType = .mutedStandard
         mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)
 
@@ -83,8 +83,8 @@ class HeatmapMapManager: MapManager {
         if let polygonProperties = polygon.polygonProperties {
              // TODO: reuse polygon renderer?
             let color = polygonProperties.polygonType == .heatmapLand ?
-                UIColor(red: 250 / 255.0, green: 245 / 255.0, blue: 238 / 255.0, alpha: polygonProperties.alpha) : // land
-                UIColor(red: 167 / 255.0, green: 225 / 255.0, blue: 244 / 255.0, alpha: polygonProperties.alpha) // water
+                UIColor(red: 43 / 255.0, green: 45 / 255.0, blue: 47 / 255.0, alpha: polygonProperties.alpha) : // water
+            UIColor(red: 49 / 255.0, green: 68 / 255.0, blue: 101 / 255.0, alpha: polygonProperties.alpha) // land
             polygonView.fillColor = color
         }
 
@@ -94,7 +94,7 @@ class HeatmapMapManager: MapManager {
     func nonPolygonRendererFor(overlay: MKOverlay) -> MKOverlayRenderer? {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.lineWidth = 1
-        renderer.strokeColor = UIColor.red
+        renderer.strokeColor = UIColor.white
         return renderer
     }
 
