@@ -20,8 +20,6 @@ class DatabaseInitializer {
 
     func start() {
         let yearStatsUpdater = YearStatsUpdater(context: context)
-//        let monthStatsUpdater = MonthStatsUpdater(context: context)
-//        let seasonStatsUpdater = SeasonStatsUpdater(context: context)
         let visitedPlacesUpdater = VisitedPlacesStats()
 
         let fetchOptions = PHFetchOptions()
@@ -35,8 +33,6 @@ class DatabaseInitializer {
             if let location = asset.location {
                 if let photo = self.savePhoto(asset: asset, location: location) {
                     yearStatsUpdater.processNewPhoto(photo: photo)
-//                    monthStatsUpdater.processNewPhoto(photo: photo)
-//                    seasonStatsUpdater.processNewPhoto(photo: photo)
                     visitedPlacesUpdater.processNewPhoto(photo: photo)
                 }
             }
@@ -49,8 +45,6 @@ class DatabaseInitializer {
         }
 
         yearStatsUpdater.update()
-//        monthStatsUpdater.update()
-//        seasonStatsUpdater.update()
         visitedPlacesUpdater.update(context: context)
 
         do {

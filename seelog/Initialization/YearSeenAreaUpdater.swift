@@ -17,20 +17,13 @@ class YearSeenAreaUpdater {
     var cumulativeSeenAreas = [Int32: Double]()
     var sinceYear: Int32
     var sinceYearModel: Year?
-    var knownGeohashes: Set<String>
-    var knownGeohashesForKey = [Int32: Set<String>]()
+    var geohashes = [Int32: Set<String>]()
+    var cumulativeGeohashes = [Int32: Set<String>]()
 
     init(sinceYear: Int32,
-         sinceYearModel: Year?,
-         knownHeatmapSquares: [HeatmapSquare]?) {
+         sinceYearModel: Year?) {
         self.sinceYear = sinceYear
         self.sinceYearModel = sinceYearModel
-
-        knownGeohashes = Set(knownHeatmapSquares?.map({ $0.geohash! }) ?? [])
-        if let sinceAggregate = sinceYearModel {
-            let knownForSince = Set(knownHeatmapSquares?.filter({ $0.lastSeenAt(aggregate: sinceAggregate) }).map({ $0.geohash! }) ?? [])
-            knownGeohashesForKey[sinceYear] = knownForSince
-        }
 
         if let wkt = sinceYearModel?.cumulativeHeatmapWKT,
             let heatmap = Helpers.geometry(fromWKT: wkt) {
@@ -41,7 +34,7 @@ class YearSeenAreaUpdater {
     }
 
     func processNewPhoto(photo: Photo, key: Int32) {
-        if let geohash = photo.geohash {
+        if let geohash = photo.geohash, let knownGeohashes = cumulativeGeohashes[key] {
             if !knownGeohashes.contains(geohash) {
                 if let squarePolygon = Helpers.polygonFor(geohash: geohash) {
                     let newHeatmap = cumulativeHeatmap?.union(squarePolygon) ?? squarePolygon
@@ -57,12 +50,15 @@ class YearSeenAreaUpdater {
                 let area = Helpers.areaOf(geohash: geohash)
                 for nextSegment in Helpers.yearsSince(key) {
                     cumulativeSeenAreas[nextSegment]! += area
-                }
 
-                knownGeohashes.insert(geohash)
+                    if var known = cumulativeGeohashes[nextSegment]{
+                        known.insert(geohash)
+                        cumulativeGeohashes[nextSegment] = known
+                    }
+                }
             }
 
-            if var known = knownGeohashesForKey[key] {
+            if var known = geohashes[key] {
                 if !known.contains(geohash) {
                     seenAreas[key]! = seenAreas[key]! + Helpers.areaOf(geohash: geohash)
 
@@ -71,7 +67,7 @@ class YearSeenAreaUpdater {
                     }
 
                     known.insert(geohash)
-                    knownGeohashesForKey[key] = known
+                    geohashes[key] = known
                 }
             }
         }
@@ -84,8 +80,10 @@ class YearSeenAreaUpdater {
             model.cumulativeHeatmapWKT = wkt
             model.cumulativeHeatmapWKTProcessed = processHeatmap(heatmap: Helpers.geometry(fromWKT: wkt))?.WKT
         }
-        model.seenArea = seenAreas[key]!
-        model.cumulativeSeenArea = cumulativeSeenAreas[key]!
+        model.seenArea = seenAreas[key] ?? 0
+        model.cumulativeSeenArea = cumulativeSeenAreas[key] ?? 0
+        model.cumulativeGeohashes = Array(cumulativeGeohashes[key] ?? Set())
+        model.geohashes = Array(geohashes[key] ?? Set())
     }
 
     private func processHeatmap(heatmap: Geometry?) -> Geometry? {
@@ -98,20 +96,16 @@ class YearSeenAreaUpdater {
     private func initializeSegments() {
         for key in Helpers.yearsSince(sinceYear) {
             seenAreas[key] = 0
-            cumulativeSeenAreas[key] = 0
-            if knownGeohashesForKey[key] == nil {
-                knownGeohashesForKey[key] = Set()
-            }
+            cumulativeSeenAreas[key] = sinceYearModel?.cumulativeSeenArea ?? 0
+            cumulativeGeohashes[key] = Set(sinceYearModel?.cumulativeGeohashes ?? [])
+            geohashes[key] = Set()
             if let wkt = cumulativeHeatmap?.WKT { cumulativeHeatmapWKTs[key] = wkt }
         }
 
         if let firstAggregate = sinceYearModel {
+            geohashes[sinceYear] = Set(firstAggregate.geohashes ?? [])
             seenAreas[sinceYear] = firstAggregate.seenArea
             if let wkt = firstAggregate.heatmapWKT, let geometry = Helpers.geometry(fromWKT: wkt) { heatmaps[sinceYear] = geometry }
-
-            for key in Helpers.yearsSince(sinceYear) {
-                cumulativeSeenAreas[key] = firstAggregate.cumulativeSeenArea
-            }
         }
     }
 }

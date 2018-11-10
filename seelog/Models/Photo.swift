@@ -29,6 +29,18 @@ extension Photo {
         return nil
     }
 
+    static func allWith(geohashes: [String], context: NSManagedObjectContext) -> [Photo]? {
+        let request = NSFetchRequest<Photo>(entityName: "Photo")
+        request.predicate = NSPredicate(format: "geohash IN %@", Array(geohashes))
+
+        do {
+            return try context.fetch(request)
+        } catch _ {
+            print("Failed to retrieve photos")
+        }
+        return nil
+    }
+
     var year: Int32? {
         get {
             if let date = creationDate { return Helpers.yearForDate(date) }

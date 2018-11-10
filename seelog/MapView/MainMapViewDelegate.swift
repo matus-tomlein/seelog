@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import GEOSwift
+import CoreData
 
 class Annotation: NSObject, MKAnnotation {
     let title: String?
@@ -45,6 +46,7 @@ enum ZoomType: String {
 
 enum PolygonType: String {
     case heatmap = "h"
+    case heatmapWater = "hw"
     case heatmapLand = "hl"
     case country = "c"
     case state = "s"
@@ -119,7 +121,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         mapManager?.longPress()
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, geoDB: GeoDatabase) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, geoDB: GeoDatabase, context: NSManagedObjectContext) {
         switch currentTab {
         case .countries:
             if let mapManager = self.mapManager as? CountriesMapManager {
@@ -133,7 +135,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
             if let mapManager = self.mapManager as? HeatmapMapManager {
                 mapManager.load(year: year, cumulative: cumulative)
             } else {
-                mapManager = HeatmapMapManager(mapView: mapView, mapViewDelegate: self)
+                mapManager = HeatmapMapManager(mapView: mapView, mapViewDelegate: self, context: context)
                 mapManager?.load(year: year, cumulative: cumulative)
             }
 
@@ -181,6 +183,8 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         } else {
             currentZoomType = .far
         }
+
+        mapManager?.viewChanged(visibleMapRect: mapView.visibleMapRect)
     }
 
 }

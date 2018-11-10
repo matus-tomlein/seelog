@@ -9,6 +9,7 @@
 import Foundation
 import GEOSwift
 import CoreLocation
+import MapKit
 
 class Helpers {
     static func seasonForDate(_ date: Date) -> String {
@@ -196,5 +197,29 @@ class Helpers {
         }
 
         return heatmap
+    }
+
+    static func geohashesIn(mapRect: MKMapRect) -> Set<String> {
+        let lowLeft = MKCoordinateForMapPoint(MKMapPoint(x: mapRect.minX, y: mapRect.minY))
+        let topRight = MKCoordinateForMapPoint(MKMapPoint(x: mapRect.maxX, y: mapRect.maxY))
+        var geohashes = Set<String>()
+
+        guard let minLatitude = [lowLeft.latitude, topRight.latitude].min(),
+            let maxLatitude = [lowLeft.latitude, topRight.latitude].max(),
+            let minLongitude = [lowLeft.longitude, topRight.longitude].min(),
+            let maxLongitude = [lowLeft.longitude, topRight.longitude].max() else { return geohashes }
+
+        var latitude = minLatitude
+        while latitude <= maxLatitude {
+            var longitude = minLongitude
+            while longitude <= maxLongitude {
+                let geohash = Geohash.encode(latitude: latitude, longitude: longitude, precision: .twentyKilometers)
+                geohashes.insert(geohash)
+                latitude += (maxLatitude - minLatitude) / 10
+                longitude += (maxLongitude - minLongitude) / 10
+            }
+        }
+
+        return geohashes
     }
 }

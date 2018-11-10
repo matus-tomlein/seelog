@@ -165,8 +165,9 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     @objc func reloadMap() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if let year = barChartSelection?.currentAggregate {
-            mapViewDelegate?.load(currentTab: currentTab, year: year, cumulative: aggregateChart, geoDB: geoDB)
+            mapViewDelegate?.load(currentTab: currentTab, year: year, cumulative: aggregateChart, geoDB: geoDB, context: appDelegate.persistentContainer.viewContext)
         }
     }
 

@@ -8,6 +8,7 @@
 
 import Foundation
 import MapKit
+import GEOSwift
 
 class CountriesMapManager: MapManager {
     var mapView: MKMapView
@@ -68,6 +69,7 @@ class CountriesMapManager: MapManager {
     }
 
     func updateForZoomType(_ zoomType: ZoomType) {}
+    func viewChanged(visibleMapRect: MKMapRect) {}
 
     func longPress() {}
 
@@ -95,7 +97,7 @@ class CountriesMapManager: MapManager {
     func viewFor(annotation: MKAnnotation) -> MKAnnotationView? {
         return nil
     }
-
+    
     private func createPolygon(forStateKey stateKey: String) {
         if let stateInfo = geoDB.stateInfoFor(stateKey: stateKey) {
             var closeZoomTypes: [ZoomType] = [.close]

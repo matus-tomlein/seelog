@@ -41,6 +41,8 @@ class CitiesMapManager: MapManager {
         }
     }
 
+    func viewChanged(visibleMapRect: MKMapRect) {}
+
     func longPress() {
     }
 
@@ -77,6 +79,5 @@ class CitiesMapManager: MapManager {
         view.isHidden = !annotation.zoomTypes.contains(mapViewDelegate.currentZoomType)
         return view
     }
-
 
 }

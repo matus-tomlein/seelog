@@ -9,11 +9,13 @@
 import Foundation
 import MapKit
 import GEOSwift
+import CoreData
 
 class HeatmapMapManager: MapManager {
 
     var mapView: MKMapView
     var mapViewDelegate: MainMapViewDelegate
+    var photoViewer: PhotoMapViewer
 
     static var _landsPolygon: Geometry?
     static var _waterPolygon: Geometry?
@@ -43,13 +45,18 @@ class HeatmapMapManager: MapManager {
         }
     }
 
-    init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate) {
+    init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, context: NSManagedObjectContext) {
         self.mapView = mapView
         self.mapViewDelegate = mapViewDelegate
+
+        photoViewer = PhotoMapViewer(mapView: mapView,
+                                     mapViewDelegate: mapViewDelegate,
+                                     context: context)
     }
 
     func load(year: Year, cumulative: Bool) {
-        mapView.mapType = .mutedStandard
+        mapView.mapType = .hybrid
+        photoViewer.unload()
         mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)
 
@@ -63,7 +70,7 @@ class HeatmapMapManager: MapManager {
                                                                             alpha: 1))
                 mapViewDelegate.addGeometryToMap(water, polygonProperties: PolygonProperties(name: year.name,
                                                                              zoomTypes: [.close, .medium, .far],
-                                                                             polygonType: .heatmap,
+                                                                             polygonType: .heatmapWater,
                                                                              alpha: 1))
 
                 if let boundaries = heatmap.boundary()?.mapShape() as? MKShapesCollection {
@@ -74,7 +81,16 @@ class HeatmapMapManager: MapManager {
                     }
                 }
             }
+
+            if let bufferedHeatmap = heatmap.buffer(width: 0.4) {
+                mapViewDelegate.addGeometryToMap(bufferedHeatmap, polygonProperties: PolygonProperties(name: year.name + "-buffered",
+                                                                                                       zoomTypes: [.far],
+                                                                                                       polygonType: .heatmap,
+                                                                                                       alpha: 1))
+            }
         }
+
+        photoViewer.load(year: year, cumulative: cumulative)
     }
 
     func rendererFor(polygon: MKPolygon) -> MKOverlayRenderer? {
@@ -82,20 +98,41 @@ class HeatmapMapManager: MapManager {
 
         if let polygonProperties = polygon.polygonProperties {
              // TODO: reuse polygon renderer?
-            let color = polygonProperties.polygonType == .heatmapLand ?
-                UIColor(red: 43 / 255.0, green: 45 / 255.0, blue: 47 / 255.0, alpha: polygonProperties.alpha) : // water
-            UIColor(red: 49 / 255.0, green: 68 / 255.0, blue: 101 / 255.0, alpha: polygonProperties.alpha) // land
-            polygonView.fillColor = color
+            switch polygonProperties.polygonType {
+            case .heatmapLand:
+                polygonView.fillColor = UIColor(red: 43 / 255.0, green: 45 / 255.0, blue: 47 / 255.0, alpha: polygonProperties.alpha)
+
+            case .heatmapWater:
+                polygonView.fillColor = UIColor(red: 49 / 255.0, green: 68 / 255.0, blue: 101 / 255.0, alpha: polygonProperties.alpha)
+
+            default:
+                polygonView.fillColor = UIColor.white
+            }
         }
 
         return polygonView
     }
 
     func nonPolygonRendererFor(overlay: MKOverlay) -> MKOverlayRenderer? {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.lineWidth = 1
-        renderer.strokeColor = UIColor.white
-        return renderer
+        if overlay is ImageOverlay {
+            return ImageOverlayRenderer(overlay: overlay)
+        }
+        if let imageBorder = overlay as? ImageBorderPolyline {
+            let renderer = MKPolylineRenderer(overlay: imageBorder)
+            renderer.lineWidth = 3
+            renderer.strokeColor = UIColor.white
+            return renderer
+        } else if let circle = overlay as? MKCircle {
+            let renderer = MKCircleRenderer(overlay: circle)
+            renderer.lineWidth = 3
+            renderer.strokeColor = UIColor.red
+            return renderer
+        } else {
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.lineWidth = 1
+            renderer.strokeColor = UIColor.white
+            return renderer
+        }
     }
 
     func viewFor(annotation: MKAnnotation) -> MKAnnotationView? {
@@ -103,6 +140,10 @@ class HeatmapMapManager: MapManager {
     }
 
     func updateForZoomType(_ zoomType: ZoomType) {}
+
+    func viewChanged(visibleMapRect: MKMapRect) {
+        photoViewer.viewChanged(visibleMapRect: visibleMapRect)
+    }
 
     var lastActiveLongPress: TimeInterval?
     func longPress() {
@@ -127,7 +168,7 @@ class HeatmapMapManager: MapManager {
         for overlay in mapView.overlays {
             if let polygon = overlay as? MKPolygon,
                 let polygonProperties = polygon.polygonProperties {
-                if polygonProperties.polygonType == .heatmap || polygonProperties.polygonType == .heatmapLand {
+                if polygonProperties.polygonType == .heatmapWater || polygonProperties.polygonType == .heatmapLand {
                     mapView.renderer(for: overlay)?.alpha = alpha
                 }
             }

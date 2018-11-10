@@ -67,6 +67,10 @@ extension Year {
         return cumulative ? cumulativeCities : cities
     }
 
+    func geohashes(cumulative: Bool) -> [String]? {
+        return cumulative ? cumulativeGeohashes : geohashes
+    }
+
     func continents(cumulative: Bool, geoDB: GeoDatabase) -> [String]? {
         if let countries = countries(cumulative: cumulative, geoDB: geoDB) {
             return Array(Set(countries.map({ $0.continent }))).sorted()

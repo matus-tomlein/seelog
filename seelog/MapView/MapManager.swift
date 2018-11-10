@@ -12,6 +12,7 @@ import MapKit
 protocol MapManager {
     func load(year: Year, cumulative: Bool)
     func updateForZoomType(_ zoomType: ZoomType)
+    func viewChanged(visibleMapRect: MKMapRect)
     func longPress()
     func rendererFor(polygon: MKPolygon) -> MKOverlayRenderer?
     func nonPolygonRendererFor(overlay: MKOverlay) -> MKOverlayRenderer?

@@ -28,7 +28,6 @@ class YearStatsUpdater {
 
         if countriesUpdater == nil {
             let sinceKey = sinceAggregate?.year ?? year
-            let knownHeatmapSquares = HeatmapSquare.all(context: context)
 
             countriesUpdater = YearCountriesUpdater(sinceKey: sinceKey,
                                                     sinceAggregate: sinceAggregate)
@@ -37,8 +36,7 @@ class YearStatsUpdater {
                                               sinceAggregate: sinceAggregate)
 
             seenAreaAndHeatmapUpdater = YearSeenAreaUpdater(sinceYear: sinceKey,
-                                                            sinceYearModel: sinceAggregate,
-                                                            knownHeatmapSquares: knownHeatmapSquares)
+                                                            sinceYearModel: sinceAggregate)
 
             timezonesUpdater = YearTimezonesUpdater(sinceKey: sinceKey,
                                                     sinceAggregate: sinceAggregate)
