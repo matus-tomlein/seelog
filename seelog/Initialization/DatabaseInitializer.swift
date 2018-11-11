@@ -20,7 +20,7 @@ class DatabaseInitializer {
 
     func start() {
         let yearStatsUpdater = YearStatsUpdater(context: context)
-        let visitedPlacesUpdater = VisitedPlacesStats()
+//        let visitedPlacesUpdater = VisitedPlacesStats()
 
         let fetchOptions = PHFetchOptions()
         if let creationDate = Photo.lastCreationDate(context: self.context) {
@@ -33,24 +33,19 @@ class DatabaseInitializer {
             if let location = asset.location {
                 if let photo = self.savePhoto(asset: asset, location: location) {
                     yearStatsUpdater.processNewPhoto(photo: photo)
-                    visitedPlacesUpdater.processNewPhoto(photo: photo)
+//                    visitedPlacesUpdater.processNewPhoto(photo: photo)
                 }
             }
         }
 
-        do {
-            try context.save()
-        } catch {
-            print("Failed saving")
-        }
-
         yearStatsUpdater.update()
-        visitedPlacesUpdater.update(context: context)
+//        visitedPlacesUpdater.update(context: context)
 
         do {
             try context.save()
         } catch {
             print("Failed saving.")
+            print(error)
         }
     }
 
@@ -62,6 +57,7 @@ class DatabaseInitializer {
         let newPhoto = Photo(context: self.context)
         newPhoto.altitude = location.altitude
         newPhoto.creationDate = asset.creationDate
+        if let date = asset.creationDate { newPhoto.year = Helpers.yearForDate(date) }
         newPhoto.latitude = location.coordinate.latitude
         newPhoto.localIdentifier = asset.localIdentifier
         newPhoto.longitude = location.coordinate.longitude

@@ -30,7 +30,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <segue destination="B8h-NQ-aJa" kind="showDetail" identifier="continue" id="VF3-a0-FP9"/>
+                        <segue destination="mXn-og-8hO" kind="showDetail" identifier="continue" id="nDb-C2-4j9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -40,6 +40,7 @@
         <!--Report View Controller-->
         <scene sceneID="gbM-6t-bgP">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3z5-8u-42p" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="mXn-og-8hO" customClass="ReportViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="R46-zw-7Gk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
@@ -52,7 +53,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rvx-ty-5Do">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="546"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                                         <subviews>
                                             <view opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V1P-4c-ckx">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="10"/>
@@ -60,42 +61,82 @@
                                                     <constraint firstAttribute="height" constant="10" id="3vN-RK-057"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YGm-I1-ROJ">
-                                                <rect key="frame" x="0.0" y="10" width="375" height="56"/>
+                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oTm-3q-XG7">
+                                                <rect key="frame" x="0.0" y="10" width="375" height="64"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="EiH-Pu-KbN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Qbj-DR-kmN">
+                                                        <rect key="frame" x="0.0" y="0.0" width="712" height="61"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" preservesSuperviewLayoutMargins="YES" text="loading..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="48" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuW-aj-jFH">
-                                                                <rect key="frame" x="8" y="8" width="359" height="40"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="40" id="G9p-aa-Wqt"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
-                                                                <color key="textColor" red="0.36892619729042053" green="0.66445672512054443" blue="0.94513219594955444" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
+                                                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SpU-qg-saG">
+                                                                <rect key="frame" x="30" y="14" width="57" height="39"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                <state key="normal" title="0 km²"/>
+                                                                <connections>
+                                                                    <action selector="seenAreaButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="R3H-SH-PBg"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Y0-lx-T2s">
+                                                                <rect key="frame" x="107" y="14" width="114" height="39"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                <state key="normal" title="0 countries"/>
+                                                                <connections>
+                                                                    <action selector="countriesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="EuF-mf-o8c"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StA-yE-hAe">
+                                                                <rect key="frame" x="241" y="14" width="81" height="39"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                <state key="normal" title="0 states"/>
+                                                                <connections>
+                                                                    <action selector="statesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="GDk-6N-yyl"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vJ5-yF-XF5">
+                                                                <rect key="frame" x="342" y="14" width="73" height="39"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                <state key="normal" title="0 cities"/>
+                                                                <connections>
+                                                                    <action selector="citiesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="zEf-VE-LD5"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EDN-xE-lul">
+                                                                <rect key="frame" x="435" y="14" width="126" height="39"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                <state key="normal" title="0 continents"/>
+                                                                <connections>
+                                                                    <action selector="continentsButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="hAt-nw-Nbr"/>
+                                                                </connections>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sBa-sr-UFp">
+                                                                <rect key="frame" x="581" y="14" width="123" height="39"/>
+                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                <state key="normal" title="0 timezones"/>
+                                                                <connections>
+                                                                    <action selector="timezonesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="xWR-P6-vG2"/>
+                                                                </connections>
+                                                            </button>
                                                         </subviews>
-                                                        <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                                                        <edgeInsets key="layoutMargins" top="14" left="30" bottom="8" right="8"/>
                                                     </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="EiH-Pu-KbN" firstAttribute="leading" secondItem="YGm-I1-ROJ" secondAttribute="leading" id="6hk-Dj-cDx"/>
-                                                    <constraint firstAttribute="trailing" secondItem="EiH-Pu-KbN" secondAttribute="trailing" id="Tmd-GR-3DX"/>
-                                                    <constraint firstAttribute="bottom" secondItem="EiH-Pu-KbN" secondAttribute="bottom" id="cWX-kU-ptY"/>
-                                                    <constraint firstItem="EiH-Pu-KbN" firstAttribute="top" secondItem="YGm-I1-ROJ" secondAttribute="top" id="elH-zZ-MFi"/>
+                                                    <constraint firstItem="Qbj-DR-kmN" firstAttribute="leading" secondItem="oTm-3q-XG7" secondAttribute="leading" id="75N-MU-VDR"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Qbj-DR-kmN" secondAttribute="trailing" id="DNJ-I6-mgY"/>
+                                                    <constraint firstItem="Qbj-DR-kmN" firstAttribute="top" secondItem="oTm-3q-XG7" secondAttribute="top" id="Ygc-nM-LT2"/>
+                                                    <constraint firstAttribute="height" constant="64" id="mDU-cp-g40"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Qbj-DR-kmN" secondAttribute="bottom" id="zk8-xc-Y2w"/>
                                                 </constraints>
-                                            </view>
+                                            </scrollView>
                                             <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o7w-ya-eAc" customClass="HistoryChartView" customModule="seelog" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="66" width="375" height="200"/>
+                                                <rect key="frame" x="0.0" y="74" width="375" height="200"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="bDO-ve-Oq6"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="khi-UM-STI">
-                                                <rect key="frame" x="0.0" y="266" width="375" height="50"/>
+                                                <rect key="frame" x="0.0" y="274" width="375" height="50"/>
                                                 <subviews>
                                                     <stackView contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HDL-Ts-40o">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
@@ -121,14 +162,14 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SfL-nc-JWa">
-                                                <rect key="frame" x="0.0" y="316" width="375" height="20"/>
+                                                <rect key="frame" x="0.0" y="324" width="375" height="20"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="ytw-96-fB4"/>
                                                 </constraints>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lOJ-Uw-dTl">
-                                                <rect key="frame" x="0.0" y="336" width="375" height="200"/>
+                                                <rect key="frame" x="0.0" y="344" width="375" height="200"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="jyD-to-tQZ"/>
@@ -229,7 +270,7 @@
                                                 </connections>
                                             </tableView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tuL-zt-5u1">
-                                                <rect key="frame" x="0.0" y="536" width="375" height="10"/>
+                                                <rect key="frame" x="0.0" y="544" width="375" height="10"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="10" id="Ez2-cG-UT6"/>
@@ -238,9 +279,13 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="SfL-nc-JWa" firstAttribute="top" secondItem="khi-UM-STI" secondAttribute="bottom" id="84I-NQ-Bb0"/>
+                                            <constraint firstItem="o7w-ya-eAc" firstAttribute="top" secondItem="oTm-3q-XG7" secondAttribute="bottom" id="KcS-0s-Grr"/>
                                             <constraint firstAttribute="trailing" secondItem="SfL-nc-JWa" secondAttribute="trailing" id="MZO-oq-uQZ"/>
+                                            <constraint firstItem="oTm-3q-XG7" firstAttribute="top" secondItem="V1P-4c-ckx" secondAttribute="bottom" id="Ozc-Je-nqk"/>
                                             <constraint firstItem="SfL-nc-JWa" firstAttribute="leading" secondItem="rvx-ty-5Do" secondAttribute="leading" id="PRx-ld-2LX"/>
+                                            <constraint firstItem="o7w-ya-eAc" firstAttribute="top" secondItem="oTm-3q-XG7" secondAttribute="bottom" id="gaT-yF-7Mm"/>
                                             <constraint firstItem="lOJ-Uw-dTl" firstAttribute="top" secondItem="SfL-nc-JWa" secondAttribute="bottom" id="jUE-rY-wQg"/>
+                                            <constraint firstItem="oTm-3q-XG7" firstAttribute="top" secondItem="V1P-4c-ckx" secondAttribute="bottom" id="m14-og-Kso"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -269,49 +314,24 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dlJ-Px-4L0"/>
                     </view>
-                    <navigationItem key="navigationItem" id="JGe-BS-5s1">
-                        <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="avA-Hh-9UM">
-                            <rect key="frame" x="36" y="7" width="304" height="30"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Explored"/>
-                                <segment title="Countries"/>
-                                <segment title="Cities"/>
-                            </segments>
-                        </segmentedControl>
-                    </navigationItem>
                     <connections>
-                        <outlet property="accumulateSegmentedContent" destination="oZO-Yw-NLp" id="2xj-ZS-bWB"/>
-                        <outlet property="contentSegmentedControl" destination="avA-Hh-9UM" id="MXR-Xo-n9w"/>
+                        <outlet property="accumulateSegmentedControl" destination="oZO-Yw-NLp" id="mG6-Oe-JGv"/>
+                        <outlet property="citiesButton" destination="vJ5-yF-XF5" id="ETd-SK-oJW"/>
+                        <outlet property="continentsButton" destination="EDN-xE-lul" id="EZ0-bN-sgl"/>
+                        <outlet property="countriesButton" destination="9Y0-lx-T2s" id="xfh-aP-x4L"/>
                         <outlet property="historyBarChartView" destination="o7w-ya-eAc" id="Jrx-cu-azD"/>
                         <outlet property="mapCellHeight" destination="3vN-RK-057" id="NWf-G8-2KL"/>
                         <outlet property="mapView" destination="IU4-L8-kbv" id="QJ1-vK-lWG"/>
-                        <outlet property="numberOfVisitedCountriesLabel" destination="TuW-aj-jFH" id="O4z-US-sU8"/>
                         <outlet property="scrollView" destination="HJe-h6-OIp" id="k7M-fZ-y5D"/>
+                        <outlet property="seenAreaButton" destination="SpU-qg-saG" id="Dht-bP-agc"/>
+                        <outlet property="statesButton" destination="StA-yE-hAe" id="OTn-cL-nhF"/>
                         <outlet property="tableView" destination="lOJ-Uw-dTl" id="K5P-u1-pPO"/>
                         <outlet property="tableViewHeight" destination="jyD-to-tQZ" id="UbH-wY-fmw"/>
+                        <outlet property="timezonesButton" destination="sBa-sr-UFp" id="rbr-o4-lQC"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3z5-8u-42p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2316" y="139.65517241379311"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="nNj-ph-FEt">
-            <objects>
-                <navigationController id="B8h-NQ-aJa" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zHa-bI-8Y1">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="mXn-og-8hO" kind="relationship" relationship="rootViewController" id="Ctf-dW-hIl"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SpQ-ZY-n8N" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1436" y="140"/>
+            <point key="canvasLocation" x="1721" y="140"/>
         </scene>
     </scenes>
 </document>

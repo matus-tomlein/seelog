@@ -21,7 +21,10 @@ class CitiesMapManager: MapManager {
         self.geoDB = geoDB
     }
 
-    func load(year: Year, cumulative: Bool) {
+    func unload() {
+    }
+
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         mapView.mapType = .mutedStandard
         mapView.removeOverlays(mapView.overlays)
         
@@ -30,7 +33,6 @@ class CitiesMapManager: MapManager {
             if let cityInfo = geoDB.cityInfoFor(cityKey: cityKey) {
                 let circle = MKCircle(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude), radius: 1000)
                 mapView.add(circle)
-
             }
         }
     }

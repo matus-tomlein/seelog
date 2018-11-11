@@ -54,43 +54,55 @@ class HeatmapMapManager: MapManager {
                                      context: context)
     }
 
-    func load(year: Year, cumulative: Bool) {
-        mapView.mapType = .hybrid
-        photoViewer.unload()
-        mapView.removeAnnotations(mapView.annotations)
-        mapView.removeOverlays(mapView.overlays)
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
+        mapView.mapType = .mutedStandard
+        unload()
 
-        if let wkt = year.heatmapWKT(cumulative: cumulative),
-            let heatmap = Helpers.geometry(fromWKT: wkt) {
-            if let land = HeatmapMapManager.landsPolygon?.difference(heatmap),
-                let water = HeatmapMapManager.waterPolygon?.difference(heatmap) {
-                mapViewDelegate.addGeometryToMap(land, polygonProperties: PolygonProperties(name: year.name,
-                                                                            zoomTypes: [.close, .medium, .far],
-                                                                            polygonType: .heatmapLand,
-                                                                            alpha: 1))
-                mapViewDelegate.addGeometryToMap(water, polygonProperties: PolygonProperties(name: year.name,
-                                                                             zoomTypes: [.close, .medium, .far],
-                                                                             polygonType: .heatmapWater,
-                                                                             alpha: 1))
+        DispatchQueue.global(qos: .background).async {
+            if let waterWKT = year.waterWKT(cumulative: cumulative),
+                let landWKT = year.landWKT(cumulative: cumulative),
+                let land = Helpers.geometry(fromWKT: landWKT),
+                let water = Helpers.geometry(fromWKT: waterWKT) {
+                DispatchQueue.main.async {
+                    self.mapViewDelegate.addGeometryToMap(land, polygonProperties: PolygonProperties(name: year.name,
+                                                                                zoomTypes: [.close, .medium, .far],
+                                                                                polygonType: .heatmapLand,
+                                                                                alpha: 1))
+                    self.mapViewDelegate.addGeometryToMap(water, polygonProperties: PolygonProperties(name: year.name,
+                                                                                 zoomTypes: [.close, .medium, .far],
+                                                                                 polygonType: .heatmapWater,
+                                                                                 alpha: 1))
 
-                if let boundaries = heatmap.boundary()?.mapShape() as? MKShapesCollection {
-                    for boundary in boundaries.shapes {
-                        if let polyline = boundary as? MKPolyline {
-                            mapView.add(polyline)
-                        }
-                    }
+                    self.mapView.centerCoordinate = self.mapView.centerCoordinate
                 }
             }
 
-            if let bufferedHeatmap = heatmap.buffer(width: 0.4) {
-                mapViewDelegate.addGeometryToMap(bufferedHeatmap, polygonProperties: PolygonProperties(name: year.name + "-buffered",
-                                                                                                       zoomTypes: [.far],
-                                                                                                       polygonType: .heatmap,
-                                                                                                       alpha: 1))
+            if let heatmapWKT = year.processedHeatmapWKT(cumulative: cumulative),
+                let heatmap = Helpers.geometry(fromWKT: heatmapWKT),
+                let boundaries = heatmap.boundary()?.mapShape() as? MKShapesCollection,
+                let bufferedHeatmap = heatmap.buffer(width: 0.4) {
+                DispatchQueue.main.async {
+                    for boundary in boundaries.shapes {
+                        if let polyline = boundary as? MKPolyline {
+                            self.mapView.add(polyline)
+                        }
+                    }
+
+                    self.mapViewDelegate.addGeometryToMap(bufferedHeatmap, polygonProperties: PolygonProperties(name: year.name + "-buffered",
+                                                                                                                zoomTypes: [.far],
+                                                                                                                polygonType: .heatmap,
+                                                                                                                alpha: 1))
+                }
             }
         }
 
-        photoViewer.load(year: year, cumulative: cumulative)
+        self.photoViewer.load(year: year, cumulative: cumulative)
+    }
+
+    func unload() {
+        photoViewer.unload()
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays)
     }
 
     func rendererFor(polygon: MKPolygon) -> MKOverlayRenderer? {
@@ -120,7 +132,7 @@ class HeatmapMapManager: MapManager {
         if let imageBorder = overlay as? ImageBorderPolyline {
             let renderer = MKPolylineRenderer(overlay: imageBorder)
             renderer.lineWidth = 3
-            renderer.strokeColor = UIColor.white
+            renderer.strokeColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
             return renderer
         } else if let circle = overlay as? MKCircle {
             let renderer = MKCircleRenderer(overlay: circle)

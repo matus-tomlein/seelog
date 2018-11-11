@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18B75" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="GeometryWKT" representedClassName="GeometryWKT" syncable="YES" codeGenerationType="class">
+        <attribute name="wkt" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="HeatmapSquare" representedClassName="HeatmapSquare" syncable="YES" codeGenerationType="class">
         <attribute name="count" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="geohash" attributeType="String" syncable="YES"/>
@@ -18,6 +21,7 @@
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="stateKey" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timezone" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="year" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="VisitedCity" representedClassName="VisitedCity" syncable="YES" codeGenerationType="class">
         <attribute name="cityKey" attributeType="Integer 64" usesScalarValueType="YES" syncable="YES"/>
@@ -32,22 +36,27 @@
         <attribute name="cumulativeCities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
         <attribute name="cumulativeCountries" optional="YES" attributeType="Transformable" customClassName="[String: [String]]" syncable="YES"/>
         <attribute name="cumulativeGeohashes" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
-        <attribute name="cumulativeHeatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="cumulativeHeatmapWKTProcessed" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cumulativeSeenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="cumulativeTimezones" optional="YES" attributeType="Transformable" customClassName="[Int32]" syncable="YES"/>
         <attribute name="geohashes" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
-        <attribute name="heatmapWKT" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="heatmapWKTProcessed" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="seenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timezones" optional="YES" attributeType="Transformable" customClassName="[Int32]" syncable="YES"/>
         <attribute name="year" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="cumulativeHeatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
+        <relationship name="cumulativeLandWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
+        <relationship name="cumulativeProcessedHeatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
+        <relationship name="cumulativeWaterWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
+        <relationship name="heatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
+        <relationship name="landWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
+        <relationship name="processedHeatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
+        <relationship name="waterWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
     </entity>
     <elements>
+        <element name="GeometryWKT" positionX="630" positionY="360" width="128" height="60"/>
         <element name="HeatmapSquare" positionX="630" positionY="279" width="128" height="120"/>
-        <element name="Photo" positionX="619" positionY="216" width="128" height="195"/>
+        <element name="Photo" positionX="619" positionY="216" width="128" height="210"/>
         <element name="VisitedCity" positionX="639" positionY="297" width="128" height="60"/>
         <element name="VisitedCountry" positionX="630" positionY="279" width="128" height="75"/>
-        <element name="Year" positionX="621" positionY="279" width="128" height="270"/>
+        <element name="Year" positionX="621" positionY="279" width="128" height="330"/>
     </elements>
 </model>

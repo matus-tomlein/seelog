@@ -23,20 +23,27 @@ class ReportScrollView: UIScrollView {
 enum SelectedTab {
     case places
     case countries
+    case states
     case cities
+    case timezones
+    case continents
 }
 
 class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet weak var numberOfVisitedCountriesLabel: UILabel!
-    @IBOutlet weak var historyBarChartView: HistoryChartView!
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var scrollView: ReportScrollView!
-    @IBOutlet weak var contentSegmentedControl: UISegmentedControl!
     @IBOutlet weak var mapCellHeight: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: ReportScrollView!
+    @IBOutlet weak var historyBarChartView: HistoryChartView!
+    @IBOutlet weak var accumulateSegmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var accumulateSegmentedContent: UISegmentedControl!
+    @IBOutlet weak var seenAreaButton: UIButton!
+    @IBOutlet weak var countriesButton: UIButton!
+    @IBOutlet weak var statesButton: UIButton!
+    @IBOutlet weak var continentsButton: UIButton!
+    @IBOutlet weak var citiesButton: UIButton!
+    @IBOutlet weak var timezonesButton: UIButton!
 
     var mapViewDelegate: MainMapViewDelegate?
     var barChartSelection: ReportBarChartSelection? {
@@ -47,20 +54,11 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     var aggregateChart: Bool {
         get {
-            return accumulateSegmentedContent.selectedSegmentIndex == 0
+            return accumulateSegmentedControl.selectedSegmentIndex == 0
         }
     }
 
-    var currentTab: SelectedTab {
-        get {
-            if contentSegmentedControl.selectedSegmentIndex == 0 {
-                return .places
-            } else if contentSegmentedControl.selectedSegmentIndex == 1 {
-                return .countries
-            }
-            return .cities
-        }
-    }
+    var currentTab: SelectedTab = .places
 
     var geoDB = GeoDatabase()
 
@@ -79,10 +77,8 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         mapViewDelegate = MainMapViewDelegate(mapView: mapView)
         mapView.delegate = mapViewDelegate
 
-        contentSegmentedControl.addTarget(self, action: #selector(reloadAll), for: .valueChanged)
-
         loadData()
-        accumulateSegmentedContent.addTarget(self, action: #selector(accumulateStateChanged), for: .valueChanged)
+        accumulateSegmentedControl.addTarget(self, action: #selector(accumulateStateChanged), for: .valueChanged)
 
         scrollView.setContentOffset(CGPoint(
             x: scrollView.contentOffset.x,
@@ -139,14 +135,20 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     func reloadTableView() {
         if let year = barChartSelection?.currentAggregate {
             switch currentTab {
-            case .countries:
+            case .places:
+                tableViewManager = HeatmapTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+
+            case .countries, .states:
                 tableViewManager = CountriesTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
 
             case .cities:
                 tableViewManager = CitiesTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
 
-            case .places:
-                tableViewManager = HeatmapTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+            case .timezones:
+                tableViewManager = TimezonesTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+
+            case .continents:
+                tableViewManager = ContinentsTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
             }
         }
         tableView.reloadData()
@@ -167,18 +169,74 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     @objc func reloadMap() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if let year = barChartSelection?.currentAggregate {
-            mapViewDelegate?.load(currentTab: currentTab, year: year, cumulative: aggregateChart, geoDB: geoDB, context: appDelegate.persistentContainer.viewContext)
+            mapViewDelegate?.load(currentTab: currentTab,
+                                  year: year,
+                                  cumulative: aggregateChart,
+                                  geoDB: geoDB,
+                                  context: appDelegate.persistentContainer.viewContext)
         }
     }
 
     func reloadStatLabel() {
-        let value = barChartSelection?.currentAggregate?.chartValue(selectedTab: currentTab, cumulative: aggregateChart) ?? 0
+        if let year = barChartSelection?.currentAggregate {
+            countriesButton.setTitle("\(year.numberOfCountries(cumulative: aggregateChart)) countries", for: .normal)
+            statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) states", for: .normal)
+            citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
+            seenAreaButton.setTitle("\(year.seenArea(cumulative: aggregateChart)) km²", for: .normal)
+            continentsButton.setTitle("\(year.numberOfContinents(cumulative: aggregateChart, geoDB: geoDB)) continents", for: .normal)
+            timezonesButton.setTitle("\(year.numberOfTimezones(cumulative: aggregateChart, geoDB: geoDB)) timezones", for: .normal)
+        }
+    }
 
-        var unit = " km²"
-        if currentTab == .countries { unit = " countries" }
-        else if currentTab == .cities { unit = " cities" }
+    @IBAction func seenAreaButtonTriggered(_ sender: Any) {
+        currentTab = .places
+        deselectAllButtons()
+        seenAreaButton.isSelected = true
+        reloadAllAndScrollChart(false)
+    }
 
-        numberOfVisitedCountriesLabel.text = String(Int(round(value))) + unit
+    @IBAction func countriesButtonTriggered(_ sender: Any) {
+        currentTab = .countries
+        deselectAllButtons()
+        countriesButton.isSelected = true
+        reloadAllAndScrollChart(false)
+    }
+
+    @IBAction func statesButtonTriggered(_ sender: Any) {
+        currentTab = .states
+        deselectAllButtons()
+        statesButton.isSelected = true
+        reloadAllAndScrollChart(false)
+    }
+
+    @IBAction func citiesButtonTriggered(_ sender: Any) {
+        currentTab = .cities
+        deselectAllButtons()
+        citiesButton.isSelected = true
+        reloadAllAndScrollChart(false)
+    }
+
+    @IBAction func continentsButtonTriggered(_ sender: Any) {
+        currentTab = .continents
+        deselectAllButtons()
+        continentsButton.isSelected = true
+        reloadAllAndScrollChart(false)
+    }
+
+    @IBAction func timezonesButtonTriggered(_ sender: Any) {
+        currentTab = .timezones
+        deselectAllButtons()
+        timezonesButton.isSelected = true
+        reloadAllAndScrollChart(false)
+    }
+    
+    private func deselectAllButtons() {
+        seenAreaButton.isSelected = false
+        countriesButton.isSelected = false
+        statesButton.isSelected = false
+        citiesButton.isSelected = false
+        continentsButton.isSelected = false
+        timezonesButton.isSelected = false
     }
 
     private func loadData() {

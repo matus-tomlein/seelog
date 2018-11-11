@@ -123,28 +123,31 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
 
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool, geoDB: GeoDatabase, context: NSManagedObjectContext) {
         switch currentTab {
-        case .countries:
+        case .countries, .states:
             if let mapManager = self.mapManager as? CountriesMapManager {
-                mapManager.load(year: year, cumulative: cumulative)
+                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
             } else {
+                mapManager?.unload()
                 mapManager = CountriesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-                mapManager?.load(year: year, cumulative: cumulative)
+                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
 
         case .places:
             if let mapManager = self.mapManager as? HeatmapMapManager {
-                mapManager.load(year: year, cumulative: cumulative)
+                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
             } else {
+                mapManager?.unload()
                 mapManager = HeatmapMapManager(mapView: mapView, mapViewDelegate: self, context: context)
-                mapManager?.load(year: year, cumulative: cumulative)
+                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
 
-        case .cities:
+        case .cities, .timezones, .continents:
             if let mapManager = self.mapManager as? CitiesMapManager {
-                mapManager.load(year: year, cumulative: cumulative)
+                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
             } else {
+                mapManager?.unload()
                 mapManager = CitiesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-                mapManager?.load(year: year, cumulative: cumulative)
+                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
         }
     }

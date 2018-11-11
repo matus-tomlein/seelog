@@ -29,21 +29,54 @@ extension Year {
         get { return String(year) }
     }
 
-    func chartValue(selectedTab: SelectedTab, cumulative: Bool) -> Double {
+    func chartValue(selectedTab: SelectedTab, cumulative: Bool, geoDB: GeoDatabase) -> Double {
         switch selectedTab {
         case .countries:
-            return cumulative ? Double(cumulativeCountries?.count ?? 0) : Double(countries?.count ?? 0)
+            return Double(numberOfCountries(cumulative: cumulative))
 
         case .cities:
-            return cumulative ? Double(cumulativeCities?.count ?? 0) : Double(cities?.count ?? 0)
+            return Double(numberOfCities(cumulative: cumulative))
 
         case .places:
-            return cumulative ? cumulativeSeenArea : seenArea
+            return Double(seenArea(cumulative: cumulative))
+
+        case .states:
+            return Double(numberOfStates(cumulative: cumulative))
+
+        case .continents:
+            return Double(numberOfContinents(cumulative: cumulative, geoDB: geoDB))
+
+        case .timezones:
+            return Double(numberOfTimezones(cumulative: cumulative, geoDB: geoDB))
         }
     }
 
-    func chartLabel(selectedTab: SelectedTab, cumulative: Bool) -> String {
-        let value = chartValue(selectedTab: selectedTab, cumulative: cumulative)
+    func numberOfCountries(cumulative: Bool) -> Int {
+        return cumulative ? cumulativeCountries?.count ?? 0 : countries?.count ?? 0
+    }
+
+    func numberOfCities(cumulative: Bool) -> Int {
+        return cumulative ? cumulativeCities?.count ?? 0 : cities?.count ?? 0
+    }
+
+    func seenArea(cumulative: Bool) -> Int {
+        return Int(round(cumulative ? cumulativeSeenArea : seenArea))
+    }
+
+    func numberOfStates(cumulative: Bool) -> Int {
+        return cumulative ? countStates(countriesAndStates: cumulativeCountries ?? [:]) : countStates(countriesAndStates: countries ?? [:])
+    }
+
+    func numberOfContinents(cumulative: Bool, geoDB: GeoDatabase) -> Int {
+        return continents(cumulative: cumulative, geoDB: geoDB)?.count ?? 0
+    }
+
+    func numberOfTimezones(cumulative: Bool, geoDB: GeoDatabase) -> Int {
+        return timezones(cumulative: cumulative, geoDB: geoDB)?.count ?? 0
+    }
+
+    func chartLabel(selectedTab: SelectedTab, cumulative: Bool, geoDB: GeoDatabase) -> String {
+        let value = chartValue(selectedTab: selectedTab, cumulative: cumulative, geoDB: geoDB)
         if selectedTab == .countries {
             return String(Int(value))
         } else {
@@ -79,7 +112,19 @@ extension Year {
     }
 
     func heatmapWKT(cumulative: Bool) -> String? {
-        return cumulative ? cumulativeHeatmapWKTProcessed : heatmapWKTProcessed
+        return cumulative ? cumulativeHeatmapWKT?.wkt : heatmapWKT?.wkt
+    }
+
+    func processedHeatmapWKT(cumulative: Bool) -> String? {
+        return cumulative ? cumulativeProcessedHeatmapWKT?.wkt : processedHeatmapWKT?.wkt
+    }
+
+    func landWKT(cumulative: Bool) -> String? {
+        return cumulative ? cumulativeLandWKT?.wkt : landWKT?.wkt
+    }
+
+    func waterWKT(cumulative: Bool) -> String? {
+        return cumulative ? cumulativeWaterWKT?.wkt : waterWKT?.wkt
     }
 
     func timezones(cumulative: Bool, geoDB: GeoDatabase) -> [TimezoneInfo]? {
@@ -113,5 +158,13 @@ extension Year {
             return regions
         }
         return nil
+    }
+
+    func countStates(countriesAndStates: [String: [String]]) -> Int {
+        var count = 0
+        for country in countriesAndStates.keys {
+            if let c = countriesAndStates[country]?.count { count += c }
+        }
+        return count
     }
 }

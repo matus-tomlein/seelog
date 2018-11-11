@@ -83,39 +83,48 @@ class PhotoMapViewer {
         self.viewChanged(visibleMapRect: mapView.visibleMapRect)
     }
 
-    let maxMapRectWidth: Double = 100000
+    let maxMapRectWidth: Double = 250000
     func viewChanged(visibleMapRect: MKMapRect) {
         if visibleMapRect.width > maxMapRectWidth {
             unload()
             return
         }
 
-        var geohashes = Helpers.geohashesIn(mapRect: visibleMapRect)
-        geohashes = geohashes.filter({ !loadedGeohashes.contains($0) })
-        for geohash in geohashes { loadedGeohashes.insert(geohash) }
+        guard let year = self.year, let cumulative = self.cumulative else { return }
 
-        guard let photos = Photo.allWith(geohashes: Array(geohashes), context: context) else {
-            return
-        }
-        let assets = fetchAssetsFor(photos: photos)
-        let imageManager = PHImageManager.default()
+        DispatchQueue.global(qos: .background).async {
+            var geohashes = Helpers.geohashesIn(mapRect: visibleMapRect)
+            geohashes = geohashes.filter({ !self.loadedGeohashes.contains($0) })
+            for geohash in geohashes { self.loadedGeohashes.insert(geohash) }
 
-        for asset in assets {
-            guard let location = asset.location?.coordinate else { continue }
+            guard let photos = Photo.allWith(geohashes: Array(geohashes),
+                                             year: year.year,
+                                             cumulative: cumulative,
+                                             context: self.context) else {
+                return
+            }
+            let assets = self.fetchAssetsFor(photos: photos)
+            let imageManager = PHImageManager.default()
 
-            let photoGeohash = Geohash.encode(latitude: location.latitude, longitude: location.longitude, precision: .seventySixMeters)
+            for asset in assets {
+                guard let location = asset.location?.coordinate else { continue }
 
-            if self.loadedPhotoGeohashes.contains(photoGeohash) { continue }
-            self.loadedPhotoGeohashes.insert(photoGeohash)
+                let photoGeohash = Geohash.encode(latitude: location.latitude, longitude: location.longitude, precision: .seventySixMeters)
 
-            imageManager.requestImage(for: asset,
-                                      targetSize: CGSize(width: 640, height: 640),
-                                      contentMode: .aspectFit, options: nil,
-                                      resultHandler: { (image, info) in
-                if let image = image {
-                    self.addImage(image: image, photoGeohash: photoGeohash)
-                }
-            })
+                if self.loadedPhotoGeohashes.contains(photoGeohash) { continue }
+                self.loadedPhotoGeohashes.insert(photoGeohash)
+
+                imageManager.requestImage(for: asset,
+                                          targetSize: CGSize(width: 640, height: 640),
+                                          contentMode: .aspectFit, options: nil,
+                                          resultHandler: { (image, info) in
+                    if let image = image {
+                        DispatchQueue.main.async {
+                            self.addImage(image: image, photoGeohash: photoGeohash)
+                        }
+                    }
+                })
+            }
         }
     }
 

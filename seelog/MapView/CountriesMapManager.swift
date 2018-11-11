@@ -21,51 +21,72 @@ class CountriesMapManager: MapManager {
         self.geoDB = geoDB
     }
 
-    func load(year: Year, cumulative: Bool) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         mapView.mapType = .mutedStandard
         mapView.removeAnnotations(mapView.annotations)
 
-        var existingPolygonProperties = [PolygonProperties]()
-        for overlay in mapView.overlays {
-            if let polygon = overlay as? MKPolygon,
-                let polygonProperties = polygon.polygonProperties {
-                existingPolygonProperties.append(polygonProperties)
+        DispatchQueue.global(qos: .background).async {
+            var existingPolygonProperties = [PolygonProperties]()
+            for overlay in self.mapView.overlays {
+                if let polygon = overlay as? MKPolygon,
+                    let polygonProperties = polygon.polygonProperties {
+                    existingPolygonProperties.append(polygonProperties)
+                }
             }
-        }
 
-        var polygonPropertyNamesToKeep = Set<String>()
-        if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
-            for countryKey in visitedCountriesAndStates.keys {
-                if let stateKeys = visitedCountriesAndStates[countryKey] {
-                    for stateKey in stateKeys {
-                        let existing = existingPolygonProperties.filter({ $0.name == stateKey })
+            var polygonPropertyNamesToKeep = Set<String>()
+            var stateKeysToAdd = Set<String>()
+            var countryKeysToAdd = Set<String>()
+            if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
+                for countryKey in visitedCountriesAndStates.keys {
+                    if currentTab == .states {
+                        if let stateKeys = visitedCountriesAndStates[countryKey] {
+                            for stateKey in stateKeys {
+                                let existing = existingPolygonProperties.filter({ $0.name == stateKey })
+                                if existing.count == 0 {
+                                    stateKeysToAdd.insert(stateKey)
+                                }
+
+                                polygonPropertyNamesToKeep.insert(stateKey)
+                            }
+                        }
+                    }
+
+                    if currentTab == .countries {
+                        let existing = existingPolygonProperties.filter({ $0.name == countryKey })
                         if existing.count == 0 {
-                            createPolygon(forStateKey: stateKey)
+                            countryKeysToAdd.insert(countryKey)
                         }
 
-                        polygonPropertyNamesToKeep.insert(stateKey)
+                        polygonPropertyNamesToKeep.insert(countryKey)
                     }
                 }
+            }
 
-                let existing = existingPolygonProperties.filter({ $0.name == countryKey })
-                if existing.count == 0 {
-                    createPolygon(forCountryKey: countryKey)
+            DispatchQueue.main.async {
+                for stateKey in stateKeysToAdd {
+                    self.createPolygon(forStateKey: stateKey)
                 }
 
-                polygonPropertyNamesToKeep.insert(countryKey)
-            }
-        }
-
-        for overlay in mapView.overlays {
-            if let polygon = overlay as? MKPolygon,
-                let polygonProperties = polygon.polygonProperties {
-                if !polygonPropertyNamesToKeep.contains(polygonProperties.name) {
-                    mapView.remove(overlay)
+                for countryKey in countryKeysToAdd {
+                    self.createPolygon(forCountryKey: countryKey)
                 }
-            } else {
-                mapView.remove(overlay)
+
+                for overlay in self.mapView.overlays {
+                    if let polygon = overlay as? MKPolygon,
+                        let polygonProperties = polygon.polygonProperties {
+                        if !polygonPropertyNamesToKeep.contains(polygonProperties.name) {
+                            self.mapView.remove(overlay)
+                        }
+                    } else {
+                        self.mapView.remove(overlay)
+                    }
+                }
             }
         }
+    }
+
+    func unload() {
     }
 
     func updateForZoomType(_ zoomType: ZoomType) {}
@@ -79,11 +100,9 @@ class CountriesMapManager: MapManager {
         if let polygonProperties = polygon.polygonProperties {
             let color = UIColor.red
             polygonView.fillColor = color.withAlphaComponent(polygonProperties.alpha)
-            
-            if polygonProperties.polygonType == .country {
-                polygonView.lineWidth = 1
-                polygonView.strokeColor = UIColor.white
-            }
+
+            polygonView.lineWidth = 1
+            polygonView.strokeColor = UIColor.white
             // polygonView.alpha = polygonProperties.zoomTypes.contains(currentZoomType) ? 1 : 0
         }
 
@@ -103,18 +122,19 @@ class CountriesMapManager: MapManager {
             var closeZoomTypes: [ZoomType] = [.close]
             if let geometry50m = stateInfo.geometry50m {
                 let polygonProperties = PolygonProperties(name: stateKey,
-                                                          zoomTypes: [.medium],
+                                                          zoomTypes: [.medium, .far],
                                                           polygonType: .state,
-                                                          alpha: 0.5)
+                                                          alpha: 0.25)
                 mapViewDelegate.addGeometryToMap(geometry50m, polygonProperties: polygonProperties)
             } else {
                 closeZoomTypes.append(.medium)
+                closeZoomTypes.append(.far)
             }
             if let geometry10m = stateInfo.geometry10m {
                 let polygonProperties = PolygonProperties(name: stateKey,
                                                           zoomTypes: closeZoomTypes,
                                                           polygonType: .state,
-                                                          alpha: 0.5)
+                                                          alpha: 0.25)
                 mapViewDelegate.addGeometryToMap(geometry10m, polygonProperties: polygonProperties)
             }
         }
@@ -129,7 +149,7 @@ class CountriesMapManager: MapManager {
                 let polygonProperties = PolygonProperties(name: countryKey,
                                                           zoomTypes: [.far],
                                                           polygonType: .country,
-                                                          alpha: 0.2)
+                                                          alpha: 0.25)
                 mapViewDelegate.addGeometryToMap(geometry110m, polygonProperties: polygonProperties)
             } else {
                 mediumZoomTypes.append(.far)
@@ -138,7 +158,7 @@ class CountriesMapManager: MapManager {
                 let polygonProperties = PolygonProperties(name: countryKey,
                                                           zoomTypes: mediumZoomTypes,
                                                           polygonType: .country,
-                                                          alpha: 0.2)
+                                                          alpha: 0.25)
                 mapViewDelegate.addGeometryToMap(geometry50m, polygonProperties: polygonProperties)
             } else {
                 for zoomType in mediumZoomTypes {
@@ -149,7 +169,7 @@ class CountriesMapManager: MapManager {
                 let polygonProperties = PolygonProperties(name: countryKey,
                                                           zoomTypes: closeZoomTypes,
                                                           polygonType: .country,
-                                                          alpha: 0.2)
+                                                          alpha: 0.25)
                 mapViewDelegate.addGeometryToMap(geometry10m, polygonProperties: polygonProperties)
             }
         }

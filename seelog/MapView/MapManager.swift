@@ -10,7 +10,8 @@ import Foundation
 import MapKit
 
 protocol MapManager {
-    func load(year: Year, cumulative: Bool)
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool)
+    func unload()
     func updateForZoomType(_ zoomType: ZoomType)
     func viewChanged(visibleMapRect: MKMapRect)
     func longPress()

@@ -24,10 +24,8 @@ class YearStatsUpdater {
     }
 
     func processNewPhoto(photo: Photo) {
-        guard let year = photo.year else { return }
-
         if countriesUpdater == nil {
-            let sinceKey = sinceAggregate?.year ?? year
+            let sinceKey = sinceAggregate?.year ?? photo.year
 
             countriesUpdater = YearCountriesUpdater(sinceKey: sinceKey,
                                                     sinceAggregate: sinceAggregate)
@@ -42,10 +40,10 @@ class YearStatsUpdater {
                                                     sinceAggregate: sinceAggregate)
         }
 
-        countriesUpdater?.processNewPhoto(photo: photo, key: year)
-        citiesUpdater?.processNewPhoto(photo: photo, key: year)
-        seenAreaAndHeatmapUpdater?.processNewPhoto(photo: photo, key: year)
-        timezonesUpdater?.processNewPhoto(photo: photo, key: year)
+        countriesUpdater?.processNewPhoto(photo: photo, key: photo.year)
+        citiesUpdater?.processNewPhoto(photo: photo, key: photo.year)
+        seenAreaAndHeatmapUpdater?.processNewPhoto(photo: photo, key: photo.year)
+        timezonesUpdater?.processNewPhoto(photo: photo, key: photo.year)
     }
 
     func update() {
@@ -59,7 +57,7 @@ class YearStatsUpdater {
             countriesUpdater.updateModel(key: year, model: &model)
             citiesUpdater.updateModel(key: year, model: &model)
             timezonesUpdater.updateModel(key: year, model: &model)
-            seenAreaAndHeatmapUpdater.updateModel(key: year, model: &model)
+            seenAreaAndHeatmapUpdater.updateModel(key: year, model: &model, context: context)
         }
     }
 

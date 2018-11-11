@@ -36,6 +36,8 @@
 		832B9A1C215FD1E30098A396 /* CountryCodeMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B9A1B215FD1E30098A396 /* CountryCodeMappings.swift */; };
 		832B9A1E215FD4070098A396 /* AggregatedVisitStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B9A1D215FD4070098A396 /* AggregatedVisitStats.swift */; };
 		832B9A20215FD4CD0098A396 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B9A1F215FD4CD0098A396 /* Year.swift */; };
+		8335679B2198C0AE0081498B /* TimezonesTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8335679A2198C0AE0081498B /* TimezonesTableViewManager.swift */; };
+		8335679D2198C1AA0081498B /* ContinentsTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8335679C2198C1AA0081498B /* ContinentsTableViewManager.swift */; };
 		833D321F2189E63A00A5F971 /* img.png in Resources */ = {isa = PBXBuildFile; fileRef = 833D321E2189E63900A5F971 /* img.png */; };
 		8343168A2142AD6600784257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316892142AD6600784257 /* AppDelegate.swift */; };
 		8343168C2142AD6600784257 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8343168B2142AD6600784257 /* ViewController.swift */; };
@@ -112,6 +114,8 @@
 		832B9A1B215FD1E30098A396 /* CountryCodeMappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeMappings.swift; sourceTree = "<group>"; };
 		832B9A1D215FD4070098A396 /* AggregatedVisitStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregatedVisitStats.swift; sourceTree = "<group>"; };
 		832B9A1F215FD4CD0098A396 /* Year.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
+		8335679A2198C0AE0081498B /* TimezonesTableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezonesTableViewManager.swift; sourceTree = "<group>"; };
+		8335679C2198C1AA0081498B /* ContinentsTableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentsTableViewManager.swift; sourceTree = "<group>"; };
 		833D321E2189E63900A5F971 /* img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img.png; sourceTree = "<group>"; };
 		834316862142AD6600784257 /* seelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = seelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		834316892142AD6600784257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -181,12 +185,14 @@
 		830EF12F218EF53C00AEE7A0 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
+				8335679C2198C1AA0081498B /* ContinentsTableViewManager.swift */,
 				830EF130218EF57300AEE7A0 /* TableViewManager.swift */,
 				830EF132218EF5C300AEE7A0 /* HeatmapTableViewManager.swift */,
 				830EF134218EF77D00AEE7A0 /* CountriesTableViewManager.swift */,
 				830EF11D218AD8F200AEE7A0 /* ReportTableViewCell.swift */,
 				830EF123218CAF5000AEE7A0 /* PlaceTableViewCell.swift */,
 				830EF13F218F7C8600AEE7A0 /* CitiesTableViewManager.swift */,
+				8335679A2198C0AE0081498B /* TimezonesTableViewManager.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -617,6 +623,7 @@
 				830EF140218F7C8600AEE7A0 /* CitiesTableViewManager.swift in Sources */,
 				83FF212C215FA47E008E846F /* YearStatsUpdater.swift in Sources */,
 				830EF135218EF77D00AEE7A0 /* CountriesTableViewManager.swift in Sources */,
+				8335679D2198C1AA0081498B /* ContinentsTableViewManager.swift in Sources */,
 				8343168A2142AD6600784257 /* AppDelegate.swift in Sources */,
 				834316922142AD6700784257 /* seelog.xcdatamodeld in Sources */,
 				830EF131218EF57300AEE7A0 /* TableViewManager.swift in Sources */,
@@ -630,6 +637,7 @@
 				8305ED4E218451E600630BD6 /* ChartDrawer.swift in Sources */,
 				830EF126218E040A00AEE7A0 /* YearCountriesUpdater.swift in Sources */,
 				83A8ABD32173459800203402 /* StateInfo.swift in Sources */,
+				8335679B2198C0AE0081498B /* TimezonesTableViewManager.swift in Sources */,
 				83A8ABCF2173290400203402 /* CityInfo.swift in Sources */,
 				835B8057217B44B6001E9B96 /* MainMapViewDelegate.swift in Sources */,
 				830EF12A218E067A00AEE7A0 /* YearSeenAreaUpdater.swift in Sources */,

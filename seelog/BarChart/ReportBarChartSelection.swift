@@ -46,6 +46,10 @@ class ReportBarChartSelection {
     var currentTab: SelectedTab { get { return reportViewController.currentTab } }
     var aggregateChart: Bool { get { return reportViewController.aggregateChart } }
 
+    var geoDB: GeoDatabase {
+        get { return reportViewController.geoDB }
+    }
+
     init(reportViewController: ReportViewController) {
         self.reportViewController = reportViewController
     }
