@@ -62,6 +62,7 @@ class PhotoMapViewer {
     var loadedGeohashes = Set<String>()
     var loadedPhotoGeohashes = Set<String>()
     var overlays: [MKOverlay] = []
+    var active = true
 
     init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, context: NSManagedObjectContext) {
         self.mapView = mapView
@@ -70,6 +71,11 @@ class PhotoMapViewer {
     }
 
     func unload() {
+        active = false
+        removeFromMap()
+    }
+
+    func removeFromMap() {
         mapView.removeOverlays(overlays)
         overlays.removeAll()
         loadedGeohashes.removeAll()
@@ -77,6 +83,7 @@ class PhotoMapViewer {
     }
 
     func load(year: Year, cumulative: Bool) {
+        self.active = true
         self.year = year
         self.cumulative = cumulative
 
@@ -86,7 +93,7 @@ class PhotoMapViewer {
     let maxMapRectWidth: Double = 250000
     func viewChanged(visibleMapRect: MKMapRect) {
         if visibleMapRect.width > maxMapRectWidth {
-            unload()
+            removeFromMap()
             return
         }
 
@@ -141,7 +148,7 @@ class PhotoMapViewer {
     }
 
     private func addImage(image: UIImage, photoGeohash: String) {
-        if mapView.visibleMapRect.width > maxMapRectWidth { return }
+        if mapView.visibleMapRect.width > maxMapRectWidth || !active { return }
 
         let multiplyBy = 640 / ([Double(image.size.width), Double(image.size.height)].max() ?? 0)
 

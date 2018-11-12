@@ -115,6 +115,14 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         return UITableViewAutomaticDimension
     }
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return tableViewManager?.numberOfSections() ?? 0
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return tableViewManager?.titleForHeaderInSection(section: section)
+    }
+
     // MARK: reloading
 
     @objc func reloadAll() {
@@ -179,12 +187,14 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     func reloadStatLabel() {
         if let year = barChartSelection?.currentAggregate {
-            countriesButton.setTitle("\(year.numberOfCountries(cumulative: aggregateChart)) countries", for: .normal)
-            statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) states", for: .normal)
-            citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
-            seenAreaButton.setTitle("\(year.seenArea(cumulative: aggregateChart)) km²", for: .normal)
-            continentsButton.setTitle("\(year.numberOfContinents(cumulative: aggregateChart, geoDB: geoDB)) continents", for: .normal)
-            timezonesButton.setTitle("\(year.numberOfTimezones(cumulative: aggregateChart, geoDB: geoDB)) timezones", for: .normal)
+            UIView.setAnimationsEnabled(false)
+            self.countriesButton.setTitle("\(year.numberOfCountries(cumulative: aggregateChart)) countries", for: .normal)
+            self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) regions", for: .normal)
+            self.citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
+            self.seenAreaButton.setTitle("\(year.seenArea(cumulative: aggregateChart)) km²", for: .normal)
+            self.continentsButton.setTitle("\(year.numberOfContinents(cumulative: aggregateChart, geoDB: geoDB)) continents", for: .normal)
+            self.timezonesButton.setTitle("\(year.numberOfTimezones(cumulative: aggregateChart, geoDB: geoDB)) timezones", for: .normal)
+            UIView.setAnimationsEnabled(true)
         }
     }
 

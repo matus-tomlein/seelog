@@ -15,7 +15,8 @@ class CitiesTableViewManager: TableViewManager {
     var year: Year
     var cumulative: Bool
 
-    private var cities: [CityInfo]?
+    private var majorCities: [CityInfo]?
+    private var otherCities: [CityInfo]?
 
     init(year: Year, cumulative: Bool, tableView: UITableView, geoDB: GeoDatabase) {
         self.geoDB = geoDB
@@ -23,17 +24,21 @@ class CitiesTableViewManager: TableViewManager {
         self.year = year
         self.cumulative = cumulative
 
-        self.cities = year.cities(cumulative: cumulative)?.map({ geoDB.cityInfoFor(cityKey: $0) }).filter({ $0 != nil }).map({ $0! }).sorted { $0.name < $1.name }
+        let cities = year.cities(cumulative: cumulative)?.map({ geoDB.cityInfoFor(cityKey: $0) }).filter({ $0 != nil }).map({ $0! }).sorted { $0.name < $1.name }
+        majorCities = cities?.filter({ $0.worldCity || $0.megaCity })
+        otherCities = cities?.filter({ !$0.worldCity && !$0.megaCity })
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {
-        return cities?.count ?? 0
+        let majorCitiesOnly = section == 0
+        return (majorCitiesOnly ? self.majorCities : self.otherCities)?.count ?? 0
     }
 
     func cellForRowAt(_ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ReportTableViewCell
+        let majorCitiesOnly = indexPath.section == 0
 
-        if let cities = self.cities {
+        if let cities = (majorCitiesOnly ? self.majorCities : self.otherCities) {
             let city = cities[indexPath.row]
 
             cell.iconLabel.text = Helpers.flag(country: city.countryKey)
@@ -47,4 +52,18 @@ class CitiesTableViewManager: TableViewManager {
 
         return cell
     }
+
+    func numberOfSections() -> Int {
+        return 2
+    }
+
+    func titleForHeaderInSection(section: Int) -> String? {
+        switch section {
+        case 0:
+            return "\(self.majorCities?.count ?? 0) Major Cities"
+        default:
+            return "\(self.otherCities?.count ?? 0) Cities and Towns"
+        }
+    }
+
 }

@@ -38,5 +38,8 @@ class TimezonesTableViewManager: TableViewManager {
 
         return cell
     }
+
+    func numberOfSections() -> Int { return 1 }
+    func titleForHeaderInSection(section: Int) -> String? { return nil }
     
 }

@@ -100,6 +100,10 @@ extension Year {
         return cumulative ? cumulativeCities : cities
     }
 
+    func cityInfos(cumulative: Bool, geoDB: GeoDatabase) -> [CityInfo]? {
+        return cities(cumulative: cumulative)?.map({ geoDB.cityInfoFor(cityKey: $0) }) .filter({ $0 != nil }).map({ $0! })
+    }
+
     func geohashes(cumulative: Bool) -> [String]? {
         return cumulative ? cumulativeGeohashes : geohashes
     }
@@ -107,6 +111,13 @@ extension Year {
     func continents(cumulative: Bool, geoDB: GeoDatabase) -> [String]? {
         if let countries = countries(cumulative: cumulative, geoDB: geoDB) {
             return Array(Set(countries.map({ $0.continent }))).sorted()
+        }
+        return nil
+    }
+
+    func continentInfos(cumulative: Bool, geoDB: GeoDatabase) -> [ContinentInfo]? {
+        if let continents = continents(cumulative: cumulative, geoDB: geoDB) {
+            return continents.map({ geoDB.continentInfoFor(name: $0) }).filter({ $0 != nil }).map({ $0! })
         }
         return nil
     }

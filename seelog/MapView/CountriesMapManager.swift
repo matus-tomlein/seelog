@@ -14,6 +14,7 @@ class CountriesMapManager: MapManager {
     var mapView: MKMapView
     var mapViewDelegate: MainMapViewDelegate
     var geoDB: GeoDatabase
+    var active = true
 
     init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, geoDB: GeoDatabase) {
         self.mapView = mapView
@@ -22,6 +23,7 @@ class CountriesMapManager: MapManager {
     }
 
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
+        active = true
         mapView.mapType = .mutedStandard
         mapView.removeAnnotations(mapView.annotations)
 
@@ -64,6 +66,8 @@ class CountriesMapManager: MapManager {
             }
 
             DispatchQueue.main.async {
+                if !self.active { return }
+
                 for stateKey in stateKeysToAdd {
                     self.createPolygon(forStateKey: stateKey)
                 }
@@ -87,6 +91,7 @@ class CountriesMapManager: MapManager {
     }
 
     func unload() {
+        active = false
     }
 
     func updateForZoomType(_ zoomType: ZoomType) {}

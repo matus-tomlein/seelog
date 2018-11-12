@@ -141,12 +141,30 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
                 mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
 
-        case .cities, .timezones, .continents:
+        case .cities:
             if let mapManager = self.mapManager as? CitiesMapManager {
                 mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
             } else {
                 mapManager?.unload()
                 mapManager = CitiesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
+                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
+            }
+
+        case .continents:
+            if let mapManager = self.mapManager as? ContinentsMapManager {
+                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
+            } else {
+                mapManager?.unload()
+                mapManager = ContinentsMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
+                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
+            }
+
+        case .timezones:
+            if let mapManager = self.mapManager as? TimezoneMapManager {
+                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
+            } else {
+                mapManager?.unload()
+                mapManager = TimezoneMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
                 mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
         }

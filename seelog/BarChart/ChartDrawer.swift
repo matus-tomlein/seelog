@@ -21,8 +21,8 @@ class ChartDrawer {
     internal let mainLayer: CALayer
     internal let barChartSelection: ReportBarChartSelection
 
-    internal let color = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-    internal var unselectedBarColor: UIColor { get { return #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1) } }
+    internal let color: UIColor
+    internal var unselectedBarColor: UIColor { get { return view.tintColor } }
     internal let selectedColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
 
     private var recognizer: UIGestureRecognizer?
@@ -32,6 +32,7 @@ class ChartDrawer {
         self.mainLayer = mainLayer
         self.scrollView = scrollView
         self.barChartSelection = barChartSelection
+        self.color = view.tintColor
 
         recognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         self.scrollView.addGestureRecognizer(recognizer!)

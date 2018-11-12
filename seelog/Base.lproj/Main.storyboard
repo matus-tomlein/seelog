@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -53,7 +54,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rvx-ty-5Do">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="673"/>
                                         <subviews>
                                             <view opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V1P-4c-ckx">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="10"/>
@@ -61,82 +62,98 @@
                                                     <constraint firstAttribute="height" constant="10" id="3vN-RK-057"/>
                                                 </constraints>
                                             </view>
-                                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oTm-3q-XG7">
-                                                <rect key="frame" x="0.0" y="10" width="375" height="64"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bSx-sz-Ayf">
+                                                <rect key="frame" x="0.0" y="10" width="375" height="183"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Qbj-DR-kmN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="712" height="61"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ntK-4P-Fvh">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="183"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SpU-qg-saG">
-                                                                <rect key="frame" x="30" y="14" width="57" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                                <state key="normal" title="0 km²"/>
-                                                                <connections>
-                                                                    <action selector="seenAreaButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="R3H-SH-PBg"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Y0-lx-T2s">
-                                                                <rect key="frame" x="107" y="14" width="114" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                                <state key="normal" title="0 countries"/>
-                                                                <connections>
-                                                                    <action selector="countriesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="EuF-mf-o8c"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StA-yE-hAe">
-                                                                <rect key="frame" x="241" y="14" width="81" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                                <state key="normal" title="0 states"/>
-                                                                <connections>
-                                                                    <action selector="statesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="GDk-6N-yyl"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vJ5-yF-XF5">
-                                                                <rect key="frame" x="342" y="14" width="73" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                                <state key="normal" title="0 cities"/>
-                                                                <connections>
-                                                                    <action selector="citiesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="zEf-VE-LD5"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EDN-xE-lul">
-                                                                <rect key="frame" x="435" y="14" width="126" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                                <state key="normal" title="0 continents"/>
-                                                                <connections>
-                                                                    <action selector="continentsButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="hAt-nw-Nbr"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sBa-sr-UFp">
-                                                                <rect key="frame" x="581" y="14" width="123" height="39"/>
-                                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                                <state key="normal" title="0 timezones"/>
-                                                                <connections>
-                                                                    <action selector="timezonesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="xWR-P6-vG2"/>
-                                                                </connections>
-                                                            </button>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Qbj-DR-kmN">
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="89"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SpU-qg-saG">
+                                                                        <rect key="frame" x="8" y="8" width="175.66666666666666" height="81"/>
+                                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                        <state key="normal" title="0 km²"/>
+                                                                        <connections>
+                                                                            <action selector="seenAreaButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="R3H-SH-PBg"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Y0-lx-T2s">
+                                                                        <rect key="frame" x="191.66666666666663" y="8" width="175.33333333333337" height="81"/>
+                                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                        <state key="normal" title="0 countries"/>
+                                                                        <connections>
+                                                                            <action selector="countriesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="EuF-mf-o8c"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="0.0" right="8"/>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vUg-Uc-FkO">
+                                                                <rect key="frame" x="0.0" y="89" width="375" height="47"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StA-yE-hAe">
+                                                                        <rect key="frame" x="8" y="8" width="175.66666666666666" height="39"/>
+                                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                        <state key="normal" title="0 regions"/>
+                                                                        <connections>
+                                                                            <action selector="statesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="GDk-6N-yyl"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vJ5-yF-XF5">
+                                                                        <rect key="frame" x="191.66666666666663" y="8" width="175.33333333333337" height="39"/>
+                                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                        <state key="normal" title="0 cities"/>
+                                                                        <connections>
+                                                                            <action selector="citiesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="zEf-VE-LD5"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="0.0" right="8"/>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QNh-X2-Ht4">
+                                                                <rect key="frame" x="0.0" y="136" width="375" height="47"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EDN-xE-lul">
+                                                                        <rect key="frame" x="8" y="8" width="175.66666666666666" height="39"/>
+                                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                        <state key="normal" title="0 continents"/>
+                                                                        <connections>
+                                                                            <action selector="continentsButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="hAt-nw-Nbr"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sBa-sr-UFp">
+                                                                        <rect key="frame" x="191.66666666666663" y="8" width="175.33333333333337" height="39"/>
+                                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                                                        <state key="normal" title="0 timezones"/>
+                                                                        <connections>
+                                                                            <action selector="timezonesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="xWR-P6-vG2"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="0.0" right="8"/>
+                                                            </stackView>
                                                         </subviews>
-                                                        <edgeInsets key="layoutMargins" top="14" left="30" bottom="8" right="8"/>
                                                     </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="Qbj-DR-kmN" firstAttribute="leading" secondItem="oTm-3q-XG7" secondAttribute="leading" id="75N-MU-VDR"/>
-                                                    <constraint firstAttribute="trailing" secondItem="Qbj-DR-kmN" secondAttribute="trailing" id="DNJ-I6-mgY"/>
-                                                    <constraint firstItem="Qbj-DR-kmN" firstAttribute="top" secondItem="oTm-3q-XG7" secondAttribute="top" id="Ygc-nM-LT2"/>
-                                                    <constraint firstAttribute="height" constant="64" id="mDU-cp-g40"/>
-                                                    <constraint firstAttribute="bottom" secondItem="Qbj-DR-kmN" secondAttribute="bottom" id="zk8-xc-Y2w"/>
+                                                    <constraint firstItem="ntK-4P-Fvh" firstAttribute="leading" secondItem="bSx-sz-Ayf" secondAttribute="leading" id="2TA-Id-EC4"/>
+                                                    <constraint firstAttribute="bottom" secondItem="ntK-4P-Fvh" secondAttribute="bottom" id="6EL-Oy-ewb"/>
+                                                    <constraint firstItem="ntK-4P-Fvh" firstAttribute="top" secondItem="bSx-sz-Ayf" secondAttribute="top" id="Pkd-GL-4tm"/>
+                                                    <constraint firstAttribute="trailing" secondItem="ntK-4P-Fvh" secondAttribute="trailing" id="zmP-xQ-Kb1"/>
                                                 </constraints>
-                                            </scrollView>
+                                            </view>
                                             <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o7w-ya-eAc" customClass="HistoryChartView" customModule="seelog" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="74" width="375" height="200"/>
+                                                <rect key="frame" x="0.0" y="193" width="375" height="200"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="bDO-ve-Oq6"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="khi-UM-STI">
-                                                <rect key="frame" x="0.0" y="274" width="375" height="50"/>
+                                                <rect key="frame" x="0.0" y="393" width="375" height="50"/>
                                                 <subviews>
                                                     <stackView contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HDL-Ts-40o">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
@@ -162,14 +179,14 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SfL-nc-JWa">
-                                                <rect key="frame" x="0.0" y="324" width="375" height="20"/>
+                                                <rect key="frame" x="0.0" y="443" width="375" height="20"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="ytw-96-fB4"/>
                                                 </constraints>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lOJ-Uw-dTl">
-                                                <rect key="frame" x="0.0" y="344" width="375" height="200"/>
+                                                <rect key="frame" x="0.0" y="463" width="375" height="200"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="jyD-to-tQZ"/>
@@ -270,7 +287,7 @@
                                                 </connections>
                                             </tableView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tuL-zt-5u1">
-                                                <rect key="frame" x="0.0" y="544" width="375" height="10"/>
+                                                <rect key="frame" x="0.0" y="663" width="375" height="10"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="10" id="Ez2-cG-UT6"/>
@@ -279,13 +296,10 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="SfL-nc-JWa" firstAttribute="top" secondItem="khi-UM-STI" secondAttribute="bottom" id="84I-NQ-Bb0"/>
-                                            <constraint firstItem="o7w-ya-eAc" firstAttribute="top" secondItem="oTm-3q-XG7" secondAttribute="bottom" id="KcS-0s-Grr"/>
                                             <constraint firstAttribute="trailing" secondItem="SfL-nc-JWa" secondAttribute="trailing" id="MZO-oq-uQZ"/>
-                                            <constraint firstItem="oTm-3q-XG7" firstAttribute="top" secondItem="V1P-4c-ckx" secondAttribute="bottom" id="Ozc-Je-nqk"/>
                                             <constraint firstItem="SfL-nc-JWa" firstAttribute="leading" secondItem="rvx-ty-5Do" secondAttribute="leading" id="PRx-ld-2LX"/>
-                                            <constraint firstItem="o7w-ya-eAc" firstAttribute="top" secondItem="oTm-3q-XG7" secondAttribute="bottom" id="gaT-yF-7Mm"/>
+                                            <constraint firstItem="bSx-sz-Ayf" firstAttribute="top" secondItem="V1P-4c-ckx" secondAttribute="bottom" id="YpW-nr-lAW"/>
                                             <constraint firstItem="lOJ-Uw-dTl" firstAttribute="top" secondItem="SfL-nc-JWa" secondAttribute="bottom" id="jUE-rY-wQg"/>
-                                            <constraint firstItem="oTm-3q-XG7" firstAttribute="top" secondItem="V1P-4c-ckx" secondAttribute="bottom" id="m14-og-Kso"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>

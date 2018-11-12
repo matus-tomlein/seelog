@@ -16,6 +16,7 @@ class HeatmapMapManager: MapManager {
     var mapView: MKMapView
     var mapViewDelegate: MainMapViewDelegate
     var photoViewer: PhotoMapViewer
+    var active = true
 
     static var _landsPolygon: Geometry?
     static var _waterPolygon: Geometry?
@@ -57,13 +58,19 @@ class HeatmapMapManager: MapManager {
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         mapView.mapType = .mutedStandard
         unload()
+        active = true
 
         DispatchQueue.global(qos: .background).async {
             if let waterWKT = year.waterWKT(cumulative: cumulative),
                 let landWKT = year.landWKT(cumulative: cumulative),
                 let land = Helpers.geometry(fromWKT: landWKT),
-                let water = Helpers.geometry(fromWKT: waterWKT) {
+                let water = Helpers.geometry(fromWKT: waterWKT),
+                let heatmapWKT = year.processedHeatmapWKT(cumulative: cumulative),
+                let heatmap = Helpers.geometry(fromWKT: heatmapWKT),
+                let boundaries = heatmap.boundary()?.mapShape() as? MKShapesCollection,
+                let bufferedHeatmap = heatmap.buffer(width: 0.4) {
                 DispatchQueue.main.async {
+                    if !self.active { return }
                     self.mapViewDelegate.addGeometryToMap(land, polygonProperties: PolygonProperties(name: year.name,
                                                                                 zoomTypes: [.close, .medium, .far],
                                                                                 polygonType: .heatmapLand,
@@ -74,14 +81,7 @@ class HeatmapMapManager: MapManager {
                                                                                  alpha: 1))
 
                     self.mapView.centerCoordinate = self.mapView.centerCoordinate
-                }
-            }
 
-            if let heatmapWKT = year.processedHeatmapWKT(cumulative: cumulative),
-                let heatmap = Helpers.geometry(fromWKT: heatmapWKT),
-                let boundaries = heatmap.boundary()?.mapShape() as? MKShapesCollection,
-                let bufferedHeatmap = heatmap.buffer(width: 0.4) {
-                DispatchQueue.main.async {
                     for boundary in boundaries.shapes {
                         if let polyline = boundary as? MKPolyline {
                             self.mapView.add(polyline)
@@ -100,6 +100,7 @@ class HeatmapMapManager: MapManager {
     }
 
     func unload() {
+        active = false
         photoViewer.unload()
         mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)

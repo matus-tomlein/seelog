@@ -20,6 +20,7 @@ class GeoDatabase {
     let cities = Table("cities")
     let timezones = Table("timezones")
     let geohashTimezones = Table("geohash_timezones")
+    let continents = Table("continents")
     
     let geohash = Expression<String>("geohash")
     let name = Expression<String>("name")
@@ -38,6 +39,8 @@ class GeoDatabase {
     let subregion = Expression<String>("subregion")
     let populationMin = Expression<Int>("pop_min")
     let populationMax = Expression<Int>("pop_max")
+    let worldCity = Expression<Int>("worldcity")
+    let megaCity = Expression<Int>("megacity")
 
     var countriesForStates = [String: String]()
     
@@ -140,7 +143,7 @@ class GeoDatabase {
         return []
     }
 
-    var cachedCountryInfos = [String: CountryInfo]()
+    private var cachedCountryInfos = [String: CountryInfo]()
     func countryInfoFor(countryKey ck: String) -> CountryInfo? {
         if let countryInfo = cachedCountryInfos[ck] {
             return countryInfo
@@ -171,7 +174,7 @@ class GeoDatabase {
         return nil
     }
 
-    var cachedStateInfos = [String: StateInfo]()
+    private var cachedStateInfos = [String: StateInfo]()
     func stateInfoFor(stateKey sk: String) -> StateInfo? {
         if let stateInfo = cachedStateInfos[sk] {
             return stateInfo
@@ -198,18 +201,24 @@ class GeoDatabase {
         return nil
     }
 
+    private var cachedCityInfos = [Int64: CityInfo]()
     func cityInfoFor(cityKey key: Int64) -> CityInfo? {
+        if let cityInfo = cachedCityInfos[key] { return cityInfo }
         if let db = self.db {
             do {
                 let query = cities.where(cityKey == key)
                 if let item = try db.pluck(query) {
-                    return CityInfo(cityKey: key,
+                    let cityInfo = CityInfo(cityKey: key,
                                     name: item[name],
                                     latitude: item[latitude],
                                     longitude: item[longitude],
                                     countryKey: item[countryKey],
                                     populationMin: item[populationMin],
-                                    populationMax: item[populationMax])
+                                    populationMax: item[populationMax],
+                                    worldCity: item[worldCity] > 0,
+                                    megaCity: item[megaCity] > 0)
+                    cachedCityInfos[key] = cityInfo
+                    return cityInfo
                 }
             } catch {
                 print("Error querying geo database")
@@ -218,14 +227,38 @@ class GeoDatabase {
         return nil
     }
 
+    private var cachedTimezones = [Int32: TimezoneInfo]()
     func timezoneInfoFor(timezoneId id: Int32) -> TimezoneInfo? {
+        if let timezoneInfo = cachedTimezones[id] { return timezoneInfo }
         if let db = self.db {
             do {
                 let query = timezones.where(timezoneId == Int(id))
                 if let item = try db.pluck(query) {
-                    return TimezoneInfo(timezoneId: Int32(item[timezoneId]),
+                    let timezoneInfo = TimezoneInfo(timezoneId: Int32(item[timezoneId]),
                                         name: item[name],
-                                        places: item[places])
+                                        places: item[places],
+                                        geometry: item[geometry].bytes)
+                    cachedTimezones[id] = timezoneInfo
+                    return timezoneInfo
+                }
+            } catch {
+                print("Error querying geo database")
+            }
+        }
+        return nil
+    }
+
+    private var cachedContinents = [String: ContinentInfo]()
+    func continentInfoFor(name continentName: String) -> ContinentInfo? {
+        if let continentInfo = cachedContinents[continentName] { return continentInfo }
+        if let db = self.db {
+            do {
+                let query = continents.where(name == continentName)
+                if let item = try db.pluck(query) {
+                    let continentInfo = ContinentInfo(name: item[name],
+                                                      geometry: item[geometry].bytes)
+                    cachedContinents[continentName] = continentInfo
+                    return continentInfo
                 }
             } catch {
                 print("Error querying geo database")

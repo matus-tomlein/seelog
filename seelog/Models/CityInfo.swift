@@ -16,8 +16,10 @@ struct CityInfo {
     var countryKey: String
     var populationMin: Int
     var populationMax: Int
+    var worldCity: Bool
+    var megaCity: Bool
 
-    init(cityKey: Int64, name: String, latitude: Double, longitude: Double, countryKey: String, populationMin: Int, populationMax: Int) {
+    init(cityKey: Int64, name: String, latitude: Double, longitude: Double, countryKey: String, populationMin: Int, populationMax: Int, worldCity: Bool, megaCity: Bool) {
         self.cityKey = cityKey
         self.name = name
         self.latitude = latitude
@@ -25,5 +27,7 @@ struct CityInfo {
         self.countryKey = countryKey
         self.populationMin = populationMin
         self.populationMax = populationMax
+        self.worldCity = worldCity
+        self.megaCity = megaCity
     }
 }

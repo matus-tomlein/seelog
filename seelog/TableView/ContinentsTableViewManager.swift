@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class ContinentsTableViewManager: TableViewManager {
+
     var geoDB: GeoDatabase
     var tableView: UITableView
     var year: Year
@@ -37,5 +38,8 @@ class ContinentsTableViewManager: TableViewManager {
 
         return cell
     }
+
+    func numberOfSections() -> Int { return 1 }
+    func titleForHeaderInSection(section: Int) -> String? { return nil }
     
 }

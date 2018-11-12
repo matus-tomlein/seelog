@@ -38,6 +38,9 @@
 		832B9A20215FD4CD0098A396 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832B9A1F215FD4CD0098A396 /* Year.swift */; };
 		8335679B2198C0AE0081498B /* TimezonesTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8335679A2198C0AE0081498B /* TimezonesTableViewManager.swift */; };
 		8335679D2198C1AA0081498B /* ContinentsTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8335679C2198C1AA0081498B /* ContinentsTableViewManager.swift */; };
+		8335679F2199D95C0081498B /* TimezoneMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8335679E2199D95C0081498B /* TimezoneMapManager.swift */; };
+		833567A1219A047E0081498B /* ContinentsMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833567A0219A047E0081498B /* ContinentsMapManager.swift */; };
+		833567A3219A04B80081498B /* ContinentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833567A2219A04B80081498B /* ContinentInfo.swift */; };
 		833D321F2189E63A00A5F971 /* img.png in Resources */ = {isa = PBXBuildFile; fileRef = 833D321E2189E63900A5F971 /* img.png */; };
 		8343168A2142AD6600784257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316892142AD6600784257 /* AppDelegate.swift */; };
 		8343168C2142AD6600784257 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8343168B2142AD6600784257 /* ViewController.swift */; };
@@ -116,6 +119,9 @@
 		832B9A1F215FD4CD0098A396 /* Year.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
 		8335679A2198C0AE0081498B /* TimezonesTableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezonesTableViewManager.swift; sourceTree = "<group>"; };
 		8335679C2198C1AA0081498B /* ContinentsTableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentsTableViewManager.swift; sourceTree = "<group>"; };
+		8335679E2199D95C0081498B /* TimezoneMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezoneMapManager.swift; sourceTree = "<group>"; };
+		833567A0219A047E0081498B /* ContinentsMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentsMapManager.swift; sourceTree = "<group>"; };
+		833567A2219A04B80081498B /* ContinentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentInfo.swift; sourceTree = "<group>"; };
 		833D321E2189E63900A5F971 /* img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img.png; sourceTree = "<group>"; };
 		834316862142AD6600784257 /* seelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = seelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		834316892142AD6600784257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -206,6 +212,8 @@
 				830EF13B218F574500AEE7A0 /* CountriesMapManager.swift */,
 				830EF13D218F6C4E00AEE7A0 /* CitiesMapManager.swift */,
 				836F302621937F7600D4FCB3 /* PhotoMapViewer.swift */,
+				8335679E2199D95C0081498B /* TimezoneMapManager.swift */,
+				833567A0219A047E0081498B /* ContinentsMapManager.swift */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -298,6 +306,7 @@
 				83A8ABD021733F2600203402 /* CountryInfo.swift */,
 				83A8ABD22173459800203402 /* StateInfo.swift */,
 				830EF12D218E22A900AEE7A0 /* TimezoneInfo.swift */,
+				833567A2219A04B80081498B /* ContinentInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -606,12 +615,14 @@
 				83A8ABCD217326F400203402 /* VisitedCity.swift in Sources */,
 				832B9A20215FD4CD0098A396 /* Year.swift in Sources */,
 				834316BB2142D5FD00784257 /* Photo.swift in Sources */,
+				833567A1219A047E0081498B /* ContinentsMapManager.swift in Sources */,
 				83A8ABD121733F2600203402 /* CountryInfo.swift in Sources */,
 				83221A87214527EC0055D775 /* GeoDatabase.swift in Sources */,
 				830EF124218CAF5000AEE7A0 /* PlaceTableViewCell.swift in Sources */,
 				830EF133218EF5C300AEE7A0 /* HeatmapTableViewManager.swift in Sources */,
 				83571F7F21564ACA001CEEFC /* HistoryChartView.swift in Sources */,
 				8343168C2142AD6600784257 /* ViewController.swift in Sources */,
+				833567A3219A04B80081498B /* ContinentInfo.swift in Sources */,
 				83A8ABCB216D384200203402 /* HeatmapSquare.swift in Sources */,
 				830EF13C218F574500AEE7A0 /* CountriesMapManager.swift in Sources */,
 				8305ED4C218300F300630BD6 /* LineChartDrawer.swift in Sources */,
@@ -626,6 +637,7 @@
 				8335679D2198C1AA0081498B /* ContinentsTableViewManager.swift in Sources */,
 				8343168A2142AD6600784257 /* AppDelegate.swift in Sources */,
 				834316922142AD6700784257 /* seelog.xcdatamodeld in Sources */,
+				8335679F2199D95C0081498B /* TimezoneMapManager.swift in Sources */,
 				830EF131218EF57300AEE7A0 /* TableViewManager.swift in Sources */,
 				836F302721937F7600D4FCB3 /* PhotoMapViewer.swift in Sources */,
 				83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */,

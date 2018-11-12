@@ -12,4 +12,6 @@ import UIKit
 protocol TableViewManager {
     func numberOfRowsInSection(_ section: Int) -> Int
     func cellForRowAt(_ indexPath: IndexPath) -> UITableViewCell
+    func numberOfSections() -> Int
+    func titleForHeaderInSection(section: Int) -> String?
 }
