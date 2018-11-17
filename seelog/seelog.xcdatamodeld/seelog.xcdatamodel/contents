@@ -3,13 +3,6 @@
     <entity name="GeometryWKT" representedClassName="GeometryWKT" syncable="YES" codeGenerationType="class">
         <attribute name="wkt" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="HeatmapSquare" representedClassName="HeatmapSquare" syncable="YES" codeGenerationType="class">
-        <attribute name="count" attributeType="Integer 64" minValueString="0" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="geohash" attributeType="String" syncable="YES"/>
-        <attribute name="lastMonth" attributeType="String" syncable="YES"/>
-        <attribute name="lastSeason" attributeType="String" syncable="YES"/>
-        <attribute name="lastYear" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
-    </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
         <attribute name="altitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="cityKeys" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
@@ -23,13 +16,6 @@
         <attribute name="timezone" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="year" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
-    <entity name="VisitedCity" representedClassName="VisitedCity" syncable="YES" codeGenerationType="class">
-        <attribute name="cityKey" attributeType="Integer 64" usesScalarValueType="YES" syncable="YES"/>
-    </entity>
-    <entity name="VisitedCountry" representedClassName="VisitedCountry" syncable="YES" codeGenerationType="class">
-        <attribute name="countryKey" attributeType="String" syncable="YES"/>
-        <attribute name="stateKeys" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
-    </entity>
     <entity name="Year" representedClassName="Year" syncable="YES" codeGenerationType="class">
         <attribute name="cities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
         <attribute name="countries" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="[String: [String]]" syncable="YES"/>
@@ -42,21 +28,16 @@
         <attribute name="seenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="timezones" optional="YES" attributeType="Transformable" customClassName="[Int32]" syncable="YES"/>
         <attribute name="year" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="cumulativeHeatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
         <relationship name="cumulativeLandWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
         <relationship name="cumulativeProcessedHeatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
         <relationship name="cumulativeWaterWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
-        <relationship name="heatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
         <relationship name="landWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
         <relationship name="processedHeatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
         <relationship name="waterWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
     </entity>
     <elements>
         <element name="GeometryWKT" positionX="630" positionY="360" width="128" height="60"/>
-        <element name="HeatmapSquare" positionX="630" positionY="279" width="128" height="120"/>
         <element name="Photo" positionX="619" positionY="216" width="128" height="210"/>
-        <element name="VisitedCity" positionX="639" positionY="297" width="128" height="60"/>
-        <element name="VisitedCountry" positionX="630" positionY="279" width="128" height="75"/>
-        <element name="Year" positionX="621" positionY="279" width="128" height="330"/>
+        <element name="Year" positionX="621" positionY="279" width="128" height="300"/>
     </elements>
 </model>

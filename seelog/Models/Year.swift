@@ -122,10 +122,6 @@ extension Year {
         return nil
     }
 
-    func heatmapWKT(cumulative: Bool) -> String? {
-        return cumulative ? cumulativeHeatmapWKT?.wkt : heatmapWKT?.wkt
-    }
-
     func processedHeatmapWKT(cumulative: Bool) -> String? {
         return cumulative ? cumulativeProcessedHeatmapWKT?.wkt : processedHeatmapWKT?.wkt
     }
@@ -135,6 +131,7 @@ extension Year {
     }
 
     func waterWKT(cumulative: Bool) -> String? {
+        managedObjectContext?.refresh(self, mergeChanges: true)
         return cumulative ? cumulativeWaterWKT?.wkt : waterWKT?.wkt
     }
 

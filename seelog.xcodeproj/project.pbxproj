@@ -41,6 +41,7 @@
 		8335679F2199D95C0081498B /* TimezoneMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8335679E2199D95C0081498B /* TimezoneMapManager.swift */; };
 		833567A1219A047E0081498B /* ContinentsMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833567A0219A047E0081498B /* ContinentsMapManager.swift */; };
 		833567A3219A04B80081498B /* ContinentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833567A2219A04B80081498B /* ContinentInfo.swift */; };
+		833567A521A026160081498B /* YearHeatmapUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833567A421A026160081498B /* YearHeatmapUpdater.swift */; };
 		833D321F2189E63A00A5F971 /* img.png in Resources */ = {isa = PBXBuildFile; fileRef = 833D321E2189E63900A5F971 /* img.png */; };
 		8343168A2142AD6600784257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316892142AD6600784257 /* AppDelegate.swift */; };
 		8343168C2142AD6600784257 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8343168B2142AD6600784257 /* ViewController.swift */; };
@@ -54,15 +55,11 @@
 		83571F7F21564ACA001CEEFC /* HistoryChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83571F7E21564ACA001CEEFC /* HistoryChartView.swift */; };
 		835B8057217B44B6001E9B96 /* MainMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835B8056217B44B6001E9B96 /* MainMapViewDelegate.swift */; };
 		836F302721937F7600D4FCB3 /* PhotoMapViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F302621937F7600D4FCB3 /* PhotoMapViewer.swift */; };
-		83A8ABCB216D384200203402 /* HeatmapSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABCA216D384200203402 /* HeatmapSquare.swift */; };
-		83A8ABCD217326F400203402 /* VisitedCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABCC217326F400203402 /* VisitedCity.swift */; };
 		83A8ABCF2173290400203402 /* CityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABCE2173290400203402 /* CityInfo.swift */; };
 		83A8ABD121733F2600203402 /* CountryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABD021733F2600203402 /* CountryInfo.swift */; };
 		83A8ABD32173459800203402 /* StateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABD22173459800203402 /* StateInfo.swift */; };
 		83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */; };
 		83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7DD8E21567C120046D8A5 /* ReportViewController.swift */; };
-		83E80A9421626D7100A39782 /* VisitedPlacesStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E80A9321626D7100A39782 /* VisitedPlacesStats.swift */; };
-		83E80A992162949400A39782 /* VisitedCountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E80A982162949400A39782 /* VisitedCountry.swift */; };
 		83FF2129215F86C5008E846F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF2128215F86C5008E846F /* Helpers.swift */; };
 		83FF212C215FA47E008E846F /* YearStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF212B215FA47E008E846F /* YearStatsUpdater.swift */; };
 		A5502DA6450971490B66119E /* Pods_seelogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C4034B3BAC37236CD70496 /* Pods_seelogTests.framework */; };
@@ -122,6 +119,7 @@
 		8335679E2199D95C0081498B /* TimezoneMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezoneMapManager.swift; sourceTree = "<group>"; };
 		833567A0219A047E0081498B /* ContinentsMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentsMapManager.swift; sourceTree = "<group>"; };
 		833567A2219A04B80081498B /* ContinentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentInfo.swift; sourceTree = "<group>"; };
+		833567A421A026160081498B /* YearHeatmapUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearHeatmapUpdater.swift; sourceTree = "<group>"; };
 		833D321E2189E63900A5F971 /* img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img.png; sourceTree = "<group>"; };
 		834316862142AD6600784257 /* seelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = seelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		834316892142AD6600784257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -141,15 +139,11 @@
 		83571F7E21564ACA001CEEFC /* HistoryChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryChartView.swift; sourceTree = "<group>"; };
 		835B8056217B44B6001E9B96 /* MainMapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapViewDelegate.swift; sourceTree = "<group>"; };
 		836F302621937F7600D4FCB3 /* PhotoMapViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMapViewer.swift; sourceTree = "<group>"; };
-		83A8ABCA216D384200203402 /* HeatmapSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatmapSquare.swift; sourceTree = "<group>"; };
-		83A8ABCC217326F400203402 /* VisitedCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitedCity.swift; sourceTree = "<group>"; };
 		83A8ABCE2173290400203402 /* CityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityInfo.swift; sourceTree = "<group>"; };
 		83A8ABD021733F2600203402 /* CountryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryInfo.swift; sourceTree = "<group>"; };
 		83A8ABD22173459800203402 /* StateInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateInfo.swift; sourceTree = "<group>"; };
 		83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBarChartSelection.swift; sourceTree = "<group>"; };
 		83C7DD8E21567C120046D8A5 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
-		83E80A9321626D7100A39782 /* VisitedPlacesStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitedPlacesStats.swift; sourceTree = "<group>"; };
-		83E80A982162949400A39782 /* VisitedCountry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitedCountry.swift; sourceTree = "<group>"; };
 		83FF2128215F86C5008E846F /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		83FF212B215FA47E008E846F /* YearStatsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearStatsUpdater.swift; sourceTree = "<group>"; };
 		85FD6EE0A52036A012C91395 /* Pods_seelogUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelogUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -299,9 +293,6 @@
 				83221A86214527EC0055D775 /* GeoDatabase.swift */,
 				832B9A1F215FD4CD0098A396 /* Year.swift */,
 				834316BA2142D5FD00784257 /* Photo.swift */,
-				83E80A982162949400A39782 /* VisitedCountry.swift */,
-				83A8ABCA216D384200203402 /* HeatmapSquare.swift */,
-				83A8ABCC217326F400203402 /* VisitedCity.swift */,
 				83A8ABCE2173290400203402 /* CityInfo.swift */,
 				83A8ABD021733F2600203402 /* CountryInfo.swift */,
 				83A8ABD22173459800203402 /* StateInfo.swift */,
@@ -339,11 +330,11 @@
 			children = (
 				83221A8E2145780C0055D775 /* DatabaseInitializer.swift */,
 				83FF212B215FA47E008E846F /* YearStatsUpdater.swift */,
-				83E80A9321626D7100A39782 /* VisitedPlacesStats.swift */,
 				830EF125218E040A00AEE7A0 /* YearCountriesUpdater.swift */,
 				830EF127218E056100AEE7A0 /* YearCitiesUpdater.swift */,
 				830EF129218E067A00AEE7A0 /* YearSeenAreaUpdater.swift */,
 				830EF12B218E07DB00AEE7A0 /* YearTimezonesUpdater.swift */,
+				833567A421A026160081498B /* YearHeatmapUpdater.swift */,
 			);
 			path = Initialization;
 			sourceTree = "<group>";
@@ -612,18 +603,17 @@
 				8305ED4A2182671A00630BD6 /* BarChartDrawer.swift in Sources */,
 				830EF13A218F54A300AEE7A0 /* MapManager.swift in Sources */,
 				83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */,
-				83A8ABCD217326F400203402 /* VisitedCity.swift in Sources */,
 				832B9A20215FD4CD0098A396 /* Year.swift in Sources */,
 				834316BB2142D5FD00784257 /* Photo.swift in Sources */,
 				833567A1219A047E0081498B /* ContinentsMapManager.swift in Sources */,
 				83A8ABD121733F2600203402 /* CountryInfo.swift in Sources */,
+				833567A521A026160081498B /* YearHeatmapUpdater.swift in Sources */,
 				83221A87214527EC0055D775 /* GeoDatabase.swift in Sources */,
 				830EF124218CAF5000AEE7A0 /* PlaceTableViewCell.swift in Sources */,
 				830EF133218EF5C300AEE7A0 /* HeatmapTableViewManager.swift in Sources */,
 				83571F7F21564ACA001CEEFC /* HistoryChartView.swift in Sources */,
 				8343168C2142AD6600784257 /* ViewController.swift in Sources */,
 				833567A3219A04B80081498B /* ContinentInfo.swift in Sources */,
-				83A8ABCB216D384200203402 /* HeatmapSquare.swift in Sources */,
 				830EF13C218F574500AEE7A0 /* CountriesMapManager.swift in Sources */,
 				8305ED4C218300F300630BD6 /* LineChartDrawer.swift in Sources */,
 				830EF128218E056100AEE7A0 /* YearCitiesUpdater.swift in Sources */,
@@ -642,7 +632,6 @@
 				836F302721937F7600D4FCB3 /* PhotoMapViewer.swift in Sources */,
 				83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */,
 				830EF13E218F6C4E00AEE7A0 /* CitiesMapManager.swift in Sources */,
-				83E80A9421626D7100A39782 /* VisitedPlacesStats.swift in Sources */,
 				83221A8F2145780C0055D775 /* DatabaseInitializer.swift in Sources */,
 				830EF138218F549500AEE7A0 /* HeatmapMapManager.swift in Sources */,
 				830EF12E218E22A900AEE7A0 /* TimezoneInfo.swift in Sources */,
@@ -654,7 +643,6 @@
 				835B8057217B44B6001E9B96 /* MainMapViewDelegate.swift in Sources */,
 				830EF12A218E067A00AEE7A0 /* YearSeenAreaUpdater.swift in Sources */,
 				830EF12C218E07DB00AEE7A0 /* YearTimezonesUpdater.swift in Sources */,
-				83E80A992162949400A39782 /* VisitedCountry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,6 +816,7 @@
 			baseConfigurationReference = 997FC8762F2CE413825CCB6B /* Pods-seelog.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V487J8L84E;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -851,6 +840,7 @@
 			baseConfigurationReference = A3EE17F4CCEC392913D7964D /* Pods-seelog.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V487J8L84E;
 				FRAMEWORK_SEARCH_PATHS = (

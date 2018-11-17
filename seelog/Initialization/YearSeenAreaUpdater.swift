@@ -11,43 +11,25 @@ import GEOSwift
 import CoreData
 
 class YearSeenAreaUpdater {
-    var heatmaps = [Int32: Geometry]()
-    var cumulativeHeatmapWKTs = [Int32: String]()
-    var cumulativeHeatmap: Geometry?
     var seenAreas = [Int32: Double]()
     var cumulativeSeenAreas = [Int32: Double]()
     var sinceYear: Int32
     var sinceYearModel: Year?
     var geohashes = [Int32: Set<String>]()
     var cumulativeGeohashes = [Int32: Set<String>]()
+    var changedHeatmap = [Int32: Bool]()
+    var changedCumulativeHeatmap = [Int32: Bool]()
 
     init(sinceYear: Int32,
          sinceYearModel: Year?) {
         self.sinceYear = sinceYear
         self.sinceYearModel = sinceYearModel
-
-        if let wkt = sinceYearModel?.cumulativeHeatmapWKT?.wkt,
-            let heatmap = Helpers.geometry(fromWKT: wkt) {
-            self.cumulativeHeatmap = heatmap
-        }
-
         self.initializeSegments()
     }
 
     func processNewPhoto(photo: Photo, key: Int32) {
         if let geohash = photo.geohash, let knownGeohashes = cumulativeGeohashes[key] {
             if !knownGeohashes.contains(geohash) {
-                if let squarePolygon = Helpers.polygonFor(geohash: geohash) {
-                    let newHeatmap = cumulativeHeatmap?.union(squarePolygon) ?? squarePolygon
-                    self.cumulativeHeatmap = newHeatmap
-
-                    if let wkt = newHeatmap.WKT {
-                        for nextSegment in Helpers.yearsSince(key) {
-                            cumulativeHeatmapWKTs[nextSegment] = wkt
-                        }
-                    }
-                }
-
                 let area = Helpers.areaOf(geohash: geohash)
                 for nextSegment in Helpers.yearsSince(key) {
                     cumulativeSeenAreas[nextSegment]! += area
@@ -56,16 +38,15 @@ class YearSeenAreaUpdater {
                         known.insert(geohash)
                         cumulativeGeohashes[nextSegment] = known
                     }
+
+                    changedCumulativeHeatmap[nextSegment] = true
                 }
             }
 
             if var known = geohashes[key] {
                 if !known.contains(geohash) {
+                    changedHeatmap[key] = true
                     seenAreas[key]! = seenAreas[key]! + Helpers.areaOf(geohash: geohash)
-
-                    if let squarePolygon = Helpers.polygonFor(geohash: geohash) {
-                        heatmaps[key] = heatmaps[key]?.union(squarePolygon) ?? squarePolygon
-                    }
 
                     known.insert(geohash)
                     geohashes[key] = known
@@ -75,77 +56,32 @@ class YearSeenAreaUpdater {
     }
 
     func updateModel(key: Int32, model: inout Year, context: NSManagedObjectContext) {
-        if let heatmapWKT = model.heatmapWKT {
-            heatmapWKT.wkt = heatmaps[key]?.WKT
-        } else {
-            let heatmapWKT = GeometryWKT(context: context)
-            heatmapWKT.wkt = heatmaps[key]?.WKT
-            model.heatmapWKT = heatmapWKT
-        }
-
-        if let cumulativeHeatmapWKT = model.cumulativeHeatmapWKT {
-            cumulativeHeatmapWKT.wkt = cumulativeHeatmapWKTs[key]
-        } else {
-            let cumulativeHeatmapWKT = GeometryWKT(context: context)
-            cumulativeHeatmapWKT.wkt = cumulativeHeatmapWKTs[key]
-            model.cumulativeHeatmapWKT = cumulativeHeatmapWKT
-        }
-
-        if let processedHeatmap = processHeatmap(heatmap: heatmaps[key]),
-            let land = HeatmapMapManager.landsPolygon?.difference(processedHeatmap),
-            let water = HeatmapMapManager.waterPolygon?.difference(processedHeatmap) {
-            if let processedWKT = model.processedHeatmapWKT {
-                processedWKT.wkt = processedHeatmap.WKT
-            } else {
-                let processedWKT = GeometryWKT(context: context)
-                processedWKT.wkt = processedHeatmap.WKT
-                model.processedHeatmapWKT = processedWKT
+        if changedHeatmap[key] ?? false {
+            if let processedHeatmap = model.processedHeatmapWKT {
+                context.delete(processedHeatmap)
+                model.processedHeatmapWKT = nil
             }
-
-            if let landWKT = model.landWKT {
-                landWKT.wkt = land.WKT
-            } else {
-                let landWKT = GeometryWKT(context: context)
-                landWKT.wkt = land.WKT
-                model.landWKT = landWKT
+            if let land = model.landWKT {
+                context.delete(land)
+                model.landWKT = nil
             }
-
-            if let waterWKT = model.waterWKT {
-                waterWKT.wkt = water.WKT
-            } else {
-                let waterWKT = GeometryWKT(context: context)
-                waterWKT.wkt = water.WKT
-                model.waterWKT = waterWKT
+            if let water = model.waterWKT {
+                context.delete(water)
+                model.waterWKT = nil
             }
         }
-
-        if let wkt = cumulativeHeatmapWKTs[key],
-            let cumulativeHeatmap = Helpers.geometry(fromWKT: wkt),
-            let processedHeatmap = processHeatmap(heatmap: cumulativeHeatmap),
-            let land = HeatmapMapManager.landsPolygon?.difference(processedHeatmap),
-            let water = HeatmapMapManager.waterPolygon?.difference(processedHeatmap) {
-            if let processedWKT = model.cumulativeProcessedHeatmapWKT {
-                processedWKT.wkt = processedHeatmap.WKT
-            } else {
-                let processedWKT = GeometryWKT(context: context)
-                processedWKT.wkt = processedHeatmap.WKT
-                model.cumulativeProcessedHeatmapWKT = processedWKT
+        if changedCumulativeHeatmap[key] ?? false {
+            if let cumulativeProcessedHeatmap = model.cumulativeProcessedHeatmapWKT {
+                context.delete(cumulativeProcessedHeatmap)
+                model.cumulativeProcessedHeatmapWKT = nil
             }
-
-            if let landWKT = model.cumulativeLandWKT {
-                landWKT.wkt = land.WKT
-            } else {
-                let landWKT = GeometryWKT(context: context)
-                landWKT.wkt = land.WKT
-                model.cumulativeLandWKT = landWKT
+            if let land = model.cumulativeLandWKT {
+                context.delete(land)
+                model.cumulativeLandWKT = nil
             }
-
-            if let waterWKT = model.cumulativeWaterWKT {
-                waterWKT.wkt = water.WKT
-            } else {
-                let waterWKT = GeometryWKT(context: context)
-                waterWKT.wkt = water.WKT
-                model.cumulativeWaterWKT = waterWKT
+            if let water = model.cumulativeWaterWKT {
+                context.delete(water)
+                model.cumulativeWaterWKT = nil
             }
         }
 
@@ -168,13 +104,13 @@ class YearSeenAreaUpdater {
             cumulativeSeenAreas[key] = sinceYearModel?.cumulativeSeenArea ?? 0
             cumulativeGeohashes[key] = Set(sinceYearModel?.cumulativeGeohashes ?? [])
             geohashes[key] = Set()
-            if let wkt = cumulativeHeatmap?.WKT { cumulativeHeatmapWKTs[key] = wkt }
+            changedHeatmap[key] = false
+            changedCumulativeHeatmap[key] = false
         }
 
         if let firstAggregate = sinceYearModel {
             geohashes[sinceYear] = Set(firstAggregate.geohashes ?? [])
             seenAreas[sinceYear] = firstAggregate.seenArea
-            if let wkt = firstAggregate.heatmapWKT?.wkt, let geometry = Helpers.geometry(fromWKT: wkt) { heatmaps[sinceYear] = geometry }
         }
     }
 }

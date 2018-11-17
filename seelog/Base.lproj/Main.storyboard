@@ -96,7 +96,7 @@
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StA-yE-hAe">
                                                                         <rect key="frame" x="8" y="8" width="175.66666666666666" height="39"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                                        <state key="normal" title="0 regions"/>
+                                                                        <state key="normal" title="0 divisions"/>
                                                                         <connections>
                                                                             <action selector="statesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="GDk-6N-yyl"/>
                                                                         </connections>

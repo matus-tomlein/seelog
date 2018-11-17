@@ -19,34 +19,35 @@ class DatabaseInitializer {
     }
 
     func start() {
-        let yearStatsUpdater = YearStatsUpdater(context: context)
-//        let visitedPlacesUpdater = VisitedPlacesStats()
-
+        var start = Date()
         let fetchOptions = PHFetchOptions()
         if let creationDate = Photo.lastCreationDate(context: self.context) {
             fetchOptions.predicate = NSPredicate(format: "creationDate > %@", creationDate as NSDate)
         }
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
-        
+
         let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-        allPhotos.enumerateObjects { asset, _, _ in
-            if let location = asset.location {
-                if let photo = self.savePhoto(asset: asset, location: location) {
-                    yearStatsUpdater.processNewPhoto(photo: photo)
-//                    visitedPlacesUpdater.processNewPhoto(photo: photo)
+        print("Fetched photos \(Date().timeIntervalSince(start))")
+        start = Date()
+        if allPhotos.count > 0 {
+            let yearStatsUpdater = YearStatsUpdater(context: context)
+
+            allPhotos.enumerateObjects { asset, _, _ in
+                if let location = asset.location {
+                    if let photo = self.savePhoto(asset: asset, location: location) {
+                        yearStatsUpdater.processNewPhoto(photo: photo)
+                    }
                 }
             }
+
+            yearStatsUpdater.update()
+            saveContext()
+            print("Saved photos \(Date().timeIntervalSince(start))")
+            start = Date()
         }
 
-        yearStatsUpdater.update()
-//        visitedPlacesUpdater.update(context: context)
-
-        do {
-            try context.save()
-        } catch {
-            print("Failed saving.")
-            print(error)
-        }
+        updateHeatmaps()
+        print("Saved heatmaps \(Date().timeIntervalSince(start))")
     }
 
     func savePhoto(asset: PHAsset, location: CLLocation) -> Photo? {
@@ -70,6 +71,43 @@ class DatabaseInitializer {
 
         return newPhoto
     }
-    
+
+    private func updateHeatmaps() {
+        do {
+            let request = NSFetchRequest<Year>(entityName: "Year")
+            request.sortDescriptors = [NSSortDescriptor(key: "year", ascending: false)]
+            let years = try context.fetch(request)
+            var changed = false
+            for year in years {
+                if self.updateHeatmap(year: year) { changed = true }
+            }
+            if changed { self.saveContext() }
+        } catch let err as NSError {
+            print(err.debugDescription)
+        }
+    }
+
+    private func updateHeatmap(year: Year) -> Bool {
+        let heatmapUpdater = YearHeatmapUpdater(context: context)
+        var changed = false
+        if year.cumulativeProcessedHeatmapWKT == nil {
+            heatmapUpdater.update(year: year, cumulative: true)
+            changed = true
+        }
+        if year.processedHeatmapWKT == nil {
+            heatmapUpdater.update(year: year, cumulative: false)
+            changed = true
+        }
+        return changed
+    }
+
+    private func saveContext() {
+        do {
+            try self.context.save()
+        } catch {
+            print("Failed saving.")
+            print(error)
+        }
+    }
     
 }

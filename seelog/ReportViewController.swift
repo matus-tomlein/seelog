@@ -189,7 +189,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         if let year = barChartSelection?.currentAggregate {
             UIView.setAnimationsEnabled(false)
             self.countriesButton.setTitle("\(year.numberOfCountries(cumulative: aggregateChart)) countries", for: .normal)
-            self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) regions", for: .normal)
+            self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) divisions", for: .normal)
             self.citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
             self.seenAreaButton.setTitle("\(year.seenArea(cumulative: aggregateChart)) km²", for: .normal)
             self.continentsButton.setTitle("\(year.numberOfContinents(cumulative: aggregateChart, geoDB: geoDB)) continents", for: .normal)

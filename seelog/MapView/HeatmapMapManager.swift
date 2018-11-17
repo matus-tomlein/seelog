@@ -138,7 +138,7 @@ class HeatmapMapManager: MapManager {
         } else if let circle = overlay as? MKCircle {
             let renderer = MKCircleRenderer(overlay: circle)
             renderer.lineWidth = 3
-            renderer.strokeColor = UIColor.red
+            renderer.strokeColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
             return renderer
         } else {
             let renderer = MKPolylineRenderer(overlay: overlay)

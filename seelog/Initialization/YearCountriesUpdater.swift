@@ -10,7 +10,7 @@ import Foundation
 
 fileprivate class AggregatedCountry {
     var country: String
-    var states = [String]()
+    var states = Set<String>()
 
     init(country: String) {
         self.country = country
@@ -18,7 +18,7 @@ fileprivate class AggregatedCountry {
 
     func add(state: String) {
         if !states.contains(state) {
-            states = states + [state]
+            states.insert(state)
         }
     }
 
@@ -28,26 +28,25 @@ fileprivate class AggregatedCountry {
 }
 
 fileprivate class AggregatedCountryList {
-    var countries = [AggregatedCountry]()
+    var countries = [String: AggregatedCountry]()
 
     func has(country countryKey: String) -> Bool {
-        let filtered = countries.filter { $0.country == countryKey }
-        return filtered.count > 0
+        return countries[countryKey] != nil
     }
 
     func has(country countryKey: String, andState stateKey: String) -> Bool {
-        let filtered = countries.filter { $0.country == countryKey }
-        if filtered.count == 0 { return false }
-
-        return filtered[0].has(state: stateKey)
+        if let country = countries[countryKey] {
+            return country.has(state: stateKey)
+        }
+        return false
     }
 
     func add(country countryKey: String) -> AggregatedCountry {
-        let filtered = countries.filter { $0.country == countryKey }
-        if filtered.count > 0 { return filtered[0] }
-
+        if let country = countries[countryKey] {
+            return country
+        }
         let country = AggregatedCountry(country: countryKey)
-        countries.append(country)
+        countries[countryKey] = country
         return country
     }
 }
@@ -139,8 +138,8 @@ class YearCountriesUpdater {
             var resultForKey = [String: [String]]()
             guard let countries = countriesAggregated[key] else { continue }
 
-            for country in countries.countries {
-                resultForKey[country.country] = country.states
+            for country in countries.countries.values {
+                resultForKey[country.country] = Array(country.states)
             }
 
             result[key] = resultForKey
