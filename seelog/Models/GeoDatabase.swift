@@ -21,6 +21,7 @@ class GeoDatabase {
     let timezones = Table("timezones")
     let geohashTimezones = Table("geohash_timezones")
     let continents = Table("continents")
+    let geohashContinents = Table("geohash_continents")
     
     let geohash = Expression<String>("geohash")
     let name = Expression<String>("name")
@@ -41,8 +42,6 @@ class GeoDatabase {
     let populationMax = Expression<Int>("pop_max")
     let worldCity = Expression<Int>("worldcity")
     let megaCity = Expression<Int>("megacity")
-
-    var countriesForStates = [String: String]()
     
     init() {
         if let filePath = Bundle.main.path(forResource: "generated", ofType: "sqlite") {
@@ -53,43 +52,46 @@ class GeoDatabase {
             }
         }
     }
-    
+
+    private var cachedCountryKeysForGeohashes: [String: String]?
     func countryKeyFor(geohash: String) -> String? {
-        let allGeohashes = getGeohashesOfAllLengths(geohash: geohash)
-
-        if let db = self.db {
+        if cachedCountryKeysForGeohashes == nil {
+            guard let db = self.db else { return nil }
+            cachedCountryKeysForGeohashes = [:]
             do {
-                let query = self.geohashCountries.where(allGeohashes.contains(self.geohash)).order(self.geohash.length.desc)
-                if let item = try db.pluck(query) {
-                    return item[self.countryKey]
+                for item in try db.prepare(self.geohashCountries) {
+                    cachedCountryKeysForGeohashes?[item[self.geohash]] = item[self.countryKey]
                 }
             } catch {
                 print("Error querying geo database")
             }
         }
-        
+        for gh in getGeohashesOfAllLengths(geohash: geohash) {
+            if let ck = cachedCountryKeysForGeohashes?[gh] { return ck }
+        }
         return nil
     }
 
+    private var cachedStateKeysForGeohashes: [String: String]?
     func stateKeyFor(geohash gh: String) -> String? {
-        let allGeohashes = getGeohashesOfAllLengths(geohash: gh)
-
-        if let db = self.db {
+        if cachedStateKeysForGeohashes == nil {
+            guard let db = self.db else { return nil }
+            cachedStateKeysForGeohashes = [:]
             do {
-                let query = self.geohashStates.where(allGeohashes.contains(self.geohash)).order(self.geohash.length.desc)
-                if let item = try db.pluck(query) {
-                    let stateKey = item[self.stateKey]
-                    if stateKey == "" { return nil }
-                    return stateKey
+                for item in try db.prepare(self.geohashStates) {
+                    cachedStateKeysForGeohashes?[item[self.geohash]] = item[self.stateKey]
                 }
             } catch {
                 print("Error querying geo database")
             }
         }
-        
+        for subgh in getGeohashesOfAllLengths(geohash: gh) {
+            if let sk = cachedStateKeysForGeohashes?[subgh] { return sk }
+        }
         return nil
     }
 
+    private var countriesForStates = [String: String]()
     func countryKeyFor(stateKey sk: String) -> String? {
         if let countryKey = countriesForStates[sk] {
             return countryKey
@@ -111,35 +113,67 @@ class GeoDatabase {
         return nil
     }
 
+    private var cachedTimezonesForGeohashes: [String: Int32]?
     func timezoneFor(geohash gh: String) -> Int32? {
-        let allGeohashes = getGeohashesOfAllLengths(geohash: gh)
-
-        if let db = self.db {
+        if cachedTimezonesForGeohashes == nil {
+            guard let db = self.db else { return nil }
+            cachedTimezonesForGeohashes = [:]
             do {
-                let query = self.geohashTimezones.where(allGeohashes.contains(self.geohash)).order(self.geohash.length.desc)
-                if let item = try db.pluck(query) {
-                    return Int32(item[self.timezoneId])
+                for item in try db.prepare(self.geohashTimezones) {
+                    cachedTimezonesForGeohashes?[item[self.geohash]] = Int32(item[self.timezoneId])
                 }
             } catch {
                 print("Error querying geo database")
             }
         }
-
+        for subgh in getGeohashesOfAllLengths(geohash: gh) {
+            if let id = cachedTimezonesForGeohashes?[subgh] { return id }
+        }
         return nil
     }
 
-    func cityKeysFor(geohash gh: String) -> [Int64] {
-        let allGeohashes = getGeohashesOfAllLengths(geohash: gh)
-
-        if let db = self.db {
+    private var cachedContinentsForGeohashes: [String: String]?
+    func continentFor(geohash gh: String) -> String? {
+        if cachedContinentsForGeohashes == nil {
+            guard let db = self.db else { return nil }
+            cachedContinentsForGeohashes = [:]
             do {
-                let query = self.geohashCities.where(allGeohashes.contains(self.geohash)).order(self.geohash.length.desc)
-                return try db.prepare(query).map { $0[self.cityKey] }
+                for item in try db.prepare(self.geohashContinents) {
+                    cachedContinentsForGeohashes?[item[self.geohash]] = item[self.name]
+                }
             } catch {
                 print("Error querying geo database")
             }
         }
+        for subgh in getGeohashesOfAllLengths(geohash: gh) {
+            if let name = cachedContinentsForGeohashes?[subgh] { return name }
+        }
+        return nil
+    }
 
+    private var cachedCityKeysForGeohashes: [String: [Int64]]?
+    func cityKeysFor(geohash gh: String) -> [Int64] {
+        if cachedCityKeysForGeohashes == nil {
+            guard let db = self.db else { return [] }
+            cachedCityKeysForGeohashes = [:]
+            do {
+                for item in try db.prepare(self.geohashCities) {
+                    let cityGeohash = item[self.geohash]
+                    let cityKey = item[self.cityKey]
+                    if var cityKeys = cachedCityKeysForGeohashes?[cityGeohash] {
+                        cityKeys.append(cityKey)
+                        cachedCityKeysForGeohashes?[cityGeohash] = cityKeys
+                    } else {
+                        cachedCityKeysForGeohashes?[cityGeohash] = [cityKey]
+                    }
+                }
+            } catch {
+                print("Error querying geo database")
+            }
+        }
+        for subgh in getGeohashesOfAllLengths(geohash: gh) {
+            if let key = cachedCityKeysForGeohashes?[subgh] { return key }
+        }
         return []
     }
 
@@ -276,5 +310,17 @@ class GeoDatabase {
         }
 
         return allGeohashes
+    }
+
+    func clearCaches() {
+        cachedCityKeysForGeohashes = nil
+        cachedTimezonesForGeohashes = nil
+        cachedCountryKeysForGeohashes = nil
+        cachedStateKeysForGeohashes = nil
+        cachedCityInfos.removeAll()
+        cachedContinents.removeAll()
+        cachedStateInfos.removeAll()
+        cachedTimezones.removeAll()
+        cachedCountryInfos.removeAll()
     }
 }

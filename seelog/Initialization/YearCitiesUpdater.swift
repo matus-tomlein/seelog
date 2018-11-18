@@ -13,18 +13,26 @@ class YearCitiesUpdater {
     var cumulativeCitiesAggregated = [Int32: [Int64]]()
     var sinceYear: Int32
     var sinceYearModel: Year?
+    var geoDB: GeoDatabase
+    var initializationState: CurrentInitializationState
 
     init(sinceKey: Int32,
-         sinceAggregate: Year?) {
+         sinceAggregate: Year?,
+         geoDB: GeoDatabase,
+         initializationState: inout CurrentInitializationState) {
         self.sinceYear = sinceKey
         self.sinceYearModel = sinceAggregate
+        self.initializationState = initializationState
+        self.geoDB = geoDB
 
         self.initializeSegments()
     }
 
     func processNewPhoto(photo: Photo, key: Int32) {
-        if let cityKeys = photo.cityKeys,
+        if let geohash = photo.geohash,
             var cities = citiesAggregated[key] {
+            let cityKeys = geoDB.cityKeysFor(geohash: geohash)
+
             for cityKey in cityKeys {
                 if !cities.contains(cityKey) {
                     cities.append(cityKey)
@@ -37,6 +45,7 @@ class YearCitiesUpdater {
                         } else {
                             cumulativeCities.append(cityKey)
                             cumulativeCitiesAggregated[nextSegment] = cumulativeCities
+                            initializationState.numberOfCities = cumulativeCities.count
                         }
                     }
                 }

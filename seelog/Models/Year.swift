@@ -44,7 +44,7 @@ extension Year {
             return Double(numberOfStates(cumulative: cumulative))
 
         case .continents:
-            return Double(numberOfContinents(cumulative: cumulative, geoDB: geoDB))
+            return Double(numberOfContinents(cumulative: cumulative))
 
         case .timezones:
             return Double(numberOfTimezones(cumulative: cumulative, geoDB: geoDB))
@@ -67,8 +67,8 @@ extension Year {
         return cumulative ? countStates(countriesAndStates: cumulativeCountries ?? [:]) : countStates(countriesAndStates: countries ?? [:])
     }
 
-    func numberOfContinents(cumulative: Bool, geoDB: GeoDatabase) -> Int {
-        return continents(cumulative: cumulative, geoDB: geoDB)?.count ?? 0
+    func numberOfContinents(cumulative: Bool) -> Int {
+        return continents(cumulative: cumulative)?.count ?? 0
     }
 
     func numberOfTimezones(cumulative: Bool, geoDB: GeoDatabase) -> Int {
@@ -108,15 +108,12 @@ extension Year {
         return cumulative ? cumulativeGeohashes : geohashes
     }
 
-    func continents(cumulative: Bool, geoDB: GeoDatabase) -> [String]? {
-        if let countries = countries(cumulative: cumulative, geoDB: geoDB) {
-            return Array(Set(countries.map({ $0.continent }))).sorted()
-        }
-        return nil
+    func continents(cumulative: Bool) -> [String]? {
+        return cumulative ? cumulativeContinents : continents
     }
 
     func continentInfos(cumulative: Bool, geoDB: GeoDatabase) -> [ContinentInfo]? {
-        if let continents = continents(cumulative: cumulative, geoDB: geoDB) {
+        if let continents = continents(cumulative: cumulative) {
             return continents.map({ geoDB.continentInfoFor(name: $0) }).filter({ $0 != nil }).map({ $0! })
         }
         return nil

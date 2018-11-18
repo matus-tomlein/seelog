@@ -12,6 +12,12 @@ fileprivate class AggregatedCountry {
     var country: String
     var states = Set<String>()
 
+    var numberOfStates: Int {
+        get {
+            return states.count
+        }
+    }
+
     init(country: String) {
         self.country = country
     }
@@ -29,6 +35,12 @@ fileprivate class AggregatedCountry {
 
 fileprivate class AggregatedCountryList {
     var countries = [String: AggregatedCountry]()
+
+    var numberOfStates: Int {
+        get {
+            return countries.map({ $1.numberOfStates }).reduce(0, +)
+        }
+    }
 
     func has(country countryKey: String) -> Bool {
         return countries[countryKey] != nil
@@ -56,11 +68,17 @@ class YearCountriesUpdater {
     private var _cumulativeCountriesAggregated = [Int32: AggregatedCountryList]()
     var sinceYear: Int32
     var sinceYearModel: Year?
+    var geoDB: GeoDatabase
+    var initializationState: CurrentInitializationState
 
     init(sinceKey: Int32,
-         sinceAggregate: Year?) {
+         sinceAggregate: Year?,
+         geoDB: GeoDatabase,
+         initializationState: inout CurrentInitializationState) {
         self.sinceYear = sinceKey
         self.sinceYearModel = sinceAggregate
+        self.initializationState = initializationState
+        self.geoDB = geoDB
 
         self.initializeSegments()
     }
@@ -73,27 +91,32 @@ class YearCountriesUpdater {
     }
 
     func processNewPhoto(photo: Photo, key: Int32) {
-        if let countryKey = photo.countryKey,
+        if let geohash = photo.geohash,
+            let countryKey = geoDB.countryKeyFor(geohash: geohash),
             let countries = _countriesAggregated[key] {
             let country = countries.add(country: countryKey)
 
-            if let stateKey = photo.stateKey {
+            let stateKey = geoDB.stateKeyFor(geohash: geohash)
+            if let stateKey = stateKey {
                 country.add(state: stateKey)
             }
 
             for nextSegment in Helpers.yearsSince(key) {
                 let countries = _cumulativeCountriesAggregated[nextSegment]
 
-                if let stateKey = photo.stateKey {
+                if let stateKey = stateKey {
                     if countries?.has(country: countryKey, andState: stateKey) ?? false {
                         break
                     }
                     countries?.add(country: countryKey).add(state: stateKey)
+                    initializationState.numberOfCountries = countries?.countries.count ?? 0
+                    initializationState.numberOfStates = countries?.numberOfStates ?? 0
                 } else {
                     if countries?.has(country: countryKey) ?? false {
                         break
                     }
                     let _ = countries?.add(country: countryKey)
+                    initializationState.numberOfCountries = countries?.countries.count ?? 0
                 }
             }
         }

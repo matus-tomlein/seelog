@@ -142,7 +142,7 @@ class HeatmapMapManager: MapManager {
             return renderer
         } else {
             let renderer = MKPolylineRenderer(overlay: overlay)
-            renderer.lineWidth = 1
+            renderer.lineWidth = 2
             renderer.strokeColor = UIColor.white
             return renderer
         }

@@ -13,9 +13,11 @@ import Photos
 class DatabaseInitializer {
     var context: NSManagedObjectContext
     var geoDatabase = GeoDatabase()
+    var initializationState: CurrentInitializationState
     
-    init(context: NSManagedObjectContext) {
+    init(initializationState: inout CurrentInitializationState, context: NSManagedObjectContext) {
         self.context = context
+        self.initializationState = initializationState
     }
 
     func start() {
@@ -30,7 +32,9 @@ class DatabaseInitializer {
         print("Fetched photos \(Date().timeIntervalSince(start))")
         start = Date()
         if allPhotos.count > 0 {
-            let yearStatsUpdater = YearStatsUpdater(context: context)
+            let yearStatsUpdater = YearStatsUpdater(initializationState: &initializationState,
+                                                    geoDB: geoDatabase,
+                                                    context: context)
 
             allPhotos.enumerateObjects { asset, _, _ in
                 if let location = asset.location {
@@ -48,6 +52,8 @@ class DatabaseInitializer {
 
         updateHeatmaps()
         print("Saved heatmaps \(Date().timeIntervalSince(start))")
+
+        geoDatabase.clearCaches()
     }
 
     func savePhoto(asset: PHAsset, location: CLLocation) -> Photo? {
@@ -56,18 +62,12 @@ class DatabaseInitializer {
                                      precision: .twentyKilometers)
         
         let newPhoto = Photo(context: self.context)
-        newPhoto.altitude = location.altitude
         newPhoto.creationDate = asset.creationDate
         if let date = asset.creationDate { newPhoto.year = Helpers.yearForDate(date) }
         newPhoto.latitude = location.coordinate.latitude
         newPhoto.localIdentifier = asset.localIdentifier
         newPhoto.longitude = location.coordinate.longitude
         newPhoto.geohash = geohash
-
-        newPhoto.countryKey = self.geoDatabase.countryKeyFor(geohash: geohash)
-        newPhoto.stateKey = self.geoDatabase.stateKeyFor(geohash: geohash)
-        newPhoto.cityKeys = self.geoDatabase.cityKeysFor(geohash: geohash)
-        newPhoto.timezone = self.geoDatabase.timezoneFor(geohash: geohash) ?? 0
 
         return newPhoto
     }

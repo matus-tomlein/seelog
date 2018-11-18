@@ -13,30 +13,38 @@ class YearTimezonesUpdater {
     var sinceYearModel: Year?
     var timezonesAggregated = [Int32: [Int32]]()
     var cumulativeTimezonesAggregated = [Int32: [Int32]]()
+    var geoDB: GeoDatabase
+    var initializationState: CurrentInitializationState
 
     init(sinceKey: Int32,
-         sinceAggregate: Year?) {
+         sinceAggregate: Year?,
+         geoDB: GeoDatabase,
+         initializationState: inout CurrentInitializationState) {
         self.sinceYear = sinceKey
         self.sinceYearModel = sinceAggregate
+        self.initializationState = initializationState
+        self.geoDB = geoDB
 
         self.initializeSegments()
     }
 
     func processNewPhoto(photo: Photo, key: Int32) {
-        if photo.timezone > 0 {
+        if let geohash = photo.geohash,
+            let timezone = geoDB.timezoneFor(geohash: geohash) {
             if var timezones = timezonesAggregated[key] {
-                if !timezones.contains(photo.timezone) {
-                    timezones.append(photo.timezone)
+                if !timezones.contains(timezone) {
+                    timezones.append(timezone)
                 }
                 timezonesAggregated[key] = timezones
 
                 for nextSegment in Helpers.yearsSince(key) {
                     if var cumulativeTimezones = cumulativeTimezonesAggregated[nextSegment] {
-                        if cumulativeTimezones.contains(photo.timezone) {
+                        if cumulativeTimezones.contains(timezone) {
                             break
                         } else {
-                            cumulativeTimezones.append(photo.timezone)
+                            cumulativeTimezones.append(timezone)
                             cumulativeTimezonesAggregated[nextSegment] = cumulativeTimezones
+                            initializationState.numberOfTimezones = cumulativeTimezones.count
                         }
                     }
                 }

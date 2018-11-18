@@ -23,7 +23,7 @@ class ContinentsTableViewManager: TableViewManager {
         self.year = year
         self.cumulative = cumulative
 
-        self.continents = year.continents(cumulative: cumulative, geoDB: geoDB)?.sorted() ?? []
+        self.continents = year.continents(cumulative: cumulative)?.sorted() ?? []
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {

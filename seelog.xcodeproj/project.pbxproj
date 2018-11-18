@@ -42,6 +42,7 @@
 		833567A1219A047E0081498B /* ContinentsMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833567A0219A047E0081498B /* ContinentsMapManager.swift */; };
 		833567A3219A04B80081498B /* ContinentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833567A2219A04B80081498B /* ContinentInfo.swift */; };
 		833567A521A026160081498B /* YearHeatmapUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833567A421A026160081498B /* YearHeatmapUpdater.swift */; };
+		833567A721A169B20081498B /* YearContinentsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833567A621A169B20081498B /* YearContinentsUpdater.swift */; };
 		833D321F2189E63A00A5F971 /* img.png in Resources */ = {isa = PBXBuildFile; fileRef = 833D321E2189E63900A5F971 /* img.png */; };
 		8343168A2142AD6600784257 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316892142AD6600784257 /* AppDelegate.swift */; };
 		8343168C2142AD6600784257 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8343168B2142AD6600784257 /* ViewController.swift */; };
@@ -120,6 +121,7 @@
 		833567A0219A047E0081498B /* ContinentsMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentsMapManager.swift; sourceTree = "<group>"; };
 		833567A2219A04B80081498B /* ContinentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentInfo.swift; sourceTree = "<group>"; };
 		833567A421A026160081498B /* YearHeatmapUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearHeatmapUpdater.swift; sourceTree = "<group>"; };
+		833567A621A169B20081498B /* YearContinentsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearContinentsUpdater.swift; sourceTree = "<group>"; };
 		833D321E2189E63900A5F971 /* img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img.png; sourceTree = "<group>"; };
 		834316862142AD6600784257 /* seelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = seelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		834316892142AD6600784257 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				830EF129218E067A00AEE7A0 /* YearSeenAreaUpdater.swift */,
 				830EF12B218E07DB00AEE7A0 /* YearTimezonesUpdater.swift */,
 				833567A421A026160081498B /* YearHeatmapUpdater.swift */,
+				833567A621A169B20081498B /* YearContinentsUpdater.swift */,
 			);
 			path = Initialization;
 			sourceTree = "<group>";
@@ -629,6 +632,7 @@
 				834316922142AD6700784257 /* seelog.xcdatamodeld in Sources */,
 				8335679F2199D95C0081498B /* TimezoneMapManager.swift in Sources */,
 				830EF131218EF57300AEE7A0 /* TableViewManager.swift in Sources */,
+				833567A721A169B20081498B /* YearContinentsUpdater.swift in Sources */,
 				836F302721937F7600D4FCB3 /* PhotoMapViewer.swift in Sources */,
 				83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */,
 				830EF13E218F6C4E00AEE7A0 /* CitiesMapManager.swift in Sources */,

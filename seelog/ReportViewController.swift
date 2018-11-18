@@ -74,6 +74,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
         historyBarChartView.reportViewController = self
 
+        mapView.region = MKCoordinateRegion(center: mapView.centerCoordinate, span: MKCoordinateSpan(latitudeDelta: 100, longitudeDelta: 100))
         mapViewDelegate = MainMapViewDelegate(mapView: mapView)
         mapView.delegate = mapViewDelegate
 
@@ -192,7 +193,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
             self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) divisions", for: .normal)
             self.citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
             self.seenAreaButton.setTitle("\(year.seenArea(cumulative: aggregateChart)) km²", for: .normal)
-            self.continentsButton.setTitle("\(year.numberOfContinents(cumulative: aggregateChart, geoDB: geoDB)) continents", for: .normal)
+            self.continentsButton.setTitle("\(year.numberOfContinents(cumulative: aggregateChart)) continents", for: .normal)
             self.timezonesButton.setTitle("\(year.numberOfTimezones(cumulative: aggregateChart, geoDB: geoDB)) timezones", for: .normal)
             UIView.setAnimationsEnabled(true)
         }

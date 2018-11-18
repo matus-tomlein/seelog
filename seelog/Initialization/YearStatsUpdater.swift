@@ -12,15 +12,20 @@ import CoreData
 class YearStatsUpdater {
     var context: NSManagedObjectContext
     private var sinceAggregate: Year?
+    private var geoDB: GeoDatabase
 
     private var citiesUpdater: YearCitiesUpdater?
     private var countriesUpdater: YearCountriesUpdater?
     private var seenAreaAndHeatmapUpdater: YearSeenAreaUpdater?
     private var timezonesUpdater: YearTimezonesUpdater?
+    private var continentsUpdater: YearContinentsUpdater?
+    private var initializationState: CurrentInitializationState
 
-    init(context: NSManagedObjectContext) {
+    init(initializationState: inout CurrentInitializationState, geoDB: GeoDatabase, context: NSManagedObjectContext) {
         self.context = context
         sinceAggregate = Year.last(context: context)
+        self.initializationState = initializationState
+        self.geoDB = geoDB
     }
 
     func processNewPhoto(photo: Photo) {
@@ -28,22 +33,35 @@ class YearStatsUpdater {
             let sinceKey = sinceAggregate?.year ?? photo.year
 
             countriesUpdater = YearCountriesUpdater(sinceKey: sinceKey,
-                                                    sinceAggregate: sinceAggregate)
+                                                    sinceAggregate: sinceAggregate,
+                                                    geoDB: geoDB,
+                                                    initializationState: &initializationState)
 
             citiesUpdater = YearCitiesUpdater(sinceKey: sinceKey,
-                                              sinceAggregate: sinceAggregate)
+                                              sinceAggregate: sinceAggregate,
+                                              geoDB: geoDB,
+                                              initializationState: &initializationState)
 
             seenAreaAndHeatmapUpdater = YearSeenAreaUpdater(sinceYear: sinceKey,
-                                                            sinceYearModel: sinceAggregate)
+                                                            sinceYearModel: sinceAggregate,
+                                                            initializationState: &initializationState)
 
             timezonesUpdater = YearTimezonesUpdater(sinceKey: sinceKey,
-                                                    sinceAggregate: sinceAggregate)
+                                                    sinceAggregate: sinceAggregate,
+                                                    geoDB: geoDB,
+                                                    initializationState: &initializationState)
+
+            continentsUpdater = YearContinentsUpdater(sinceKey: sinceKey,
+                                                      sinceAggregate: sinceAggregate,
+                                                      geoDB: geoDB,
+                                                      initializationState: &initializationState)
         }
 
         countriesUpdater?.processNewPhoto(photo: photo, key: photo.year)
         citiesUpdater?.processNewPhoto(photo: photo, key: photo.year)
         seenAreaAndHeatmapUpdater?.processNewPhoto(photo: photo, key: photo.year)
         timezonesUpdater?.processNewPhoto(photo: photo, key: photo.year)
+        continentsUpdater?.processNewPhoto(photo: photo, key: photo.year)
     }
 
     func update() {
@@ -58,6 +76,7 @@ class YearStatsUpdater {
             citiesUpdater.updateModel(key: year, model: &model)
             timezonesUpdater.updateModel(key: year, model: &model)
             seenAreaAndHeatmapUpdater.updateModel(key: year, model: &model, context: context)
+            continentsUpdater?.updateModel(key: year, model: &model)
         }
     }
 

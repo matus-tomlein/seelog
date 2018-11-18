@@ -19,11 +19,14 @@ class YearSeenAreaUpdater {
     var cumulativeGeohashes = [Int32: Set<String>]()
     var changedHeatmap = [Int32: Bool]()
     var changedCumulativeHeatmap = [Int32: Bool]()
+    var initializationState: CurrentInitializationState
 
     init(sinceYear: Int32,
-         sinceYearModel: Year?) {
+         sinceYearModel: Year?,
+         initializationState: inout CurrentInitializationState) {
         self.sinceYear = sinceYear
         self.sinceYearModel = sinceYearModel
+        self.initializationState = initializationState
         self.initializeSegments()
     }
 
@@ -41,6 +44,7 @@ class YearSeenAreaUpdater {
 
                     changedCumulativeHeatmap[nextSegment] = true
                 }
+                initializationState.seenArea = cumulativeSeenAreas[key] ?? 0.0
             }
 
             if var known = geohashes[key] {
