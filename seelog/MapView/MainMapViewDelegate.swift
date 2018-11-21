@@ -124,63 +124,60 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool, geoDB: GeoDatabase, context: NSManagedObjectContext) {
         switch currentTab {
         case .countries, .states:
-            if let mapManager = self.mapManager as? CountriesMapManager {
-                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
-            } else {
+            if !(self.mapManager is CountriesMapManager) {
                 mapManager?.unload()
                 mapManager = CountriesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
 
         case .places:
-            if let mapManager = self.mapManager as? HeatmapMapManager {
-                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
-            } else {
+            if !(self.mapManager is HeatmapMapManager) {
                 mapManager?.unload()
                 mapManager = HeatmapMapManager(mapView: mapView, mapViewDelegate: self, context: context)
-                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
 
         case .cities:
-            if let mapManager = self.mapManager as? CitiesMapManager {
-                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
-            } else {
+            if !(self.mapManager is CitiesMapManager) {
                 mapManager?.unload()
                 mapManager = CitiesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
 
         case .continents:
-            if let mapManager = self.mapManager as? ContinentsMapManager {
-                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
-            } else {
+            if !(self.mapManager is ContinentsMapManager) {
                 mapManager?.unload()
                 mapManager = ContinentsMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
 
         case .timezones:
-            if let mapManager = self.mapManager as? TimezoneMapManager {
-                mapManager.load(currentTab: currentTab, year: year, cumulative: cumulative)
-            } else {
+            if !(self.mapManager is TimezoneMapManager) {
                 mapManager?.unload()
                 mapManager = TimezoneMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-                mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             }
+        }
+
+        DispatchQueue.global(qos: .background).async {
+            self.mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
         }
     }
 
     func addGeometryToMap(_ geometry: Geometry, polygonProperties: PolygonProperties) {
-        if let polygon = geometry.mapShape() as? MKPolygon {
-            polygon.polygonProperties = polygonProperties
-            mapView.add(polygon)
-        } else if let shapes = geometry.mapShape() as? MKShapesCollection {
-            for shape in shapes.shapes {
-                if let polygon = shape as? MKPolygon {
-                    polygon.polygonProperties = polygonProperties
-                    mapView.add(polygon)
+        DispatchQueue.main.sync {
+            if let polygon = geometry.mapShape() as? MKPolygon {
+                polygon.polygonProperties = polygonProperties
+                self.mapView.add(polygon)
+            } else if let shapes = geometry.mapShape() as? MKShapesCollection {
+                for shape in shapes.shapes {
+                    if let polygon = shape as? MKPolygon {
+                        polygon.polygonProperties = polygonProperties
+                        self.mapView.add(polygon)
+                    }
                 }
             }
+        }
+    }
+
+    func addOverlayToMap(_ overlay: MKOverlay) {
+        DispatchQueue.main.sync {
+            mapView.add(overlay)
         }
     }
 

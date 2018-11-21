@@ -28,6 +28,9 @@
 		830EF13C218F574500AEE7A0 /* CountriesMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF13B218F574500AEE7A0 /* CountriesMapManager.swift */; };
 		830EF13E218F6C4E00AEE7A0 /* CitiesMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF13D218F6C4E00AEE7A0 /* CitiesMapManager.swift */; };
 		830EF140218F7C8600AEE7A0 /* CitiesTableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF13F218F7C8600AEE7A0 /* CitiesTableViewManager.swift */; };
+		8317EA4521A5CC1D006CC144 /* BlockingQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8317EA4421A5CC1D006CC144 /* BlockingQueue.swift */; };
+		8317EA4721A5CC47006CC144 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8317EA4621A5CC47006CC144 /* ConcurrentArray.swift */; };
+		8317EA4921A5CD9A006CC144 /* synchronize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8317EA4821A5CD9A006CC144 /* synchronize.swift */; };
 		83221A8521451FB30055D775 /* generated.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 83221A8421451FB30055D775 /* generated.sqlite */; };
 		83221A87214527EC0055D775 /* GeoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83221A86214527EC0055D775 /* GeoDatabase.swift */; };
 		83221A8921452BE60055D775 /* Geohash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83221A8821452BE60055D775 /* Geohash.swift */; };
@@ -107,6 +110,9 @@
 		830EF13B218F574500AEE7A0 /* CountriesMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesMapManager.swift; sourceTree = "<group>"; };
 		830EF13D218F6C4E00AEE7A0 /* CitiesMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesMapManager.swift; sourceTree = "<group>"; };
 		830EF13F218F7C8600AEE7A0 /* CitiesTableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesTableViewManager.swift; sourceTree = "<group>"; };
+		8317EA4421A5CC1D006CC144 /* BlockingQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockingQueue.swift; sourceTree = "<group>"; };
+		8317EA4621A5CC47006CC144 /* ConcurrentArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcurrentArray.swift; sourceTree = "<group>"; };
+		8317EA4821A5CD9A006CC144 /* synchronize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = synchronize.swift; sourceTree = "<group>"; };
 		83221A8421451FB30055D775 /* generated.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = generated.sqlite; sourceTree = "<group>"; };
 		83221A86214527EC0055D775 /* GeoDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoDatabase.swift; sourceTree = "<group>"; };
 		83221A8821452BE60055D775 /* Geohash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geohash.swift; sourceTree = "<group>"; };
@@ -323,6 +329,9 @@
 				83221A8821452BE60055D775 /* Geohash.swift */,
 				83FF2128215F86C5008E846F /* Helpers.swift */,
 				832B9A1B215FD1E30098A396 /* CountryCodeMappings.swift */,
+				8317EA4421A5CC1D006CC144 /* BlockingQueue.swift */,
+				8317EA4621A5CC47006CC144 /* ConcurrentArray.swift */,
+				8317EA4821A5CD9A006CC144 /* synchronize.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -607,8 +616,10 @@
 				830EF13A218F54A300AEE7A0 /* MapManager.swift in Sources */,
 				83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */,
 				832B9A20215FD4CD0098A396 /* Year.swift in Sources */,
+				8317EA4721A5CC47006CC144 /* ConcurrentArray.swift in Sources */,
 				834316BB2142D5FD00784257 /* Photo.swift in Sources */,
 				833567A1219A047E0081498B /* ContinentsMapManager.swift in Sources */,
+				8317EA4921A5CD9A006CC144 /* synchronize.swift in Sources */,
 				83A8ABD121733F2600203402 /* CountryInfo.swift in Sources */,
 				833567A521A026160081498B /* YearHeatmapUpdater.swift in Sources */,
 				83221A87214527EC0055D775 /* GeoDatabase.swift in Sources */,
@@ -636,6 +647,7 @@
 				836F302721937F7600D4FCB3 /* PhotoMapViewer.swift in Sources */,
 				83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */,
 				830EF13E218F6C4E00AEE7A0 /* CitiesMapManager.swift in Sources */,
+				8317EA4521A5CC1D006CC144 /* BlockingQueue.swift in Sources */,
 				83221A8F2145780C0055D775 /* DatabaseInitializer.swift in Sources */,
 				830EF138218F549500AEE7A0 /* HeatmapMapManager.swift in Sources */,
 				830EF12E218E22A900AEE7A0 /* TimezoneInfo.swift in Sources */,
@@ -835,7 +847,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.tomlein.seelog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -859,7 +871,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.tomlein.seelog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -25,11 +25,11 @@ class CitiesMapManager: MapManager {
     }
 
     func unload() {
+        mapView.removeOverlays(mapView.overlays)
     }
 
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         mapView.mapType = .mutedStandard
-        mapView.removeOverlays(mapView.overlays)
         
         guard let cityInfos = year.cityInfos(cumulative: cumulative, geoDB: geoDB) else { return }
         let majorCities = cityInfos.filter({ $0.worldCity || $0.megaCity })

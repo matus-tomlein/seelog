@@ -57,7 +57,7 @@ class HeatmapMapManager: MapManager {
 
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         mapView.mapType = .mutedStandard
-        unload()
+        DispatchQueue.main.sync { unload() }
         active = true
 
         DispatchQueue.global(qos: .background).async {
@@ -69,30 +69,28 @@ class HeatmapMapManager: MapManager {
                 let heatmap = Helpers.geometry(fromWKT: heatmapWKT),
                 let boundaries = heatmap.boundary()?.mapShape() as? MKShapesCollection,
                 let bufferedHeatmap = heatmap.buffer(width: 0.4) {
-                DispatchQueue.main.async {
-                    if !self.active { return }
-                    self.mapViewDelegate.addGeometryToMap(land, polygonProperties: PolygonProperties(name: year.name,
-                                                                                zoomTypes: [.close, .medium, .far],
-                                                                                polygonType: .heatmapLand,
-                                                                                alpha: 1))
-                    self.mapViewDelegate.addGeometryToMap(water, polygonProperties: PolygonProperties(name: year.name,
-                                                                                 zoomTypes: [.close, .medium, .far],
-                                                                                 polygonType: .heatmapWater,
-                                                                                 alpha: 1))
+                if !self.active { return }
+                self.mapViewDelegate.addGeometryToMap(land, polygonProperties: PolygonProperties(name: year.name,
+                                                                            zoomTypes: [.close, .medium, .far],
+                                                                            polygonType: .heatmapLand,
+                                                                            alpha: 1))
+                self.mapViewDelegate.addGeometryToMap(water, polygonProperties: PolygonProperties(name: year.name,
+                                                                             zoomTypes: [.close, .medium, .far],
+                                                                             polygonType: .heatmapWater,
+                                                                             alpha: 1))
 
-                    self.mapView.centerCoordinate = self.mapView.centerCoordinate
+//                self.mapView.centerCoordinate = self.mapView.centerCoordinate
 
-                    for boundary in boundaries.shapes {
-                        if let polyline = boundary as? MKPolyline {
-                            self.mapView.add(polyline)
-                        }
+                for boundary in boundaries.shapes {
+                    if let polyline = boundary as? MKPolyline {
+                        self.mapViewDelegate.addOverlayToMap(polyline)
                     }
-
-                    self.mapViewDelegate.addGeometryToMap(bufferedHeatmap, polygonProperties: PolygonProperties(name: year.name + "-buffered",
-                                                                                                                zoomTypes: [.far],
-                                                                                                                polygonType: .heatmap,
-                                                                                                                alpha: 1))
                 }
+
+                self.mapViewDelegate.addGeometryToMap(bufferedHeatmap, polygonProperties: PolygonProperties(name: year.name + "-buffered",
+                                                                                                            zoomTypes: [.far],
+                                                                                                            polygonType: .heatmap,
+                                                                                                            alpha: 1))
             }
         }
 

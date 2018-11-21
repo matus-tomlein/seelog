@@ -63,14 +63,19 @@ class PhotoGeohashManager {
     var imageOverlay: ImageOverlay?
     var showingImage = false
     var showingCircle = false
+    var location: CLLocationCoordinate2D
+    var currentViewPort: CurrentViewport
 
-    init(asset: PHAsset, geohash: String, mapView: MKMapView) {
+    init(asset: PHAsset, geohash: String, mapView: MKMapView, currentViewPort: CurrentViewport) {
         self.asset = asset
         self.geohash = geohash
         self.mapView = mapView
+        self.location = CLLocationCoordinate2D(geohash: geohash)
+        self.currentViewPort = currentViewPort
     }
 
-    func update(viewType: PhotoViewType) {
+    func update() {
+        let viewType = currentViewPort.photoViewType(geohash: geohash)
         switch viewType {
         case .circle:
             showAsCircle()
@@ -84,44 +89,56 @@ class PhotoGeohashManager {
     }
 
     func remove() {
-        if showingCircle { removeCircle() }
-        if showingImage { removeImage() }
+        DispatchQueue.main.async {
+            if self.showingCircle { self.removeCircle() }
+            if self.showingImage { self.removeImage() }
+        }
     }
 
     private func showAsCircle() {
         if showingCircle { return }
         showingCircle = true
-        self.removeImage()
 
         DispatchQueue.main.async {
+            self.removeImage()
             if let circleOverlay = self.circleOverlay { self.mapView.remove(circleOverlay) }
-            let circle = MKCircle(center: CLLocationCoordinate2D(geohash: self.geohash), radius: 1)
+            let circle = MKCircle(center: self.location, radius: 1)
             self.mapView.add(circle)
             self.circleOverlay = circle
         }
     }
 
+    var openImageRequestID: PHImageRequestID?
     private func showAsImage() {
         if showingImage { return }
         showingImage = true
-        removeCircle()
+        if openImageRequestID != nil { return }
 
         let imageManager = PHImageManager.default()
-        imageManager.requestImage(for: asset,
-                                  targetSize: CGSize(width: 640, height: 640),
+        openImageRequestID = imageManager.requestImage(for: asset,
+                                  targetSize: CGSize(width: 1280, height: 1280),
                                   contentMode: .aspectFit, options: nil,
                                   resultHandler: { (image, info) in
                                     if let image = image {
                                         DispatchQueue.main.async {
-                                            self.addImage(image: image)
+                                            if self.currentViewPort.photoViewType(geohash: self.geohash) == .image {
+                                                self.removeCircle()
+                                                self.addImage(image: image)
+                                            } else {
+                                                self.showingImage = false
+                                            }
                                         }
                                     }
         })
     }
 
     private func removeImage() {
-        if !showingImage { return }
         showingImage = false
+
+        if let openImageRequestID = self.openImageRequestID {
+            PHImageManager.default().cancelImageRequest(openImageRequestID)
+        }
+        openImageRequestID = nil
 
         if let polylineOverlay = self.polylineOverlay { self.mapView.remove(polylineOverlay) }
         if let imageOverlay = self.imageOverlay {
@@ -133,7 +150,6 @@ class PhotoGeohashManager {
     }
 
     private func removeCircle() {
-        if !showingCircle { return }
         showingCircle = false
         if let circleOverlay = circleOverlay { mapView.remove(circleOverlay) }
         circleOverlay = nil
@@ -148,7 +164,7 @@ class PhotoGeohashManager {
 
         let multiplyBy = 640 / ([Double(image.size.width), Double(image.size.height)].max() ?? 0)
 
-        let rect = MKMapRect(origin: MKMapPointForCoordinate(CLLocationCoordinate2D(geohash: self.geohash)),
+        let rect = MKMapRect(origin: MKMapPointForCoordinate(self.location),
                              size: MKMapSize(width: Double(image.size.width) * multiplyBy, height: Double(image.size.height) * multiplyBy))
 
         if self.polylineOverlay == nil {
@@ -162,6 +178,8 @@ class PhotoGeohashManager {
         mapView.add(imageOverlay)
         self.imageOverlay = imageOverlay
     }
+
+
 }
 
 enum PhotoViewType {
@@ -174,31 +192,27 @@ class LargerGeohashManager {
     var geohash: String
     var loadedPhotoGeohashes: [String: PhotoGeohashManager] = [:]
     var mapView: MKMapView
-    var latitude: (min: Double, max: Double)
-    var longitude: (min: Double, max: Double)
     var loaded = false
     var year: Int32
     var cumulative: Bool
-    var currentViewType = PhotoViewType.nothing
+    var currentViewport: CurrentViewport
 
-    init(geohash: String, mapView: MKMapView, year: Int32, cumulative: Bool) {
+    init(geohash: String, mapView: MKMapView, year: Int32, cumulative: Bool, currentViewPort: CurrentViewport) {
         self.geohash = geohash
         self.mapView = mapView
         self.year = year
         self.cumulative = cumulative
-        (latitude, longitude) = Geohash.decode(hash: geohash) ?? ((min: 0, max: 0), (min: 0, max: 0))
+        self.currentViewport = currentViewPort
     }
 
-    func viewChanged(visibleMapRect: MKMapRect, context: NSManagedObjectContext) {
-        let viewType = photoViewType(visibleMapRect: visibleMapRect)
-        if viewType == currentViewType { return }
-        self.currentViewType = viewType
-
+    func viewChanged(context: NSManagedObjectContext) {
         if !loaded {
-            if viewType != .nothing { load(context: context) }
+            if !currentViewport.shouldShowNothing() && currentViewport.overlaps(geohash: geohash) {
+                load(context: context)
+            }
         } else {
             for manager in loadedPhotoGeohashes.values {
-                manager.update(viewType: viewType)
+                manager.update()
             }
         }
     }
@@ -209,20 +223,6 @@ class LargerGeohashManager {
         }
     }
 
-    let maxImageMapRectWidth: Double = 50000
-    let maxCircleMapRectWidth: Double = 1000000
-    private func photoViewType(visibleMapRect: MKMapRect) -> PhotoViewType {
-        if visibleMapRect.width < maxCircleMapRectWidth {
-            if overlaps(mapRect: visibleMapRect) {
-                if visibleMapRect.width < maxImageMapRectWidth {
-                    return .image
-                }
-                return .circle
-            }
-        }
-        return .nothing
-    }
-
     private func fetchAssetsFor(photos: [Photo]) -> PHFetchResult<PHAsset> {
         let localIdentifiers = photos.map({ $0.localIdentifier }).filter({ $0 != nil }).map({ $0! })
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: localIdentifiers,
@@ -231,26 +231,12 @@ class LargerGeohashManager {
         return assets
     }
 
-    private func overlaps(mapRect: MKMapRect) -> Bool {
-        let lowLeft = MKCoordinateForMapPoint(MKMapPoint(x: mapRect.minX, y: mapRect.minY))
-        let topRight = MKCoordinateForMapPoint(MKMapPoint(x: mapRect.maxX, y: mapRect.maxY))
-        let mapMinLatitude = min(lowLeft.latitude, topRight.latitude)
-        let mapMaxLatitude = max(lowLeft.latitude, topRight.latitude)
-        let mapMinLongitude = min(lowLeft.longitude, topRight.longitude)
-        let mapMaxLongitude = max(lowLeft.longitude, topRight.longitude)
-
-        let noOverlap = mapMinLatitude > latitude.max ||
-            latitude.min > mapMaxLatitude ||
-            mapMinLongitude > longitude.max ||
-            longitude.min > mapMaxLongitude
-
-        return !noOverlap
-    }
-
-    private func load(context: NSManagedObjectContext) {
+    private func load(context mainContext: NSManagedObjectContext) {
         loaded = true
 
-        DispatchQueue.global(qos: .background).async {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.parent = mainContext
+        context.perform {
             guard let photos = Photo.allWith(geohash: self.geohash,
                                              year: self.year,
                                              cumulative: self.cumulative,
@@ -260,18 +246,63 @@ class LargerGeohashManager {
             let assets = self.fetchAssetsFor(photos: photos)
 
             assets.enumerateObjects { (asset, _, _) in
-                if self.currentViewType == .nothing { return }
                 guard let location = asset.location?.coordinate else { return }
 
                 let photoGeohash = Geohash.encode(latitude: location.latitude, longitude: location.longitude, precision: .seventySixMeters)
 
                 if self.loadedPhotoGeohashes[photoGeohash] == nil {
-                    let manager = PhotoGeohashManager(asset: asset, geohash: photoGeohash, mapView: self.mapView)
-                    manager.update(viewType: self.currentViewType)
+                    let manager = PhotoGeohashManager(asset: asset,
+                                                      geohash: photoGeohash,
+                                                      mapView: self.mapView,
+                                                      currentViewPort: self.currentViewport)
+                    manager.update()
                     self.loadedPhotoGeohashes[photoGeohash] = manager
                 }
             }
         }
+    }
+}
+
+class CurrentViewport {
+    var visibleMapRect: MKMapRect
+
+    init(visibleMapRect: MKMapRect) {
+        self.visibleMapRect = visibleMapRect
+    }
+
+    let maxImageMapRectWidth: Double = 20000
+    let maxCircleMapRectWidth: Double = 1000000
+    func photoViewType(geohash: String) -> PhotoViewType {
+        if shouldShowNothing() { return .nothing }
+
+        if overlaps(geohash: geohash) {
+            if visibleMapRect.width < maxImageMapRectWidth {
+                return .image
+            }
+            return .circle
+        }
+        return .nothing
+    }
+
+    func shouldShowNothing() -> Bool {
+        return visibleMapRect.width > maxCircleMapRectWidth
+    }
+
+    func overlaps(geohash: String) -> Bool {
+        let lowLeft = MKCoordinateForMapPoint(MKMapPoint(x: visibleMapRect.minX, y: visibleMapRect.minY))
+        let topRight = MKCoordinateForMapPoint(MKMapPoint(x: visibleMapRect.maxX, y: visibleMapRect.maxY))
+        let mapMinLatitude = min(lowLeft.latitude, topRight.latitude)
+        let mapMaxLatitude = max(lowLeft.latitude, topRight.latitude)
+        let mapMinLongitude = min(lowLeft.longitude, topRight.longitude)
+        let mapMaxLongitude = max(lowLeft.longitude, topRight.longitude)
+        let (latitude, longitude) = Geohash.decode(hash: geohash) ?? ((min: 0, max: 0), (min: 0, max: 0))
+
+        let noOverlap = mapMinLatitude > latitude.max ||
+            latitude.min > mapMaxLatitude ||
+            mapMinLongitude > longitude.max ||
+            longitude.min > mapMaxLongitude
+
+        return !noOverlap
     }
 }
 
@@ -284,16 +315,20 @@ class PhotoMapViewer {
     var cumulative: Bool?
     var loadedGeohashes: [String: LargerGeohashManager] = [:]
     var active = true
+    var currentViewPort: CurrentViewport
+    var updateQueue = BlockingQueue<Date>()
 
     init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, context: NSManagedObjectContext) {
         self.mapView = mapView
         self.mapViewDelegate = mapViewDelegate
         self.context = context
+        self.currentViewPort = CurrentViewport(visibleMapRect: mapView.visibleMapRect)
     }
 
     func unload() {
         active = false
         removeFromMap()
+        updateQueue.add(Date())
     }
 
     func removeFromMap() {
@@ -310,14 +345,34 @@ class PhotoMapViewer {
 
         guard let geohashes = year.geohashes(cumulative: cumulative) else { return }
         for geohash in geohashes {
-            let manager = LargerGeohashManager(geohash: geohash, mapView: self.mapView, year: year.year, cumulative: cumulative)
+            let manager = LargerGeohashManager(geohash: geohash,
+                                               mapView: self.mapView,
+                                               year: year.year,
+                                               cumulative: cumulative,
+                                               currentViewPort: currentViewPort)
             self.loadedGeohashes[geohash] = manager
         }
+
+        startWaitingForUpdates()
     }
 
     func viewChanged(visibleMapRect: MKMapRect) {
-        for manager in self.loadedGeohashes.values {
-            manager.viewChanged(visibleMapRect: visibleMapRect, context: self.context)
+        currentViewPort.visibleMapRect = visibleMapRect
+        updateQueue.add(Date())
+    }
+
+    private func startWaitingForUpdates() {
+        DispatchQueue.global(qos: .background).async {
+            while true {
+                let date = self.updateQueue.take()
+                if !self.active { return }
+
+                if Date().timeIntervalSince(date) < 1 {
+                    for manager in self.loadedGeohashes.values {
+                        manager.viewChanged(context: self.context)
+                    }
+                }
+            }
         }
     }
 

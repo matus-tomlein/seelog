@@ -77,14 +77,14 @@ extension Year {
 
     func chartLabel(selectedTab: SelectedTab, cumulative: Bool, geoDB: GeoDatabase) -> String {
         let value = chartValue(selectedTab: selectedTab, cumulative: cumulative, geoDB: geoDB)
-        if selectedTab == .countries {
-            return String(Int(value))
-        } else {
+        if selectedTab == .places {
             if value > 1000 {
                 return String(Int(round(value / 1000))) + "k"
             } else {
                 return String(Int(round(value)))
             }
+        } else {
+            return String(Int(value))
         }
     }
 

@@ -24,74 +24,71 @@ class CountriesMapManager: MapManager {
 
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         active = true
-        mapView.mapType = .mutedStandard
-        mapView.removeAnnotations(mapView.annotations)
 
-        DispatchQueue.global(qos: .background).async {
-            var existingPolygonProperties = [PolygonProperties]()
+        var existingPolygonProperties = [PolygonProperties]()
+        for overlay in self.mapView.overlays {
+            if let polygon = overlay as? MKPolygon,
+                let polygonProperties = polygon.polygonProperties {
+                existingPolygonProperties.append(polygonProperties)
+            }
+        }
+
+        var polygonPropertyNamesToKeep = Set<String>()
+        var stateKeysToAdd = Set<String>()
+        var countryKeysToAdd = Set<String>()
+        if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
+            for countryKey in visitedCountriesAndStates.keys {
+                if currentTab == .states {
+                    if let stateKeys = visitedCountriesAndStates[countryKey] {
+                        for stateKey in stateKeys {
+                            let existing = existingPolygonProperties.filter({ $0.name == stateKey })
+                            if existing.count == 0 {
+                                stateKeysToAdd.insert(stateKey)
+                            }
+
+                            polygonPropertyNamesToKeep.insert(stateKey)
+                        }
+                    }
+                }
+
+                if currentTab == .countries {
+                    let existing = existingPolygonProperties.filter({ $0.name == countryKey })
+                    if existing.count == 0 {
+                        countryKeysToAdd.insert(countryKey)
+                    }
+
+                    polygonPropertyNamesToKeep.insert(countryKey)
+                }
+            }
+        }
+
+        if !self.active { return }
+
+        DispatchQueue.main.sync {
             for overlay in self.mapView.overlays {
                 if let polygon = overlay as? MKPolygon,
                     let polygonProperties = polygon.polygonProperties {
-                    existingPolygonProperties.append(polygonProperties)
-                }
-            }
-
-            var polygonPropertyNamesToKeep = Set<String>()
-            var stateKeysToAdd = Set<String>()
-            var countryKeysToAdd = Set<String>()
-            if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
-                for countryKey in visitedCountriesAndStates.keys {
-                    if currentTab == .states {
-                        if let stateKeys = visitedCountriesAndStates[countryKey] {
-                            for stateKey in stateKeys {
-                                let existing = existingPolygonProperties.filter({ $0.name == stateKey })
-                                if existing.count == 0 {
-                                    stateKeysToAdd.insert(stateKey)
-                                }
-
-                                polygonPropertyNamesToKeep.insert(stateKey)
-                            }
-                        }
-                    }
-
-                    if currentTab == .countries {
-                        let existing = existingPolygonProperties.filter({ $0.name == countryKey })
-                        if existing.count == 0 {
-                            countryKeysToAdd.insert(countryKey)
-                        }
-
-                        polygonPropertyNamesToKeep.insert(countryKey)
-                    }
-                }
-            }
-
-            DispatchQueue.main.async {
-                if !self.active { return }
-
-                for stateKey in stateKeysToAdd {
-                    self.createPolygon(forStateKey: stateKey)
-                }
-
-                for countryKey in countryKeysToAdd {
-                    self.createPolygon(forCountryKey: countryKey)
-                }
-
-                for overlay in self.mapView.overlays {
-                    if let polygon = overlay as? MKPolygon,
-                        let polygonProperties = polygon.polygonProperties {
-                        if !polygonPropertyNamesToKeep.contains(polygonProperties.name) {
-                            self.mapView.remove(overlay)
-                        }
-                    } else {
+                    if !polygonPropertyNamesToKeep.contains(polygonProperties.name) {
                         self.mapView.remove(overlay)
                     }
+                } else {
+                    self.mapView.remove(overlay)
                 }
             }
+        }
+
+        for stateKey in stateKeysToAdd {
+            self.createPolygon(forStateKey: stateKey)
+        }
+
+        for countryKey in countryKeysToAdd {
+            self.createPolygon(forCountryKey: countryKey)
         }
     }
 
     func unload() {
         active = false
+        mapView.removeOverlays(mapView.overlays)
     }
 
     func updateForZoomType(_ zoomType: ZoomType) {}

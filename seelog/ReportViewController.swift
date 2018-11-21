@@ -68,7 +68,8 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         view.layoutMargins.left += 15
         view.layoutMargins.right += 15
 
-        mapCellHeight.constant = 600
+        let height = UIScreen.main.bounds.height
+        mapCellHeight.constant = height - 220
         tableView.isScrollEnabled = false
         tableView.bounces = false
 
@@ -80,11 +81,6 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
         loadData()
         accumulateSegmentedControl.addTarget(self, action: #selector(accumulateStateChanged), for: .valueChanged)
-
-        scrollView.setContentOffset(CGPoint(
-            x: scrollView.contentOffset.x,
-            y: scrollView.contentOffset.y + 75
-        ), animated: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -131,14 +127,17 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     func reloadAllAndScrollChart(_ scrollChart: Bool) {
+        reloadStatLabel()
         if scrollChart {
             reloadBarChart()
         } else {
             updateBarChart()
         }
-        reloadStatLabel()
-        reloadTableView()
-        reloadMap()
+
+        DispatchQueue.main.async {
+            self.reloadTableView()
+            self.reloadMap()
+        }
     }
 
     func reloadTableView() {
@@ -160,11 +159,15 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
                 tableViewManager = ContinentsTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
             }
         }
-        tableView.reloadData()
-        for cell in 0..<tableView(tableView, numberOfRowsInSection: 0) {
-            tableView.rectForRow(at: IndexPath(row: cell, section: 0))
+
+        self.tableView.reloadData()
+        // TODO: this is slow:
+        if self.currentTab == .countries || self.currentTab == .states {
+            for cell in 0..<self.tableView(self.tableView, numberOfRowsInSection: 0) {
+                self.tableView.rectForRow(at: IndexPath(row: cell, section: 0))
+            }
         }
-        tableViewHeight.constant = tableView.contentSize.height
+        self.tableViewHeight.constant = self.tableView.contentSize.height
     }
 
     func reloadBarChart() {
@@ -192,7 +195,9 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
             self.countriesButton.setTitle("\(year.numberOfCountries(cumulative: aggregateChart)) countries", for: .normal)
             self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) divisions", for: .normal)
             self.citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
-            self.seenAreaButton.setTitle("\(year.seenArea(cumulative: aggregateChart)) km²", for: .normal)
+            let seenArea = year.seenArea(cumulative: aggregateChart)
+            let seenAreaFormatted = NumberFormatter.localizedString(from: NSNumber(value: seenArea), number: .decimal)
+            self.seenAreaButton.setTitle("\(seenAreaFormatted) km²", for: .normal)
             self.continentsButton.setTitle("\(year.numberOfContinents(cumulative: aggregateChart)) continents", for: .normal)
             self.timezonesButton.setTitle("\(year.numberOfTimezones(cumulative: aggregateChart, geoDB: geoDB)) timezones", for: .normal)
             UIView.setAnimationsEnabled(true)
