@@ -24,8 +24,6 @@ class TimezoneMapManager: MapManager {
 
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         active = true
-        mapView.mapType = .mutedStandard
-        mapView.removeAnnotations(mapView.annotations)
 
         DispatchQueue.global(qos: .background).async {
             var existingPolygonProperties = [PolygonProperties]()
@@ -48,19 +46,7 @@ class TimezoneMapManager: MapManager {
                 }
             }
 
-            DispatchQueue.main.async {
-                if !self.active { return }
-
-                for timezone in timezonesToAdd {
-                    if let geometry = timezone.geometry {
-                        let polygonProperties = PolygonProperties(name: timezone.name,
-                                                                  zoomTypes: [.close, .medium, .far],
-                                                                  polygonType: .state,
-                                                                  alpha: 0.25)
-                        self.mapViewDelegate.addGeometryToMap(geometry, polygonProperties: polygonProperties)
-                    }
-                }
-
+            DispatchQueue.main.sync {
                 for overlay in self.mapView.overlays {
                     if let polygon = overlay as? MKPolygon,
                         let polygonProperties = polygon.polygonProperties {
@@ -72,11 +58,24 @@ class TimezoneMapManager: MapManager {
                     }
                 }
             }
+
+            if !self.active { return }
+
+            for timezone in timezonesToAdd {
+                if let geometry = timezone.geometry {
+                    let polygonProperties = PolygonProperties(name: timezone.name,
+                                                              zoomTypes: [.close, .medium, .far],
+                                                              polygonType: .state,
+                                                              alpha: 0.25)
+                    self.mapViewDelegate.addGeometryToMap(geometry, polygonProperties: polygonProperties)
+                }
+            }
         }
     }
 
     func unload() {
         active = false
+        mapView.removeOverlays(mapView.overlays)
     }
 
     func rendererFor(polygon: MKPolygon) -> MKOverlayRenderer? {

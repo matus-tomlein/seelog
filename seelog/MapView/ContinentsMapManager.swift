@@ -24,8 +24,6 @@ class ContinentsMapManager: MapManager {
 
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         active = true
-        mapView.mapType = .mutedStandard
-        mapView.removeAnnotations(mapView.annotations)
 
         DispatchQueue.global(qos: .background).async {
             var existingPolygonProperties = [PolygonProperties]()
@@ -48,19 +46,9 @@ class ContinentsMapManager: MapManager {
                 }
             }
 
-            DispatchQueue.main.async {
-                if !self.active { return }
+            if !self.active { return }
 
-                for continent in continentsToAdd {
-                    if let geometry = continent.geometry {
-                        let polygonProperties = PolygonProperties(name: continent.name,
-                                                                  zoomTypes: [.close, .medium, .far],
-                                                                  polygonType: .state,
-                                                                  alpha: 0.25)
-                        self.mapViewDelegate.addGeometryToMap(geometry, polygonProperties: polygonProperties)
-                    }
-                }
-
+            DispatchQueue.main.sync {
                 for overlay in self.mapView.overlays {
                     if let polygon = overlay as? MKPolygon,
                         let polygonProperties = polygon.polygonProperties {
@@ -72,11 +60,22 @@ class ContinentsMapManager: MapManager {
                     }
                 }
             }
+
+            for continent in continentsToAdd {
+                if let geometry = continent.geometry {
+                    let polygonProperties = PolygonProperties(name: continent.name,
+                                                              zoomTypes: [.close, .medium, .far],
+                                                              polygonType: .state,
+                                                              alpha: 0.25)
+                    self.mapViewDelegate.addGeometryToMap(geometry, polygonProperties: polygonProperties)
+                }
+            }
         }
     }
 
     func unload() {
         active = false
+        mapView.removeOverlays(mapView.overlays)
     }
 
     func rendererFor(polygon: MKPolygon) -> MKOverlayRenderer? {
@@ -101,4 +100,3 @@ class ContinentsMapManager: MapManager {
 
 
 }
-
