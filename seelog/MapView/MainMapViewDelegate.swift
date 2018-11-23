@@ -11,88 +11,6 @@ import MapKit
 import GEOSwift
 import CoreData
 
-class Annotation: NSObject, MKAnnotation {
-    let title: String?
-    let coordinate: CLLocationCoordinate2D
-    var zoomTypes: [ZoomType] {
-        get { return [.close, .medium, .far] }
-    }
-
-    init(title: String, coordinate: CLLocationCoordinate2D) {
-        self.title = title
-        self.coordinate = coordinate
-
-        super.init()
-    }
-
-    var subtitle: String? {
-        return title
-    }
-}
-
-class CityAnnotation: Annotation {}
-class CountryAnnotation: Annotation {}
-class StateAnnotation: Annotation {
-    override var zoomTypes: [ZoomType] {
-        get { return [.close] }
-    }
-}
-
-enum ZoomType: String {
-    case close = "c"
-    case medium = "m"
-    case far = "f"
-}
-
-enum PolygonType: String {
-    case heatmap = "h"
-    case heatmapWater = "hw"
-    case heatmapLand = "hl"
-    case country = "c"
-    case state = "s"
-}
-
-struct PolygonProperties {
-    var name: String
-    var zoomTypes: [ZoomType]
-    var polygonType: PolygonType
-    var alpha: CGFloat = 1
-}
-
-extension MKPolygon {
-    private static var allPolygonProperties = [String: PolygonProperties]()
-
-    var polygonProperties: PolygonProperties? {
-        get {
-            if let title = self.title {
-                return MKPolygon.allPolygonProperties[title]
-            }
-            return nil
-        }
-        set(properties) {
-            if let properties = properties {
-                let t = properties.zoomTypes.map({ $0.rawValue }).joined() + properties.polygonType.rawValue + "\(properties.alpha)" + properties.name
-                title = t
-                MKPolygon.allPolygonProperties[t] = properties
-            }
-        }
-    }
-}
-
-class PolygonRenderer: MKPolygonRenderer {
-    override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
-//        print(zoomScale)
-        let currentZoomType: ZoomType = zoomScale > 0.0001 ? .close : (zoomScale > 0.00002 ? .medium : .far)
-        if let zoomTypes = polygon.polygonProperties?.zoomTypes {
-            if !zoomTypes.contains(currentZoomType) {
-                return
-            }
-        }
-
-        super.draw(mapRect, zoomScale: zoomScale, in: context)
-    }
-}
-
 class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     var mapView: MKMapView
     var mapManager: MapManager?
@@ -122,6 +40,8 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     }
 
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool, geoDB: GeoDatabase, context: NSManagedObjectContext) {
+        GeometryOverlayCreator.overlayVersion += 1
+
         switch currentTab {
         case .countries, .states:
             if !(self.mapManager is CountriesMapManager) {
@@ -154,38 +74,83 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
             }
         }
 
-        DispatchQueue.global(qos: .background).async {
-            self.mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
-        }
-    }
-
-    func addGeometryToMap(_ geometry: Geometry, polygonProperties: PolygonProperties) {
-        DispatchQueue.main.sync {
-            if let polygon = geometry.mapShape() as? MKPolygon {
-                polygon.polygonProperties = polygonProperties
-                self.mapView.add(polygon)
-            } else if let shapes = geometry.mapShape() as? MKShapesCollection {
-                for shape in shapes.shapes {
-                    if let polygon = shape as? MKPolygon {
-                        polygon.polygonProperties = polygonProperties
-                        self.mapView.add(polygon)
-                    }
-                }
+        var existingProperties = [MapOverlayProperties]()
+        for overlay in self.mapView.overlays {
+            if let polygon = overlay as? MapOverlay,
+                let properties = polygon.getProperties() {
+                existingProperties.append(properties)
             }
         }
+
+        DispatchQueue.global(qos: .background).async {
+            self.mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative, existingProperties: existingProperties)
+            self.removeOldOverlays()
+        }
     }
 
-    func addOverlayToMap(_ overlay: MKOverlay) {
+    func addGeometryToMap(_ geometry: Geometry, properties: MapOverlayProperties) {
         DispatchQueue.main.sync {
+            GeometryOverlayCreator.addOverlayToMap(geometry: geometry,
+                                                   properties: properties,
+                                                   mapView: self.mapView)
+        }
+    }
+
+    func addCircleToMap(center: CLLocationCoordinate2D,
+                        radius: CLLocationDistance,
+                        properties: MapOverlayProperties) {
+        DispatchQueue.main.sync {
+            GeometryOverlayCreator.addCircleToMap(center: center,
+                                                  radius: radius,
+                                                  properties: properties,
+                                                  mapView: self.mapView)
+        }
+    }
+
+    func addOverlayToMap(_ overlay: MKOverlay, overlayVersion: Int) {
+        DispatchQueue.main.sync {
+            if overlayVersion < GeometryOverlayCreator.overlayVersion { return }
             mapView.add(overlay)
         }
     }
 
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if let polygon = overlay as? MKPolygon {
-            return mapManager?.rendererFor(polygon: polygon) ?? MKOverlayRenderer(overlay: overlay)
+        if let mapPolygon = overlay as? MapPolygon,
+            let properties = mapPolygon.properties {
+            let polygonView = PolygonRenderer(overlay: overlay)
+
+            if let fillColor = properties.fillColor {
+                if let alpha = properties.alpha {
+                    polygonView.fillColor = fillColor.withAlphaComponent(alpha)
+                } else {
+                    polygonView.fillColor = fillColor
+                }
+            }
+            if let strokeColor = properties.strokeColor {
+                polygonView.strokeColor = strokeColor
+            }
+            if let lineWidth = properties.lineWidth {
+                polygonView.lineWidth = lineWidth
+            }
+
+            return polygonView
+        } else if overlay is ImageOverlay {
+            return ImageOverlayRenderer(overlay: overlay)
+        } else if let polyline = overlay as? MapPolyline {
+            let renderer = MKPolylineRenderer(overlay: polyline)
+            renderer.lineWidth = polyline.properties?.lineWidth ?? 1
+            renderer.strokeColor = polyline.properties?.strokeColor ?? #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+            return renderer
+        } else if let circle = overlay as? MapCircle {
+            let renderer = MKCircleRenderer(overlay: circle)
+            renderer.lineWidth = circle.properties?.lineWidth ?? 3
+            renderer.strokeColor = circle.properties?.strokeColor ?? #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+            return renderer
         } else {
-            return mapManager?.nonPolygonRendererFor(overlay: overlay) ?? MKOverlayRenderer(overlay: overlay)
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.lineWidth = 2
+            renderer.strokeColor = UIColor.white
+            return renderer
         }
     }
 
@@ -203,6 +168,12 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         }
 
         mapManager?.viewChanged(visibleMapRect: mapView.visibleMapRect)
+    }
+
+    func removeOldOverlays() {
+        DispatchQueue.main.sync {
+            GeometryOverlayCreator.removeOldOverlays(mapView: self.mapView)
+        }
     }
 
 }

@@ -62,6 +62,18 @@
 		83A8ABCF2173290400203402 /* CityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABCE2173290400203402 /* CityInfo.swift */; };
 		83A8ABD121733F2600203402 /* CountryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABD021733F2600203402 /* CountryInfo.swift */; };
 		83A8ABD32173459800203402 /* StateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABD22173459800203402 /* StateInfo.swift */; };
+		83ACC91621A70A7F00439667 /* GeometryOverlayCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC91521A70A7F00439667 /* GeometryOverlayCreator.swift */; };
+		83ACC91921A753DB00439667 /* MapOverlayProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC91821A753DB00439667 /* MapOverlayProperties.swift */; };
+		83ACC91B21A753FB00439667 /* MapPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC91A21A753FB00439667 /* MapPolyline.swift */; };
+		83ACC91D21A7541700439667 /* MapPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC91C21A7541700439667 /* MapPolygon.swift */; };
+		83ACC91F21A7542C00439667 /* MapCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC91E21A7542C00439667 /* MapCircle.swift */; };
+		83ACC92121A7544500439667 /* ImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92021A7544500439667 /* ImageOverlay.swift */; };
+		83ACC92321A7545F00439667 /* ImageOverlayRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92221A7545F00439667 /* ImageOverlayRenderer.swift */; };
+		83ACC92521A7548700439667 /* PolygonRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92421A7548700439667 /* PolygonRenderer.swift */; };
+		83ACC92721A754BF00439667 /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92621A754BF00439667 /* Annotation.swift */; };
+		83ACC92921A754DA00439667 /* ZoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92821A754DA00439667 /* ZoomType.swift */; };
+		83ACC92D21A8034400439667 /* MapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92C21A8034400439667 /* MapOverlay.swift */; };
+		83ACC92F21A80F5A00439667 /* WorldPolygons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92E21A80F5A00439667 /* WorldPolygons.swift */; };
 		83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */; };
 		83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7DD8E21567C120046D8A5 /* ReportViewController.swift */; };
 		83FF2129215F86C5008E846F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF2128215F86C5008E846F /* Helpers.swift */; };
@@ -150,6 +162,18 @@
 		83A8ABCE2173290400203402 /* CityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityInfo.swift; sourceTree = "<group>"; };
 		83A8ABD021733F2600203402 /* CountryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryInfo.swift; sourceTree = "<group>"; };
 		83A8ABD22173459800203402 /* StateInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateInfo.swift; sourceTree = "<group>"; };
+		83ACC91521A70A7F00439667 /* GeometryOverlayCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryOverlayCreator.swift; sourceTree = "<group>"; };
+		83ACC91821A753DB00439667 /* MapOverlayProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlayProperties.swift; sourceTree = "<group>"; };
+		83ACC91A21A753FB00439667 /* MapPolyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPolyline.swift; sourceTree = "<group>"; };
+		83ACC91C21A7541700439667 /* MapPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPolygon.swift; sourceTree = "<group>"; };
+		83ACC91E21A7542C00439667 /* MapCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCircle.swift; sourceTree = "<group>"; };
+		83ACC92021A7544500439667 /* ImageOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOverlay.swift; sourceTree = "<group>"; };
+		83ACC92221A7545F00439667 /* ImageOverlayRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOverlayRenderer.swift; sourceTree = "<group>"; };
+		83ACC92421A7548700439667 /* PolygonRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonRenderer.swift; sourceTree = "<group>"; };
+		83ACC92621A754BF00439667 /* Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotation.swift; sourceTree = "<group>"; };
+		83ACC92821A754DA00439667 /* ZoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomType.swift; sourceTree = "<group>"; };
+		83ACC92C21A8034400439667 /* MapOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlay.swift; sourceTree = "<group>"; };
+		83ACC92E21A80F5A00439667 /* WorldPolygons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldPolygons.swift; sourceTree = "<group>"; };
 		83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBarChartSelection.swift; sourceTree = "<group>"; };
 		83C7DD8E21567C120046D8A5 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		83FF2128215F86C5008E846F /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
@@ -208,6 +232,7 @@
 		830EF136218F546400AEE7A0 /* MapView */ = {
 			isa = PBXGroup;
 			children = (
+				83ACC91721A753CB00439667 /* Overlays */,
 				835B8056217B44B6001E9B96 /* MainMapViewDelegate.swift */,
 				830EF137218F549500AEE7A0 /* HeatmapMapManager.swift */,
 				830EF139218F54A300AEE7A0 /* MapManager.swift */,
@@ -295,6 +320,24 @@
 			path = seelogUITests;
 			sourceTree = "<group>";
 		};
+		83ACC91721A753CB00439667 /* Overlays */ = {
+			isa = PBXGroup;
+			children = (
+				83ACC91521A70A7F00439667 /* GeometryOverlayCreator.swift */,
+				83ACC91821A753DB00439667 /* MapOverlayProperties.swift */,
+				83ACC91A21A753FB00439667 /* MapPolyline.swift */,
+				83ACC91C21A7541700439667 /* MapPolygon.swift */,
+				83ACC91E21A7542C00439667 /* MapCircle.swift */,
+				83ACC92021A7544500439667 /* ImageOverlay.swift */,
+				83ACC92221A7545F00439667 /* ImageOverlayRenderer.swift */,
+				83ACC92421A7548700439667 /* PolygonRenderer.swift */,
+				83ACC92621A754BF00439667 /* Annotation.swift */,
+				83ACC92821A754DA00439667 /* ZoomType.swift */,
+				83ACC92C21A8034400439667 /* MapOverlay.swift */,
+			);
+			path = Overlays;
+			sourceTree = "<group>";
+		};
 		83E80A95216291A100A39782 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,6 +375,7 @@
 				8317EA4421A5CC1D006CC144 /* BlockingQueue.swift */,
 				8317EA4621A5CC47006CC144 /* ConcurrentArray.swift */,
 				8317EA4821A5CD9A006CC144 /* synchronize.swift */,
+				83ACC92E21A80F5A00439667 /* WorldPolygons.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -614,20 +658,25 @@
 				832B9A1C215FD1E30098A396 /* CountryCodeMappings.swift in Sources */,
 				8305ED4A2182671A00630BD6 /* BarChartDrawer.swift in Sources */,
 				830EF13A218F54A300AEE7A0 /* MapManager.swift in Sources */,
+				83ACC92D21A8034400439667 /* MapOverlay.swift in Sources */,
 				83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */,
 				832B9A20215FD4CD0098A396 /* Year.swift in Sources */,
 				8317EA4721A5CC47006CC144 /* ConcurrentArray.swift in Sources */,
 				834316BB2142D5FD00784257 /* Photo.swift in Sources */,
 				833567A1219A047E0081498B /* ContinentsMapManager.swift in Sources */,
+				83ACC92921A754DA00439667 /* ZoomType.swift in Sources */,
 				8317EA4921A5CD9A006CC144 /* synchronize.swift in Sources */,
 				83A8ABD121733F2600203402 /* CountryInfo.swift in Sources */,
 				833567A521A026160081498B /* YearHeatmapUpdater.swift in Sources */,
+				83ACC91F21A7542C00439667 /* MapCircle.swift in Sources */,
 				83221A87214527EC0055D775 /* GeoDatabase.swift in Sources */,
 				830EF124218CAF5000AEE7A0 /* PlaceTableViewCell.swift in Sources */,
 				830EF133218EF5C300AEE7A0 /* HeatmapTableViewManager.swift in Sources */,
 				83571F7F21564ACA001CEEFC /* HistoryChartView.swift in Sources */,
+				83ACC92121A7544500439667 /* ImageOverlay.swift in Sources */,
 				8343168C2142AD6600784257 /* ViewController.swift in Sources */,
 				833567A3219A04B80081498B /* ContinentInfo.swift in Sources */,
+				83ACC92321A7545F00439667 /* ImageOverlayRenderer.swift in Sources */,
 				830EF13C218F574500AEE7A0 /* CountriesMapManager.swift in Sources */,
 				8305ED4C218300F300630BD6 /* LineChartDrawer.swift in Sources */,
 				830EF128218E056100AEE7A0 /* YearCitiesUpdater.swift in Sources */,
@@ -636,21 +685,28 @@
 				830EF11E218AD8F200AEE7A0 /* ReportTableViewCell.swift in Sources */,
 				83FF2129215F86C5008E846F /* Helpers.swift in Sources */,
 				830EF140218F7C8600AEE7A0 /* CitiesTableViewManager.swift in Sources */,
+				83ACC92721A754BF00439667 /* Annotation.swift in Sources */,
 				83FF212C215FA47E008E846F /* YearStatsUpdater.swift in Sources */,
 				830EF135218EF77D00AEE7A0 /* CountriesTableViewManager.swift in Sources */,
 				8335679D2198C1AA0081498B /* ContinentsTableViewManager.swift in Sources */,
 				8343168A2142AD6600784257 /* AppDelegate.swift in Sources */,
 				834316922142AD6700784257 /* seelog.xcdatamodeld in Sources */,
 				8335679F2199D95C0081498B /* TimezoneMapManager.swift in Sources */,
+				83ACC92F21A80F5A00439667 /* WorldPolygons.swift in Sources */,
+				83ACC91621A70A7F00439667 /* GeometryOverlayCreator.swift in Sources */,
 				830EF131218EF57300AEE7A0 /* TableViewManager.swift in Sources */,
 				833567A721A169B20081498B /* YearContinentsUpdater.swift in Sources */,
 				836F302721937F7600D4FCB3 /* PhotoMapViewer.swift in Sources */,
 				83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */,
 				830EF13E218F6C4E00AEE7A0 /* CitiesMapManager.swift in Sources */,
+				83ACC91B21A753FB00439667 /* MapPolyline.swift in Sources */,
 				8317EA4521A5CC1D006CC144 /* BlockingQueue.swift in Sources */,
+				83ACC91921A753DB00439667 /* MapOverlayProperties.swift in Sources */,
 				83221A8F2145780C0055D775 /* DatabaseInitializer.swift in Sources */,
+				83ACC91D21A7541700439667 /* MapPolygon.swift in Sources */,
 				830EF138218F549500AEE7A0 /* HeatmapMapManager.swift in Sources */,
 				830EF12E218E22A900AEE7A0 /* TimezoneInfo.swift in Sources */,
+				83ACC92521A7548700439667 /* PolygonRenderer.swift in Sources */,
 				8305ED4E218451E600630BD6 /* ChartDrawer.swift in Sources */,
 				830EF126218E040A00AEE7A0 /* YearCountriesUpdater.swift in Sources */,
 				83A8ABD32173459800203402 /* StateInfo.swift in Sources */,

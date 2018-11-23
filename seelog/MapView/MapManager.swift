@@ -10,12 +10,10 @@ import Foundation
 import MapKit
 
 protocol MapManager {
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool)
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, existingProperties: [MapOverlayProperties])
     func unload()
     func updateForZoomType(_ zoomType: ZoomType)
     func viewChanged(visibleMapRect: MKMapRect)
     func longPress()
-    func rendererFor(polygon: MKPolygon) -> MKOverlayRenderer?
-    func nonPolygonRendererFor(overlay: MKOverlay) -> MKOverlayRenderer?
     func viewFor(annotation: MKAnnotation) -> MKAnnotationView?
 }

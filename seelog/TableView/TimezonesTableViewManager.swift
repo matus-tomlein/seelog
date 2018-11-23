@@ -23,7 +23,7 @@ class TimezonesTableViewManager: TableViewManager {
         self.cumulative = cumulative
 
         self.timezones = year.timezones(cumulative: cumulative, geoDB: geoDB) ?? []
-        self.timezones = self.timezones.sorted(by: { $0.name < $1.name })
+        self.timezones = self.timezones.sorted(by: { Int($0.name) ?? 0 < Int($1.name) ?? 0 })
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {

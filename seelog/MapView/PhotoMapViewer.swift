@@ -11,67 +11,26 @@ import CoreData
 import MapKit
 import Photos
 
-class ImageOverlay : NSObject, MKOverlay {
-
-    var image: UIImage?
-    let boundingMapRect: MKMapRect
-    let coordinate: CLLocationCoordinate2D
-
-    init(image: UIImage, rect: MKMapRect) {
-        self.image = image
-        self.boundingMapRect = rect
-        self.coordinate = rect.origin.coordinate
-    }
-}
-
-class ImageOverlayRenderer : MKOverlayRenderer {
-
-    override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
-
-        guard let overlay = self.overlay as? ImageOverlay else {
-            return
-        }
-
-        let rect = self.rect(for: overlay.boundingMapRect)
-
-        if let image = overlay.image {
-            UIGraphicsPushContext(context)
-            image.draw(in: rect)
-            UIGraphicsPopContext()
-        }
-    }
-}
-
-class ImageBorderPolyline: MKPolyline {
-    convenience init(rect: MKMapRect) {
-        self.init(points: [
-            MKMapPointMake(Double(rect.minX), Double(rect.minY)),
-            MKMapPointMake(Double(rect.maxX), Double(rect.minY)),
-            MKMapPointMake(Double(rect.maxX), Double(rect.maxY)),
-            MKMapPointMake(Double(rect.minX), Double(rect.maxY)),
-            MKMapPointMake(Double(rect.minX), Double(rect.minY))
-        ], count: 5)
-    }
-}
-
 class PhotoGeohashManager {
     var asset: PHAsset
     var geohash: String
     var mapView: MKMapView
-    var circleOverlay: MKCircle?
-    var polylineOverlay: ImageBorderPolyline?
+    var circleOverlay: MapCircle?
+    var polylineOverlay: MapPolyline?
     var imageOverlay: ImageOverlay?
     var showingImage = false
     var showingCircle = false
     var location: CLLocationCoordinate2D
     var currentViewPort: CurrentViewport
+    var overlayVersion: Int
 
-    init(asset: PHAsset, geohash: String, mapView: MKMapView, currentViewPort: CurrentViewport) {
+    init(asset: PHAsset, geohash: String, mapView: MKMapView, currentViewPort: CurrentViewport, overlayVersion: Int) {
         self.asset = asset
         self.geohash = geohash
         self.mapView = mapView
         self.location = CLLocationCoordinate2D(geohash: geohash)
         self.currentViewPort = currentViewPort
+        self.overlayVersion = overlayVersion
     }
 
     func update() {
@@ -102,9 +61,10 @@ class PhotoGeohashManager {
         DispatchQueue.main.async {
             self.removeImage()
             if let circleOverlay = self.circleOverlay { self.mapView.remove(circleOverlay) }
-            let circle = MKCircle(center: self.location, radius: 1)
-            self.mapView.add(circle)
-            self.circleOverlay = circle
+            self.circleOverlay = GeometryOverlayCreator.addCircleToMap(center: self.location,
+                                                                       radius: 1,
+                                                                       properties: MapOverlayProperties(self.overlayVersion),
+                                                                       mapView: self.mapView)
         }
     }
 
@@ -168,15 +128,20 @@ class PhotoGeohashManager {
                              size: MKMapSize(width: Double(image.size.width) * multiplyBy, height: Double(image.size.height) * multiplyBy))
 
         if self.polylineOverlay == nil {
-            let polylineOverlay = ImageBorderPolyline(rect: rect)
+            let polylineOverlay = MapPolyline(rect: rect)
+            let properties = MapOverlayProperties(self.overlayVersion)
+            properties.lineWidth = 3
+            polylineOverlay.properties = properties
             mapView.add(polylineOverlay)
             self.polylineOverlay = polylineOverlay
         }
 
-        let imageOverlay = ImageOverlay(image: image,
-                                   rect: rect)
-        mapView.add(imageOverlay)
-        self.imageOverlay = imageOverlay
+        if let imageOverlay = GeometryOverlayCreator.addImageToMap(image: image,
+                                                                   mapView: mapView,
+                                                                   rect: rect,
+                                                                   overlayVersion: overlayVersion) {
+            self.imageOverlay = imageOverlay
+        }
     }
 
 
@@ -196,13 +161,15 @@ class LargerGeohashManager {
     var year: Int32
     var cumulative: Bool
     var currentViewport: CurrentViewport
+    var overlayVersion: Int
 
-    init(geohash: String, mapView: MKMapView, year: Int32, cumulative: Bool, currentViewPort: CurrentViewport) {
+    init(geohash: String, mapView: MKMapView, year: Int32, cumulative: Bool, currentViewPort: CurrentViewport, overlayVersion: Int) {
         self.geohash = geohash
         self.mapView = mapView
         self.year = year
         self.cumulative = cumulative
         self.currentViewport = currentViewPort
+        self.overlayVersion = overlayVersion
     }
 
     func viewChanged(context: NSManagedObjectContext) {
@@ -254,7 +221,8 @@ class LargerGeohashManager {
                     let manager = PhotoGeohashManager(asset: asset,
                                                       geohash: photoGeohash,
                                                       mapView: self.mapView,
-                                                      currentViewPort: self.currentViewport)
+                                                      currentViewPort: self.currentViewport,
+                                                      overlayVersion: self.overlayVersion)
                     manager.update()
                     self.loadedPhotoGeohashes[photoGeohash] = manager
                 }
@@ -314,7 +282,6 @@ class PhotoMapViewer {
     var year: Year?
     var cumulative: Bool?
     var loadedGeohashes: [String: LargerGeohashManager] = [:]
-    var active = true
     var currentViewPort: CurrentViewport
     var updateQueue = BlockingQueue<Date>()
 
@@ -326,7 +293,6 @@ class PhotoMapViewer {
     }
 
     func unload() {
-        active = false
         removeFromMap()
         updateQueue.add(Date())
     }
@@ -339,9 +305,9 @@ class PhotoMapViewer {
     }
 
     func load(year: Year, cumulative: Bool) {
-        self.active = true
         self.year = year
         self.cumulative = cumulative
+        let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         guard let geohashes = year.geohashes(cumulative: cumulative) else { return }
         for geohash in geohashes {
@@ -349,11 +315,12 @@ class PhotoMapViewer {
                                                mapView: self.mapView,
                                                year: year.year,
                                                cumulative: cumulative,
-                                               currentViewPort: currentViewPort)
+                                               currentViewPort: currentViewPort,
+                                               overlayVersion: overlayVersion)
             self.loadedGeohashes[geohash] = manager
         }
 
-        startWaitingForUpdates()
+        startWaitingForUpdates(overlayVersion: overlayVersion)
     }
 
     func viewChanged(visibleMapRect: MKMapRect) {
@@ -361,11 +328,11 @@ class PhotoMapViewer {
         updateQueue.add(Date())
     }
 
-    private func startWaitingForUpdates() {
+    private func startWaitingForUpdates(overlayVersion: Int) {
         DispatchQueue.global(qos: .background).async {
             while true {
                 let date = self.updateQueue.take()
-                if !self.active { return }
+                if overlayVersion < GeometryOverlayCreator.overlayVersion { return }
 
                 if Date().timeIntervalSince(date) < 1 {
                     for manager in self.loadedGeohashes.values {

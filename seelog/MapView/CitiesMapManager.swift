@@ -10,16 +10,15 @@ import Foundation
 import MapKit
 import GEOSwift
 
-class MajorCityCircle: MKCircle {}
-class SmallerCityCircle: MKCircle {}
-
 class CitiesMapManager: MapManager {
     var mapView: MKMapView
     var mapViewDelegate: MainMapViewDelegate
     var geoDB: GeoDatabase
+    var tintColor: UIColor
 
     init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, geoDB: GeoDatabase) {
         self.mapView = mapView
+        self.tintColor = mapView.tintColor
         self.mapViewDelegate = mapViewDelegate
         self.geoDB = geoDB
     }
@@ -28,21 +27,32 @@ class CitiesMapManager: MapManager {
         mapView.removeOverlays(mapView.overlays)
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, existingProperties: [MapOverlayProperties]) {
         mapView.mapType = .mutedStandard
+        let overlayVersion = GeometryOverlayCreator.overlayVersion
         
         guard let cityInfos = year.cityInfos(cumulative: cumulative, geoDB: geoDB) else { return }
         let majorCities = cityInfos.filter({ $0.worldCity || $0.megaCity })
         let smallerCities = cityInfos.filter({ !$0.worldCity && !$0.megaCity })
 
         for cityInfo in smallerCities {
-            let circle = SmallerCityCircle(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude), radius: 1000)
-            mapView.add(circle)
+            let properties = MapOverlayProperties(name: cityInfo.name,
+                                                  zoomTypes: [.close, .medium, .far],
+                                                  overlayVersion: overlayVersion)
+            properties.strokeColor = tintColor
+            mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude),
+                                           radius: 1000,
+                                           properties: properties)
         }
 
         for cityInfo in majorCities {
-            let circle = MajorCityCircle(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude), radius: 1000)
-            mapView.add(circle)
+            let properties = MapOverlayProperties(name: cityInfo.name,
+                                                  zoomTypes: [.close, .medium, .far],
+                                                  overlayVersion: overlayVersion)
+            properties.strokeColor = UIColor.red
+            mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude),
+                                           radius: 1000,
+                                           properties: properties)
         }
     }
 
@@ -55,17 +65,6 @@ class CitiesMapManager: MapManager {
     func viewChanged(visibleMapRect: MKMapRect) {}
 
     func longPress() {
-    }
-
-    func rendererFor(polygon: MKPolygon) -> MKOverlayRenderer? {
-        return nil
-    }
-
-    func nonPolygonRendererFor(overlay: MKOverlay) -> MKOverlayRenderer? {
-        let renderer = MKCircleRenderer(overlay: overlay)
-        renderer.lineWidth = 3
-        renderer.strokeColor = overlay is MajorCityCircle ? UIColor.red : mapView.tintColor
-        return renderer
     }
 
     func viewFor(annotation: MKAnnotation) -> MKAnnotationView? {

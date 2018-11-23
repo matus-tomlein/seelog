@@ -52,8 +52,8 @@ class YearHeatmapUpdater {
         if let buffered = heatmap.buffer(width: 0.05) {
             let processedHeatmap = Helpers.convexHeatmap(heatmap: buffered)
 
-            if let land = HeatmapMapManager.landsPolygon?.difference(processedHeatmap),
-                let water = HeatmapMapManager.waterPolygon?.difference(processedHeatmap) {
+            if let land = WorldPolygons.landsPolygon?.difference(processedHeatmap),
+                let water = WorldPolygons.waterPolygon?.difference(processedHeatmap) {
                 if let processedWKT = processedHeatmap.WKT,
                     let landWKT = land.WKT,
                     let waterWKT = water.WKT {

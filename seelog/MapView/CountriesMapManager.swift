@@ -14,7 +14,11 @@ class CountriesMapManager: MapManager {
     var mapView: MKMapView
     var mapViewDelegate: MainMapViewDelegate
     var geoDB: GeoDatabase
-    var active = true
+
+    private let fillColor = UIColor.red
+    private let strokeColor = UIColor.white
+    private let lineWidth: CGFloat = 1
+    private let alpha: CGFloat = 0.25
 
     init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, geoDB: GeoDatabase) {
         self.mapView = mapView
@@ -22,16 +26,8 @@ class CountriesMapManager: MapManager {
         self.geoDB = geoDB
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
-        active = true
-
-        var existingPolygonProperties = [PolygonProperties]()
-        for overlay in self.mapView.overlays {
-            if let polygon = overlay as? MKPolygon,
-                let polygonProperties = polygon.polygonProperties {
-                existingPolygonProperties.append(polygonProperties)
-            }
-        }
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, existingProperties: [MapOverlayProperties]) {
+        let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
         var stateKeysToAdd = Set<String>()
@@ -41,7 +37,7 @@ class CountriesMapManager: MapManager {
                 if currentTab == .states {
                     if let stateKeys = visitedCountriesAndStates[countryKey] {
                         for stateKey in stateKeys {
-                            let existing = existingPolygonProperties.filter({ $0.name == stateKey })
+                            let existing = existingProperties.filter({ $0.name == stateKey })
                             if existing.count == 0 {
                                 stateKeysToAdd.insert(stateKey)
                             }
@@ -52,7 +48,7 @@ class CountriesMapManager: MapManager {
                 }
 
                 if currentTab == .countries {
-                    let existing = existingPolygonProperties.filter({ $0.name == countryKey })
+                    let existing = existingProperties.filter({ $0.name == countryKey })
                     if existing.count == 0 {
                         countryKeysToAdd.insert(countryKey)
                     }
@@ -62,32 +58,22 @@ class CountriesMapManager: MapManager {
             }
         }
 
-        if !self.active { return }
-
-        DispatchQueue.main.sync {
-            for overlay in self.mapView.overlays {
-                if let polygon = overlay as? MKPolygon,
-                    let polygonProperties = polygon.polygonProperties {
-                    if !polygonPropertyNamesToKeep.contains(polygonProperties.name) {
-                        self.mapView.remove(overlay)
-                    }
-                } else {
-                    self.mapView.remove(overlay)
-                }
+        for polygonProperties in existingProperties {
+            if polygonPropertyNamesToKeep.contains(polygonProperties.name ?? "") {
+                polygonProperties.overlayVersion = overlayVersion
             }
         }
 
         for stateKey in stateKeysToAdd {
-            self.createPolygon(forStateKey: stateKey)
+            self.createPolygon(forStateKey: stateKey, overlayVersion: overlayVersion)
         }
 
         for countryKey in countryKeysToAdd {
-            self.createPolygon(forCountryKey: countryKey)
+            self.createPolygon(forCountryKey: countryKey, overlayVersion: overlayVersion)
         }
     }
 
     func unload() {
-        active = false
         mapView.removeOverlays(mapView.overlays)
     }
 
@@ -95,21 +81,6 @@ class CountriesMapManager: MapManager {
     func viewChanged(visibleMapRect: MKMapRect) {}
 
     func longPress() {}
-
-    func rendererFor(polygon: MKPolygon) -> MKOverlayRenderer? {
-        let polygonView = PolygonRenderer(overlay: polygon)
-
-        if let polygonProperties = polygon.polygonProperties {
-            let color = UIColor.red
-            polygonView.fillColor = color.withAlphaComponent(polygonProperties.alpha)
-
-            polygonView.lineWidth = 1
-            polygonView.strokeColor = UIColor.white
-            // polygonView.alpha = polygonProperties.zoomTypes.contains(currentZoomType) ? 1 : 0
-        }
-
-        return polygonView
-    }
 
     func nonPolygonRendererFor(overlay: MKOverlay) -> MKOverlayRenderer? {
         return nil
@@ -119,60 +90,80 @@ class CountriesMapManager: MapManager {
         return nil
     }
     
-    private func createPolygon(forStateKey stateKey: String) {
+    private func createPolygon(forStateKey stateKey: String, overlayVersion: Int) {
         if let stateInfo = geoDB.stateInfoFor(stateKey: stateKey) {
             var closeZoomTypes: [ZoomType] = [.close]
             if let geometry50m = stateInfo.geometry50m {
-                let polygonProperties = PolygonProperties(name: stateKey,
-                                                          zoomTypes: [.medium, .far],
-                                                          polygonType: .state,
-                                                          alpha: 0.25)
-                mapViewDelegate.addGeometryToMap(geometry50m, polygonProperties: polygonProperties)
+                let polygonProperties = MapOverlayProperties(name: stateKey,
+                                                             zoomTypes: [.medium, .far],
+                                                             overlayVersion: overlayVersion)
+                polygonProperties.fillColor = fillColor
+                polygonProperties.strokeColor = strokeColor
+                polygonProperties.lineWidth = lineWidth
+                polygonProperties.alpha = alpha
+                mapViewDelegate.addGeometryToMap(geometry50m,
+                                                 properties: polygonProperties)
             } else {
                 closeZoomTypes.append(.medium)
                 closeZoomTypes.append(.far)
             }
             if let geometry10m = stateInfo.geometry10m {
-                let polygonProperties = PolygonProperties(name: stateKey,
-                                                          zoomTypes: closeZoomTypes,
-                                                          polygonType: .state,
-                                                          alpha: 0.25)
-                mapViewDelegate.addGeometryToMap(geometry10m, polygonProperties: polygonProperties)
+                let polygonProperties = MapOverlayProperties(name: stateKey,
+                                                             zoomTypes: closeZoomTypes,
+                                                             overlayVersion: overlayVersion)
+                polygonProperties.fillColor = fillColor
+                polygonProperties.strokeColor = strokeColor
+                polygonProperties.lineWidth = lineWidth
+                polygonProperties.alpha = alpha
+                mapViewDelegate.addGeometryToMap(geometry10m,
+                                                 properties: polygonProperties)
             }
         }
     }
 
-    private func createPolygon(forCountryKey countryKey: String) {
+    private func createPolygon(forCountryKey countryKey: String, overlayVersion: Int) {
         if let countryInfo = geoDB.countryInfoFor(countryKey: countryKey) {
             var closeZoomTypes: [ZoomType] = [.close]
             var mediumZoomTypes: [ZoomType] = [.medium]
 
             if let geometry110m = countryInfo.geometry110m {
-                let polygonProperties = PolygonProperties(name: countryKey,
-                                                          zoomTypes: [.far],
-                                                          polygonType: .country,
-                                                          alpha: 0.25)
-                mapViewDelegate.addGeometryToMap(geometry110m, polygonProperties: polygonProperties)
+                let polygonProperties = MapOverlayProperties(name: countryKey,
+                                                             zoomTypes: [.far],
+                                                             overlayVersion: overlayVersion)
+                polygonProperties.fillColor = fillColor
+                polygonProperties.strokeColor = strokeColor
+                polygonProperties.lineWidth = lineWidth
+                polygonProperties.alpha = alpha
+                mapViewDelegate.addGeometryToMap(geometry110m,
+                                                 properties: polygonProperties)
             } else {
                 mediumZoomTypes.append(.far)
             }
             if let geometry50m = countryInfo.geometry50m {
-                let polygonProperties = PolygonProperties(name: countryKey,
-                                                          zoomTypes: mediumZoomTypes,
-                                                          polygonType: .country,
-                                                          alpha: 0.25)
-                mapViewDelegate.addGeometryToMap(geometry50m, polygonProperties: polygonProperties)
+                let polygonProperties = MapOverlayProperties(name: countryKey,
+                                                             zoomTypes: mediumZoomTypes,
+                                                             overlayVersion: overlayVersion)
+                polygonProperties.fillColor = fillColor
+                polygonProperties.strokeColor = strokeColor
+                polygonProperties.lineWidth = lineWidth
+                polygonProperties.alpha = alpha
+                mapViewDelegate.addGeometryToMap(geometry50m,
+                                                 properties: polygonProperties)
             } else {
                 for zoomType in mediumZoomTypes {
                     closeZoomTypes.append(zoomType)
                 }
             }
             if let geometry10m = countryInfo.geometry10m {
-                let polygonProperties = PolygonProperties(name: countryKey,
-                                                          zoomTypes: closeZoomTypes,
-                                                          polygonType: .country,
-                                                          alpha: 0.25)
-                mapViewDelegate.addGeometryToMap(geometry10m, polygonProperties: polygonProperties)
+                let polygonProperties = MapOverlayProperties(name: countryKey,
+                                                             zoomTypes: closeZoomTypes,
+                                                             overlayVersion: overlayVersion)
+                polygonProperties.fillColor = fillColor
+                polygonProperties.strokeColor = strokeColor
+                polygonProperties.lineWidth = lineWidth
+                polygonProperties.alpha = alpha
+                mapViewDelegate.addGeometryToMap(geometry10m,
+                                                 properties: polygonProperties)
             }
         }
     }

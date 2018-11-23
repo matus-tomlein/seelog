@@ -162,9 +162,9 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
         self.tableView.reloadData()
         // TODO: this is slow:
-        if self.currentTab == .countries || self.currentTab == .states {
-            for cell in 0..<self.tableView(self.tableView, numberOfRowsInSection: 0) {
-                self.tableView.rectForRow(at: IndexPath(row: cell, section: 0))
+        for section in 0..<self.numberOfSections(in: self.tableView) {
+            for cell in 0..<self.tableView(self.tableView, numberOfRowsInSection: section) {
+                self.tableView.rectForRow(at: IndexPath(row: cell, section: section))
             }
         }
         self.tableViewHeight.constant = self.tableView.contentSize.height
