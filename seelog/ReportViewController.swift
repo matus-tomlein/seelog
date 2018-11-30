@@ -11,6 +11,7 @@ import Photos
 import CoreData
 import MapKit
 import GEOSwift
+import QuickLook
 
 class ReportScrollView: UIScrollView {
     @IBOutlet weak var mapOverlayView: UIView!
@@ -76,7 +77,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         historyBarChartView.reportViewController = self
 
         mapView.region = MKCoordinateRegion(center: mapView.centerCoordinate, span: MKCoordinateSpan(latitudeDelta: 100, longitudeDelta: 100))
-        mapViewDelegate = MainMapViewDelegate(mapView: mapView)
+        mapViewDelegate = MainMapViewDelegate(mapView: mapView, reportViewController: self)
         mapView.delegate = mapViewDelegate
 
         loadData()
@@ -95,6 +96,11 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
             let contentSize = self.tableView.contentSize
             self.tableViewHeight.constant = contentSize.height
         }, completion: nil)
+    }
+
+    func quickLookImages(assets: [PHAsset]) {
+        let dataSource = ImagePreviewDataSource(assets: assets, reportViewController: self)
+        dataSource.load()
     }
 
     // MARK: Table view
@@ -193,7 +199,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         if let year = barChartSelection?.currentAggregate {
             UIView.setAnimationsEnabled(false)
             self.countriesButton.setTitle("\(year.numberOfCountries(cumulative: aggregateChart)) countries", for: .normal)
-            self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) divisions", for: .normal)
+            self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) units", for: .normal)
             self.citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
             let seenArea = year.seenArea(cumulative: aggregateChart)
             let seenAreaFormatted = NumberFormatter.localizedString(from: NSNumber(value: seenArea), number: .decimal)

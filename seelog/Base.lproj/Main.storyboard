@@ -48,7 +48,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="0vX-CZ-9EW">
                                         <rect key="frame" x="0.0" y="94" width="375" height="37"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 divisions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdZ-Gj-Ljc">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 units" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdZ-Gj-Ljc">
                                                 <rect key="frame" x="0.0" y="0.0" width="187.66666666666666" height="37"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                 <nil key="textColor"/>
@@ -119,7 +119,6 @@
         <!--Report View Controller-->
         <scene sceneID="gbM-6t-bgP">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3z5-8u-42p" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="mXn-og-8hO" customClass="ReportViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="R46-zw-7Gk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
@@ -174,7 +173,7 @@
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StA-yE-hAe">
                                                                         <rect key="frame" x="8" y="8" width="175.66666666666666" height="39"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                                        <state key="normal" title="0 divisions"/>
+                                                                        <state key="normal" title="0 units"/>
                                                                         <connections>
                                                                             <action selector="statesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="GDk-6N-yyl"/>
                                                                         </connections>
@@ -420,10 +419,49 @@
                         <outlet property="tableView" destination="lOJ-Uw-dTl" id="K5P-u1-pPO"/>
                         <outlet property="tableViewHeight" destination="jyD-to-tQZ" id="UbH-wY-fmw"/>
                         <outlet property="timezonesButton" destination="sBa-sr-UFp" id="rbr-o4-lQC"/>
+                        <segue destination="C15-Qw-6Ie" kind="presentation" id="oS4-Ho-Jw4"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3z5-8u-42p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1721" y="140"/>
+        </scene>
+        <!--Images Page View Controller-->
+        <scene sceneID="ht7-AS-ZcE">
+            <objects>
+                <pageViewController storyboardIdentifier="showImageDetail" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="C15-Qw-6Ie" customClass="ImagesPageViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r2F-eE-o68" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2718" y="140"/>
+        </scene>
+        <!--Image View Controller-->
+        <scene sceneID="KWX-YS-KrI">
+            <objects>
+                <viewController id="usp-jx-6sY" customClass="ImageViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZYO-em-Ebk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2B7-0k-Fud">
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hOp-Pf-XRt" firstAttribute="bottom" secondItem="2B7-0k-Fud" secondAttribute="bottom" id="6Vq-7m-Mr0"/>
+                            <constraint firstItem="hOp-Pf-XRt" firstAttribute="trailing" secondItem="2B7-0k-Fud" secondAttribute="trailing" id="F32-IP-BD0"/>
+                            <constraint firstItem="2B7-0k-Fud" firstAttribute="top" secondItem="hOp-Pf-XRt" secondAttribute="top" id="aNw-pU-gbY"/>
+                            <constraint firstItem="2B7-0k-Fud" firstAttribute="leading" secondItem="hOp-Pf-XRt" secondAttribute="leading" id="iby-al-AKy"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hOp-Pf-XRt"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="2B7-0k-Fud" id="ASN-t1-jfu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e3O-pa-wGD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3610" y="140"/>
         </scene>
     </scenes>
 </document>

@@ -51,7 +51,7 @@ class ViewController: UIViewController {
     @objc func updateCounts() {
         self.seenAreaLabel.text = "\(Int(initializationState.seenArea.rounded())) km²"
         self.countriesLabel.text = "\(initializationState.numberOfCountries) countries"
-        self.statesLabel.text = "\(initializationState.numberOfStates) divisions"
+        self.statesLabel.text = "\(initializationState.numberOfStates) units"
         self.citiesLabel.text = "\(initializationState.numberOfCities) cities"
         self.continentsLabel.text = "\(initializationState.numberOfContinents) continents"
         self.timezonesLabel.text = "\(initializationState.numberOfTimezones) timezones"

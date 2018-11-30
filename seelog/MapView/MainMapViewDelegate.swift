@@ -14,13 +14,19 @@ import CoreData
 class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     var mapView: MKMapView
     var mapManager: MapManager?
+    private weak var reportViewController: ReportViewController?
 
-    init(mapView: MKMapView) {
+    init(mapView: MKMapView, reportViewController: ReportViewController) {
         self.mapView = mapView
+        self.reportViewController = reportViewController
         super.init()
 
         let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(gestureRecognizer:)))
         mapView.addGestureRecognizer(recognizer)
+
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
+        mapView.addGestureRecognizer(tapRecognizer)
+
         mapView.isRotateEnabled = false
         mapView.isPitchEnabled = false
     }
@@ -39,14 +45,38 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         mapManager?.longPress()
     }
 
+    @objc func tap(_ tap: UITapGestureRecognizer) {
+        if tap.state == .recognized {
+            let coord = mapView.convert(tap.location(in: mapView), toCoordinateFrom: mapView)
+            let touchLocation = CLLocation(latitude: coord.latitude, longitude: coord.longitude)
+
+            for overlay: MKOverlay in mapView.overlays {
+                if let overlay = overlay as? ImageOverlay {
+                    let location = CLLocation(latitude: overlay.coordinate.latitude, longitude: overlay.coordinate.longitude)
+                    let distance = location.distance(from: touchLocation)
+                    if distance < 30 {
+                        reportViewController?.quickLookImages(assets: overlay.assets)
+                        return
+                    }
+                }
+            }
+        }
+    }
+
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool, geoDB: GeoDatabase, context: NSManagedObjectContext) {
         GeometryOverlayCreator.overlayVersion += 1
 
         switch currentTab {
-        case .countries, .states:
+        case .countries:
             if !(self.mapManager is CountriesMapManager) {
                 mapManager?.unload()
                 mapManager = CountriesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
+            }
+
+        case .states:
+            if !(self.mapManager is StatesMapManager) {
+                mapManager?.unload()
+                mapManager = StatesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
             }
 
         case .places:

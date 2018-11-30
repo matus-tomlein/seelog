@@ -12,11 +12,10 @@ import MapKit
 import Photos
 
 class PhotoGeohashManager {
-    var asset: PHAsset
+    var assets: [PHAsset]
     var geohash: String
     var mapView: MKMapView
     var circleOverlay: MapCircle?
-    var polylineOverlay: MapPolyline?
     var imageOverlay: ImageOverlay?
     var showingImage = false
     var showingCircle = false
@@ -25,12 +24,16 @@ class PhotoGeohashManager {
     var overlayVersion: Int
 
     init(asset: PHAsset, geohash: String, mapView: MKMapView, currentViewPort: CurrentViewport, overlayVersion: Int) {
-        self.asset = asset
+        self.assets = [asset]
         self.geohash = geohash
         self.mapView = mapView
         self.location = CLLocationCoordinate2D(geohash: geohash)
         self.currentViewPort = currentViewPort
         self.overlayVersion = overlayVersion
+    }
+
+    func add(asset: PHAsset) {
+        assets.append(asset)
     }
 
     func update() {
@@ -73,6 +76,7 @@ class PhotoGeohashManager {
         if showingImage { return }
         showingImage = true
         if openImageRequestID != nil { return }
+        guard let asset = assets.first else { return }
 
         let imageManager = PHImageManager.default()
         openImageRequestID = imageManager.requestImage(for: asset,
@@ -100,12 +104,7 @@ class PhotoGeohashManager {
         }
         openImageRequestID = nil
 
-        if let polylineOverlay = self.polylineOverlay { self.mapView.remove(polylineOverlay) }
-        if let imageOverlay = self.imageOverlay {
-            self.mapView.remove(imageOverlay)
-            imageOverlay.image = nil
-        }
-        self.polylineOverlay = nil
+        self.imageOverlay?.removeFrom(mapView: self.mapView)
         self.imageOverlay = nil
     }
 
@@ -118,27 +117,14 @@ class PhotoGeohashManager {
     private func addImage(image: UIImage) {
         if !showingImage { return }
         if let imageOverlay = self.imageOverlay {
-            self.mapView.remove(imageOverlay)
+            imageOverlay.removeFrom(mapView: self.mapView)
             self.imageOverlay = nil
         }
 
-        let multiplyBy = 640 / ([Double(image.size.width), Double(image.size.height)].max() ?? 0)
-
-        let rect = MKMapRect(origin: MKMapPointForCoordinate(self.location),
-                             size: MKMapSize(width: Double(image.size.width) * multiplyBy, height: Double(image.size.height) * multiplyBy))
-
-        if self.polylineOverlay == nil {
-            let polylineOverlay = MapPolyline(rect: rect)
-            let properties = MapOverlayProperties(self.overlayVersion)
-            properties.lineWidth = 3
-            polylineOverlay.properties = properties
-            mapView.add(polylineOverlay)
-            self.polylineOverlay = polylineOverlay
-        }
-
         if let imageOverlay = GeometryOverlayCreator.addImageToMap(image: image,
+                                                                   assets: assets,
                                                                    mapView: mapView,
-                                                                   rect: rect,
+                                                                   location: location,
                                                                    overlayVersion: overlayVersion) {
             self.imageOverlay = imageOverlay
         }
@@ -192,8 +178,12 @@ class LargerGeohashManager {
 
     private func fetchAssetsFor(photos: [Photo]) -> PHFetchResult<PHAsset> {
         let localIdentifiers = photos.map({ $0.localIdentifier }).filter({ $0 != nil }).map({ $0! })
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchOptions.sortDescriptors = [sortDescriptor]
         let assets = PHAsset.fetchAssets(withLocalIdentifiers: localIdentifiers,
-                                         options: PHFetchOptions())
+                                         options: fetchOptions)
 
         return assets
     }
@@ -215,9 +205,13 @@ class LargerGeohashManager {
             assets.enumerateObjects { (asset, _, _) in
                 guard let location = asset.location?.coordinate else { return }
 
-                let photoGeohash = Geohash.encode(latitude: location.latitude, longitude: location.longitude, precision: .seventySixMeters)
+                let photoGeohash = Geohash.encode(latitude: location.latitude,
+                                                  longitude: location.longitude,
+                                                  precision: .seventySixMeters)
 
-                if self.loadedPhotoGeohashes[photoGeohash] == nil {
+                if let manager = self.loadedPhotoGeohashes[photoGeohash] {
+                    manager.add(asset: asset)
+                } else {
                     let manager = PhotoGeohashManager(asset: asset,
                                                       geohash: photoGeohash,
                                                       mapView: self.mapView,

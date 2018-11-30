@@ -57,6 +57,7 @@
 		834316AD2142AD6A00784257 /* seelogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316AC2142AD6A00784257 /* seelogUITests.swift */; };
 		834316BB2142D5FD00784257 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834316BA2142D5FD00784257 /* Photo.swift */; };
 		83571F7F21564ACA001CEEFC /* HistoryChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83571F7E21564ACA001CEEFC /* HistoryChartView.swift */; };
+		8358DC5821B1E1D300F38710 /* StatesMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8358DC5721B1E1D300F38710 /* StatesMapManager.swift */; };
 		835B8057217B44B6001E9B96 /* MainMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835B8056217B44B6001E9B96 /* MainMapViewDelegate.swift */; };
 		836F302721937F7600D4FCB3 /* PhotoMapViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F302621937F7600D4FCB3 /* PhotoMapViewer.swift */; };
 		83A8ABCF2173290400203402 /* CityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8ABCE2173290400203402 /* CityInfo.swift */; };
@@ -74,6 +75,9 @@
 		83ACC92921A754DA00439667 /* ZoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92821A754DA00439667 /* ZoomType.swift */; };
 		83ACC92D21A8034400439667 /* MapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92C21A8034400439667 /* MapOverlay.swift */; };
 		83ACC92F21A80F5A00439667 /* WorldPolygons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC92E21A80F5A00439667 /* WorldPolygons.swift */; };
+		83ACC93321AC42BD00439667 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC93221AC42BD00439667 /* ImageViewController.swift */; };
+		83ACC93521AC432500439667 /* ImagesPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC93421AC432500439667 /* ImagesPageViewController.swift */; };
+		83ACC93721ADD57600439667 /* ImagePreviewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC93621ADD57500439667 /* ImagePreviewDataSource.swift */; };
 		83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */; };
 		83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7DD8E21567C120046D8A5 /* ReportViewController.swift */; };
 		83FF2129215F86C5008E846F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF2128215F86C5008E846F /* Helpers.swift */; };
@@ -157,6 +161,7 @@
 		834316AE2142AD6A00784257 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		834316BA2142D5FD00784257 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		83571F7E21564ACA001CEEFC /* HistoryChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryChartView.swift; sourceTree = "<group>"; };
+		8358DC5721B1E1D300F38710 /* StatesMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesMapManager.swift; sourceTree = "<group>"; };
 		835B8056217B44B6001E9B96 /* MainMapViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMapViewDelegate.swift; sourceTree = "<group>"; };
 		836F302621937F7600D4FCB3 /* PhotoMapViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMapViewer.swift; sourceTree = "<group>"; };
 		83A8ABCE2173290400203402 /* CityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityInfo.swift; sourceTree = "<group>"; };
@@ -174,6 +179,9 @@
 		83ACC92821A754DA00439667 /* ZoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomType.swift; sourceTree = "<group>"; };
 		83ACC92C21A8034400439667 /* MapOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapOverlay.swift; sourceTree = "<group>"; };
 		83ACC92E21A80F5A00439667 /* WorldPolygons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldPolygons.swift; sourceTree = "<group>"; };
+		83ACC93221AC42BD00439667 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		83ACC93421AC432500439667 /* ImagesPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPageViewController.swift; sourceTree = "<group>"; };
+		83ACC93621ADD57500439667 /* ImagePreviewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewDataSource.swift; sourceTree = "<group>"; };
 		83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBarChartSelection.swift; sourceTree = "<group>"; };
 		83C7DD8E21567C120046D8A5 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		83FF2128215F86C5008E846F /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
@@ -241,6 +249,7 @@
 				836F302621937F7600D4FCB3 /* PhotoMapViewer.swift */,
 				8335679E2199D95C0081498B /* TimezoneMapManager.swift */,
 				833567A0219A047E0081498B /* ContinentsMapManager.swift */,
+				8358DC5721B1E1D300F38710 /* StatesMapManager.swift */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -298,6 +307,9 @@
 				83221A8421451FB30055D775 /* generated.sqlite */,
 				834316902142AD6700784257 /* seelog.xcdatamodeld */,
 				83C7DD8E21567C120046D8A5 /* ReportViewController.swift */,
+				83ACC93221AC42BD00439667 /* ImageViewController.swift */,
+				83ACC93421AC432500439667 /* ImagesPageViewController.swift */,
+				83ACC93621ADD57500439667 /* ImagePreviewDataSource.swift */,
 			);
 			path = seelog;
 			sourceTree = "<group>";
@@ -688,9 +700,11 @@
 				83ACC92721A754BF00439667 /* Annotation.swift in Sources */,
 				83FF212C215FA47E008E846F /* YearStatsUpdater.swift in Sources */,
 				830EF135218EF77D00AEE7A0 /* CountriesTableViewManager.swift in Sources */,
+				83ACC93521AC432500439667 /* ImagesPageViewController.swift in Sources */,
 				8335679D2198C1AA0081498B /* ContinentsTableViewManager.swift in Sources */,
 				8343168A2142AD6600784257 /* AppDelegate.swift in Sources */,
 				834316922142AD6700784257 /* seelog.xcdatamodeld in Sources */,
+				83ACC93321AC42BD00439667 /* ImageViewController.swift in Sources */,
 				8335679F2199D95C0081498B /* TimezoneMapManager.swift in Sources */,
 				83ACC92F21A80F5A00439667 /* WorldPolygons.swift in Sources */,
 				83ACC91621A70A7F00439667 /* GeometryOverlayCreator.swift in Sources */,
@@ -706,6 +720,7 @@
 				83ACC91D21A7541700439667 /* MapPolygon.swift in Sources */,
 				830EF138218F549500AEE7A0 /* HeatmapMapManager.swift in Sources */,
 				830EF12E218E22A900AEE7A0 /* TimezoneInfo.swift in Sources */,
+				83ACC93721ADD57600439667 /* ImagePreviewDataSource.swift in Sources */,
 				83ACC92521A7548700439667 /* PolygonRenderer.swift in Sources */,
 				8305ED4E218451E600630BD6 /* ChartDrawer.swift in Sources */,
 				830EF126218E040A00AEE7A0 /* YearCountriesUpdater.swift in Sources */,
@@ -714,6 +729,7 @@
 				83A8ABCF2173290400203402 /* CityInfo.swift in Sources */,
 				835B8057217B44B6001E9B96 /* MainMapViewDelegate.swift in Sources */,
 				830EF12A218E067A00AEE7A0 /* YearSeenAreaUpdater.swift in Sources */,
+				8358DC5821B1E1D300F38710 /* StatesMapManager.swift in Sources */,
 				830EF12C218E07DB00AEE7A0 /* YearTimezonesUpdater.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,8 +1,8 @@
 //
-//  CountriesMapManager.swift
+//  StatesMapManager.swift
 //  seelog
 //
-//  Created by Matus Tomlein on 04/11/2018.
+//  Created by Matus Tomlein on 30/11/2018.
 //  Copyright © 2018 Matus Tomlein. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import GEOSwift
 
-class CountriesMapManager: MapManager {
+class StatesMapManager: MapManager {
     var mapView: MKMapView
     var mapViewDelegate: MainMapViewDelegate
     var geoDB: GeoDatabase
@@ -30,15 +30,19 @@ class CountriesMapManager: MapManager {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
-        var countryKeysToAdd = Set<String>()
+        var stateKeysToAdd = Set<String>()
         if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
             for countryKey in visitedCountriesAndStates.keys {
-                let existing = existingProperties.filter({ $0.name == countryKey })
-                if existing.count == 0 {
-                    countryKeysToAdd.insert(countryKey)
-                }
+                if let stateKeys = visitedCountriesAndStates[countryKey] {
+                    for stateKey in stateKeys {
+                        let existing = existingProperties.filter({ $0.name == stateKey })
+                        if existing.count == 0 {
+                            stateKeysToAdd.insert(stateKey)
+                        }
 
-                polygonPropertyNamesToKeep.insert(countryKey)
+                        polygonPropertyNamesToKeep.insert(stateKey)
+                    }
+                }
             }
         }
 
@@ -48,8 +52,8 @@ class CountriesMapManager: MapManager {
             }
         }
 
-        for countryKey in countryKeysToAdd {
-            self.createPolygon(forCountryKey: countryKey, overlayVersion: overlayVersion)
+        for stateKey in stateKeysToAdd {
+            self.createPolygon(forStateKey: stateKey, overlayVersion: overlayVersion)
         }
     }
 
@@ -70,27 +74,12 @@ class CountriesMapManager: MapManager {
         return nil
     }
 
-    private func createPolygon(forCountryKey countryKey: String, overlayVersion: Int) {
-        if let countryInfo = geoDB.countryInfoFor(countryKey: countryKey) {
+    private func createPolygon(forStateKey stateKey: String, overlayVersion: Int) {
+        if let stateInfo = geoDB.stateInfoFor(stateKey: stateKey) {
             var closeZoomTypes: [ZoomType] = [.close]
-            var mediumZoomTypes: [ZoomType] = [.medium]
-
-            if let geometry110m = countryInfo.geometry110m {
-                let polygonProperties = MapOverlayProperties(name: countryKey,
-                                                             zoomTypes: [.far],
-                                                             overlayVersion: overlayVersion)
-                polygonProperties.fillColor = fillColor
-                polygonProperties.strokeColor = strokeColor
-                polygonProperties.lineWidth = lineWidth
-                polygonProperties.alpha = alpha
-                mapViewDelegate.addGeometryToMap(geometry110m,
-                                                 properties: polygonProperties)
-            } else {
-                mediumZoomTypes.append(.far)
-            }
-            if let geometry50m = countryInfo.geometry50m {
-                let polygonProperties = MapOverlayProperties(name: countryKey,
-                                                             zoomTypes: mediumZoomTypes,
+            if let geometry50m = stateInfo.geometry50m {
+                let polygonProperties = MapOverlayProperties(name: stateKey,
+                                                             zoomTypes: [.medium, .far],
                                                              overlayVersion: overlayVersion)
                 polygonProperties.fillColor = fillColor
                 polygonProperties.strokeColor = strokeColor
@@ -99,12 +88,11 @@ class CountriesMapManager: MapManager {
                 mapViewDelegate.addGeometryToMap(geometry50m,
                                                  properties: polygonProperties)
             } else {
-                for zoomType in mediumZoomTypes {
-                    closeZoomTypes.append(zoomType)
-                }
+                closeZoomTypes.append(.medium)
+                closeZoomTypes.append(.far)
             }
-            if let geometry10m = countryInfo.geometry10m {
-                let polygonProperties = MapOverlayProperties(name: countryKey,
+            if let geometry10m = stateInfo.geometry10m {
+                let polygonProperties = MapOverlayProperties(name: stateKey,
                                                              zoomTypes: closeZoomTypes,
                                                              overlayVersion: overlayVersion)
                 polygonProperties.fillColor = fillColor
@@ -116,5 +104,4 @@ class CountriesMapManager: MapManager {
             }
         }
     }
-
 }

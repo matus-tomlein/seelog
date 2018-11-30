@@ -9,6 +9,7 @@
 import Foundation
 import MapKit
 import GEOSwift
+import Photos
 
 class GeometryOverlayCreator {
     static var overlayVersion = 0
@@ -70,15 +71,17 @@ class GeometryOverlayCreator {
     }
 
     static func addImageToMap(image: UIImage,
+                              assets: [PHAsset],
                               mapView: MKMapView,
-                              rect: MKMapRect,
+                              location: CLLocationCoordinate2D,
                               overlayVersion: Int) -> ImageOverlay? {
         if overlayVersion < self.overlayVersion { return nil }
 
         let imageOverlay = ImageOverlay(image: image,
-                                        rect: rect,
+                                        assets: assets,
+                                        coordinate: location,
                                         properties: MapOverlayProperties(overlayVersion))
-        mapView.add(imageOverlay)
+        imageOverlay.addTo(mapView: mapView)
         return imageOverlay
     }
 

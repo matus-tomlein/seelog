@@ -8,22 +8,55 @@
 
 import Foundation
 import MapKit
+import Photos
 
 class ImageOverlay : NSObject, MKOverlay, MapOverlay {
 
     var image: UIImage?
+    var assets: [PHAsset]
     let boundingMapRect: MKMapRect
     let coordinate: CLLocationCoordinate2D
     var properties: MapOverlayProperties?
+    weak var polyline: MapPolyline?
 
-    init(image: UIImage, rect: MKMapRect, properties: MapOverlayProperties) {
+    init(image: UIImage, assets: [PHAsset], coordinate: CLLocationCoordinate2D, properties: MapOverlayProperties) {
         self.image = image
-        self.boundingMapRect = rect
-        self.coordinate = rect.origin.coordinate
+        self.assets = assets
+        self.coordinate = coordinate
         self.properties = properties
+        self.boundingMapRect = ImageOverlay.initBoundingMapRect(image: image, coordinate: coordinate)
     }
 
     func getProperties() -> MapOverlayProperties? {
         return properties
+    }
+
+    func addTo(mapView: MKMapView) {
+        guard let properties = self.properties else { return }
+
+        let polylineOverlay = MapPolyline(rect: boundingMapRect)
+        let polylineProperties = MapOverlayProperties(properties.overlayVersion)
+        polylineProperties.lineWidth = 3
+        polylineOverlay.properties = polylineProperties
+        mapView.add(polylineOverlay)
+        self.polyline = polylineOverlay
+
+        mapView.add(self)
+    }
+
+    func removeFrom(mapView: MKMapView) {
+        mapView.remove(self)
+        if let polyline = self.polyline { mapView.remove(polyline) }
+        self.polyline = nil
+    }
+
+    private static func initBoundingMapRect(image: UIImage, coordinate: CLLocationCoordinate2D) -> MKMapRect {
+        let multiplyBy = 640 / ([Double(image.size.width), Double(image.size.height)].max() ?? 0)
+
+        let size = MKMapSize(width: Double(image.size.width) * multiplyBy, height: Double(image.size.height) * multiplyBy)
+        var origin = MKMapPointForCoordinate(coordinate)
+        origin.x -= size.width / 2
+        origin.y -= size.height / 2
+        return MKMapRect(origin: origin, size: size)
     }
 }
