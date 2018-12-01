@@ -16,9 +16,11 @@ class HeatmapMapManager: MapManager {
     var mapView: MKMapView
     var mapViewDelegate: MainMapViewDelegate
     var photoViewer: PhotoMapViewer
+    var overlayManager: OverlayManager
 
     init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, context: NSManagedObjectContext) {
         self.mapView = mapView
+        self.overlayManager = OverlayManager(mapView: mapView)
         self.mapViewDelegate = mapViewDelegate
 
         photoViewer = PhotoMapViewer(mapView: mapView,
@@ -26,7 +28,7 @@ class HeatmapMapManager: MapManager {
                                      context: context)
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, existingProperties: [MapOverlayProperties]) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         mapView.mapType = .mutedStandard
         DispatchQueue.main.sync { unload() }
         let overlayVersion = GeometryOverlayCreator.overlayVersion
@@ -44,16 +46,14 @@ class HeatmapMapManager: MapManager {
                                                       zoomTypes: [.close, .medium, .far],
                                                       overlayVersion: overlayVersion)
             landProperties.fillColor = UIColor(red: 43 / 255.0, green: 45 / 255.0, blue: 47 / 255.0, alpha: 1)
-            self.mapViewDelegate.addGeometryToMap(land,
-                                                  properties: landProperties)
+            overlayManager.add(geometry: land, properties: landProperties)
 
 
             let waterProperties = MapOverlayProperties(name: year.name,
                                                        zoomTypes: [.close, .medium, .far],
                                                        overlayVersion: overlayVersion)
             waterProperties.fillColor = UIColor(red: 49 / 255.0, green: 68 / 255.0, blue: 101 / 255.0, alpha: 1)
-            self.mapViewDelegate.addGeometryToMap(water,
-                                                  properties: waterProperties)
+            overlayManager.add(geometry: water, properties: waterProperties)
 
 //                self.mapView.centerCoordinate = self.mapView.centerCoordinate
 
@@ -61,8 +61,7 @@ class HeatmapMapManager: MapManager {
                                                          zoomTypes: [.far],
                                                          overlayVersion: overlayVersion)
             heatmapProperties.fillColor = UIColor.white
-            self.mapViewDelegate.addGeometryToMap(bufferedHeatmap,
-                                                  properties: heatmapProperties)
+            overlayManager.add(geometry: bufferedHeatmap, properties: heatmapProperties)
 
 
             let boundaryProperties = MapOverlayProperties(name: year.name,
@@ -70,8 +69,7 @@ class HeatmapMapManager: MapManager {
                                                           overlayVersion: overlayVersion)
             boundaryProperties.strokeColor = UIColor.white
             boundaryProperties.lineWidth = 2
-            self.mapViewDelegate.addGeometryToMap(boundary,
-                                                  properties: boundaryProperties)
+            overlayManager.add(geometry: boundary, properties: boundaryProperties)
 
         }
 
@@ -80,8 +78,7 @@ class HeatmapMapManager: MapManager {
 
     func unload() {
         photoViewer.unload()
-        mapView.removeAnnotations(mapView.annotations)
-        mapView.removeOverlays(mapView.overlays)
+        overlayManager.unload()
     }
 
     func viewFor(annotation: MKAnnotation) -> MKAnnotationView? {
@@ -92,6 +89,7 @@ class HeatmapMapManager: MapManager {
 
     func viewChanged(visibleMapRect: MKMapRect) {
         photoViewer.viewChanged(visibleMapRect: visibleMapRect)
+        overlayManager.viewChanged(visibleMapRect: visibleMapRect)
     }
 
     var lastActiveLongPress: TimeInterval?

@@ -11,16 +11,16 @@ import MapKit
 
 
 class PolygonRenderer: MKPolygonRenderer {
-    override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
-        //        print(zoomScale)
-        let currentZoomType: ZoomType = zoomScale > 0.0001 ? .close : (zoomScale > 0.00002 ? .medium : .far)
-        if let mapPolygon = polygon as? MapPolygon,
-            let zoomTypes = mapPolygon.properties?.zoomTypes {
-            if !zoomTypes.contains(currentZoomType) {
-                return
-            }
-        }
-
-        super.draw(mapRect, zoomScale: zoomScale, in: context)
-    }
+//    override func draw(_ mapRect: MKMapRect, zoomScale: MKZoomScale, in context: CGContext) {
+//        //        print(zoomScale)
+//        let currentZoomType: ZoomType = zoomScale > 0.0001 ? .close : (zoomScale > 0.00002 ? .medium : .far)
+//        if let mapPolygon = polygon as? MapPolygon,
+//            let zoomTypes = mapPolygon.properties?.zoomTypes {
+//            if !zoomTypes.contains(currentZoomType) {
+//                return
+//            }
+//        }
+//
+//        super.draw(mapRect, zoomScale: zoomScale, in: context)
+//    }
 }

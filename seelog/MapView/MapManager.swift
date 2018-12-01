@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 protocol MapManager {
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, existingProperties: [MapOverlayProperties])
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool)
     func unload()
     func updateForZoomType(_ zoomType: ZoomType)
     func viewChanged(visibleMapRect: MKMapRect)

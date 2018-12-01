@@ -16,8 +16,8 @@ class GeometryOverlayCreator {
 
     static func addOverlayToMap(geometry: Geometry,
                                 properties: MapOverlayProperties,
-                                mapView: MKMapView) {
-        if properties.overlayVersion < self.overlayVersion { return }
+                                mapView: MKMapView) -> [MapOverlay] {
+        if properties.overlayVersion < self.overlayVersion { return [] }
 
         switch geometry {
         case let ls as LineString:
@@ -26,6 +26,7 @@ class GeometryOverlayCreator {
                               count: coordinates.count)
             mapPolyline.properties = properties
             mapView.add(mapPolyline)
+            return [mapPolyline]
 
         case let polygon as Polygon:
             var exteriorRingCoordinates = polygon.exteriorRing.points.map(CLLocationCoordinate2D.init)
@@ -37,24 +38,31 @@ class GeometryOverlayCreator {
                              interiorPolygons: interiorRings)
             mapPolygon.properties = properties
             mapView.add(mapPolygon)
+            return [mapPolygon]
 
         case let gc as MultiLineString<LineString>:
+            var overlays: [MapOverlay] = []
             for geometry in gc.geometries {
-                addOverlayToMap(geometry: geometry, properties: properties, mapView: mapView)
+                overlays += addOverlayToMap(geometry: geometry, properties: properties, mapView: mapView)
             }
+            return overlays
 
         case let gc as MultiPolygon<Polygon>:
+            var overlays: [MapOverlay] = []
             for geometry in gc.geometries {
-                addOverlayToMap(geometry: geometry, properties: properties, mapView: mapView)
+                overlays += addOverlayToMap(geometry: geometry, properties: properties, mapView: mapView)
             }
+            return overlays
 
         case let gc as GeometryCollection<Geometry>:
+            var overlays: [MapOverlay] = []
             for geometry in gc.geometries {
-                addOverlayToMap(geometry: geometry, properties: properties, mapView: mapView)
+                overlays += addOverlayToMap(geometry: geometry, properties: properties, mapView: mapView)
             }
+            return overlays
 
         default:
-            break
+            return []
         }
     }
 

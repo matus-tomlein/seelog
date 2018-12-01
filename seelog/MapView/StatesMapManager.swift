@@ -15,6 +15,7 @@ class StatesMapManager: MapManager {
     var mapViewDelegate: MainMapViewDelegate
     var geoDB: GeoDatabase
 
+    private var overlayManagers: [String: OverlayManager] = [:]
     private let fillColor = UIColor.red
     private let strokeColor = UIColor.white
     private let lineWidth: CGFloat = 1
@@ -26,7 +27,7 @@ class StatesMapManager: MapManager {
         self.geoDB = geoDB
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, existingProperties: [MapOverlayProperties]) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
@@ -35,8 +36,7 @@ class StatesMapManager: MapManager {
             for countryKey in visitedCountriesAndStates.keys {
                 if let stateKeys = visitedCountriesAndStates[countryKey] {
                     for stateKey in stateKeys {
-                        let existing = existingProperties.filter({ $0.name == stateKey })
-                        if existing.count == 0 {
+                        if overlayManagers[stateKey] == nil {
                             stateKeysToAdd.insert(stateKey)
                         }
 
@@ -46,9 +46,12 @@ class StatesMapManager: MapManager {
             }
         }
 
-        for polygonProperties in existingProperties {
-            if polygonPropertyNamesToKeep.contains(polygonProperties.name ?? "") {
-                polygonProperties.overlayVersion = overlayVersion
+        for name in overlayManagers.keys {
+            if polygonPropertyNamesToKeep.contains(name) {
+                overlayManagers[name]?.set(overlayVersion: overlayVersion)
+            } else {
+                overlayManagers[name]?.unload()
+                overlayManagers.removeValue(forKey: name)
             }
         }
 
@@ -58,11 +61,17 @@ class StatesMapManager: MapManager {
     }
 
     func unload() {
-        mapView.removeOverlays(mapView.overlays)
+        for manager in overlayManagers.values { manager.unload() }
+        overlayManagers = [:]
     }
 
     func updateForZoomType(_ zoomType: ZoomType) {}
-    func viewChanged(visibleMapRect: MKMapRect) {}
+
+    func viewChanged(visibleMapRect: MKMapRect) {
+        for manager in overlayManagers.values {
+            manager.viewChanged(visibleMapRect: visibleMapRect)
+        }
+    }
 
     func longPress() {}
 
@@ -75,6 +84,8 @@ class StatesMapManager: MapManager {
     }
 
     private func createPolygon(forStateKey stateKey: String, overlayVersion: Int) {
+        let overlayVersionManager = OverlayManager(mapView: mapView)
+
         if let stateInfo = geoDB.stateInfoFor(stateKey: stateKey) {
             var closeZoomTypes: [ZoomType] = [.close]
             if let geometry50m = stateInfo.geometry50m {
@@ -85,8 +96,8 @@ class StatesMapManager: MapManager {
                 polygonProperties.strokeColor = strokeColor
                 polygonProperties.lineWidth = lineWidth
                 polygonProperties.alpha = alpha
-                mapViewDelegate.addGeometryToMap(geometry50m,
-                                                 properties: polygonProperties)
+                overlayVersionManager.add(geometry: geometry50m,
+                                          properties: polygonProperties)
             } else {
                 closeZoomTypes.append(.medium)
                 closeZoomTypes.append(.far)
@@ -99,9 +110,11 @@ class StatesMapManager: MapManager {
                 polygonProperties.strokeColor = strokeColor
                 polygonProperties.lineWidth = lineWidth
                 polygonProperties.alpha = alpha
-                mapViewDelegate.addGeometryToMap(geometry10m,
-                                                 properties: polygonProperties)
+                overlayVersionManager.add(geometry: geometry10m,
+                                          properties: polygonProperties)
             }
         }
+
+        overlayManagers[stateKey] = overlayVersionManager
     }
 }

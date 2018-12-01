@@ -27,7 +27,7 @@ class CitiesMapManager: MapManager {
         mapView.removeOverlays(mapView.overlays)
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, existingProperties: [MapOverlayProperties]) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
         mapView.mapType = .mutedStandard
         let overlayVersion = GeometryOverlayCreator.overlayVersion
         

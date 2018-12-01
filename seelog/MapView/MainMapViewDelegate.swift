@@ -104,17 +104,13 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
             }
         }
 
-        var existingProperties = [MapOverlayProperties]()
-        for overlay in self.mapView.overlays {
-            if let polygon = overlay as? MapOverlay,
-                let properties = polygon.getProperties() {
-                existingProperties.append(properties)
-            }
-        }
-
         DispatchQueue.global(qos: .background).async {
-            self.mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative, existingProperties: existingProperties)
+            self.mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
             self.removeOldOverlays()
+
+            DispatchQueue.main.async {
+                self.mapManager?.viewChanged(visibleMapRect: self.mapView.visibleMapRect)
+            }
         }
     }
 
