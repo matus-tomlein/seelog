@@ -51,15 +51,30 @@ fileprivate class MapOverlayState {
     }
 
     private func intersects(visibleMapRect: MKMapRect) -> Bool {
+        guard let envelope = self.envelope else { return false }
+
         let lowLeft = Coordinate(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.minX, visibleMapRect.minY)))
         let lowRight = Coordinate(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.maxX, visibleMapRect.minY)))
         let topRight = Coordinate(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.maxX, visibleMapRect.maxY)))
         let topLeft = Coordinate(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.minX, visibleMapRect.maxY)))
 
-        if let ring = LinearRing(points: [lowLeft, lowRight, topRight, topLeft, lowLeft]),
-            let viewPolygon = Polygon(shell: ring, holes: nil),
-            let envelope = self.envelope {
-            return envelope.intersects(viewPolygon)
+        if lowLeft.x > lowRight.x {
+            let lowRight1 = Coordinate(x: 180, y: lowRight.y)
+            let lowRight2 = Coordinate(x: -180, y: lowRight.y)
+            let topRight1 = Coordinate(x: 180, y: topRight.y)
+            let topRight2 = Coordinate(x: -180, y: topRight.y)
+            if let ring1 = LinearRing(points: [lowLeft, lowRight1, topRight1, topLeft, lowLeft]),
+                let ring2 = LinearRing(points: [lowLeft, lowRight2, topRight2, topLeft, lowLeft]),
+                let viewPolygon1 = Polygon(shell: ring1, holes: nil),
+                let viewPolygon2 = Polygon(shell: ring2, holes: nil) {
+                return envelope.intersects(viewPolygon1) || envelope.intersects(viewPolygon2)
+            }
+
+        } else {
+            if let ring = LinearRing(points: [lowLeft, lowRight, topRight, topLeft, lowLeft]),
+                let viewPolygon = Polygon(shell: ring, holes: nil) {
+                return envelope.intersects(viewPolygon)
+            }
         }
 
         return false

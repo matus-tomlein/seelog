@@ -36,8 +36,7 @@ class CitiesMapManager: MapManager {
         let smallerCities = cityInfos.filter({ !$0.worldCity && !$0.megaCity })
 
         for cityInfo in smallerCities {
-            let properties = MapOverlayProperties(name: cityInfo.name,
-                                                  zoomTypes: [.close, .medium, .far],
+            let properties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                   overlayVersion: overlayVersion)
             properties.strokeColor = tintColor
             mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude),
@@ -46,8 +45,7 @@ class CitiesMapManager: MapManager {
         }
 
         for cityInfo in majorCities {
-            let properties = MapOverlayProperties(name: cityInfo.name,
-                                                  zoomTypes: [.close, .medium, .far],
+            let properties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                   overlayVersion: overlayVersion)
             properties.strokeColor = UIColor.red
             mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude),

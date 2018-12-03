@@ -47,8 +47,7 @@ class TimezoneMapManager: MapManager {
 
         for timezone in timezonesToAdd {
             if let geometry = timezone.geometry {
-                let polygonProperties = MapOverlayProperties(name: timezone.name,
-                                                             zoomTypes: [.close, .medium, .far],
+                let polygonProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                              overlayVersion: overlayVersion)
                 polygonProperties.alpha = 0.25
                 polygonProperties.fillColor = UIColor.red

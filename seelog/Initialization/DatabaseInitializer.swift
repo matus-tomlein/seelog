@@ -50,6 +50,8 @@ class DatabaseInitializer {
             start = Date()
         }
 
+        initializationState.processingHeatmaps = true
+
         updateHeatmaps()
         print("Saved heatmaps \(Date().timeIntervalSince(start))")
 

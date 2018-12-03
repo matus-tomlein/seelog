@@ -89,8 +89,7 @@ class StatesMapManager: MapManager {
         if let stateInfo = geoDB.stateInfoFor(stateKey: stateKey) {
             var closeZoomTypes: [ZoomType] = [.close]
             if let geometry50m = stateInfo.geometry50m {
-                let polygonProperties = MapOverlayProperties(name: stateKey,
-                                                             zoomTypes: [.medium, .far],
+                let polygonProperties = MapOverlayProperties(zoomTypes: [.medium, .far],
                                                              overlayVersion: overlayVersion)
                 polygonProperties.fillColor = fillColor
                 polygonProperties.strokeColor = strokeColor
@@ -103,8 +102,7 @@ class StatesMapManager: MapManager {
                 closeZoomTypes.append(.far)
             }
             if let geometry10m = stateInfo.geometry10m {
-                let polygonProperties = MapOverlayProperties(name: stateKey,
-                                                             zoomTypes: closeZoomTypes,
+                let polygonProperties = MapOverlayProperties(zoomTypes: closeZoomTypes,
                                                              overlayVersion: overlayVersion)
                 polygonProperties.fillColor = fillColor
                 polygonProperties.strokeColor = strokeColor

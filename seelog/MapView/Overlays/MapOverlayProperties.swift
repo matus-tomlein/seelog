@@ -19,7 +19,6 @@ enum PolygonType: String {
 
 class MapOverlayProperties {
     var overlayVersion: Int
-    var name: String?
     var zoomTypes: [ZoomType]?
     var polygonType: PolygonType?
     var alpha: CGFloat?
@@ -31,9 +30,8 @@ class MapOverlayProperties {
         self.overlayVersion = overlayVersion
     }
 
-    init(name: String, zoomTypes: [ZoomType], overlayVersion: Int) {
+    init(zoomTypes: [ZoomType], overlayVersion: Int) {
         self.overlayVersion = overlayVersion
-        self.name = name
         self.zoomTypes = zoomTypes
     }
 }

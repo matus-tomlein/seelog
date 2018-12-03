@@ -87,8 +87,7 @@ class CountriesMapManager: MapManager {
             var mediumZoomTypes: [ZoomType] = [.medium]
 
             if let geometry110m = countryInfo.geometry110m {
-                let polygonProperties = MapOverlayProperties(name: countryKey,
-                                                             zoomTypes: [.far],
+                let polygonProperties = MapOverlayProperties(zoomTypes: [.far],
                                                              overlayVersion: overlayVersion)
                 polygonProperties.fillColor = fillColor
                 polygonProperties.strokeColor = strokeColor
@@ -100,8 +99,7 @@ class CountriesMapManager: MapManager {
                 mediumZoomTypes.append(.far)
             }
             if let geometry50m = countryInfo.geometry50m {
-                let polygonProperties = MapOverlayProperties(name: countryKey,
-                                                             zoomTypes: mediumZoomTypes,
+                let polygonProperties = MapOverlayProperties(zoomTypes: mediumZoomTypes,
                                                              overlayVersion: overlayVersion)
                 polygonProperties.fillColor = fillColor
                 polygonProperties.strokeColor = strokeColor
@@ -115,8 +113,7 @@ class CountriesMapManager: MapManager {
                 }
             }
             if let geometry10m = countryInfo.geometry10m {
-                let polygonProperties = MapOverlayProperties(name: countryKey,
-                                                             zoomTypes: closeZoomTypes,
+                let polygonProperties = MapOverlayProperties(zoomTypes: closeZoomTypes,
                                                              overlayVersion: overlayVersion)
                 polygonProperties.fillColor = fillColor
                 polygonProperties.strokeColor = strokeColor

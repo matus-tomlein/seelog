@@ -12,6 +12,7 @@ import CoreLocation
 import CoreData
 
 class CurrentInitializationState {
+    var processingHeatmaps = false
     var seenArea: Double = 0
     var numberOfCountries: Int = 0
     var numberOfStates: Int = 0
@@ -27,6 +28,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var citiesLabel: UILabel!
     @IBOutlet weak var continentsLabel: UILabel!
     @IBOutlet weak var timezonesLabel: UILabel!
+    @IBOutlet weak var countingLabel: UILabel!
 
     private var updateTimer: Timer?
 
@@ -40,12 +42,6 @@ class ViewController: UIViewController {
         self.persistentContainer = appDelegate.persistentContainer
         
         requestPhotoAccess()
-
-        updateTimer = Timer.scheduledTimer(timeInterval: 0.5,
-                                           target: self,
-                                           selector: #selector(self.updateCounts),
-                                           userInfo: nil,
-                                           repeats: true)
     }
 
     @objc func updateCounts() {
@@ -55,6 +51,7 @@ class ViewController: UIViewController {
         self.citiesLabel.text = "\(initializationState.numberOfCities) cities"
         self.continentsLabel.text = "\(initializationState.numberOfContinents) continents"
         self.timezonesLabel.text = "\(initializationState.numberOfTimezones) timezones"
+        self.countingLabel.text = initializationState.processingHeatmaps ? "Processing" : "Counting"
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,27 +60,53 @@ class ViewController: UIViewController {
     }
 
     private func requestPhotoAccess() {
-        PHPhotoLibrary.requestAuthorization { status in
-            switch status {
-            case .authorized:
-                if let persistentContainer = self.persistentContainer {
-                    let context = persistentContainer.newBackgroundContext()
-                    context.perform {
-                        let databaseInitializer = DatabaseInitializer(initializationState: &self.initializationState,
-                                                                      context: context)
-                        databaseInitializer.start()
-                        DispatchQueue.main.async {
-                            self.updateTimer?.invalidate()
-                            self.performSegue(withIdentifier: "continue", sender: nil)
-                        }
-                    }
+        switch PHPhotoLibrary.authorizationStatus() {
+        case .authorized:
+            accessGranted()
+
+        case .denied, .restricted:
+            accessDenied()
+
+        default:
+            accessNotDetermined()
+        }
+    }
+
+    private func accessGranted() {
+        startUpdateTimer()
+        
+        if let persistentContainer = self.persistentContainer {
+            let context = persistentContainer.newBackgroundContext()
+            context.perform {
+                let databaseInitializer = DatabaseInitializer(initializationState: &self.initializationState,
+                                                              context: context)
+                databaseInitializer.start()
+                DispatchQueue.main.async {
+                    self.updateTimer?.invalidate()
+                    self.performSegue(withIdentifier: "continue", sender: nil)
                 }
-            case .denied, .restricted:
-                print("Not allowed")
-            case .notDetermined:
-                print("Not determined yet")
             }
         }
+    }
+
+    private func accessDenied() {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "permissionDenied", sender: nil)
+        }
+    }
+
+    private func accessNotDetermined() {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "requestPhotoAccess", sender: nil)
+        }
+    }
+
+    private func startUpdateTimer() {
+        updateTimer = Timer.scheduledTimer(timeInterval: 0.5,
+                                           target: self,
+                                           selector: #selector(self.updateCounts),
+                                           userInfo: nil,
+                                           repeats: true)
     }
     
 }

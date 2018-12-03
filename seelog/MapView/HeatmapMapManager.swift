@@ -42,30 +42,26 @@ class HeatmapMapManager: MapManager {
             let boundary = heatmap.boundary(),
             let bufferedHeatmap = heatmap.buffer(width: 0.4) {
 
-            let landProperties = MapOverlayProperties(name: year.name,
-                                                      zoomTypes: [.close, .medium, .far],
+            let landProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                       overlayVersion: overlayVersion)
             landProperties.fillColor = UIColor(red: 43 / 255.0, green: 45 / 255.0, blue: 47 / 255.0, alpha: 1)
             overlayManager.add(geometry: land, properties: landProperties)
 
 
-            let waterProperties = MapOverlayProperties(name: year.name,
-                                                       zoomTypes: [.close, .medium, .far],
+            let waterProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                        overlayVersion: overlayVersion)
             waterProperties.fillColor = UIColor(red: 49 / 255.0, green: 68 / 255.0, blue: 101 / 255.0, alpha: 1)
             overlayManager.add(geometry: water, properties: waterProperties)
 
 //                self.mapView.centerCoordinate = self.mapView.centerCoordinate
 
-            let heatmapProperties = MapOverlayProperties(name: year.name,
-                                                         zoomTypes: [.far],
+            let heatmapProperties = MapOverlayProperties(zoomTypes: [.far],
                                                          overlayVersion: overlayVersion)
             heatmapProperties.fillColor = UIColor.white
             overlayManager.add(geometry: bufferedHeatmap, properties: heatmapProperties)
 
 
-            let boundaryProperties = MapOverlayProperties(name: year.name,
-                                                          zoomTypes: [.close, .medium, .far],
+            let boundaryProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                           overlayVersion: overlayVersion)
             boundaryProperties.strokeColor = UIColor.white
             boundaryProperties.lineWidth = 2

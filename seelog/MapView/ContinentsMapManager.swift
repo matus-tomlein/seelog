@@ -47,8 +47,7 @@ class ContinentsMapManager: MapManager {
 
         for continent in continentsToAdd {
             if let geometry = continent.geometry {
-                let polygonProperties = MapOverlayProperties(name: continent.name,
-                                                             zoomTypes: [.close, .medium, .far],
+                let polygonProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                              overlayVersion: overlayVersion)
                 polygonProperties.alpha = 0.25
                 polygonProperties.fillColor = UIColor.red
