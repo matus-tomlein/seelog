@@ -9,14 +9,32 @@
     <link rel="stylesheet" href="assets/spectre.min.css">
     <link rel="stylesheet" href="assets/spectre-exp.min.css">
     <link rel="stylesheet" href="assets/spectre-icons.min.css">
+    <style>
+      body {
+        background-color: #4a46b5;
+      }
+
+      .column {
+        color: white;
+      }
+
+      .header {
+        height: 200px;
+        background-image: url("images/banner.jpg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+    </style>
   </head>
 
   <body>
-    <div class="container grid-sm">
-      <div class="columns">
+    <div class="container grid-sm" style="padding: 0px">
+      <div class="columns col-gapless">
 
-        <div class="column col-12 bg-gray">
-          <h1>Seelog</h1>
+        <div class="column col-12">
+          <img src="images/banner.jpg" class="img-responsive">
+          <h1 class="text-center">Seelog</h1>
         </div>
 
       </div>
