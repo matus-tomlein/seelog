@@ -10,20 +10,17 @@
     <link rel="stylesheet" href="assets/spectre-exp.min.css">
     <link rel="stylesheet" href="assets/spectre-icons.min.css">
     <style>
-      body {
-        background-color: #4a46b5;
+      h1, h2, h3 {
+        color: #4a46b5;
       }
-
-      .column {
-        color: white;
+      h1 {
+        font-size: 50;
       }
-
-      .header {
-        height: 200px;
-        background-image: url("images/banner.jpg");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center center;
+      h1, h2 {
+        font-weight: bold;
+      }
+      em {
+        font-size: x-large;
       }
     </style>
   </head>
@@ -31,12 +28,46 @@
   <body>
     <div class="container grid-sm" style="padding: 0px">
       <div class="columns col-gapless">
+        <div class="column col-12 text-center">
+          <img src="images/banner.jpg" class="img-responsive" style="border-radius: 0px 0px 10px 10px">
+        </div>
+      </div>
 
-        <div class="column col-12">
-          <img src="images/banner.jpg" class="img-responsive">
-          <h1 class="text-center">Seelog</h1>
+      <div class="columns py-2">
+        <div class="column col-12 text-center">
+          <h1 class="text-center pt-2">
+            Seelog
+          </h1>
+          <em>
+            Seelog shows you statistics about your travels based on your geotagged photos.
+          </em>
+        </div>
+      </div>
+
+      <div class="columns pt-2 mt-2">
+        <div class="column col-4">
+          <img src="images/screenshot-framed.png" class="img-responsive">
         </div>
 
+        <div class="column col-6">
+          <h3 class="pt-2">
+            Interesting Reports
+          </h3>
+
+          <h3 class="pt-2">
+            Zero Effort
+          </h3>
+
+          <h3 class="pt-2">
+            Completely Private
+          </h3>
+        </div>
+
+        <div class="column col-12">
+          <h2 class="text-center pt-2">
+            Privacy Policy
+          </h2>
+        </div>
       </div>
     </div>
   </body>
