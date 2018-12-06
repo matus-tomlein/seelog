@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Seelog</title>
-    <meta name="description" content="Seelog is an app that gives you statistics about your travels.">
+    <meta name="description" content="Seelog is an iPhone app that reports statistics about your travels based on your geotagged photos.">
     <meta charset="utf-8">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Matúš Tomlein">
@@ -12,17 +12,31 @@
     <style>
       h1, h2, h3 {
         color: #4a46b5;
+        font-weight: bold;
       }
       h1 {
         font-size: 50;
-      }
-      h1, h2 {
-        font-weight: bold;
       }
       em {
         font-size: x-large;
       }
     </style>
+    <script>
+      let images = [
+        'images/screenshot-area-framed.png',
+        'images/screenshot-countries-framed.png',
+        'images/screenshot-cities-framed.png',
+        'images/screenshot-timezones-framed.png'
+      ];
+
+      setInterval(function() {
+        let screenshotElement = document.getElementById('screenshot');
+        let currentImage = screenshotElement.getAttribute('src');
+        let i = images.indexOf(currentImage);
+        i = (i + 1) % images.length;
+        screenshotElement.setAttribute('src', images[i]);
+      }, 2000);
+    </script>
   </head>
 
   <body>
@@ -39,34 +53,59 @@
             Seelog
           </h1>
           <em>
-            Seelog shows you statistics about your travels based on your geotagged photos.
+            Seelog is an iPhone app that reports <b>statistics about your travels</b> based on your geotagged photos.
           </em>
+          <br>
+          <img class="mt-2" src="images/app_store.svg" style="width: 160px">
         </div>
       </div>
 
       <div class="columns pt-2 mt-2">
-        <div class="column col-4">
-          <img src="images/screenshot-framed.png" class="img-responsive">
+        <div class="column col-6 col-sm-12 p-2">
+          <img id="screenshot" class="img-responsive" src="images/screenshot-area-framed.png">
         </div>
 
-        <div class="column col-6">
+        <div class="column col-6 col-sm-12">
           <h3 class="pt-2">
             Interesting Reports
           </h3>
+
+          <p>
+            Keep track of the continents, countries, cities, timezones and places that you visited.
+            All statistics can be explored per each year and visualized on a map.
+          </p>
 
           <h3 class="pt-2">
             Zero Effort
           </h3>
 
+          <p>
+            Seelog takes all the information it needs from your photo library.
+            No need for additional tracking or manual input.
+          </p>
+
           <h3 class="pt-2">
             Completely Private
           </h3>
-        </div>
 
-        <div class="column col-12">
-          <h2 class="text-center pt-2">
-            Privacy Policy
-          </h2>
+          <p>
+            Everything is computed and stays on your phone.
+          </p>
+
+          <h3 class="pt-2">
+            Free
+          </h3>
+
+        </div>
+      </div>
+
+      <div class="columns p-2 m-2">
+        <div class="column col-12 text-center">
+          <small class="text-gray">
+            © 2018
+            <a href="http://matus.tomlein.org">Matúš Tomlein</a> |
+            <a href="/privacy">Privacy Policy</a>
+          </small>
         </div>
       </div>
     </div>
