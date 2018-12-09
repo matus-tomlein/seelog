@@ -21,7 +21,9 @@ class RequestPermissionViewController: UIViewController {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
             case .authorized:
-                self.performSegue(withIdentifier: "return", sender: nil)
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "return", sender: nil)
+                }
             default:
                 break
             }

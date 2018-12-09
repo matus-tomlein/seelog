@@ -12,10 +12,13 @@ import UIKit
 class BarChartDrawer: ChartDrawer {
 
     override init(view: UIView, mainLayer: CALayer, scrollView: UIScrollView, barChartSelection: ReportBarChartSelection) {
-        super.init(view: view, mainLayer: mainLayer, scrollView: scrollView, barChartSelection: barChartSelection)
+        super.init(view: view,
+                   mainLayer: mainLayer,
+                   scrollView: scrollView,
+                   barChartSelection: barChartSelection)
     }
 
-    override func load() {
+    override func load(purchasedHistory: Bool) {
         mainLayer.sublayers?.forEach({$0.removeFromSuperlayer()})
 
         if let aggregates = barChartSelection.aggregates {
@@ -36,11 +39,14 @@ class BarChartDrawer: ChartDrawer {
                         color: color,
                         name: aggregate.name)
 
-                drawTextValue(xPos: xPos - space / 2,
-                              yPos: yPos - 30,
-                              textValue: aggregate.chartLabel(selectedTab: barChartSelection.currentTab, cumulative: false, geoDB: barChartSelection.geoDB),
-                              color: color,
-                              name: aggregate.name)
+                drawBarLabel(xPos: xPos - space / 2,
+                             yPos: yPos - 30,
+                             textValue: aggregate.chartLabel(selectedTab: barChartSelection.currentTab,
+                                                             cumulative: false,
+                                                             geoDB: barChartSelection.geoDB),
+                             color: color,
+                             year: aggregate,
+                             purchasedHistory: purchasedHistory)
 
                 drawTitle(xPos: xPos - space / 2,
                           yPos: mainLayer.frame.height - bottomSpace + 5,

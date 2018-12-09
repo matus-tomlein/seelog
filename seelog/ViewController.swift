@@ -45,13 +45,15 @@ class ViewController: UIViewController {
     }
 
     @objc func updateCounts() {
-        self.seenAreaLabel.text = "\(Int(initializationState.seenArea.rounded())) km²"
-        self.countriesLabel.text = "\(initializationState.numberOfCountries) countries"
-        self.statesLabel.text = "\(initializationState.numberOfStates) units"
-        self.citiesLabel.text = "\(initializationState.numberOfCities) cities"
-        self.continentsLabel.text = "\(initializationState.numberOfContinents) continents"
-        self.timezonesLabel.text = "\(initializationState.numberOfTimezones) timezones"
-        self.countingLabel.text = initializationState.processingHeatmaps ? "Processing" : "Counting"
+        DispatchQueue.main.async {
+            self.seenAreaLabel.text = "\(Int(self.initializationState.seenArea.rounded())) km²"
+            self.countriesLabel.text = "\(self.initializationState.numberOfCountries) countries"
+            self.statesLabel.text = "\(self.initializationState.numberOfStates) units"
+            self.citiesLabel.text = "\(self.initializationState.numberOfCities) cities"
+            self.continentsLabel.text = "\(self.initializationState.numberOfContinents) continents"
+            self.timezonesLabel.text = "\(self.initializationState.numberOfTimezones) timezones"
+            self.countingLabel.text = self.initializationState.processingHeatmaps ? "Processing" : "Counting"
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -102,6 +104,7 @@ class ViewController: UIViewController {
     }
 
     private func startUpdateTimer() {
+        if let timer = updateTimer { timer.invalidate() }
         updateTimer = Timer.scheduledTimer(timeInterval: 0.5,
                                            target: self,
                                            selector: #selector(self.updateCounts),

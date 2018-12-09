@@ -25,6 +25,9 @@ class ChartDrawer {
     internal var unselectedBarColor: UIColor { get { return view.tintColor } }
     internal let selectedColor = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
 
+    private let deselectedLock = UIImage(named: "deselected_lock")?.cgImage
+    private let selectedLock = UIImage(named: "selected_lock")?.cgImage
+
     private var recognizer: UIGestureRecognizer?
 
     init(view: UIView, mainLayer: CALayer, scrollView: UIScrollView, barChartSelection: ReportBarChartSelection) {
@@ -38,12 +41,12 @@ class ChartDrawer {
         self.scrollView.addGestureRecognizer(recognizer!)
     }
 
-    func loadAndScroll() {
-        load()
+    func loadAndScroll(purchasedHistory: Bool) {
+        load(purchasedHistory: purchasedHistory)
         scrollToRight()
     }
 
-    func load() {}
+    func load(purchasedHistory: Bool) {}
 
     func unload() {
         if let recognizer = self.recognizer {
@@ -73,7 +76,11 @@ class ChartDrawer {
             if let textLayer = layer as? CATextLayer {
                 textLayer.foregroundColor = color.cgColor
             } else if layer.name?.starts(with: "visible-") ?? false {
-                layer.backgroundColor = unselectedBarColor.cgColor
+                if layer.contents != nil {
+                    layer.contents = deselectedLock
+                } else {
+                    layer.backgroundColor = unselectedBarColor.cgColor
+                }
             }
         }
     }
@@ -85,7 +92,11 @@ class ChartDrawer {
                 if let textLayer = layer as? CATextLayer {
                     textLayer.foregroundColor = selectedColor.cgColor
                 } else {
-                    layer.backgroundColor = selectedColor.cgColor
+                    if layer.contents != nil {
+                        layer.contents = selectedLock
+                    } else {
+                        layer.backgroundColor = selectedColor.cgColor
+                    }
                 }
             }
         }
@@ -148,6 +159,23 @@ class ChartDrawer {
         textLayer.string = title
         textLayer.name = "visible-" + title
         mainLayer.addSublayer(textLayer)
+    }
+
+    internal func drawBarLabel(xPos: CGFloat, yPos: CGFloat, textValue: String, color: UIColor, year: Year, purchasedHistory: Bool) {
+        if year.isLocked(purchasedHistory: purchasedHistory) {
+            let imageLayer = CALayer()
+            imageLayer.frame = CGRect(x: xPos, y: yPos, width: barWidth+space, height: 22)
+            imageLayer.contents = deselectedLock
+            imageLayer.contentsGravity = kCAGravityResizeAspect
+            imageLayer.name = "visible-" + year.name
+            mainLayer.addSublayer(imageLayer)
+        } else {
+            drawTextValue(xPos: xPos,
+                          yPos: yPos,
+                          textValue: textValue,
+                          color: color,
+                          name: year.name)
+        }
     }
 
     internal func translateHeightValueToYPosition(value: Float) -> CGFloat {

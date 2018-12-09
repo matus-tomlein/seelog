@@ -25,12 +25,12 @@ class HistoryChartView: UIView {
         }
     }
 
-    func load() {
-        chartDrawer?.loadAndScroll()
+    func load(purchasedHistory: Bool) {
+        chartDrawer?.loadAndScroll(purchasedHistory: purchasedHistory)
     }
 
-    func update() {
-        chartDrawer?.load()
+    func update(purchasedHistory: Bool) {
+        chartDrawer?.load(purchasedHistory: purchasedHistory)
     }
 
     override init(frame: CGRect) {

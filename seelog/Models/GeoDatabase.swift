@@ -42,6 +42,7 @@ class GeoDatabase {
     let populationMax = Expression<Int>("pop_max")
     let worldCity = Expression<Int>("worldcity")
     let megaCity = Expression<Int>("megacity")
+    let value = Expression<Double>("value")
     
     init() {
         if let filePath = Bundle.main.path(forResource: "generated", ofType: "sqlite") {
@@ -270,6 +271,7 @@ class GeoDatabase {
                 if let item = try db.pluck(query) {
                     let timezoneInfo = TimezoneInfo(timezoneId: Int32(item[timezoneId]),
                                         name: item[name],
+                                        value: item[value],
                                         places: item[places],
                                         geometry: item[geometry].bytes)
                     cachedTimezones[id] = timezoneInfo

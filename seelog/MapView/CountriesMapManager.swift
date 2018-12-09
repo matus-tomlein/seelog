@@ -27,18 +27,20 @@ class CountriesMapManager: MapManager {
         self.geoDB = geoDB
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
         var countryKeysToAdd = Set<String>()
-        if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
-            for countryKey in visitedCountriesAndStates.keys {
-                if overlayManagers[countryKey] == nil {
-                    countryKeysToAdd.insert(countryKey)
-                }
+        if !year.isLocked(purchasedHistory: purchasedHistory) {
+            if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
+                for countryKey in visitedCountriesAndStates.keys {
+                    if overlayManagers[countryKey] == nil {
+                        countryKeysToAdd.insert(countryKey)
+                    }
 
-                polygonPropertyNamesToKeep.insert(countryKey)
+                    polygonPropertyNamesToKeep.insert(countryKey)
+                }
             }
         }
 

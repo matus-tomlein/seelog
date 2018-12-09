@@ -22,17 +22,19 @@ class ContinentsMapManager: MapManager {
         self.geoDB = geoDB
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
         var continentsToAdd: [ContinentInfo] = []
-        if let continents = year.continentInfos(cumulative: cumulative, geoDB: self.geoDB) {
-            for continent in continents {
-                if overlayManagers[continent.name] == nil {
-                    continentsToAdd.append(continent)
+        if !year.isLocked(purchasedHistory: purchasedHistory) {
+            if let continents = year.continentInfos(cumulative: cumulative, geoDB: self.geoDB) {
+                for continent in continents {
+                    if overlayManagers[continent.name] == nil {
+                        continentsToAdd.append(continent)
+                    }
+                    polygonPropertyNamesToKeep.insert(continent.name)
                 }
-                polygonPropertyNamesToKeep.insert(continent.name)
             }
         }
 

@@ -12,19 +12,25 @@ import GEOSwift
 struct TimezoneInfo {
     var timezoneId: Int32
     var name: String
+    var value: Double
     var places: String
     var geometryBytes: [UInt8]
 
-    init(timezoneId: Int32, name: String, places: String, geometry: [UInt8]) {
+    init(timezoneId: Int32, name: String, value: Double, places: String, geometry: [UInt8]) {
         self.timezoneId = timezoneId
         self.name = name
         self.places = places
         self.geometryBytes = geometry
+        self.value = value
     }
 
     var geometry: Geometry? {
         get {
             return Geometry.create(geometryBytes, size: geometryBytes.count)
         }
+    }
+
+    var uniqueName: String {
+        return String(self.timezoneId)
     }
 }

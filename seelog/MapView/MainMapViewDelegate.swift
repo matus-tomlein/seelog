@@ -63,7 +63,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         }
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, geoDB: GeoDatabase, context: NSManagedObjectContext) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool, geoDB: GeoDatabase, context: NSManagedObjectContext) {
         GeometryOverlayCreator.overlayVersion += 1
 
         switch currentTab {
@@ -105,7 +105,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         }
 
         DispatchQueue.global(qos: .background).async {
-            self.mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative)
+            self.mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative, purchasedHistory: purchasedHistory)
             self.removeOldOverlays()
 
             DispatchQueue.main.async {

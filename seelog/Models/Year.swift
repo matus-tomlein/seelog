@@ -172,4 +172,9 @@ extension Year {
         }
         return count
     }
+
+    func isLocked(purchasedHistory: Bool) -> Bool {
+        let currentYear = NSCalendar.current.component(.year, from: Date())
+        return !purchasedHistory && year <= currentYear - 2
+    }
 }

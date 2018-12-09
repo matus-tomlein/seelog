@@ -15,19 +15,25 @@ class TimezonesTableViewManager: TableViewManager {
     var year: Year
     var cumulative: Bool
     var timezones: [TimezoneInfo]
+    var purchasedHistory: Bool
 
-    init(year: Year, cumulative: Bool, tableView: UITableView, geoDB: GeoDatabase) {
+    init(year: Year, cumulative: Bool, purchasedHistory: Bool, tableView: UITableView, geoDB: GeoDatabase) {
         self.geoDB = geoDB
         self.tableView = tableView
         self.year = year
         self.cumulative = cumulative
+        self.purchasedHistory = purchasedHistory
 
         self.timezones = year.timezones(cumulative: cumulative, geoDB: geoDB) ?? []
-        self.timezones = self.timezones.sorted(by: { Int($0.name) ?? 0 < Int($1.name) ?? 0 })
+        self.timezones = self.timezones.sorted(by: { $0.value < $1.value })
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {
-        return timezones.count
+        if year.isLocked(purchasedHistory: purchasedHistory) {
+            return 0
+        } else {
+            return timezones.count
+        }
     }
 
     func cellForRowAt(_ indexPath: IndexPath) -> UITableViewCell {

@@ -22,17 +22,19 @@ class TimezoneMapManager: MapManager {
         self.geoDB = geoDB
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
         var timezonesToAdd: [TimezoneInfo] = []
-        if let timezones = year.timezones(cumulative: cumulative, geoDB: self.geoDB) {
-            for timezone in timezones {
-                if overlayManagers[timezone.name] == nil {
-                    timezonesToAdd.append(timezone)
+        if !year.isLocked(purchasedHistory: purchasedHistory) {
+            if let timezones = year.timezones(cumulative: cumulative, geoDB: self.geoDB) {
+                for timezone in timezones {
+                    if overlayManagers[timezone.uniqueName] == nil {
+                        timezonesToAdd.append(timezone)
+                    }
+                    polygonPropertyNamesToKeep.insert(timezone.uniqueName)
                 }
-                polygonPropertyNamesToKeep.insert(timezone.name)
             }
         }
 
@@ -56,7 +58,7 @@ class TimezoneMapManager: MapManager {
 
                 let manager = OverlayManager(mapView: mapView)
                 manager.add(geometry: geometry, properties: polygonProperties)
-                overlayManagers[timezone.name] = manager
+                overlayManagers[timezone.uniqueName] = manager
             }
         }
     }

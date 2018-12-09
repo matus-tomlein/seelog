@@ -14,10 +14,12 @@ class LineChartDrawer: ChartDrawer {
     override internal var unselectedBarColor: UIColor { get { return UIColor.clear } }
 
     override init(view: UIView, mainLayer: CALayer, scrollView: UIScrollView, barChartSelection: ReportBarChartSelection) {
-        super.init(view: view, mainLayer: mainLayer, scrollView: scrollView, barChartSelection: barChartSelection)
+        super.init(view: view, mainLayer: mainLayer,
+                   scrollView: scrollView,
+                   barChartSelection: barChartSelection)
     }
 
-    override func load() {
+    override func load(purchasedHistory: Bool) {
         mainLayer.sublayers?.forEach({$0.removeFromSuperlayer()})
         
         let linePath = UIBezierPath()
@@ -57,11 +59,14 @@ class LineChartDrawer: ChartDrawer {
                           title: aggregate.name,
                           color: color)
 
-                drawTextValue(xPos: xPos - space * 1.5,
-                              yPos: yPos - 30,
-                              textValue: aggregate.chartLabel(selectedTab: barChartSelection.currentTab, cumulative: true, geoDB: barChartSelection.geoDB),
-                              color: color,
-                              name: aggregate.name)
+                drawBarLabel(xPos: xPos - space * 1.5,
+                             yPos: yPos - 30,
+                             textValue: aggregate.chartLabel(selectedTab: barChartSelection.currentTab,
+                                                             cumulative: true,
+                                                             geoDB: barChartSelection.geoDB),
+                             color: color,
+                             year: aggregate,
+                             purchasedHistory: purchasedHistory)
 
                 drawSelectionArea(xPos: xPos - space / 2,
                                   name: aggregate.name)

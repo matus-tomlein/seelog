@@ -16,18 +16,24 @@ class ContinentsTableViewManager: TableViewManager {
     var year: Year
     var cumulative: Bool
     var continents: [String]
+    var purchasedHistory: Bool
 
-    init(year: Year, cumulative: Bool, tableView: UITableView, geoDB: GeoDatabase) {
+    init(year: Year, cumulative: Bool, purchasedHistory: Bool, tableView: UITableView, geoDB: GeoDatabase) {
         self.geoDB = geoDB
         self.tableView = tableView
         self.year = year
         self.cumulative = cumulative
+        self.purchasedHistory = purchasedHistory
 
         self.continents = year.continents(cumulative: cumulative)?.sorted() ?? []
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {
-        return continents.count
+        if year.isLocked(purchasedHistory: purchasedHistory) {
+            return 0
+        } else {
+            return continents.count
+        }
     }
 
     func cellForRowAt(_ indexPath: IndexPath) -> UITableViewCell {

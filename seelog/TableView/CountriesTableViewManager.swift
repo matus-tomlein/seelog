@@ -14,22 +14,28 @@ class CountriesTableViewManager: TableViewManager {
     var tableView: UITableView
     var year: Year
     var cumulative: Bool
+    var purchasedHistory: Bool
 
     private var countries: [CountryInfo]?
     private var countryStates: [String: [String]]?
 
-    init(year: Year, cumulative: Bool, tableView: UITableView, geoDB: GeoDatabase) {
+    init(year: Year, cumulative: Bool, purchasedHistory: Bool, tableView: UITableView, geoDB: GeoDatabase) {
         self.geoDB = geoDB
         self.tableView = tableView
         self.year = year
         self.cumulative = cumulative
+        self.purchasedHistory = purchasedHistory
 
         self.countries = year.countries(cumulative: cumulative, geoDB: geoDB)
         self.countryStates = year.countries(cumulative: cumulative)
     }
     
     func numberOfRowsInSection(_ section: Int) -> Int {
-        return year.countries(cumulative: cumulative)?.count ?? 0
+        if year.isLocked(purchasedHistory: purchasedHistory) {
+            return 0
+        } else {
+            return year.countries(cumulative: cumulative)?.count ?? 0
+        }
     }
     
     func cellForRowAt(_ indexPath: IndexPath) -> UITableViewCell {

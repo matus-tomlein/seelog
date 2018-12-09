@@ -132,7 +132,13 @@ class OverlayManager {
     }
 
     func unload() {
-        for overlay in overlays { overlay.remove() }
+        if Thread.isMainThread {
+            for overlay in overlays { overlay.remove() }
+        } else {
+            DispatchQueue.main.sync {
+                for overlay in self.overlays { overlay.remove() }
+            }
+        }
         overlays = []
     }
 

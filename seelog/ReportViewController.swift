@@ -45,6 +45,9 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     @IBOutlet weak var continentsButton: UIButton!
     @IBOutlet weak var citiesButton: UIButton!
     @IBOutlet weak var timezonesButton: UIButton!
+    @IBOutlet weak var buttonsView: UIView!
+    @IBOutlet weak var purchaseView: UIView!
+    @IBOutlet weak var buyButton: UIButton!
 
     var mapViewDelegate: MainMapViewDelegate?
     var barChartSelection: ReportBarChartSelection? {
@@ -60,8 +63,9 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     var currentTab: SelectedTab = .places
-
     var geoDB = GeoDatabase()
+    private var purchasedHistory: CompleteHistoryPurchase?
+    private var hasPurchasedHistory: Bool { get { return CompleteHistoryPurchase.isPurchased } }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +86,26 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
         loadData()
         accumulateSegmentedControl.addTarget(self, action: #selector(accumulateStateChanged), for: .valueChanged)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePurchaseNotification(_:)),
+                                               name: .IAPHelperPurchaseNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePurchaseFailedNotification(_:)),
+                                               name: .IAPHelperPurchaseFailedNotification,
+                                               object: nil)
+
+        CompleteHistoryPurchase.fetch { purchase in
+            self.purchasedHistory = purchase
+            let formatter = NumberFormatter()
+
+            formatter.formatterBehavior = .behavior10_4
+            formatter.numberStyle = .currency
+            formatter.locale = purchase.product.priceLocale
+            let priceLabel = formatter.string(from: purchase.product.price)
+            DispatchQueue.main.async {
+                self.buyButton.setTitle(priceLabel, for: .normal)
+            }
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -150,19 +174,39 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         if let year = barChartSelection?.currentAggregate {
             switch currentTab {
             case .places:
-                tableViewManager = HeatmapTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+                tableViewManager = HeatmapTableViewManager(year: year,
+                                                           cumulative: aggregateChart,
+                                                           purchasedHistory: hasPurchasedHistory,
+                                                           tableView: tableView,
+                                                           geoDB: geoDB)
 
             case .countries, .states:
-                tableViewManager = CountriesTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+                tableViewManager = CountriesTableViewManager(year: year,
+                                                             cumulative: aggregateChart,
+                                                             purchasedHistory: hasPurchasedHistory,
+                                                             tableView: tableView,
+                                                             geoDB: geoDB)
 
             case .cities:
-                tableViewManager = CitiesTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+                tableViewManager = CitiesTableViewManager(year: year,
+                                                          cumulative: aggregateChart,
+                                                          purchasedHistory: hasPurchasedHistory,
+                                                          tableView: tableView,
+                                                          geoDB: geoDB)
 
             case .timezones:
-                tableViewManager = TimezonesTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+                tableViewManager = TimezonesTableViewManager(year: year,
+                                                             cumulative: aggregateChart,
+                                                             purchasedHistory: hasPurchasedHistory,
+                                                             tableView: tableView,
+                                                             geoDB: geoDB)
 
             case .continents:
-                tableViewManager = ContinentsTableViewManager(year: year, cumulative: aggregateChart, tableView: tableView, geoDB: geoDB)
+                tableViewManager = ContinentsTableViewManager(year: year,
+                                                              cumulative: aggregateChart,
+                                                              purchasedHistory: hasPurchasedHistory,
+                                                              tableView: tableView,
+                                                              geoDB: geoDB)
             }
         }
 
@@ -177,11 +221,11 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     func reloadBarChart() {
-        historyBarChartView.load()
+        historyBarChartView.load(purchasedHistory: hasPurchasedHistory)
     }
 
     func updateBarChart() {
-        historyBarChartView.update()
+        historyBarChartView.update(purchasedHistory: hasPurchasedHistory)
     }
 
     @objc func reloadMap() {
@@ -190,6 +234,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
             mapViewDelegate?.load(currentTab: currentTab,
                                   year: year,
                                   cumulative: aggregateChart,
+                                  purchasedHistory: hasPurchasedHistory,
                                   geoDB: geoDB,
                                   context: appDelegate.persistentContainer.viewContext)
         }
@@ -198,14 +243,23 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     func reloadStatLabel() {
         if let year = barChartSelection?.currentAggregate {
             UIView.setAnimationsEnabled(false)
-            self.countriesButton.setTitle("\(year.numberOfCountries(cumulative: aggregateChart)) countries", for: .normal)
-            self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) units", for: .normal)
-            self.citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
-            let seenArea = year.seenArea(cumulative: aggregateChart)
-            let seenAreaFormatted = NumberFormatter.localizedString(from: NSNumber(value: seenArea), number: .decimal)
-            self.seenAreaButton.setTitle("\(seenAreaFormatted) km²", for: .normal)
-            self.continentsButton.setTitle("\(year.numberOfContinents(cumulative: aggregateChart)) continents", for: .normal)
-            self.timezonesButton.setTitle("\(year.numberOfTimezones(cumulative: aggregateChart, geoDB: geoDB)) timezones", for: .normal)
+            if !year.isLocked(purchasedHistory: hasPurchasedHistory) {
+                buttonsView.isHidden = false
+                purchaseView.isHidden = true
+
+                self.countriesButton.setTitle("\(year.numberOfCountries(cumulative: aggregateChart)) countries", for: .normal)
+                self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) units", for: .normal)
+                self.citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
+                let seenArea = year.seenArea(cumulative: aggregateChart)
+                let seenAreaFormatted = NumberFormatter.localizedString(from: NSNumber(value: seenArea), number: .decimal)
+                self.seenAreaButton.setTitle("\(seenAreaFormatted) km²", for: .normal)
+                self.continentsButton.setTitle("\(year.numberOfContinents(cumulative: aggregateChart)) continents", for: .normal)
+                self.timezonesButton.setTitle("\(year.numberOfTimezones(cumulative: aggregateChart, geoDB: geoDB)) timezones", for: .normal)
+            } else {
+                buttonsView.isHidden = true
+                purchaseView.isHidden = false
+            }
+
             UIView.setAnimationsEnabled(true)
         }
     }
@@ -270,6 +324,49 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     @objc func accumulateStateChanged() {
         historyBarChartView.changeChartType()
         reloadAllAndScrollChart(false)
+    }
+
+    // MARK: purchases
+
+    @objc func handlePurchaseNotification(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
+            self.reloadAll()
+        }
+    }
+
+    @objc func handlePurchaseFailedNotification(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    @IBAction func buyButtonPressed(_ sender: Any) {
+        if IAPHelper.canMakePayments() {
+            openLoadingAlert()
+            purchasedHistory?.buy()
+        } else {
+            let alert = UIAlertController(title: "Can't Make Payments", message: "Sorry, you are not allowed to make payments.", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+
+    @IBAction func restoreButtonPressed(_ sender: Any) {
+        openLoadingAlert()
+        purchasedHistory?.restore()
+    }
+
+    func openLoadingAlert() {
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorView.Style.gray
+        loadingIndicator.startAnimating()
+
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
     }
 
     // MARK: - Map view

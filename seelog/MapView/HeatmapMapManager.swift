@@ -28,48 +28,55 @@ class HeatmapMapManager: MapManager {
                                      context: context)
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
         mapView.mapType = .mutedStandard
         DispatchQueue.main.sync { unload() }
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
-        if let waterWKT = year.waterWKT(cumulative: cumulative),
-            let landWKT = year.landWKT(cumulative: cumulative),
-            let land = Helpers.geometry(fromWKT: landWKT),
-            let water = Helpers.geometry(fromWKT: waterWKT),
-            let heatmapWKT = year.processedHeatmapWKT(cumulative: cumulative),
-            let heatmap = Helpers.geometry(fromWKT: heatmapWKT),
-            let boundary = heatmap.boundary(),
-            let bufferedHeatmap = heatmap.buffer(width: 0.4) {
+        let landProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
+                                                  overlayVersion: overlayVersion)
+        landProperties.fillColor = UIColor(red: 43 / 255.0, green: 45 / 255.0, blue: 47 / 255.0, alpha: 1)
 
-            let landProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
-                                                      overlayVersion: overlayVersion)
-            landProperties.fillColor = UIColor(red: 43 / 255.0, green: 45 / 255.0, blue: 47 / 255.0, alpha: 1)
-            overlayManager.add(geometry: land, properties: landProperties)
+        let waterProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
+                                                   overlayVersion: overlayVersion)
+        waterProperties.fillColor = UIColor(red: 49 / 255.0, green: 68 / 255.0, blue: 101 / 255.0, alpha: 1)
+
+        if year.isLocked(purchasedHistory: purchasedHistory) {
+            if let land = WorldPolygons.landsPolygon,
+                let water = WorldPolygons.waterPolygon {
+                overlayManager.add(geometry: land, properties: landProperties)
+                overlayManager.add(geometry: water, properties: waterProperties)
+            }
+        } else {
+            if let waterWKT = year.waterWKT(cumulative: cumulative),
+                let landWKT = year.landWKT(cumulative: cumulative),
+                let land = Helpers.geometry(fromWKT: landWKT),
+                let water = Helpers.geometry(fromWKT: waterWKT),
+                let heatmapWKT = year.processedHeatmapWKT(cumulative: cumulative),
+                let heatmap = Helpers.geometry(fromWKT: heatmapWKT),
+                let boundary = heatmap.boundary(),
+                let bufferedHeatmap = heatmap.buffer(width: 0.4) {
+                overlayManager.add(geometry: land, properties: landProperties)
+                overlayManager.add(geometry: water, properties: waterProperties)
+
+    //                self.mapView.centerCoordinate = self.mapView.centerCoordinate
+
+                let heatmapProperties = MapOverlayProperties(zoomTypes: [.far],
+                                                             overlayVersion: overlayVersion)
+                heatmapProperties.fillColor = UIColor.white
+                overlayManager.add(geometry: bufferedHeatmap, properties: heatmapProperties)
 
 
-            let waterProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
-                                                       overlayVersion: overlayVersion)
-            waterProperties.fillColor = UIColor(red: 49 / 255.0, green: 68 / 255.0, blue: 101 / 255.0, alpha: 1)
-            overlayManager.add(geometry: water, properties: waterProperties)
+                let boundaryProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
+                                                              overlayVersion: overlayVersion)
+                boundaryProperties.strokeColor = UIColor.white
+                boundaryProperties.lineWidth = 2
+                overlayManager.add(geometry: boundary, properties: boundaryProperties)
 
-//                self.mapView.centerCoordinate = self.mapView.centerCoordinate
+            }
 
-            let heatmapProperties = MapOverlayProperties(zoomTypes: [.far],
-                                                         overlayVersion: overlayVersion)
-            heatmapProperties.fillColor = UIColor.white
-            overlayManager.add(geometry: bufferedHeatmap, properties: heatmapProperties)
-
-
-            let boundaryProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
-                                                          overlayVersion: overlayVersion)
-            boundaryProperties.strokeColor = UIColor.white
-            boundaryProperties.lineWidth = 2
-            overlayManager.add(geometry: boundary, properties: boundaryProperties)
-
+            self.photoViewer.load(year: year, cumulative: cumulative)
         }
-
-        self.photoViewer.load(year: year, cumulative: cumulative)
     }
 
     func unload() {

@@ -14,12 +14,14 @@ class HeatmapTableViewManager: TableViewManager {
     var tableView: UITableView
     var year: Year
     var cumulative: Bool
+    var purchasedHistory: Bool
 
-    init(year: Year, cumulative: Bool, tableView: UITableView, geoDB: GeoDatabase) {
+    init(year: Year, cumulative: Bool, purchasedHistory: Bool, tableView: UITableView, geoDB: GeoDatabase) {
         self.geoDB = geoDB
         self.tableView = tableView
         self.year = year
         self.cumulative = cumulative
+        self.purchasedHistory = purchasedHistory
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {

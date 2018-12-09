@@ -27,20 +27,22 @@ class StatesMapManager: MapManager {
         self.geoDB = geoDB
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool) {
+    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
         var stateKeysToAdd = Set<String>()
-        if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
-            for countryKey in visitedCountriesAndStates.keys {
-                if let stateKeys = visitedCountriesAndStates[countryKey] {
-                    for stateKey in stateKeys {
-                        if overlayManagers[stateKey] == nil {
-                            stateKeysToAdd.insert(stateKey)
-                        }
+        if !year.isLocked(purchasedHistory: purchasedHistory) {
+            if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
+                for countryKey in visitedCountriesAndStates.keys {
+                    if let stateKeys = visitedCountriesAndStates[countryKey] {
+                        for stateKey in stateKeys {
+                            if overlayManagers[stateKey] == nil {
+                                stateKeysToAdd.insert(stateKey)
+                            }
 
-                        polygonPropertyNamesToKeep.insert(stateKey)
+                            polygonPropertyNamesToKeep.insert(stateKey)
+                        }
                     }
                 }
             }
