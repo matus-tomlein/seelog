@@ -548,7 +548,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 834316812142AD6600784257 /* Build configuration list for PBXProject "seelog" */;
+			buildConfigurationList = 834316812142AD6600784257 /* Build configuration list for PBXProject "Seelog" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1017,7 +1017,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/seelog.app/seelog";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Seelog.temp_caseinsensitive_rename.app/Seelog.temp_caseinsensitive_rename";
 			};
 			name = Debug;
 		};
@@ -1038,7 +1038,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/seelog.app/seelog";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Seelog.temp_caseinsensitive_rename.app/Seelog.temp_caseinsensitive_rename";
 			};
 			name = Release;
 		};
@@ -1085,7 +1085,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		834316812142AD6600784257 /* Build configuration list for PBXProject "seelog" */ = {
+		834316812142AD6600784257 /* Build configuration list for PBXProject "Seelog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				834316AF2142AD6A00784257 /* Debug */,
