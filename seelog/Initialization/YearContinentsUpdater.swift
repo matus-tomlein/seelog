@@ -14,23 +14,19 @@ class YearContinentsUpdater {
     var continentsAggregated = [Int32: [String]]()
     var cumulativeContinentsAggregated = [Int32: [String]]()
     var initializationState: CurrentInitializationState
-    var geoDB: GeoDatabase
 
     init(sinceKey: Int32,
          sinceAggregate: Year?,
-         geoDB: GeoDatabase,
          initializationState: inout CurrentInitializationState) {
         self.sinceYear = sinceKey
         self.sinceYearModel = sinceAggregate
-        self.geoDB = geoDB
         self.initializationState = initializationState
 
         self.initializeSegments()
     }
 
-    func processNewPhoto(photo: Photo, key: Int32) {
-        if let geohash = photo.geohash,
-            let continent = geoDB.continentFor(geohash: geohash) {
+    func processNewPhoto(photo: PhotoInfo, key: Int32) {
+        if let continent = photo.continent {
             if var continents = continentsAggregated[key] {
                 if !continents.contains(continent) {
                     continents.append(continent)

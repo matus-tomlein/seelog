@@ -224,7 +224,8 @@ class GeoDatabase {
                                      geometry50mBytes: item[geometry50m]?.bytes,
                                      geometry110mBytes: item[geometry110m]?.bytes,
                                      latitude: item[latitude],
-                                     longitude: item[longitude])
+                                     longitude: item[longitude],
+                                     countryKey: item[countryKey])
 
                     cachedStateInfos[sk] = stateInfo
                     return stateInfo

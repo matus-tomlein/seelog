@@ -222,4 +222,18 @@ class Helpers {
 
         return geohashes
     }
+
+    static func formatDateRange(since: Date, until: Date) -> String {
+        if since == until {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .short
+            return formatter.string(from: since)
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter.string(from: since) + " – " + formatter.string(from: until)
+    }
 }

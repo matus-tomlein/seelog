@@ -14,4 +14,5 @@ protocol TableViewManager {
     func cellForRowAt(_ indexPath: IndexPath) -> UITableViewCell
     func numberOfSections() -> Int
     func titleForHeaderInSection(section: Int) -> String?
+    func scrolledToBottom()
 }

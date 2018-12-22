@@ -33,13 +33,16 @@ class DatabaseInitializer {
         start = Date()
         if allPhotos.count > 0 {
             let yearStatsUpdater = YearStatsUpdater(initializationState: &initializationState,
-                                                    geoDB: geoDatabase,
                                                     context: context)
+            let visitPeriodUpdater = VisitPeriodUpdater(context: context)
 
             allPhotos.enumerateObjects { asset, _, _ in
                 if let location = asset.location {
                     if let photo = self.savePhoto(asset: asset, location: location) {
-                        yearStatsUpdater.processNewPhoto(photo: photo)
+                        let photoInfo = PhotoInfo(photo: photo, geoDB: self.geoDatabase)
+
+                        yearStatsUpdater.processNewPhoto(photoInfo: photoInfo)
+                        visitPeriodUpdater.processNewPhoto(photoInfo: photoInfo)
                     }
                 }
             }

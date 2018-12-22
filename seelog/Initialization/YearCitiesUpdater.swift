@@ -13,25 +13,21 @@ class YearCitiesUpdater {
     var cumulativeCitiesAggregated = [Int32: [Int64]]()
     var sinceYear: Int32
     var sinceYearModel: Year?
-    var geoDB: GeoDatabase
     var initializationState: CurrentInitializationState
 
     init(sinceKey: Int32,
          sinceAggregate: Year?,
-         geoDB: GeoDatabase,
          initializationState: inout CurrentInitializationState) {
         self.sinceYear = sinceKey
         self.sinceYearModel = sinceAggregate
         self.initializationState = initializationState
-        self.geoDB = geoDB
 
         self.initializeSegments()
     }
 
-    func processNewPhoto(photo: Photo, key: Int32) {
-        if let geohash = photo.geohash,
-            var cities = citiesAggregated[key] {
-            let cityKeys = geoDB.cityKeysFor(geohash: geohash)
+    func processNewPhoto(photo: PhotoInfo, key: Int32) {
+        if var cities = citiesAggregated[key] {
+            let cityKeys = photo.cities
 
             for cityKey in cityKeys {
                 if !cities.contains(cityKey) {

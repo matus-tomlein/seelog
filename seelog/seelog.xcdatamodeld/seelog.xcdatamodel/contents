@@ -11,6 +11,13 @@
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="year" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
+    <entity name="VisitPeriod" representedClassName="VisitPeriod" syncable="YES" codeGenerationType="class">
+        <attribute name="closed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="since" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="until" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="visitedEntityKey" attributeType="String" syncable="YES"/>
+        <attribute name="visitedEntityType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="Year" representedClassName="Year" syncable="YES" codeGenerationType="class">
         <attribute name="cities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
         <attribute name="continents" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
@@ -36,5 +43,6 @@
         <element name="GeometryWKT" positionX="630" positionY="360" width="128" height="60"/>
         <element name="Photo" positionX="619" positionY="216" width="128" height="135"/>
         <element name="Year" positionX="621" positionY="279" width="128" height="330"/>
+        <element name="VisitPeriod" positionX="630" positionY="369" width="128" height="120"/>
     </elements>
 </model>

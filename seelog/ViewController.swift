@@ -48,7 +48,7 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             self.seenAreaLabel.text = "\(Int(self.initializationState.seenArea.rounded())) km²"
             self.countriesLabel.text = "\(self.initializationState.numberOfCountries) countries"
-            self.statesLabel.text = "\(self.initializationState.numberOfStates) units"
+            self.statesLabel.text = "\(self.initializationState.numberOfStates) regions"
             self.citiesLabel.text = "\(self.initializationState.numberOfCities) cities"
             self.continentsLabel.text = "\(self.initializationState.numberOfContinents) continents"
             self.timezonesLabel.text = "\(self.initializationState.numberOfTimezones) timezones"

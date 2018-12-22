@@ -11,6 +11,7 @@ import GEOSwift
 
 struct StateInfo {
     var stateKey: String
+    var countryKey: String
     var name: String
     var latitude: Double
     var longitude: Double
@@ -24,7 +25,8 @@ struct StateInfo {
          geometry50mBytes: [UInt8]?,
          geometry110mBytes: [UInt8]?,
          latitude: Double,
-         longitude: Double) {
+         longitude: Double,
+         countryKey: String) {
         self.stateKey = stateKey
         self.name = name
         self.latitude = latitude
@@ -32,6 +34,7 @@ struct StateInfo {
         self.geometry10mBytes = geometry10mBytes
         self.geometry50mBytes = geometry50mBytes
         self.geometry110mBytes = geometry110mBytes
+        self.countryKey = countryKey
     }
 
     var geometry10m: Geometry? {
@@ -57,5 +60,9 @@ struct StateInfo {
             }
             return nil
         }
+    }
+
+    func country(geoDB: GeoDatabase) -> CountryInfo? {
+        return geoDB.countryInfoFor(countryKey: countryKey)
     }
 }

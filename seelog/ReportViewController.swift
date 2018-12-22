@@ -30,7 +30,7 @@ enum SelectedTab {
     case continents
 }
 
-class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mapCellHeight: NSLayoutConstraint!
@@ -66,6 +66,14 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     var geoDB = GeoDatabase()
     private var purchasedHistory: CompleteHistoryPurchase?
     private var hasPurchasedHistory: Bool { get { return CompleteHistoryPurchase.isPurchased } }
+    private var visitPeriodManager: VisitPeriodManager?
+
+    private var context: NSManagedObjectContext {
+        get {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            return appDelegate.persistentContainer.viewContext
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +91,8 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         mapView.region = MKCoordinateRegion(center: mapView.centerCoordinate, span: MKCoordinateSpan(latitudeDelta: 100, longitudeDelta: 100))
         mapViewDelegate = MainMapViewDelegate(mapView: mapView, reportViewController: self)
         mapView.delegate = mapViewDelegate
+
+        scrollView.delegate = self
 
         loadData()
         accumulateSegmentedControl.addTarget(self, action: #selector(accumulateStateChanged), for: .valueChanged)
@@ -106,6 +116,8 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
                 self.buyButton.setTitle(priceLabel, for: .normal)
             }
         }
+
+        self.visitPeriodManager = VisitPeriodManager(context: context)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -171,53 +183,30 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     func reloadTableView() {
+        let reloadTableViewCallback = {
+            self.tableView.reloadData()
+            // TODO: this is slow:
+            for section in 0..<self.numberOfSections(in: self.tableView) {
+                for cell in 0..<self.tableView(self.tableView, numberOfRowsInSection: section) {
+                    self.tableView.rectForRow(at: IndexPath(row: cell, section: section))
+                }
+            }
+            self.tableViewHeight.constant = self.tableView.contentSize.height
+        }
+
         if let year = barChartSelection?.currentAggregate {
-            switch currentTab {
-            case .places:
-                tableViewManager = HeatmapTableViewManager(year: year,
-                                                           cumulative: aggregateChart,
-                                                           purchasedHistory: hasPurchasedHistory,
-                                                           tableView: tableView,
-                                                           geoDB: geoDB)
-
-            case .countries, .states:
-                tableViewManager = CountriesTableViewManager(year: year,
-                                                             cumulative: aggregateChart,
-                                                             purchasedHistory: hasPurchasedHistory,
-                                                             tableView: tableView,
-                                                             geoDB: geoDB)
-
-            case .cities:
-                tableViewManager = CitiesTableViewManager(year: year,
-                                                          cumulative: aggregateChart,
-                                                          purchasedHistory: hasPurchasedHistory,
-                                                          tableView: tableView,
-                                                          geoDB: geoDB)
-
-            case .timezones:
-                tableViewManager = TimezonesTableViewManager(year: year,
-                                                             cumulative: aggregateChart,
-                                                             purchasedHistory: hasPurchasedHistory,
-                                                             tableView: tableView,
-                                                             geoDB: geoDB)
-
-            case .continents:
-                tableViewManager = ContinentsTableViewManager(year: year,
-                                                              cumulative: aggregateChart,
-                                                              purchasedHistory: hasPurchasedHistory,
-                                                              tableView: tableView,
-                                                              geoDB: geoDB)
+            if let visitPeriodManager = visitPeriodManager {
+                tableViewManager = VisitPeriodsTableViewManager(visitPeriodManager: visitPeriodManager,
+                                                                year: year, cumulative: aggregateChart,
+                                                                purchasedHistory: hasPurchasedHistory,
+                                                                currentTab: currentTab,
+                                                                tableView: tableView,
+                                                                reloadTableViewCallback: reloadTableViewCallback,
+                                                                geoDB: geoDB)
             }
         }
 
-        self.tableView.reloadData()
-        // TODO: this is slow:
-        for section in 0..<self.numberOfSections(in: self.tableView) {
-            for cell in 0..<self.tableView(self.tableView, numberOfRowsInSection: section) {
-                self.tableView.rectForRow(at: IndexPath(row: cell, section: section))
-            }
-        }
-        self.tableViewHeight.constant = self.tableView.contentSize.height
+        reloadTableViewCallback()
     }
 
     func reloadBarChart() {
@@ -229,14 +218,13 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     @objc func reloadMap() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if let year = barChartSelection?.currentAggregate {
             mapViewDelegate?.load(currentTab: currentTab,
                                   year: year,
                                   cumulative: aggregateChart,
                                   purchasedHistory: hasPurchasedHistory,
                                   geoDB: geoDB,
-                                  context: appDelegate.persistentContainer.viewContext)
+                                  context: context)
         }
     }
 
@@ -248,7 +236,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
                 purchaseView.isHidden = true
 
                 self.countriesButton.setTitle("\(year.numberOfCountries(cumulative: aggregateChart)) countries", for: .normal)
-                self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) units", for: .normal)
+                self.statesButton.setTitle("\(year.numberOfStates(cumulative: aggregateChart)) regions", for: .normal)
                 self.citiesButton.setTitle("\(year.numberOfCities(cumulative: aggregateChart)) cities", for: .normal)
                 let seenArea = year.seenArea(cumulative: aggregateChart)
                 let seenAreaFormatted = NumberFormatter.localizedString(from: NSNumber(value: seenArea), number: .decimal)
@@ -316,8 +304,6 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     private func loadData() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
         self.barChartSelection?.loadItems(context: context)
     }
 
@@ -367,6 +353,17 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
         alert.view.addSubview(loadingIndicator)
         present(alert, animated: true, completion: nil)
+    }
+
+    // MARK: - Scroll View
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let height = scrollView.frame.size.height
+        let contentYoffset = scrollView.contentOffset.y
+        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
+        if distanceFromBottom < height {
+            tableViewManager?.scrolledToBottom()
+        }
     }
 
     // MARK: - Map view

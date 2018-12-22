@@ -14,7 +14,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Seelog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -131,7 +131,7 @@
         <!--Report View Controller-->
         <scene sceneID="gbM-6t-bgP">
             <objects>
-                <viewController id="mXn-og-8hO" customClass="ReportViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="mXn-og-8hO" customClass="ReportViewController" customModule="Seelog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="R46-zw-7Gk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -139,7 +139,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="mutedStandard" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IU4-L8-kbv">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </mapView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentInsetAdjustmentBehavior="always" translatesAutoresizingMaskIntoConstraints="NO" id="HJe-h6-OIp" customClass="ReportScrollView" customModule="seelog" customModuleProvider="target">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentInsetAdjustmentBehavior="always" translatesAutoresizingMaskIntoConstraints="NO" id="HJe-h6-OIp" customClass="ReportScrollView" customModule="Seelog" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rvx-ty-5Do">
@@ -185,7 +185,7 @@
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="StA-yE-hAe">
                                                                         <rect key="frame" x="8" y="8" width="175.66666666666666" height="39"/>
                                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
-                                                                        <state key="normal" title="0 units"/>
+                                                                        <state key="normal" title="0 regions"/>
                                                                         <connections>
                                                                             <action selector="statesButtonTriggered:" destination="mXn-og-8hO" eventType="primaryActionTriggered" id="GDk-6N-yyl"/>
                                                                         </connections>
@@ -285,7 +285,7 @@
                                                     <constraint firstItem="iFA-1u-wUE" firstAttribute="top" secondItem="5Sa-ex-Z7a" secondAttribute="top" id="zou-5H-AZe"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o7w-ya-eAc" customClass="HistoryChartView" customModule="seelog" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o7w-ya-eAc" customClass="HistoryChartView" customModule="Seelog" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="193" width="375" height="200"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -332,24 +332,15 @@
                                                     <constraint firstAttribute="height" constant="200" id="jyD-to-tQZ"/>
                                                 </constraints>
                                                 <prototypes>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="63" id="WZp-6f-X3j" customClass="ReportTableViewCell" customModule="seelog" customModuleProvider="target">
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="63" id="WZp-6f-X3j" customClass="ReportTableViewCell" customModule="Seelog" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="28" width="375" height="63"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WZp-6f-X3j" id="zuF-sQ-AmF">
                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="62.666666666666664"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🇸🇰" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LlE-19-w6f">
-                                                                    <rect key="frame" x="15" y="0.0" width="41" height="43"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="41" id="hxS-8R-kg3"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slovakia" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ALr-af-e5w">
-                                                                    <rect key="frame" x="64" y="5" width="296" height="20.333333333333332"/>
+                                                                    <rect key="frame" x="15" y="5" width="311" height="20.333333333333332"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="20.329999999999998" id="tTj-kR-Tqh"/>
                                                                     </constraints>
@@ -358,31 +349,40 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1n6-Ux-wS7">
-                                                                    <rect key="frame" x="64" y="25.333333333333332" width="311" height="32.333333333333343"/>
+                                                                    <rect key="frame" x="15" y="25.333333333333332" width="311" height="32.333333333333343"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🇸🇰" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Inb-t2-aQJ">
+                                                                    <rect key="frame" x="326" y="8" width="41" height="43"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="41" id="8ph-Ee-q0A"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="LlE-19-w6f" firstAttribute="top" secondItem="zuF-sQ-AmF" secondAttribute="top" id="DR6-po-9gp"/>
-                                                                <constraint firstItem="1n6-Ux-wS7" firstAttribute="leading" secondItem="LlE-19-w6f" secondAttribute="trailing" constant="8" id="LFF-kS-VDB"/>
-                                                                <constraint firstAttribute="trailing" secondItem="ALr-af-e5w" secondAttribute="trailing" constant="15" id="PfU-lf-nID"/>
                                                                 <constraint firstAttribute="bottom" secondItem="1n6-Ux-wS7" secondAttribute="bottom" constant="5" id="Pfw-eB-Bk0"/>
-                                                                <constraint firstItem="ALr-af-e5w" firstAttribute="leading" secondItem="LlE-19-w6f" secondAttribute="trailing" constant="8" id="SfR-6x-r6a"/>
-                                                                <constraint firstItem="1n6-Ux-wS7" firstAttribute="trailing" secondItem="zuF-sQ-AmF" secondAttribute="trailingMargin" constant="15" id="TlJ-E4-dAL"/>
+                                                                <constraint firstItem="ALr-af-e5w" firstAttribute="leading" secondItem="zuF-sQ-AmF" secondAttribute="leadingMargin" id="Pvb-kl-ty5"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Inb-t2-aQJ" secondAttribute="trailing" constant="8" id="ae5-OZ-TFk"/>
+                                                                <constraint firstItem="Inb-t2-aQJ" firstAttribute="leading" secondItem="1n6-Ux-wS7" secondAttribute="trailing" id="aeU-Ut-mx1"/>
+                                                                <constraint firstItem="Inb-t2-aQJ" firstAttribute="top" secondItem="zuF-sQ-AmF" secondAttribute="top" constant="8" id="cua-Qx-9as"/>
+                                                                <constraint firstItem="Inb-t2-aQJ" firstAttribute="leading" secondItem="ALr-af-e5w" secondAttribute="trailing" id="fbv-yQ-fhL"/>
                                                                 <constraint firstItem="1n6-Ux-wS7" firstAttribute="top" secondItem="ALr-af-e5w" secondAttribute="bottom" id="hTn-Fi-UYr"/>
-                                                                <constraint firstItem="LlE-19-w6f" firstAttribute="leading" secondItem="zuF-sQ-AmF" secondAttribute="leading" constant="15" id="jTe-yd-nOx"/>
+                                                                <constraint firstItem="1n6-Ux-wS7" firstAttribute="leading" secondItem="zuF-sQ-AmF" secondAttribute="leading" constant="15" id="keP-3Y-WHJ"/>
                                                                 <constraint firstItem="ALr-af-e5w" firstAttribute="top" secondItem="zuF-sQ-AmF" secondAttribute="top" constant="5" id="l0y-Hq-D1q"/>
                                                             </constraints>
                                                         </tableViewCellContentView>
                                                         <connections>
                                                             <outlet property="descriptionLabel" destination="ALr-af-e5w" id="Aa6-3C-Vp5"/>
-                                                            <outlet property="iconLabel" destination="LlE-19-w6f" id="Woc-nA-bHh"/>
+                                                            <outlet property="iconLabel" destination="Inb-t2-aQJ" id="j1h-Xo-0be"/>
                                                             <outlet property="subTextLabel" destination="1n6-Ux-wS7" id="e8D-FB-nh1"/>
                                                         </connections>
                                                     </tableViewCell>
-                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="58" id="iPJ-DH-cdD" customClass="PlaceTableViewCell" customModule="seelog" customModuleProvider="target">
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="placeCell" rowHeight="58" id="iPJ-DH-cdD" customClass="PlaceTableViewCell" customModule="Seelog" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="91" width="375" height="58"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iPJ-DH-cdD" id="T5R-RF-jnp">
@@ -487,12 +487,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3z5-8u-42p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1721" y="140"/>
+            <point key="canvasLocation" x="1720.8" y="139.65517241379311"/>
         </scene>
         <!--Images Page View Controller-->
         <scene sceneID="ht7-AS-ZcE">
             <objects>
-                <pageViewController storyboardIdentifier="showImageDetail" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="C15-Qw-6Ie" customClass="ImagesPageViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="showImageDetail" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="C15-Qw-6Ie" customClass="ImagesPageViewController" customModule="Seelog" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r2F-eE-o68" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2718" y="140"/>
@@ -500,7 +500,7 @@
         <!--Image View Controller-->
         <scene sceneID="KWX-YS-KrI">
             <objects>
-                <viewController id="usp-jx-6sY" customClass="ImageViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="usp-jx-6sY" customClass="ImageViewController" customModule="Seelog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZYO-em-Ebk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -529,7 +529,7 @@
         <!--Request Permission View Controller-->
         <scene sceneID="wZD-Xs-vFD">
             <objects>
-                <viewController id="k2l-pU-rbN" customClass="RequestPermissionViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="k2l-pU-rbN" customClass="RequestPermissionViewController" customModule="Seelog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gsf-gf-5uK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -602,7 +602,7 @@
         <!--Permission Denied View Controller-->
         <scene sceneID="pVl-sh-blX">
             <objects>
-                <viewController id="sQ8-Uc-vNN" customClass="PermissionDeniedViewController" customModule="seelog" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="sQ8-Uc-vNN" customClass="PermissionDeniedViewController" customModule="Seelog" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iO2-7u-vo4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

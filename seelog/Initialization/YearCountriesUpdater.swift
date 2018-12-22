@@ -68,17 +68,14 @@ class YearCountriesUpdater {
     private var _cumulativeCountriesAggregated = [Int32: AggregatedCountryList]()
     var sinceYear: Int32
     var sinceYearModel: Year?
-    var geoDB: GeoDatabase
     var initializationState: CurrentInitializationState
 
     init(sinceKey: Int32,
          sinceAggregate: Year?,
-         geoDB: GeoDatabase,
          initializationState: inout CurrentInitializationState) {
         self.sinceYear = sinceKey
         self.sinceYearModel = sinceAggregate
         self.initializationState = initializationState
-        self.geoDB = geoDB
 
         self.initializeSegments()
     }
@@ -90,13 +87,12 @@ class YearCountriesUpdater {
         get { return countriesToPublic(_cumulativeCountriesAggregated) }
     }
 
-    func processNewPhoto(photo: Photo, key: Int32) {
-        if let geohash = photo.geohash,
-            let countryKey = geoDB.countryKeyFor(geohash: geohash),
+    func processNewPhoto(photo: PhotoInfo, key: Int32) {
+        if let countryKey = photo.countryKey,
             let countries = _countriesAggregated[key] {
             let country = countries.add(country: countryKey)
 
-            let stateKey = geoDB.stateKeyFor(geohash: geohash)
+            let stateKey = photo.stateKey
             if let stateKey = stateKey {
                 country.add(state: stateKey)
             }
