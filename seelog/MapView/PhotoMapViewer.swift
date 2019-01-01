@@ -233,7 +233,7 @@ class CurrentViewport {
     }
 
     let maxImageMapRectWidth: Double = 20000
-    let maxCircleMapRectWidth: Double = 1000000
+    let maxCircleMapRectWidth: Double = 5000000
     func photoViewType(geohash: String) -> PhotoViewType {
         if shouldShowNothing() { return .nothing }
 
