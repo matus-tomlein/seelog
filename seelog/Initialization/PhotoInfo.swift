@@ -9,7 +9,8 @@
 import Foundation
 
 class PhotoInfo {
-    let geohash: String?
+    let geohash4: String
+    let geohash5: String
     var countryKey: String?
     var stateKey: String?
     var continent: String?
@@ -19,16 +20,15 @@ class PhotoInfo {
     let year: Int32
 
     init(photo: Photo, geoDB: GeoDatabase) {
-        self.geohash = photo.geohash
+        self.geohash4 = photo.geohash ?? Geohash.encode(latitude: photo.latitude, longitude: photo.longitude, length: 4)
+        self.geohash5 = Geohash.encode(latitude: photo.latitude, longitude: photo.longitude, length: 5)
         self.year = photo.year
         self.creationDate = photo.creationDate
 
-        if let geohash = self.geohash {
-            self.countryKey = geoDB.countryKeyFor(geohash: geohash)
-            self.stateKey = geoDB.stateKeyFor(geohash: geohash)
-            self.continent = geoDB.continentFor(geohash: geohash)
-            self.timezone = geoDB.timezoneFor(geohash: geohash)
-            self.cities = geoDB.cityKeysFor(geohash: geohash)
-        }
+        self.countryKey = geoDB.countryKeyFor(geohash: geohash5)
+        self.stateKey = geoDB.stateKeyFor(geohash: geohash5)
+        self.cities = geoDB.cityKeysFor(geohash: geohash5)
+        self.continent = geoDB.continentFor(geohash: geohash4)
+        self.timezone = geoDB.timezoneFor(geohash: geohash4)
     }
 }

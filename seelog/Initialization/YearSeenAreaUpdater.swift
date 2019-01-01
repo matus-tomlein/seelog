@@ -31,7 +31,9 @@ class YearSeenAreaUpdater {
     }
 
     func processNewPhoto(photo: PhotoInfo, key: Int32) {
-        if let geohash = photo.geohash, let knownGeohashes = cumulativeGeohashes[key] {
+        let geohash = photo.geohash4
+
+        if let knownGeohashes = cumulativeGeohashes[key] {
             if !knownGeohashes.contains(geohash) {
                 let area = Helpers.areaOf(geohash: geohash)
                 for nextSegment in Helpers.yearsSince(key) {
