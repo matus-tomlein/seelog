@@ -13,9 +13,7 @@ import GEOSwift
 class GeoDatabase {
     var db : Connection? = nil
     let countries = Table("countries")
-    let geohashCountries = Table("geohash_countries")
     let states = Table("states_provinces")
-    let geohashStates = Table("geohash_states_provinces")
     let geohashCities = Table("geohash_cities")
     let cities = Table("cities")
     let timezones = Table("timezones")
@@ -54,40 +52,51 @@ class GeoDatabase {
         }
     }
 
-    private var cachedCountryKeysForGeohashes: [String: String]?
+    private var cachedCountryKeysForGeohashes = [String: String]()
+    private var cachedCountryGeohashes = Set<String>()
     func countryKeyFor(geohash: String) -> String? {
-        if cachedCountryKeysForGeohashes == nil {
+        let geohash2 = String(geohash.prefix(2))
+
+        if !cachedCountryGeohashes.contains(geohash2) {
+            cachedCountryGeohashes.insert(geohash2)
+
             guard let db = self.db else { return nil }
-            cachedCountryKeysForGeohashes = [:]
+            let geohashCountries = Table("geohash_countries_" + geohash2)
             do {
-                for item in try db.prepare(self.geohashCountries) {
-                    cachedCountryKeysForGeohashes?[item[self.geohash]] = item[self.countryKey]
+                for item in try db.prepare(geohashCountries) {
+                    cachedCountryKeysForGeohashes[item[self.geohash]] = item[self.countryKey]
                 }
             } catch {
                 print("Error querying geo database")
             }
         }
         for gh in getGeohashesOfAllLengths(geohash: geohash) {
-            if let ck = cachedCountryKeysForGeohashes?[gh] { return ck }
+            if let ck = cachedCountryKeysForGeohashes[gh] { return ck }
         }
         return nil
     }
 
-    private var cachedStateKeysForGeohashes: [String: String]?
+    private var cachedStateKeysForGeohashes = [String: String]()
+    private var cachedStateGeohashes = Set<String>()
     func stateKeyFor(geohash gh: String) -> String? {
-        if cachedStateKeysForGeohashes == nil {
+        let geohash2 = String(gh.prefix(2))
+
+        if !cachedStateGeohashes.contains(geohash2) {
+            cachedStateGeohashes.insert(geohash2)
+
             guard let db = self.db else { return nil }
-            cachedStateKeysForGeohashes = [:]
+
+            let geohashStates = Table("geohash_states_provinces_" + geohash2)
             do {
-                for item in try db.prepare(self.geohashStates) {
-                    cachedStateKeysForGeohashes?[item[self.geohash]] = item[self.stateKey]
+                for item in try db.prepare(geohashStates) {
+                    cachedStateKeysForGeohashes[item[self.geohash]] = item[self.stateKey]
                 }
             } catch {
                 print("Error querying geo database")
             }
         }
         for subgh in getGeohashesOfAllLengths(geohash: gh) {
-            if let sk = cachedStateKeysForGeohashes?[subgh] { return sk }
+            if let sk = cachedStateKeysForGeohashes[subgh] { return sk }
         }
         return nil
     }
@@ -318,8 +327,10 @@ class GeoDatabase {
     func clearCaches() {
         cachedCityKeysForGeohashes = nil
         cachedTimezonesForGeohashes = nil
-        cachedCountryKeysForGeohashes = nil
-        cachedStateKeysForGeohashes = nil
+        cachedCountryKeysForGeohashes.removeAll()
+        cachedCountryGeohashes.removeAll()
+        cachedStateKeysForGeohashes.removeAll()
+        cachedStateGeohashes.removeAll()
         cachedCityInfos.removeAll()
         cachedContinents.removeAll()
         cachedStateInfos.removeAll()

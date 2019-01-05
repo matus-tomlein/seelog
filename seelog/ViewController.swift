@@ -40,6 +40,7 @@ class ViewController: UIViewController {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.persistentContainer = appDelegate.persistentContainer
+        if let container = persistentContainer { DatabaseCreator.create(container: container) }
         
         requestPhotoAccess()
     }

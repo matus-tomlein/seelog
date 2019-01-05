@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 
 enum VisitPeriodEntityTypes: Int16 {
     case country = 0
@@ -61,6 +62,21 @@ extension VisitPeriod {
                     self.closed = !photoInfo.cities.contains(cityKey)
                 }
             } else {
+                if let geoDB = photoInfo.geoDB,
+                    let cityInfo = cityInfo(geoDB: geoDB) {
+                    let cityLocation = CLLocation(
+                        latitude: cityInfo.latitude,
+                        longitude: cityInfo.longitude)
+                    let photoLocation = CLLocation(
+                        latitude: photoInfo.latitude,
+                        longitude: photoInfo.longitude)
+
+                    let distance = cityLocation.distance(from: photoLocation)
+
+                    if distance > 50 * 1000 { // 50 km
+                        self.closed = true
+                    }
+                }
                 updateUntil = false
             }
 
@@ -118,6 +134,33 @@ extension VisitPeriod {
         if type == .continent {
             guard let visitedEntityKey = self.visitedEntityKey else { return nil }
             return geoDB.continentInfoFor(name: visitedEntityKey)
+        }
+        return nil
+    }
+
+    func name(geoDB: GeoDatabase) -> String {
+        if let countryInfo = countryInfo(geoDB: geoDB) {
+            return countryInfo.name
+        } else if let stateInfo = stateInfo(geoDB: geoDB) {
+            return stateInfo.name
+        } else if let cityInfo = cityInfo(geoDB: geoDB) {
+            return cityInfo.name
+        } else if let timezoneInfo = timezoneInfo(geoDB: geoDB) {
+            return timezoneInfo.name
+        } else if let continentInfo = continentInfo(geoDB: geoDB) {
+            return continentInfo.name
+        }
+
+        return ""
+    }
+
+    func icon(geoDB: GeoDatabase) -> String? {
+        if let countryInfo = countryInfo(geoDB: geoDB) {
+            return Helpers.flag(country: countryInfo.countryKey)
+        } else if let stateInfo = stateInfo(geoDB: geoDB) {
+            return Helpers.flag(country: stateInfo.countryKey)
+        } else if let cityInfo = cityInfo(geoDB: geoDB) {
+            return Helpers.flag(country: cityInfo.countryKey)
         }
         return nil
     }

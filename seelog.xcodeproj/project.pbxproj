@@ -20,7 +20,6 @@
 		830EF12A218E067A00AEE7A0 /* YearSeenAreaUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF129218E067A00AEE7A0 /* YearSeenAreaUpdater.swift */; };
 		830EF12C218E07DB00AEE7A0 /* YearTimezonesUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF12B218E07DB00AEE7A0 /* YearTimezonesUpdater.swift */; };
 		830EF12E218E22A900AEE7A0 /* TimezoneInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF12D218E22A900AEE7A0 /* TimezoneInfo.swift */; };
-		830EF131218EF57300AEE7A0 /* TableViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF130218EF57300AEE7A0 /* TableViewManager.swift */; };
 		830EF138218F549500AEE7A0 /* HeatmapMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF137218F549500AEE7A0 /* HeatmapMapManager.swift */; };
 		830EF13A218F54A300AEE7A0 /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF139218F54A300AEE7A0 /* MapManager.swift */; };
 		830EF13C218F574500AEE7A0 /* CountriesMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF13B218F574500AEE7A0 /* CountriesMapManager.swift */; };
@@ -90,6 +89,7 @@
 		83ACC93721ADD57600439667 /* ImagePreviewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83ACC93621ADD57500439667 /* ImagePreviewDataSource.swift */; };
 		83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */; };
 		83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7DD8E21567C120046D8A5 /* ReportViewController.swift */; };
+		83D12C9021DE98FE007397DF /* DatabaseCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D12C8F21DE98FE007397DF /* DatabaseCreator.swift */; };
 		83FF2129215F86C5008E846F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF2128215F86C5008E846F /* Helpers.swift */; };
 		83FF212C215FA47E008E846F /* YearStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FF212B215FA47E008E846F /* YearStatsUpdater.swift */; };
 		A5502DA6450971490B66119E /* Pods_seelogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C4034B3BAC37236CD70496 /* Pods_seelogTests.framework */; };
@@ -128,7 +128,6 @@
 		830EF129218E067A00AEE7A0 /* YearSeenAreaUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearSeenAreaUpdater.swift; sourceTree = "<group>"; };
 		830EF12B218E07DB00AEE7A0 /* YearTimezonesUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearTimezonesUpdater.swift; sourceTree = "<group>"; };
 		830EF12D218E22A900AEE7A0 /* TimezoneInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezoneInfo.swift; sourceTree = "<group>"; };
-		830EF130218EF57300AEE7A0 /* TableViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewManager.swift; sourceTree = "<group>"; };
 		830EF137218F549500AEE7A0 /* HeatmapMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatmapMapManager.swift; sourceTree = "<group>"; };
 		830EF139218F54A300AEE7A0 /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
 		830EF13B218F574500AEE7A0 /* CountriesMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesMapManager.swift; sourceTree = "<group>"; };
@@ -204,6 +203,7 @@
 		83ACC93621ADD57500439667 /* ImagePreviewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewDataSource.swift; sourceTree = "<group>"; };
 		83C703AD215793C4007853E9 /* ReportBarChartSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportBarChartSelection.swift; sourceTree = "<group>"; };
 		83C7DD8E21567C120046D8A5 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		83D12C8F21DE98FE007397DF /* DatabaseCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseCreator.swift; sourceTree = "<group>"; };
 		83FF2128215F86C5008E846F /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		83FF212B215FA47E008E846F /* YearStatsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearStatsUpdater.swift; sourceTree = "<group>"; };
 		85FD6EE0A52036A012C91395 /* Pods_seelogUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelogUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -246,7 +246,6 @@
 		830EF12F218EF53C00AEE7A0 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				830EF130218EF57300AEE7A0 /* TableViewManager.swift */,
 				830EF11D218AD8F200AEE7A0 /* ReportTableViewCell.swift */,
 				830EF123218CAF5000AEE7A0 /* PlaceTableViewCell.swift */,
 				8349436021CE353A0089A585 /* VisitPeriodsTableViewManager.swift */,
@@ -442,6 +441,7 @@
 				833567A621A169B20081498B /* YearContinentsUpdater.swift */,
 				8349435821C8289D0089A585 /* PhotoInfo.swift */,
 				8349435A21C82C110089A585 /* VisitPeriodUpdater.swift */,
+				83D12C8F21DE98FE007397DF /* DatabaseCreator.swift */,
 			);
 			path = Initialization;
 			sourceTree = "<group>";
@@ -744,6 +744,7 @@
 				839E9DC021BAF5B6001FC0F1 /* IAPHelper.swift in Sources */,
 				830EF128218E056100AEE7A0 /* YearCitiesUpdater.swift in Sources */,
 				832B9A1E215FD4070098A396 /* AggregatedVisitStats.swift in Sources */,
+				83D12C9021DE98FE007397DF /* DatabaseCreator.swift in Sources */,
 				8349436121CE353A0089A585 /* VisitPeriodsTableViewManager.swift in Sources */,
 				83221A8921452BE60055D775 /* Geohash.swift in Sources */,
 				830EF11E218AD8F200AEE7A0 /* ReportTableViewCell.swift in Sources */,
@@ -760,7 +761,6 @@
 				8362041D21B5BAE400A1AB80 /* PermissionDeniedViewController.swift in Sources */,
 				83ACC91621A70A7F00439667 /* GeometryOverlayCreator.swift in Sources */,
 				8358DC5A21B3080000F38710 /* OverlayManager.swift in Sources */,
-				830EF131218EF57300AEE7A0 /* TableViewManager.swift in Sources */,
 				833567A721A169B20081498B /* YearContinentsUpdater.swift in Sources */,
 				836F302721937F7600D4FCB3 /* PhotoMapViewer.swift in Sources */,
 				83C7DD8F21567C120046D8A5 /* ReportViewController.swift in Sources */,

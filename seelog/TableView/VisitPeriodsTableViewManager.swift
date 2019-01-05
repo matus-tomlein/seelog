@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class VisitPeriodsTableViewManager: TableViewManager {
+class VisitPeriodsTableViewManager {
     var geoDB: GeoDatabase
     var tableView: UITableView
     var year: Year
@@ -18,22 +18,23 @@ class VisitPeriodsTableViewManager: TableViewManager {
     var purchasedHistory: Bool
     var showing: Int = 0
     var reloadTableViewCallback: () -> ()
+    var searchQuery = ""
     private let numRowsToLoadAtOnce = 50
 
     private var sections: [String] = []
     private var visitPeriodsBySections: [[VisitPeriod]] = []
 
-    init(visitPeriodManager: VisitPeriodManager, year: Year, cumulative: Bool, purchasedHistory: Bool, currentTab: SelectedTab, tableView: UITableView, reloadTableViewCallback: @escaping () -> (), geoDB: GeoDatabase) {
+    init(visitPeriodManager: VisitPeriodManager, year: Year, cumulative: Bool, searchQuery: String, purchasedHistory: Bool, currentTab: SelectedTab, tableView: UITableView, reloadTableViewCallback: @escaping () -> (), geoDB: GeoDatabase) {
         self.geoDB = geoDB
         self.tableView = tableView
         self.year = year
         self.cumulative = cumulative
+        self.searchQuery = searchQuery
         self.purchasedHistory = purchasedHistory
         self.visitPeriods = visitPeriodManager.periodsFor(year: year, cumulative: cumulative, currentTab: currentTab, purchasedHistory: purchasedHistory) ?? []
         self.reloadTableViewCallback = reloadTableViewCallback
-        self.showing = min(self.visitPeriods.count, numRowsToLoadAtOnce)
 
-        reloadSections()
+        reload()
     }
 
     func numberOfRowsInSection(_ section: Int) -> Int {
@@ -43,28 +44,14 @@ class VisitPeriodsTableViewManager: TableViewManager {
     func cellForRowAt(_ indexPath: IndexPath) -> UITableViewCell {
         let period = visitPeriodsBySections[indexPath.section][indexPath.row]
         var title = ""
-        var subtitle = ""
-        var icon: String?
 
         if let since = period.since,
             let until = period.until {
             title = Helpers.formatDateRange(since: since, until: until)
         }
 
-        if let countryInfo = period.countryInfo(geoDB: geoDB) {
-            subtitle = countryInfo.name
-            icon = Helpers.flag(country: countryInfo.countryKey)
-        } else if let stateInfo = period.stateInfo(geoDB: geoDB) {
-            subtitle = stateInfo.name
-            icon = Helpers.flag(country: stateInfo.countryKey)
-        } else if let cityInfo = period.cityInfo(geoDB: geoDB) {
-            subtitle = cityInfo.name
-            icon = Helpers.flag(country: cityInfo.countryKey)
-        } else if let timezoneInfo = period.timezoneInfo(geoDB: geoDB) {
-            subtitle = timezoneInfo.name
-        } else if let continentInfo = period.continentInfo(geoDB: geoDB) {
-            subtitle = continentInfo.name
-        }
+        let subtitle = period.name(geoDB: geoDB)
+        let icon = period.icon(geoDB: geoDB)
 
         if let icon = icon {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ReportTableViewCell
@@ -88,7 +75,7 @@ class VisitPeriodsTableViewManager: TableViewManager {
             if newShowing > showing {
                 isLoadingMore = true
                 showing = newShowing
-                reloadSections()
+                reload()
 
                 self.reloadTableViewCallback()
                 self.isLoadingMore = false
@@ -99,7 +86,7 @@ class VisitPeriodsTableViewManager: TableViewManager {
     func numberOfSections() -> Int { return sections.count }
     func titleForHeaderInSection(section: Int) -> String? { return sections[section] }
 
-    private func reloadSections() {
+    func reload() {
         self.sections = []
         self.visitPeriodsBySections = []
 
@@ -109,6 +96,10 @@ class VisitPeriodsTableViewManager: TableViewManager {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM yyyy"
 
+        let query = searchQuery.lowercased()
+        let visitPeriods = self.visitPeriods.filter { query.isEmpty || $0.name(geoDB: geoDB).lowercased().contains(query) }
+
+        self.showing = min(visitPeriods.count, numRowsToLoadAtOnce)
         for i in 0..<showing {
             let period = visitPeriods[i]
 

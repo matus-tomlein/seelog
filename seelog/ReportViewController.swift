@@ -30,7 +30,7 @@ enum SelectedTab {
     case continents
 }
 
-class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var mapCellHeight: NSLayoutConstraint!
@@ -48,6 +48,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     @IBOutlet weak var buttonsView: UIView!
     @IBOutlet weak var purchaseView: UIView!
     @IBOutlet weak var buyButton: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
 
     var mapViewDelegate: MainMapViewDelegate?
     var barChartSelection: ReportBarChartSelection? {
@@ -141,7 +142,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     // MARK: Table view
 
-    var tableViewManager: TableViewManager?
+    var tableViewManager: VisitPeriodsTableViewManager?
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewManager?.numberOfRowsInSection(section) ?? 0
     }
@@ -191,13 +192,14 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
                     self.tableView.rectForRow(at: IndexPath(row: cell, section: section))
                 }
             }
-            self.tableViewHeight.constant = self.tableView.contentSize.height
+            self.tableViewHeight.constant = max(UIScreen.main.bounds.height - self.searchBar.frame.height, self.tableView.contentSize.height)
         }
 
         if let year = barChartSelection?.currentAggregate {
             if let visitPeriodManager = visitPeriodManager {
                 tableViewManager = VisitPeriodsTableViewManager(visitPeriodManager: visitPeriodManager,
                                                                 year: year, cumulative: aggregateChart,
+                                                                searchQuery: searchBar.text ?? "",
                                                                 purchasedHistory: hasPurchasedHistory,
                                                                 currentTab: currentTab,
                                                                 tableView: tableView,
@@ -329,8 +331,10 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     @IBAction func buyButtonPressed(_ sender: Any) {
         if IAPHelper.canMakePayments() {
-            openLoadingAlert()
-            purchasedHistory?.buy()
+            if let purchasedHistory = self.purchasedHistory {
+                openLoadingAlert()
+                purchasedHistory.buy()
+            }
         } else {
             let alert = UIAlertController(title: "Can't Make Payments", message: "Sorry, you are not allowed to make payments.", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
@@ -339,8 +343,10 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     @IBAction func restoreButtonPressed(_ sender: Any) {
-        openLoadingAlert()
-        purchasedHistory?.restore()
+        if let purchasedHistory = self.purchasedHistory {
+            openLoadingAlert()
+            purchasedHistory.restore()
+        }
     }
 
     func openLoadingAlert() {
@@ -364,6 +370,43 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         if distanceFromBottom < height {
             tableViewManager?.scrolledToBottom()
         }
+
+        if searchBarEditing {
+            endSearchEditing()
+        }
+    }
+
+    // MARK: - Search bar
+
+    private var searchBarEditing = false
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//        scrollView.contentOffset = searchBar.frame.origin
+        if let superviewY = searchBar.superview?.frame.origin.y {
+            scrollView.contentOffset = CGPoint(x: 0, y: superviewY + searchBar.frame.origin.y)
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.searchBarEditing = true
+        }
+    }
+
+    private func endSearchEditing() {
+        searchBar.endEditing(true)
+        self.searchBarEditing = false
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        endSearchEditing()
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        tableViewManager?.searchQuery = searchText
+        tableViewManager?.reload()
+        tableViewManager?.reloadTableViewCallback()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        endSearchEditing()
     }
 
     // MARK: - Map view

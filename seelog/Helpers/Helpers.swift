@@ -224,21 +224,14 @@ class Helpers {
     }
 
     static func formatDateRange(since: Date, until: Date) -> String {
-        if since == until {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            formatter.timeStyle = .short
-            return formatter.string(from: since)
-        }
-
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
 
-        if Calendar.current.compare(since, to: until, toGranularity: .day) == .orderedSame {
-            formatter.string(from: since)
-        }
+        let fromString = formatter.string(from: since)
+        let untilString = formatter.string(from: until)
 
-        return formatter.string(from: since) + " – " + formatter.string(from: until)
+        if fromString == untilString { return fromString }
+        return fromString + " – " + untilString
     }
 }
