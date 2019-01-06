@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class VisitPeriodsTableViewManager {
+class VisitPeriodsTableViewManager: TableViewManager {
     var geoDB: GeoDatabase
     var tableView: UITableView
     var year: Year
@@ -123,6 +123,12 @@ class VisitPeriodsTableViewManager {
             sections.append(lastSection)
             visitPeriodsBySections.append(lastSectionPeriods)
         }
+    }
+
+    func setSearchQuery(_ query: String) {
+        searchQuery = query
+        reload()
+        reloadTableViewCallback()
     }
 
 }

@@ -54,19 +54,11 @@ class HistoryChartView: UIView {
             self.chartDrawer = nil
         }
 
-        if let reportViewController = self.reportViewController,
-            let barChartSelection = self.barChartSelection {
-            if reportViewController.aggregateChart {
-                chartDrawer = LineChartDrawer(view: self,
-                                              mainLayer: mainLayer,
-                                              scrollView: scrollView,
-                                              barChartSelection: barChartSelection)
-            } else {
-                chartDrawer = BarChartDrawer(view: self,
-                                             mainLayer: mainLayer,
-                                             scrollView: scrollView,
-                                             barChartSelection: barChartSelection)
-            }
+        if let barChartSelection = self.barChartSelection {
+            chartDrawer = BarChartDrawer(view: self,
+                                         mainLayer: mainLayer,
+                                         scrollView: scrollView,
+                                         barChartSelection: barChartSelection)
         }
     }
 

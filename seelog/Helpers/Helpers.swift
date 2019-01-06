@@ -234,4 +234,79 @@ class Helpers {
         if fromString == untilString { return fromString }
         return fromString + " – " + untilString
     }
+
+    static func datesBetween(startDate: Date, endDate: Date, addingDateComponents: DateComponents) -> [Date] {
+        let calendar = Calendar.current
+
+        let normalizedStartDate = calendar.startOfDay(for: startDate)
+        let normalizedEndDate = calendar.startOfDay(for: endDate)
+
+        var dates: [Date] = []
+        var currentDate = normalizedStartDate
+
+        while currentDate <= normalizedEndDate {
+            dates.append(currentDate)
+            currentDate = calendar.date(byAdding: addingDateComponents, to: currentDate)!
+        }
+
+        return dates
+    }
+
+    static func daysInRange(startDate: Date, endDate: Date) -> [Date] {
+        var component = DateComponents()
+        component.day = 1
+        return datesBetween(startDate: startDate, endDate: endDate, addingDateComponents: component)
+    }
+
+    static func daysInRange(visitPeriod: VisitPeriod) -> [Date] {
+        if let startDate = visitPeriod.since,
+            let endDate = visitPeriod.until {
+            return daysInRange(startDate: startDate, endDate: endDate)
+        }
+        return []
+    }
+
+    static func yearsInRange(startDate: Date, endDate: Date) -> [Int16] {
+        let calendar = Calendar.current
+        let startYear = Int16(calendar.component(.year, from: startDate))
+        let endYear = Int16(calendar.component(.year, from: endDate))
+        return Array(startYear...endYear)
+    }
+
+    static func yearsInRange(visitPeriod: VisitPeriod) -> [Int16] {
+        if let startDate = visitPeriod.since,
+            let endDate = visitPeriod.until {
+            return yearsInRange(startDate: startDate, endDate: endDate)
+        }
+        return []
+    }
+
+    static func monthsInRange(startDate: Date, endDate: Date) -> [Int16] {
+        var component = DateComponents()
+        component.month = 1
+        let dates = datesBetween(startDate: startDate, endDate: endDate, addingDateComponents: component)
+
+        let calendar = Calendar.current
+
+        return Array(Set(dates.map { Int16(calendar.component(.month, from: $0)) }))
+    }
+
+    static func monthsInRange(visitPeriod: VisitPeriod) -> [Int16] {
+        if let startDate = visitPeriod.since,
+            let endDate = visitPeriod.until {
+            return monthsInRange(startDate: startDate, endDate: endDate)
+        }
+        return []
+    }
+
+    static func yearDay(date: Date) -> Int32 {
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        if let day = calendar.ordinality(of: .day, in: .year, for: date) {
+            let dayPadded = String(format: "%02d", day)
+            return Int32("\(year)\(dayPadded)") ?? Int32(year)
+        }
+        return Int32(year)
+    }
+
 }

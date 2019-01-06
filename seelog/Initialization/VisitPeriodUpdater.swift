@@ -12,6 +12,7 @@ import CoreData
 class VisitPeriodUpdater {
     var context: NSManagedObjectContext
     var openPeriods: [VisitPeriod] = []
+    var allPlaceStats: [Int16:[String:PlaceStats]] = [:]
 
     init(context: NSManagedObjectContext) {
         self.context = context
@@ -20,6 +21,25 @@ class VisitPeriodUpdater {
             let request = NSFetchRequest<VisitPeriod>(entityName: "VisitPeriod")
             request.predicate = NSPredicate(format: "closed = false")
             openPeriods = try context.fetch(request)
+        } catch let err as NSError {
+            print(err.debugDescription)
+        }
+
+        do {
+            let request = NSFetchRequest<PlaceStats>(entityName: "PlaceStats")
+            for placeStats in try context.fetch(request) {
+                if let key = placeStats.visitedEntityKey {
+                    let type = placeStats.visitedEntityType
+
+                    if var entityPlaceStats = allPlaceStats[type] {
+                        entityPlaceStats[key] = placeStats
+                    } else {
+                        var entityPlaceStats: [String: PlaceStats] = [:]
+                        entityPlaceStats[key] = placeStats
+                        allPlaceStats[type] = entityPlaceStats
+                    }
+                }
+            }
         } catch let err as NSError {
             print(err.debugDescription)
         }
@@ -78,6 +98,36 @@ class VisitPeriodUpdater {
                 period.timezoneId = timezone
                 period.type = .timezone
                 openPeriods.append(period)
+            }
+        }
+
+        for period in openPeriods {
+            var updated = false
+
+            if let entityPlaceStats = allPlaceStats[period.visitedEntityType],
+                let entityKey = period.visitedEntityKey {
+                if let placeStats = entityPlaceStats[entityKey] {
+                    placeStats.update(visitPeriod: period)
+                    updated = true
+                }
+            }
+
+            if !updated {
+                let placeStats = PlaceStats(context: context)
+                placeStats.visitedEntityType = period.visitedEntityType
+                placeStats.visitedEntityKey = period.visitedEntityKey
+                placeStats.update(visitPeriod: period)
+
+                if let entityKey = period.visitedEntityKey {
+                    if var entityPlaceStats = allPlaceStats[period.visitedEntityType] {
+                        entityPlaceStats[entityKey] = placeStats
+                        allPlaceStats[period.visitedEntityType] = entityPlaceStats
+                    } else {
+                        var entityPlaceStats: [String: PlaceStats] = [:]
+                        entityPlaceStats[entityKey] = placeStats
+                        allPlaceStats[period.visitedEntityType] = entityPlaceStats
+                    }
+                }
             }
         }
     }

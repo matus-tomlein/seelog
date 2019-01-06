@@ -23,6 +23,8 @@ class ReportBarChartSelection {
         }
     }
 
+    var cumulative: Bool = true
+
     var _currentSelection: String?
     var currentSelection: String? {
         set {

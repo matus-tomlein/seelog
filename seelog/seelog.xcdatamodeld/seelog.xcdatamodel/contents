@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18B75" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18C54" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="GeometryWKT" representedClassName="GeometryWKT" syncable="YES" codeGenerationType="class">
         <attribute name="wkt" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -10,6 +10,17 @@
         <attribute name="localIdentifier" attributeType="String" syncable="YES"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="year" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="PlaceStats" representedClassName="PlaceStats" syncable="YES" codeGenerationType="class">
+        <attribute name="firstDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="firstYearDay" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lastYearDay" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="months" attributeType="Transformable" customClassName="[Int16]" syncable="YES"/>
+        <attribute name="numDays" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="visitedEntityKey" attributeType="String" syncable="YES"/>
+        <attribute name="visitedEntityType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="years" attributeType="Transformable" customClassName="[Int16]" syncable="YES"/>
     </entity>
     <entity name="VisitPeriod" representedClassName="VisitPeriod" syncable="YES" codeGenerationType="class">
         <attribute name="closed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
@@ -42,7 +53,8 @@
     <elements>
         <element name="GeometryWKT" positionX="630" positionY="360" width="128" height="60"/>
         <element name="Photo" positionX="619" positionY="216" width="128" height="135"/>
-        <element name="Year" positionX="621" positionY="279" width="128" height="330"/>
         <element name="VisitPeriod" positionX="630" positionY="369" width="128" height="120"/>
+        <element name="Year" positionX="621" positionY="279" width="128" height="330"/>
+        <element name="PlaceStats" positionX="630" positionY="369" width="128" height="180"/>
     </elements>
 </model>

@@ -36,7 +36,6 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     @IBOutlet weak var mapCellHeight: NSLayoutConstraint!
     @IBOutlet weak var scrollView: ReportScrollView!
     @IBOutlet weak var historyBarChartView: HistoryChartView!
-    @IBOutlet weak var accumulateSegmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var seenAreaButton: UIButton!
@@ -59,7 +58,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     var aggregateChart: Bool {
         get {
-            return accumulateSegmentedControl.selectedSegmentIndex == 0
+            return barChartSelection?.cumulative ?? true
         }
     }
 
@@ -68,6 +67,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     private var purchasedHistory: CompleteHistoryPurchase?
     private var hasPurchasedHistory: Bool { get { return CompleteHistoryPurchase.isPurchased } }
     private var visitPeriodManager: VisitPeriodManager?
+    private var placeStatsManager: PlaceStatsManager?
 
     private var context: NSManagedObjectContext {
         get {
@@ -96,7 +96,6 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         scrollView.delegate = self
 
         loadData()
-        accumulateSegmentedControl.addTarget(self, action: #selector(accumulateStateChanged), for: .valueChanged)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handlePurchaseNotification(_:)),
                                                name: .IAPHelperPurchaseNotification,
@@ -119,6 +118,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         }
 
         self.visitPeriodManager = VisitPeriodManager(context: context)
+        self.placeStatsManager = PlaceStatsManager(context: context)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -142,7 +142,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     // MARK: Table view
 
-    var tableViewManager: VisitPeriodsTableViewManager?
+    var tableViewManager: TableViewManager?
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewManager?.numberOfRowsInSection(section) ?? 0
     }
@@ -196,15 +196,26 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         }
 
         if let year = barChartSelection?.currentAggregate {
-            if let visitPeriodManager = visitPeriodManager {
-                tableViewManager = VisitPeriodsTableViewManager(visitPeriodManager: visitPeriodManager,
-                                                                year: year, cumulative: aggregateChart,
-                                                                searchQuery: searchBar.text ?? "",
-                                                                purchasedHistory: hasPurchasedHistory,
-                                                                currentTab: currentTab,
-                                                                tableView: tableView,
-                                                                reloadTableViewCallback: reloadTableViewCallback,
-                                                                geoDB: geoDB)
+            if aggregateChart {
+                if let placeStatsManager = placeStatsManager {
+                tableViewManager = PlaceStatsTableViewManager(placeStatsManager: placeStatsManager,
+                                                              searchQuery: searchBar.text ?? "",
+                                                              currentTab: currentTab,
+                                                              tableView: tableView,
+                                                              reloadTableViewCallback: reloadTableViewCallback,
+                                                              geoDB: geoDB)
+                }
+            } else {
+                if let visitPeriodManager = visitPeriodManager {
+                    tableViewManager = VisitPeriodsTableViewManager(visitPeriodManager: visitPeriodManager,
+                                                                    year: year, cumulative: aggregateChart,
+                                                                    searchQuery: searchBar.text ?? "",
+                                                                    purchasedHistory: hasPurchasedHistory,
+                                                                    currentTab: currentTab,
+                                                                    tableView: tableView,
+                                                                    reloadTableViewCallback: reloadTableViewCallback,
+                                                                    geoDB: geoDB)
+                }
             }
         }
 
@@ -309,11 +320,6 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
         self.barChartSelection?.loadItems(context: context)
     }
 
-    @objc func accumulateStateChanged() {
-        historyBarChartView.changeChartType()
-        reloadAllAndScrollChart(false)
-    }
-
     // MARK: purchases
 
     @objc func handlePurchaseNotification(_ notification: Notification) {
@@ -400,9 +406,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        tableViewManager?.searchQuery = searchText
-        tableViewManager?.reload()
-        tableViewManager?.reloadTableViewCallback()
+        tableViewManager?.setSearchQuery(searchText)
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
