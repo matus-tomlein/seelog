@@ -140,6 +140,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
 
     public func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
         print("restore failed")
+        print(error.localizedDescription)
         NotificationCenter.default.post(name: .IAPHelperPurchaseFailedNotification, object: nil)
     }
 

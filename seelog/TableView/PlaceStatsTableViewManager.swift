@@ -54,7 +54,7 @@ class PlaceStatsTableViewManager: TableViewManager {
         numberFormatter.numberStyle = .decimal
         let numDays = numberFormatter.string(from: NSNumber(value: placeStats.numDays)) ?? String(placeStats.numDays)
 
-        let subtext = "\(numDays) days, \(placeStats.years?.count ?? 0) years"
+        let subtext = "\(numDays) days over \(placeStats.years?.count ?? 0) years"
 
         if let icon = icon {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ReportTableViewCell

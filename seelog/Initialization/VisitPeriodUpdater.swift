@@ -33,6 +33,7 @@ class VisitPeriodUpdater {
 
                     if var entityPlaceStats = allPlaceStats[type] {
                         entityPlaceStats[key] = placeStats
+                        allPlaceStats[type] = entityPlaceStats
                     } else {
                         var entityPlaceStats: [String: PlaceStats] = [:]
                         entityPlaceStats[key] = placeStats

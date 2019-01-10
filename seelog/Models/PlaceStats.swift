@@ -58,35 +58,32 @@ extension PlaceStats {
     func update(visitPeriod: VisitPeriod) {
         guard let visitPeriodSince = visitPeriod.since else { return }
         guard let visitPeriodUntil = visitPeriod.until else { return }
+        guard let visitPeriodSinceYearDay = Helpers.yearDay(date: visitPeriodSince) else { return }
+        guard let visitPeriodUntilYearDay = Helpers.yearDay(date: visitPeriodUntil) else { return }
 
-        if Helpers.yearDay(date: visitPeriodUntil) <= lastYearDay { return }
+        self.lastDate = visitPeriodUntil
+        if visitPeriodUntilYearDay <= lastYearDay { return }
 
         if self.firstDate == nil {
             self.firstDate = visitPeriod.since
-            self.firstYearDay = Helpers.yearDay(date: visitPeriodSince)
+            self.firstYearDay = visitPeriodSinceYearDay
         }
-        self.lastDate = visitPeriodUntil
 
         let days = Helpers.daysInRange(startDate: visitPeriodSince, endDate: visitPeriodUntil)
+        var years: Set<Int16> = Set(self.years ?? [])
+        var months: Set<Int16> = Set(self.months ?? [])
         for day in days {
-            let yearDay = Helpers.yearDay(date: day)
-            if yearDay > lastYearDay {
-                self.numDays += 1
-                lastYearDay = yearDay
+            if let yearDay = Helpers.yearDay(date: day) {
+                if yearDay > lastYearDay {
+                    self.numDays += 1
+                    lastYearDay = yearDay
+                    years.insert(Helpers.year(date: day))
+                    months.insert(Helpers.month(date: day))
+                }
             }
         }
-
-        var newYears = Helpers.yearsInRange(startDate: visitPeriodSince, endDate: visitPeriodUntil)
-        if let existingYears = self.years {
-            newYears = Array(Set(existingYears + newYears))
-        }
-        self.years = newYears
-
-        var newMonths = Helpers.monthsInRange(startDate: visitPeriodSince, endDate: visitPeriodUntil)
-        if let existingMonths = self.months {
-            newMonths = Array(Set(existingMonths + newMonths))
-        }
-        self.months = newMonths
+        self.years = Array(years)
+        self.months = Array(months)
     }
 
     func countryInfo(geoDB: GeoDatabase) -> CountryInfo? {

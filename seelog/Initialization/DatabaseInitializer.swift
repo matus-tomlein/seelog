@@ -95,7 +95,7 @@ class DatabaseInitializer {
     private func updateHeatmap(year: Year) -> Bool {
         let heatmapUpdater = YearHeatmapUpdater(context: context)
         var changed = false
-        if year.cumulativeProcessedHeatmapWKT == nil {
+        if year.cumulativeProcessedHeatmapWKT == nil && year.year == Calendar.current.component(.year, from: Date()) {
             heatmapUpdater.update(year: year, cumulative: true)
             changed = true
         }
