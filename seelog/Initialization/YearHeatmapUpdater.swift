@@ -20,7 +20,7 @@ class YearHeatmapUpdater {
     func update(year: Year, cumulative: Bool) {
         if let geohashes = year.geohashes(cumulative: cumulative),
             let heatmap = heatmapFor(geohashes: geohashes),
-            let (wkt, landWKT, waterWKT) = processHeatmap(heatmap: heatmap) {
+            let (wkt, landWKT, waterWKT) = processHeatmap(heatmap: heatmap.geometry) {
 
             let wktModel = GeometryWKT(context: context)
             wktModel.wkt = wkt
@@ -43,20 +43,22 @@ class YearHeatmapUpdater {
         }
     }
 
-    private func heatmapFor(geohashes: [String]) -> Geometry? {
+    private func heatmapFor(geohashes: [String]) -> GeometryConvertible? {
         let polygons = geohashes.map({ Helpers.polygonFor(geohash: $0) as? Polygon }).filter({ $0 != nil }).map({ $0! })
-        return MultiPolygon(geometries: polygons)
+        return MultiPolygon(polygons: polygons)
     }
 
     private func processHeatmap(heatmap: Geometry) -> (String, String, String)? {
-        if let buffered = heatmap.buffer(width: 0.05) {
+        if let buffered = try? heatmap.buffer(by: 0.05) {
             let processedHeatmap = Helpers.convexHeatmap(heatmap: buffered)
 
-            if let land = WorldPolygons.landsPolygon?.difference(processedHeatmap),
-                let water = WorldPolygons.waterPolygon?.difference(processedHeatmap) {
-                if let processedWKT = processedHeatmap.WKT,
-                    let landWKT = land.WKT,
-                    let waterWKT = water.WKT {
+            if let landsPolygon = WorldPolygons.landsPolygon,
+                let waterPolygon = WorldPolygons.waterPolygon,
+                let land = try? landsPolygon.difference(with: processedHeatmap),
+                let water = try? waterPolygon.difference(with: processedHeatmap) {
+                if let processedWKT = try? processedHeatmap.wkt(),
+                    let landWKT = try? land.wkt(),
+                    let waterWKT = try? water.wkt() {
                     return (processedWKT, landWKT, waterWKT)
                 }
             }

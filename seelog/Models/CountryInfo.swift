@@ -45,15 +45,14 @@ struct CountryInfo {
 
     var geometry10m: Geometry? {
         get {
-            let bytes = geometry10mBytes
-            return Geometry.create(bytes, size: bytes.count)
+            return try? Geometry(wkb: Data(bytes: geometry10mBytes))
         }
     }
 
     var geometry50m: Geometry? {
         get {
             if let bytes = geometry50mBytes {
-                return Geometry.create(bytes, size: bytes.count)
+                return try? Geometry(wkb: Data(bytes: bytes))
             }
             return nil
         }
@@ -62,7 +61,7 @@ struct CountryInfo {
     var geometry110m: Geometry? {
         get {
             if let bytes = geometry110mBytes {
-                return Geometry.create(bytes, size: bytes.count)
+                return try? Geometry(wkb: Data(bytes: bytes))
             }
             return nil
         }

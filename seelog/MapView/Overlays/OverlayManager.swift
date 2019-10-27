@@ -9,8 +9,9 @@
 import Foundation
 import MapKit
 import GEOSwift
+import GEOSwiftMapKit
 
-extension Coordinate {
+extension Point {
     public init(_ coord: CLLocationCoordinate2D) {
         self.init(x: coord.longitude, y: coord.latitude)
     }
@@ -32,8 +33,10 @@ fileprivate class MapOverlayState {
 
     init(geometry: Geometry, properties: MapOverlayProperties, mapView: MKMapView) {
         self.geometry = geometry
-        if let envelope = geometry.envelope() as? Polygon {
-            self.envelope = envelope
+        if let envelopeGeometry = try? geometry.envelope().geometry {
+            if case let .polygon(envelope) = envelopeGeometry {
+                self.envelope = envelope
+            }
         }
         self.properties = properties
         self.mapView = mapView
@@ -53,29 +56,31 @@ fileprivate class MapOverlayState {
     private func intersects(visibleMapRect: MKMapRect) -> Bool {
         guard let envelope = self.envelope else { return false }
 
-        let lowLeft = Coordinate(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.minX, visibleMapRect.minY)))
-        let lowRight = Coordinate(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.maxX, visibleMapRect.minY)))
-        let topRight = Coordinate(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.maxX, visibleMapRect.maxY)))
-        let topLeft = Coordinate(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.minX, visibleMapRect.maxY)))
+        let lowLeft = Point(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.minX, visibleMapRect.minY)))
+        let lowRight = Point(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.maxX, visibleMapRect.minY)))
+        let topRight = Point(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.maxX, visibleMapRect.maxY)))
+        let topLeft = Point(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.minX, visibleMapRect.maxY)))
 
-        if lowLeft.x > lowRight.x {
-            let lowRight1 = Coordinate(x: 180, y: lowRight.y)
-            let lowRight2 = Coordinate(x: -180, y: lowRight.y)
-            let topRight1 = Coordinate(x: 180, y: topRight.y)
-            let topRight2 = Coordinate(x: -180, y: topRight.y)
-            if let ring1 = LinearRing(points: [lowLeft, lowRight1, topRight1, topLeft, lowLeft]),
-                let ring2 = LinearRing(points: [lowLeft, lowRight2, topRight2, topLeft, lowLeft]),
-                let viewPolygon1 = Polygon(shell: ring1, holes: nil),
-                let viewPolygon2 = Polygon(shell: ring2, holes: nil) {
-                return envelope.intersects(viewPolygon1) || envelope.intersects(viewPolygon2)
-            }
+        do {
+            if lowLeft.x > lowRight.x {
+                let lowRight1 = Point(x: 180, y: lowRight.y)
+                let lowRight2 = Point(x: -180, y: lowRight.y)
+                let topRight1 = Point(x: 180, y: topRight.y)
+                let topRight2 = Point(x: -180, y: topRight.y)
 
-        } else {
-            if let ring = LinearRing(points: [lowLeft, lowRight, topRight, topLeft, lowLeft]),
-                let viewPolygon = Polygon(shell: ring, holes: nil) {
-                return envelope.intersects(viewPolygon)
+                let ring1 = try Polygon.LinearRing(points: [lowLeft, lowRight1, topRight1, topLeft, lowLeft])
+                let ring2 = try Polygon.LinearRing(points: [lowLeft, lowRight2, topRight2, topLeft, lowLeft])
+                let viewPolygon1 = Polygon(exterior: ring1)
+                let viewPolygon2 = Polygon(exterior: ring2)
+
+                return try envelope.intersects(viewPolygon1) || envelope.intersects(viewPolygon2)
+            } else {
+                let ring = try Polygon.LinearRing(points: [lowLeft, lowRight, topRight, topLeft, lowLeft])
+                let viewPolygon = Polygon(exterior: ring)
+
+                return try envelope.intersects(viewPolygon)
             }
-        }
+        } catch {}
 
         return false
     }

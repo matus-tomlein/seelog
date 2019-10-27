@@ -40,14 +40,14 @@ struct StateInfo {
     var geometry10m: Geometry? {
         get {
             let bytes = geometry10mBytes
-            return Geometry.create(bytes, size: bytes.count)
+            return try? Geometry.init(wkb: Data(bytes: bytes))
         }
     }
 
     var geometry50m: Geometry? {
         get {
             if let bytes = geometry50mBytes {
-                return Geometry.create(bytes, size: bytes.count)
+                return try? Geometry.init(wkb: Data(bytes: bytes))
             }
             return nil
         }
@@ -56,7 +56,7 @@ struct StateInfo {
     var geometry110m: Geometry? {
         get {
             if let bytes = geometry110mBytes {
-                return Geometry.create(bytes, size: bytes.count)
+                return try? Geometry.init(wkb: Data(bytes: bytes))
             }
             return nil
         }

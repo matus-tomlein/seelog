@@ -20,7 +20,7 @@ struct ContinentInfo {
 
     var geometry: Geometry? {
         get {
-            return Geometry.create(geometryBytes, size: geometryBytes.count)
+            return try? Geometry.init(wkb: Data(bytes: geometryBytes))
         }
     }
 }

@@ -20,7 +20,7 @@ class GeometryOverlayCreator {
         if properties.overlayVersion < self.overlayVersion { return [] }
 
         switch geometry {
-        case let ls as LineString:
+        case let .lineString(ls):
             var coordinates = ls.points.map(CLLocationCoordinate2D.init)
             let mapPolyline = MapPolyline(coordinates: &coordinates,
                               count: coordinates.count)
@@ -28,9 +28,9 @@ class GeometryOverlayCreator {
             mapView.add(mapPolyline)
             return [mapPolyline]
 
-        case let polygon as Polygon:
-            var exteriorRingCoordinates = polygon.exteriorRing.points.map(CLLocationCoordinate2D.init)
-            let interiorRings = polygon.interiorRings.map {
+        case let .polygon(polygon):
+            var exteriorRingCoordinates = polygon.exterior.points.map(CLLocationCoordinate2D.init)
+            let interiorRings = polygon.holes.map {
                 MKPolygonWithCoordinatesSequence($0.points)
             }
             let mapPolygon = MapPolygon(coordinates: &exteriorRingCoordinates,
@@ -40,21 +40,21 @@ class GeometryOverlayCreator {
             mapView.add(mapPolygon)
             return [mapPolygon]
 
-        case let gc as MultiLineString<LineString>:
+        case let .multiLineString(gc):
             var overlays: [MapOverlay] = []
-            for geometry in gc.geometries {
-                overlays += addOverlayToMap(geometry: geometry, properties: properties, mapView: mapView)
+            for ls in gc.lineStrings {
+                overlays += addOverlayToMap(geometry: ls.geometry, properties: properties, mapView: mapView)
             }
             return overlays
 
-        case let gc as MultiPolygon<Polygon>:
+        case let .multiPolygon(gc):
             var overlays: [MapOverlay] = []
-            for geometry in gc.geometries {
-                overlays += addOverlayToMap(geometry: geometry, properties: properties, mapView: mapView)
+            for polygon in gc.polygons {
+                overlays += addOverlayToMap(geometry: polygon.geometry, properties: properties, mapView: mapView)
             }
             return overlays
 
-        case let gc as GeometryCollection<Geometry>:
+        case let .geometryCollection(gc):
             var overlays: [MapOverlay] = []
             for geometry in gc.geometries {
                 overlays += addOverlayToMap(geometry: geometry, properties: properties, mapView: mapView)
@@ -100,7 +100,7 @@ class GeometryOverlayCreator {
         mapView.removeOverlays(overlaysToRemove)
     }
 
-    private static func MKPolygonWithCoordinatesSequence(_ coordinates: CoordinatesCollection) -> MKPolygon {
+    private static func MKPolygonWithCoordinatesSequence(_ coordinates: [Point]) -> MKPolygon {
         var coordinates = coordinates.map(CLLocationCoordinate2D.init)
         return MKPolygon(coordinates: &coordinates,
                          count: coordinates.count)
@@ -109,7 +109,7 @@ class GeometryOverlayCreator {
 }
 
 extension CLLocationCoordinate2D {
-    public init(_ coord: Coordinate) {
-        self.init(latitude: coord.y, longitude: coord.x)
+    public init(_ point: Point) {
+        self.init(latitude: point.y, longitude: point.x)
     }
 }

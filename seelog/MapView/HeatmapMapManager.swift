@@ -44,8 +44,8 @@ class HeatmapMapManager: MapManager {
         if year.isLocked(purchasedHistory: purchasedHistory) {
             if let land = WorldPolygons.landsPolygon,
                 let water = WorldPolygons.waterPolygon {
-                overlayManager.add(geometry: land, properties: landProperties)
-                overlayManager.add(geometry: water, properties: waterProperties)
+                overlayManager.add(geometry: land.geometry, properties: landProperties)
+                overlayManager.add(geometry: water.geometry, properties: waterProperties)
             }
         } else {
             if let waterWKT = year.waterWKT(cumulative: cumulative),
@@ -53,26 +53,35 @@ class HeatmapMapManager: MapManager {
                 let land = Helpers.geometry(fromWKT: landWKT),
                 let water = Helpers.geometry(fromWKT: waterWKT),
                 let heatmapWKT = year.processedHeatmapWKT(cumulative: cumulative),
-                let heatmap = Helpers.geometry(fromWKT: heatmapWKT),
-                let boundary = heatmap.boundary(),
-                let bufferedHeatmap = heatmap.buffer(width: 0.4) {
+                let heatmap = Helpers.geometry(fromWKT: heatmapWKT) {
                 overlayManager.add(geometry: land, properties: landProperties)
                 overlayManager.add(geometry: water, properties: waterProperties)
 
     //                self.mapView.centerCoordinate = self.mapView.centerCoordinate
+                var boundary: Geometry? {
+                    switch heatmap {
+                    case let .polygon(polygon):
+                        return try? polygon.boundary()
+                    case let .multiPolygon(multiPolygon):
+                        return try? multiPolygon.boundary()
+                    default:
+                        return nil
+                    }
+                }
 
-                let heatmapProperties = MapOverlayProperties(zoomTypes: [.far],
-                                                             overlayVersion: overlayVersion)
-                heatmapProperties.fillColor = UIColor.white
-                overlayManager.add(geometry: bufferedHeatmap, properties: heatmapProperties)
+                if let boundary = boundary, let bufferedHeatmap = try? heatmap.buffer(by: 0.4) {
+                    let heatmapProperties = MapOverlayProperties(zoomTypes: [.far],
+                                                                 overlayVersion: overlayVersion)
+                    heatmapProperties.fillColor = UIColor.white
+                    overlayManager.add(geometry: bufferedHeatmap, properties: heatmapProperties)
 
 
-                let boundaryProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
-                                                              overlayVersion: overlayVersion)
-                boundaryProperties.strokeColor = UIColor.white
-                boundaryProperties.lineWidth = 2
-                overlayManager.add(geometry: boundary, properties: boundaryProperties)
-
+                    let boundaryProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
+                                                                  overlayVersion: overlayVersion)
+                    boundaryProperties.strokeColor = UIColor.white
+                    boundaryProperties.lineWidth = 2
+                    overlayManager.add(geometry: boundary, properties: boundaryProperties)
+                }
             }
 
             self.photoViewer.load(year: year, cumulative: cumulative)

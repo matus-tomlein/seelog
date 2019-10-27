@@ -97,8 +97,9 @@ class YearSeenAreaUpdater {
         model.geohashes = Array(geohashes[key] ?? Set())
     }
 
-    private func processHeatmap(heatmap: Geometry?) -> Geometry? {
-        if let heatmap = heatmap?.buffer(width: 0.05) {
+    private func processHeatmap(heatmap: GeometryConvertible?) -> GeometryConvertible? {
+        if let h = heatmap,
+            let heatmap = try? h.buffer(by: 0.05) {
             return Helpers.convexHeatmap(heatmap: heatmap)
         }
         return nil

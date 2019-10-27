@@ -138,30 +138,25 @@ class Helpers {
         }
     }
 
-    static func blankWorldwidePolygon() -> Geometry {
-        let p1 = Geometry.create("POLYGON((-180 -90, 0 -90, 0 0, -180 0, -180 -90))")!
-        let p2 = Geometry.create("POLYGON((0 0, 180 0, 180 90, 0 90, 0 0))")!
-        let p3 = Geometry.create("POLYGON((-180 0, 0 0, 0 90, -180 90, -180 0))")!
-        let p4 = Geometry.create("POLYGON((0 -90, 180 -90, 180 0, 0 0, 0 -90))")!
-        let p12 = p1.union(p2)!
-        let p123 = p12.union(p3)!
-        return p123.union(p4)!
+    static func blankWorldwidePolygon() throws -> GeometryConvertible {
+        let p1 = try Polygon(wkt: "POLYGON((-180 -90, 0 -90, 0 0, -180 0, -180 -90))")
+        let p2 = try Polygon(wkt: "POLYGON((0 0, 180 0, 180 90, 0 90, 0 0))")
+        let p3 = try Polygon(wkt: "POLYGON((-180 0, 0 0, 0 90, -180 90, -180 0))")
+        let p4 = try Polygon(wkt: "POLYGON((0 -90, 180 -90, 180 0, 0 0, 0 -90))")
+        let p12 = try p1.union(with: p2)
+        let p123 = try p12.union(with: p3)
+        return try p123.union(with: p4)
     }
 
-    static func polygonFor(geohash: String) -> Geometry? {
+    static func polygonFor(geohash: String) -> GeometryConvertible? {
         if let result = Geohash.decode(hash: geohash) {
-            return Geometry.create("POLYGON((\(result.longitude.min) \(result.latitude.min), \(result.longitude.max) \(result.latitude.min), \(result.longitude.max) \(result.latitude.max), \(result.longitude.min) \(result.latitude.max), \(result.longitude.min) \(result.latitude.min)))")
+            return try? Geometry(wkt: "POLYGON((\(result.longitude.min) \(result.latitude.min), \(result.longitude.max) \(result.latitude.min), \(result.longitude.max) \(result.latitude.max), \(result.longitude.min) \(result.latitude.max), \(result.longitude.min) \(result.latitude.min)))")
         }
         return nil
     }
 
     static func geometry(fromWKT wkt: String) -> Geometry? {
-        if let polygon = MultiPolygon(WKT: wkt) {
-            return polygon
-        } else if let polygon = Polygon(WKT: wkt) {
-            return polygon
-        }
-        return nil
+        return try? Geometry.init(wkt: wkt)
     }
 
     static func areaOf(geohash: String) -> Double {
@@ -179,24 +174,23 @@ class Helpers {
     }
 
     static func convexHeatmap(heatmap: Geometry) -> Geometry {
-        if let multipolygon = heatmap as? MultiPolygon {
+        switch heatmap {
+        case let .multiPolygon(multipolygon):
             var convexPolygonUnion: Geometry?
-            for polygon in multipolygon.geometries {
-                if let convexPolygon = polygon.convexHull() {
+
+            for polygon in multipolygon.polygons {
+                if let convexPolygon = try? polygon.convexHull() {
                     if let union = convexPolygonUnion {
-                        convexPolygonUnion = union.union(convexPolygon)
+                        convexPolygonUnion = try? union.union(with: convexPolygon)
                     } else {
                         convexPolygonUnion = convexPolygon
                     }
                 }
             }
             return convexPolygonUnion ?? heatmap
-//            if convexPolygons.count > 0 {
-//                if let result = MultiPolygon(geometries: convexPolygons) { return result }
-//            }
+        default:
+            return heatmap
         }
-
-        return heatmap
     }
 
     static func geohashesIn(mapRect: MKMapRect) -> Set<String> {
