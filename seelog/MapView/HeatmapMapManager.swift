@@ -30,7 +30,12 @@ class HeatmapMapManager: MapManager {
 
     func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
         mapView.mapType = .mutedStandard
-        DispatchQueue.main.sync { unload() }
+        DispatchQueue.main.sync {
+            unload()
+            if #available(iOS 13.0, *) {
+                mapView.overrideUserInterfaceStyle = .light
+            }
+        }
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         let landProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
@@ -91,6 +96,10 @@ class HeatmapMapManager: MapManager {
     func unload() {
         photoViewer.unload()
         overlayManager.unload()
+
+        if #available(iOS 13.0, *) {
+            mapView.overrideUserInterfaceStyle = .unspecified
+        }
     }
 
     func viewFor(annotation: MKAnnotation) -> MKAnnotationView? {

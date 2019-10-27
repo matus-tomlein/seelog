@@ -64,9 +64,11 @@ class PhotoGeohashManager {
         DispatchQueue.main.async {
             self.removeImage()
             if let circleOverlay = self.circleOverlay { self.mapView.remove(circleOverlay) }
+            let properties = MapOverlayProperties(self.overlayVersion)
+            properties.lineWidth = 3
             self.circleOverlay = GeometryOverlayCreator.addCircleToMap(center: self.location,
-                                                                       radius: 1,
-                                                                       properties: MapOverlayProperties(self.overlayVersion),
+                                                                       radius: 10,
+                                                                       properties: properties,
                                                                        mapView: self.mapView)
         }
     }

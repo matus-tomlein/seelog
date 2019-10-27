@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina5_9" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -119,9 +117,9 @@
                         <outlet property="seenAreaLabel" destination="3Tl-Ge-DDe" id="8Vi-DA-71c"/>
                         <outlet property="statesLabel" destination="pdZ-Gj-Ljc" id="FIp-EV-yGy"/>
                         <outlet property="timezonesLabel" destination="qwW-Xp-Neh" id="Hre-hz-aa8"/>
-                        <segue destination="mXn-og-8hO" kind="showDetail" identifier="continue" id="nDb-C2-4j9"/>
-                        <segue destination="k2l-pU-rbN" kind="showDetail" identifier="requestPhotoAccess" animates="NO" id="ygr-jX-EaR"/>
-                        <segue destination="sQ8-Uc-vNN" kind="showDetail" identifier="permissionDenied" animates="NO" id="6K0-Zm-Fmv"/>
+                        <segue destination="mXn-og-8hO" kind="presentation" identifier="continue" modalPresentationStyle="fullScreen" id="nDb-C2-4j9"/>
+                        <segue destination="k2l-pU-rbN" kind="presentation" identifier="requestPhotoAccess" animates="NO" modalPresentationStyle="fullScreen" id="ygr-jX-EaR"/>
+                        <segue destination="sQ8-Uc-vNN" kind="presentation" identifier="permissionDenied" animates="NO" modalPresentationStyle="fullScreen" id="6K0-Zm-Fmv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -156,7 +154,7 @@
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QnG-Bb-Bmc">
                                                         <rect key="frame" x="167.66666666666666" y="5" width="40" height="6"/>
-                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="backgroundColor" systemColor="systemFillColor" red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="40" id="Izd-0O-eDf"/>
                                                         </constraints>
@@ -171,7 +169,8 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="tintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="QnG-Bb-Bmc" secondAttribute="bottom" constant="1" id="4wO-kk-V2e"/>
                                                     <constraint firstAttribute="height" constant="12" id="AHl-E0-6Oh"/>
@@ -254,7 +253,7 @@
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
                                                     <constraint firstItem="ntK-4P-Fvh" firstAttribute="leading" secondItem="bSx-sz-Ayf" secondAttribute="leading" id="2TA-Id-EC4"/>
                                                     <constraint firstAttribute="bottom" secondItem="ntK-4P-Fvh" secondAttribute="bottom" id="6EL-Oy-ewb"/>
@@ -315,14 +314,14 @@
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VNz-LL-75v">
                                                 <rect key="frame" x="0.0" y="205" width="375" height="10"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="10" id="iiX-ux-hLt"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o7w-ya-eAc" customClass="HistoryChartView" customModule="Seelog" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="215" width="375" height="200"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="bDO-ve-Oq6"/>
                                                 </constraints>
@@ -357,7 +356,7 @@
                                                         <rect key="frame" x="0.0" y="28" width="375" height="63"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WZp-6f-X3j" id="zuF-sQ-AmF">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="62.666666666666664"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="63"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slovakia" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ALr-af-e5w">
@@ -370,7 +369,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1n6-Ux-wS7">
-                                                                    <rect key="frame" x="15" y="25.333333333333332" width="311" height="32.333333333333343"/>
+                                                                    <rect key="frame" x="15" y="25.333333333333332" width="311" height="32.666666666666671"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -407,7 +406,7 @@
                                                         <rect key="frame" x="0.0" y="91" width="375" height="58"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iPJ-DH-cdD" id="T5R-RF-jnp">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="57.666666666666664"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wbV-fe-IAt">
@@ -420,7 +419,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oab-s0-mBo">
-                                                                    <rect key="frame" x="15" y="26" width="345" height="26.666666666666671"/>
+                                                                    <rect key="frame" x="15" y="26" width="345" height="27"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -449,7 +448,7 @@
                                             </tableView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tuL-zt-5u1">
                                                 <rect key="frame" x="0.0" y="671" width="375" height="10"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="10" id="Ez2-cG-UT6"/>
                                                 </constraints>
@@ -503,7 +502,7 @@
                         <outlet property="tableView" destination="lOJ-Uw-dTl" id="K5P-u1-pPO"/>
                         <outlet property="tableViewHeight" destination="jyD-to-tQZ" id="UbH-wY-fmw"/>
                         <outlet property="timezonesButton" destination="sBa-sr-UFp" id="rbr-o4-lQC"/>
-                        <segue destination="C15-Qw-6Ie" kind="presentation" id="oS4-Ho-Jw4"/>
+                        <segue destination="C15-Qw-6Ie" kind="presentation" modalPresentationStyle="fullScreen" id="oS4-Ho-Jw4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3z5-8u-42p" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -581,7 +580,7 @@
                                         <color key="shadowColor" red="0.25209861989999999" green="0.222864747" blue="0.67108982800000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rest assured that none of your data will leave your phone." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1gD-za-Tx1">
-                                        <rect key="frame" x="27.333333333333343" y="131.33333333333331" width="320.66666666666663" height="49"/>
+                                        <rect key="frame" x="27.333333333333343" y="131.33333333333331" width="320.33333333333326" height="49"/>
                                         <edgeInsets key="layoutMargins" top="8" left="20" bottom="8" right="20"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -613,7 +612,7 @@
                         <viewLayoutGuide key="safeArea" id="qlx-aE-sd3"/>
                     </view>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="return" animates="NO" id="3SY-cf-t3g"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="return" animates="NO" modalPresentationStyle="fullScreen" id="3SY-cf-t3g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ljk-DD-T0I" sceneMemberID="firstResponder"/>
@@ -638,7 +637,7 @@
                                 <rect key="frame" x="0.0" y="264" width="375" height="206.66666666666663"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aww…" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVe-bf-h8i">
-                                        <rect key="frame" x="151.33333333333334" y="8.0000000000000018" width="72.666666666666657" height="30.666666666666671"/>
+                                        <rect key="frame" x="151.33333333333334" y="8.0000000000000018" width="72.333333333333343" height="30.666666666666671"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>

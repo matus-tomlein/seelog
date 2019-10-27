@@ -15,6 +15,8 @@ class CitiesMapManager: MapManager {
     var mapViewDelegate: MainMapViewDelegate
     var geoDB: GeoDatabase
     var tintColor: UIColor
+    private let circleRadius: Double = 10000
+    private let lineWidth: CGFloat = 3
 
     init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, geoDB: GeoDatabase) {
         self.mapView = mapView
@@ -40,8 +42,9 @@ class CitiesMapManager: MapManager {
             let properties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                   overlayVersion: overlayVersion)
             properties.strokeColor = tintColor
+            properties.lineWidth = lineWidth
             mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude),
-                                           radius: 1000,
+                                           radius: circleRadius,
                                            properties: properties)
         }
 
@@ -49,8 +52,9 @@ class CitiesMapManager: MapManager {
             let properties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                   overlayVersion: overlayVersion)
             properties.strokeColor = UIColor.red
+            properties.lineWidth = lineWidth
             mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude),
-                                           radius: 1000,
+                                           radius: circleRadius,
                                            properties: properties)
         }
     }
