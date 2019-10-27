@@ -1,20 +1,31 @@
 PODS:
-  - geos (3.5.0)
-  - GEOSwift (2.2.0):
-    - geos (= 3.5.0)
+  - geos (4.0.2)
+  - GEOSwift (5.0.0):
+    - geos (= 4.0.2)
+  - GEOSwiftMapKit (1.0.0):
+    - GEOSwift (= 5.0.0)
+  - SQLite.swift (0.12.2):
+    - SQLite.swift/standard (= 0.12.2)
+  - SQLite.swift/standard (0.12.2)
 
 DEPENDENCIES:
   - GEOSwift
+  - GEOSwiftMapKit
+  - SQLite.swift (~> 0.12.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - geos
     - GEOSwift
+    - GEOSwiftMapKit
+    - SQLite.swift
 
 SPEC CHECKSUMS:
-  geos: e96c6ca3f3ce02d20feaa8d90d4af383e11e7198
-  GEOSwift: 8633f4f613d8c010eec90d26a6b7efd15bb98a51
+  geos: ee2ae833c7b3c881a33de35a3cea18bf3e0cf7bc
+  GEOSwift: 36a5ee6814414a7962c558a352705ef34f27e303
+  GEOSwiftMapKit: 7079f598ca49c92bcc1deb3414aa0d38a2a9b074
+  SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
 
-PODFILE CHECKSUM: 8ac9435fc93f65fa7852ec655261ff326bbbcc60
+PODFILE CHECKSUM: 351754992cb34bc0a0843011a233af52e1ee317f
 
 COCOAPODS: 1.5.3

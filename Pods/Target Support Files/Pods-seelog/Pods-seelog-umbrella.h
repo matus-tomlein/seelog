@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_seelogVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_seelogVersionString[];
+FOUNDATION_EXPORT double Pods_SeelogVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_SeelogVersionString[];
 
