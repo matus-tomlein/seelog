@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/matustomlein/Projects/seelog/seelog.xcodeproj">
+      location = "self:seelog.xcodeproj">
    </FileRef>
 </Workspace>

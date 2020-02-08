@@ -56,10 +56,10 @@ fileprivate class MapOverlayState {
     private func intersects(visibleMapRect: MKMapRect) -> Bool {
         guard let envelope = self.envelope else { return false }
 
-        let lowLeft = Point(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.minX, visibleMapRect.minY)))
-        let lowRight = Point(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.maxX, visibleMapRect.minY)))
-        let topRight = Point(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.maxX, visibleMapRect.maxY)))
-        let topLeft = Point(MKCoordinateForMapPoint(MKMapPointMake(visibleMapRect.minX, visibleMapRect.maxY)))
+        let lowLeft = Point(MKMapPoint(x: visibleMapRect.minX, y: visibleMapRect.minY).coordinate)
+        let lowRight = Point(MKMapPoint(x: visibleMapRect.maxX, y: visibleMapRect.minY).coordinate)
+        let topRight = Point(MKMapPoint(x: visibleMapRect.maxX, y: visibleMapRect.maxY).coordinate)
+        let topLeft = Point(MKMapPoint(x: visibleMapRect.minX, y: visibleMapRect.maxY).coordinate)
 
         do {
             if lowLeft.x > lowRight.x {
@@ -106,7 +106,7 @@ fileprivate class MapOverlayState {
         self.overlays = []
 
         for overlay in currentOverlays {
-            if let o = overlay as? MKOverlay { mapView?.remove(o) }
+            if let o = overlay as? MKOverlay { mapView?.removeOverlay(o) }
         }
     }
 }

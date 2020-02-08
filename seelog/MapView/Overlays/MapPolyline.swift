@@ -14,11 +14,11 @@ class MapPolyline : MKPolyline, MapOverlay {
 
     convenience init(rect: MKMapRect) {
         self.init(points: [
-            MKMapPointMake(Double(rect.minX), Double(rect.minY)),
-            MKMapPointMake(Double(rect.maxX), Double(rect.minY)),
-            MKMapPointMake(Double(rect.maxX), Double(rect.maxY)),
-            MKMapPointMake(Double(rect.minX), Double(rect.maxY)),
-            MKMapPointMake(Double(rect.minX), Double(rect.minY))
+            MKMapPoint(x: Double(rect.minX), y: Double(rect.minY)),
+            MKMapPoint(x: Double(rect.maxX), y: Double(rect.minY)),
+            MKMapPoint(x: Double(rect.maxX), y: Double(rect.maxY)),
+            MKMapPoint(x: Double(rect.minX), y: Double(rect.maxY)),
+            MKMapPoint(x: Double(rect.minX), y: Double(rect.minY))
             ], count: 5)
     }
 

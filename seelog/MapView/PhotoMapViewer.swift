@@ -63,7 +63,7 @@ class PhotoGeohashManager {
 
         DispatchQueue.main.async {
             self.removeImage()
-            if let circleOverlay = self.circleOverlay { self.mapView.remove(circleOverlay) }
+            if let circleOverlay = self.circleOverlay { self.mapView.removeOverlay(circleOverlay) }
             let properties = MapOverlayProperties(self.overlayVersion)
             properties.lineWidth = 3
             self.circleOverlay = GeometryOverlayCreator.addCircleToMap(center: self.location,
@@ -112,7 +112,7 @@ class PhotoGeohashManager {
 
     private func removeCircle() {
         showingCircle = false
-        if let circleOverlay = circleOverlay { mapView.remove(circleOverlay) }
+        if let circleOverlay = circleOverlay { mapView.removeOverlay(circleOverlay) }
         circleOverlay = nil
     }
 
@@ -253,8 +253,8 @@ class CurrentViewport {
     }
 
     func overlaps(geohash: String) -> Bool {
-        let lowLeft = MKCoordinateForMapPoint(MKMapPoint(x: visibleMapRect.minX, y: visibleMapRect.minY))
-        let topRight = MKCoordinateForMapPoint(MKMapPoint(x: visibleMapRect.maxX, y: visibleMapRect.maxY))
+        let lowLeft = MKMapPoint(x: visibleMapRect.minX, y: visibleMapRect.minY).coordinate
+        let topRight = MKMapPoint(x: visibleMapRect.maxX, y: visibleMapRect.maxY).coordinate
         let mapMinLatitude = min(lowLeft.latitude, topRight.latitude)
         let mapMaxLatitude = max(lowLeft.latitude, topRight.latitude)
         let mapMinLongitude = min(lowLeft.longitude, topRight.longitude)

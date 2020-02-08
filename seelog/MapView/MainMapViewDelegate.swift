@@ -10,15 +10,14 @@ import UIKit
 import MapKit
 import GEOSwift
 import CoreData
+import Photos
 
 class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     var mapView: MKMapView
     var mapManager: MapManager?
-    private weak var reportViewController: ReportViewController?
 
-    init(mapView: MKMapView, reportViewController: ReportViewController) {
+    init(mapView: MKMapView) {
         self.mapView = mapView
-        self.reportViewController = reportViewController
         super.init()
 
         let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(gestureRecognizer:)))
@@ -55,7 +54,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
                     let location = CLLocation(latitude: overlay.coordinate.latitude, longitude: overlay.coordinate.longitude)
                     let distance = location.distance(from: touchLocation)
                     if distance < 30 {
-                        reportViewController?.quickLookImages(assets: overlay.assets)
+//                        reportViewController?.quickLookImages(assets: overlay.assets)
                         return
                     }
                 }
@@ -115,7 +114,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     }
 
     func addGeometryToMap(_ geometry: Geometry, properties: MapOverlayProperties) {
-        DispatchQueue.main.sync {
+        let _ = DispatchQueue.main.sync {
             GeometryOverlayCreator.addOverlayToMap(geometry: geometry,
                                                    properties: properties,
                                                    mapView: self.mapView)
@@ -125,7 +124,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     func addCircleToMap(center: CLLocationCoordinate2D,
                         radius: CLLocationDistance,
                         properties: MapOverlayProperties) {
-        DispatchQueue.main.sync {
+        let _ = DispatchQueue.main.sync {
             GeometryOverlayCreator.addCircleToMap(center: center,
                                                   radius: radius,
                                                   properties: properties,
@@ -136,7 +135,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     func addOverlayToMap(_ overlay: MKOverlay, overlayVersion: Int) {
         DispatchQueue.main.sync {
             if overlayVersion < GeometryOverlayCreator.overlayVersion { return }
-            mapView.add(overlay)
+            mapView.addOverlay(overlay)
         }
     }
 

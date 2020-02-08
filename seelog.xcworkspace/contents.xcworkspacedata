@@ -2,12 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/matustomlein/Projects/seelog/Seelog.xcodeproj">
+      location = "group:/Users/matus/Projects/seelog/seelog.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Seelog.xcodeproj">
+      location = "group:seelog.xcodeproj">
    </FileRef>
 </Workspace>

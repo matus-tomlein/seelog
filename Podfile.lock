@@ -7,25 +7,29 @@ PODS:
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
+  - SwiftCSV (0.5.5)
 
 DEPENDENCIES:
   - GEOSwift
   - GEOSwiftMapKit
   - SQLite.swift (~> 0.12.0)
+  - SwiftCSV
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - geos
     - GEOSwift
     - GEOSwiftMapKit
     - SQLite.swift
+    - SwiftCSV
 
 SPEC CHECKSUMS:
   geos: ee2ae833c7b3c881a33de35a3cea18bf3e0cf7bc
   GEOSwift: 36a5ee6814414a7962c558a352705ef34f27e303
   GEOSwiftMapKit: 7079f598ca49c92bcc1deb3414aa0d38a2a9b074
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
+  SwiftCSV: 13e494244a4a65c3ff71002444491026de625643
 
-PODFILE CHECKSUM: 351754992cb34bc0a0843011a233af52e1ee317f
+PODFILE CHECKSUM: c2a8f1627e8d4481cbb7e75562a5c2ee4ebbd82a
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

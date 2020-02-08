@@ -26,7 +26,7 @@ struct TimezoneInfo {
 
     var geometry: Geometry? {
         get {
-            return try? Geometry.init(wkb: Data(bytes: geometryBytes))
+            return try? Geometry.init(wkb: Data(geometryBytes))
         }
     }
 

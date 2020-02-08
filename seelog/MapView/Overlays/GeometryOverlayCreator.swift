@@ -25,7 +25,7 @@ class GeometryOverlayCreator {
             let mapPolyline = MapPolyline(coordinates: &coordinates,
                               count: coordinates.count)
             mapPolyline.properties = properties
-            mapView.add(mapPolyline)
+            mapView.addOverlay(mapPolyline)
             return [mapPolyline]
 
         case let .polygon(polygon):
@@ -37,7 +37,7 @@ class GeometryOverlayCreator {
                              count: exteriorRingCoordinates.count,
                              interiorPolygons: interiorRings)
             mapPolygon.properties = properties
-            mapView.add(mapPolygon)
+            mapView.addOverlay(mapPolygon)
             return [mapPolygon]
 
         case let .multiLineString(gc):
@@ -74,7 +74,7 @@ class GeometryOverlayCreator {
 
         let circle = MapCircle(center: center, radius: radius)
         circle.properties = properties
-        mapView.add(circle)
+        mapView.addOverlay(circle)
         return circle
     }
 

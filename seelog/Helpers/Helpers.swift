@@ -194,8 +194,8 @@ class Helpers {
     }
 
     static func geohashesIn(mapRect: MKMapRect) -> Set<String> {
-        let lowLeft = MKCoordinateForMapPoint(MKMapPoint(x: mapRect.minX, y: mapRect.minY))
-        let topRight = MKCoordinateForMapPoint(MKMapPoint(x: mapRect.maxX, y: mapRect.maxY))
+        let lowLeft = MKMapPoint(x: mapRect.minX, y: mapRect.minY).coordinate
+        let topRight = MKMapPoint(x: mapRect.maxX, y: mapRect.maxY).coordinate
         var geohashes = Set<String>()
 
         guard let minLatitude = [lowLeft.latitude, topRight.latitude].min(),

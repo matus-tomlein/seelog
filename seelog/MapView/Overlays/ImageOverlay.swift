@@ -38,15 +38,15 @@ class ImageOverlay : NSObject, MKOverlay, MapOverlay {
         let polylineProperties = MapOverlayProperties(properties.overlayVersion)
         polylineProperties.lineWidth = 3
         polylineOverlay.properties = polylineProperties
-        mapView.add(polylineOverlay)
+        mapView.addOverlay(polylineOverlay)
         self.polyline = polylineOverlay
 
-        mapView.add(self)
+        mapView.addOverlay(self)
     }
 
     func removeFrom(mapView: MKMapView) {
-        mapView.remove(self)
-        if let polyline = self.polyline { mapView.remove(polyline) }
+        mapView.removeOverlay(self)
+        if let polyline = self.polyline { mapView.removeOverlay(polyline) }
         self.polyline = nil
     }
 
@@ -54,7 +54,7 @@ class ImageOverlay : NSObject, MKOverlay, MapOverlay {
         let multiplyBy = 640 / ([Double(image.size.width), Double(image.size.height)].max() ?? 0)
 
         let size = MKMapSize(width: Double(image.size.width) * multiplyBy, height: Double(image.size.height) * multiplyBy)
-        var origin = MKMapPointForCoordinate(coordinate)
+        var origin = MKMapPoint(coordinate)
         origin.x -= size.width / 2
         origin.y -= size.height / 2
         return MKMapRect(origin: origin, size: size)
