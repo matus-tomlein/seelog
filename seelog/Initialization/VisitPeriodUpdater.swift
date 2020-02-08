@@ -75,7 +75,7 @@ class VisitPeriodUpdater {
         for cityKey in photoInfo.cities {
             let existing = openPeriods.filter({ $0.type == .city && $0.cityKey == cityKey })
             if existing.count == 0 {
-                let period = initializeOpenPeriod(photoInfo: photoInfo)
+                var period = initializeOpenPeriod(photoInfo: photoInfo)
                 period.cityKey = cityKey
                 period.type = .city
                 openPeriods.append(period)
@@ -95,7 +95,7 @@ class VisitPeriodUpdater {
         if let timezone = photoInfo.timezone {
             let existing = openPeriods.filter({ $0.type == .timezone && $0.timezoneId == timezone })
             if existing.count == 0 {
-                let period = initializeOpenPeriod(photoInfo: photoInfo)
+                var period = initializeOpenPeriod(photoInfo: photoInfo)
                 period.timezoneId = timezone
                 period.type = .timezone
                 openPeriods.append(period)

@@ -12,18 +12,18 @@ import UIKit
 class PlaceStatsTableViewManager: TableViewManager {
     var geoDB: GeoDatabase
     var tableView: UITableView
-    var allPlaceStats: [PlaceStats]
-    private var filteredPlaceStats: [PlaceStats] = []
+    var allPlaceStats: [TimeSpentStatsProvider]
+    private var filteredPlaceStats: [TimeSpentStatsProvider] = []
     var showing: Int = 0
     var reloadTableViewCallback: () -> ()
     var searchQuery = ""
     private let numRowsToLoadAtOnce = 50
 
-    init(placeStatsManager: PlaceStatsManager, searchQuery: String, currentTab: SelectedTab, tableView: UITableView, reloadTableViewCallback: @escaping () -> (), geoDB: GeoDatabase) {
+    init(placeStatsManager: PlaceStatsManager, year: Year, cumulative: Bool, searchQuery: String, purchasedHistory: Bool, currentTab: SelectedTab, tableView: UITableView, reloadTableViewCallback: @escaping () -> (), geoDB: GeoDatabase) {
         self.geoDB = geoDB
         self.tableView = tableView
         self.searchQuery = searchQuery
-        self.allPlaceStats = placeStatsManager.placeStatsFor(currentTab: currentTab) ?? []
+        self.allPlaceStats = placeStatsManager.placeStatsFor(year: year, cumulative: cumulative, currentTab: currentTab, purchasedHistory: purchasedHistory) ?? []
         self.reloadTableViewCallback = reloadTableViewCallback
 
         reload()
@@ -54,7 +54,7 @@ class PlaceStatsTableViewManager: TableViewManager {
         numberFormatter.numberStyle = .decimal
         let numDays = numberFormatter.string(from: NSNumber(value: placeStats.numDays)) ?? String(placeStats.numDays)
 
-        let subtext = "\(numDays) days over \(placeStats.years?.count ?? 0) years"
+        let subtext = "\(numDays) days over \(placeStats.numYears) years"
 
         if let icon = icon {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ReportTableViewCell

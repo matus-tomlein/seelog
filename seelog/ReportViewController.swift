@@ -30,6 +30,11 @@ enum SelectedTab {
     case continents
 }
 
+enum TableViewSetting {
+    case trips
+    case timeSpent
+}
+
 class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
@@ -48,6 +53,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     @IBOutlet weak var purchaseView: UIView!
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tripSegmentedControl: UISegmentedControl!
 
     var mapViewDelegate: MainMapViewDelegate?
     var barChartSelection: ReportBarChartSelection? {
@@ -63,6 +69,7 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
     }
 
     var currentTab: SelectedTab = .places
+    var tableViewSetting: TableViewSetting = .timeSpent
     var geoDB = GeoDatabase()
     private var purchasedHistory: CompleteHistoryPurchase?
     private var hasPurchasedHistory: Bool { get { return CompleteHistoryPurchase.isPurchased } }
@@ -117,8 +124,9 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
             }
         }
 
-        self.visitPeriodManager = VisitPeriodManager(context: context)
-        self.placeStatsManager = PlaceStatsManager(context: context)
+        let visitPeriodManager = VisitPeriodManager(context: context)
+        self.visitPeriodManager = visitPeriodManager
+        self.placeStatsManager = PlaceStatsManager(context: context, visitPeriodManager: visitPeriodManager)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -185,21 +193,26 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     func reloadTableView() {
         let reloadTableViewCallback = {
-            self.tableView.reloadData()
-            // TODO: this is slow:
-            for section in 0..<self.numberOfSections(in: self.tableView) {
-                for cell in 0..<self.tableView(self.tableView, numberOfRowsInSection: section) {
-                    self.tableView.rectForRow(at: IndexPath(row: cell, section: section))
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                // TODO: this is slow:
+                for section in 0..<self.numberOfSections(in: self.tableView) {
+                    for cell in 0..<self.tableView(self.tableView, numberOfRowsInSection: section) {
+                        self.tableView.rectForRow(at: IndexPath(row: cell, section: section))
+                    }
                 }
+                self.tableViewHeight.constant = max(UIScreen.main.bounds.height - self.searchBar.frame.height, self.tableView.contentSize.height)
             }
-            self.tableViewHeight.constant = max(UIScreen.main.bounds.height - self.searchBar.frame.height, self.tableView.contentSize.height)
         }
 
         if let year = barChartSelection?.currentAggregate {
-            if aggregateChart {
+            if tableViewSetting == .timeSpent {
                 if let placeStatsManager = placeStatsManager {
                 tableViewManager = PlaceStatsTableViewManager(placeStatsManager: placeStatsManager,
+                                                              year: year,
+                                                              cumulative: aggregateChart,
                                                               searchQuery: searchBar.text ?? "",
+                                                              purchasedHistory: hasPurchasedHistory,
                                                               currentTab: currentTab,
                                                               tableView: tableView,
                                                               reloadTableViewCallback: reloadTableViewCallback,
@@ -208,7 +221,8 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
             } else {
                 if let visitPeriodManager = visitPeriodManager {
                     tableViewManager = VisitPeriodsTableViewManager(visitPeriodManager: visitPeriodManager,
-                                                                    year: year, cumulative: aggregateChart,
+                                                                    year: year,
+                                                                    cumulative: aggregateChart,
                                                                     searchQuery: searchBar.text ?? "",
                                                                     purchasedHistory: hasPurchasedHistory,
                                                                     currentTab: currentTab,
@@ -318,6 +332,21 @@ class ReportViewController: UIViewController, MKMapViewDelegate, UITableViewDele
 
     private func loadData() {
         self.barChartSelection?.loadItems(context: context)
+    }
+
+    @IBAction func tripSegmentedControlTriggered(_ sender: Any) {
+        var newSetting: TableViewSetting {
+            switch tripSegmentedControl.selectedSegmentIndex {
+            case 0:
+                return .timeSpent
+            default:
+                return .trips
+            }
+        }
+        if newSetting != tableViewSetting {
+            tableViewSetting = newSetting
+            reloadTableView()
+        }
     }
 
     // MARK: purchases

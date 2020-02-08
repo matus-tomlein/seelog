@@ -10,6 +10,7 @@
 		036FE228E2D0B1B1294CA39A /* Pods_seelogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FD6EE0A52036A012C91395 /* Pods_seelogUITests.framework */; };
 		263FFAD620D65A5FBC8E57A2 /* Pods_Seelog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FBDAFC1238F85C39503416 /* Pods_Seelog.framework */; };
 		46C076A9D05EB24844896409 /* Pods_seelog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0A53248E77E44A7835ED25 /* Pods_seelog.framework */; };
+		6BEBD1CE237713FA00EF627D /* ContentSizedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEBD1CD237713FA00EF627D /* ContentSizedTableView.swift */; };
 		8305ED4A2182671A00630BD6 /* BarChartDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8305ED492182671A00630BD6 /* BarChartDrawer.swift */; };
 		8305ED4E218451E600630BD6 /* ChartDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8305ED4D218451E600630BD6 /* ChartDrawer.swift */; };
 		830EF11E218AD8F200AEE7A0 /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830EF11D218AD8F200AEE7A0 /* ReportTableViewCell.swift */; };
@@ -63,6 +64,8 @@
 		8362041D21B5BAE400A1AB80 /* PermissionDeniedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8362041C21B5BAE400A1AB80 /* PermissionDeniedViewController.swift */; };
 		8362041F21B5C92A00A1AB80 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8362041E21B5C92A00A1AB80 /* StoreKit.framework */; };
 		836F302721937F7600D4FCB3 /* PhotoMapViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836F302621937F7600D4FCB3 /* PhotoMapViewer.swift */; };
+		83940628236607840028E4FD /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83940627236607840028E4FD /* Date.swift */; };
+		8394062A236615240028E4FD /* StatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83940629236615240028E4FD /* StatsProvider.swift */; };
 		839E9DBE21BAEFF7001FC0F1 /* app_icon_no_check.png in Resources */ = {isa = PBXBuildFile; fileRef = 839E9DBD21BAEFF7001FC0F1 /* app_icon_no_check.png */; };
 		839E9DC021BAF5B6001FC0F1 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839E9DBF21BAF5B6001FC0F1 /* IAPHelper.swift */; };
 		839E9DC221BB0758001FC0F1 /* CompleteHistoryPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839E9DC121BB0758001FC0F1 /* CompleteHistoryPurchase.swift */; };
@@ -121,6 +124,7 @@
 		20C4034B3BAC37236CD70496 /* Pods_seelogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2415C18D330D19815B0937AF /* Pods-seelogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-seelogUITests/Pods-seelogUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		54AC64825E59FFC79F45C7FD /* Pods-seelogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-seelogTests/Pods-seelogTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6BEBD1CD237713FA00EF627D /* ContentSizedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizedTableView.swift; sourceTree = "<group>"; };
 		8305ED492182671A00630BD6 /* BarChartDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDrawer.swift; sourceTree = "<group>"; };
 		8305ED4D218451E600630BD6 /* ChartDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDrawer.swift; sourceTree = "<group>"; };
 		830EF11D218AD8F200AEE7A0 /* ReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
@@ -181,6 +185,8 @@
 		8362041C21B5BAE400A1AB80 /* PermissionDeniedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionDeniedViewController.swift; sourceTree = "<group>"; };
 		8362041E21B5C92A00A1AB80 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		836F302621937F7600D4FCB3 /* PhotoMapViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMapViewer.swift; sourceTree = "<group>"; };
+		83940627236607840028E4FD /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		83940629236615240028E4FD /* StatsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsProvider.swift; sourceTree = "<group>"; };
 		839E9DBD21BAEFF7001FC0F1 /* app_icon_no_check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon_no_check.png; sourceTree = SOURCE_ROOT; };
 		839E9DBF21BAF5B6001FC0F1 /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		839E9DC121BB0758001FC0F1 /* CompleteHistoryPurchase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteHistoryPurchase.swift; sourceTree = "<group>"; };
@@ -344,6 +350,7 @@
 				83ACC93621ADD57500439667 /* ImagePreviewDataSource.swift */,
 				8312AAA221B5B43E0012614A /* RequestPermissionViewController.swift */,
 				8362041C21B5BAE400A1AB80 /* PermissionDeniedViewController.swift */,
+				6BEBD1CD237713FA00EF627D /* ContentSizedTableView.swift */,
 			);
 			path = seelog;
 			sourceTree = "<group>";
@@ -408,6 +415,7 @@
 				839E9DC121BB0758001FC0F1 /* CompleteHistoryPurchase.swift */,
 				8349435C21C82F910089A585 /* VisitPeriod.swift */,
 				83D12C9321E13AD4007397DF /* PlaceStats.swift */,
+				83940629236615240028E4FD /* StatsProvider.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -437,6 +445,7 @@
 				839E9DBF21BAF5B6001FC0F1 /* IAPHelper.swift */,
 				8349435E21CE31D90089A585 /* VisitPeriodManager.swift */,
 				83D12C9721E25790007397DF /* PlaceStatsManager.swift */,
+				83940627236607840028E4FD /* Date.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -737,6 +746,7 @@
 				832B9A1C215FD1E30098A396 /* CountryCodeMappings.swift in Sources */,
 				8305ED4A2182671A00630BD6 /* BarChartDrawer.swift in Sources */,
 				830EF13A218F54A300AEE7A0 /* MapManager.swift in Sources */,
+				83940628236607840028E4FD /* Date.swift in Sources */,
 				83ACC92D21A8034400439667 /* MapOverlay.swift in Sources */,
 				8349435F21CE31D90089A585 /* VisitPeriodManager.swift in Sources */,
 				83C703AE215793C4007853E9 /* ReportBarChartSelection.swift in Sources */,
@@ -766,6 +776,7 @@
 				8349436121CE353A0089A585 /* VisitPeriodsTableViewManager.swift in Sources */,
 				83221A8921452BE60055D775 /* Geohash.swift in Sources */,
 				83D12C9A21E25AC8007397DF /* TableViewManager.swift in Sources */,
+				6BEBD1CE237713FA00EF627D /* ContentSizedTableView.swift in Sources */,
 				830EF11E218AD8F200AEE7A0 /* ReportTableViewCell.swift in Sources */,
 				83FF2129215F86C5008E846F /* Helpers.swift in Sources */,
 				83ACC92721A754BF00439667 /* Annotation.swift in Sources */,
@@ -793,6 +804,7 @@
 				83ACC91D21A7541700439667 /* MapPolygon.swift in Sources */,
 				830EF138218F549500AEE7A0 /* HeatmapMapManager.swift in Sources */,
 				830EF12E218E22A900AEE7A0 /* TimezoneInfo.swift in Sources */,
+				8394062A236615240028E4FD /* StatsProvider.swift in Sources */,
 				83ACC93721ADD57600439667 /* ImagePreviewDataSource.swift in Sources */,
 				83ACC92521A7548700439667 /* PolygonRenderer.swift in Sources */,
 				8349435B21C82C110089A585 /* VisitPeriodUpdater.swift in Sources */,
