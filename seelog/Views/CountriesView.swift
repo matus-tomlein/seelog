@@ -16,42 +16,49 @@ struct CountryVisitStat: Hashable, Codable, Identifiable {
 struct CountriesView: View {
     var countries: [Country]
     var yearStats: [(year: Int, count: Int)]
+    var selectedYear: Int?
+    var mapView = MapView(world: true)
     
     var body: some View {
-        List {
-            MapView()
-//                    .edgesIgnoringSafeArea(.top)
-                .frame(height: CGFloat(300))
-                .listRowInsets(EdgeInsets())
+        NavigationView {
+            List {
+                VStack(spacing: 0) {
+                    CountriesMapView(countries: countries, mapView: mapView)
+                        .frame(height: CGFloat(300))
+                        .listRowInsets(EdgeInsets())
 
-            Text("\(countries.count) Countries")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding(.bottom, 10)
-                .padding(.top, 20)
+                    BarChartView(yearStats: yearStats, selectedYear: selectedYear)
+                        .listRowInsets(EdgeInsets())
+                        .padding(.bottom, 20)
+                        .padding(.top, 20)
+                }.listRowInsets(EdgeInsets())
 
-            BarChartView(yearStats: yearStats)
-                .listRowInsets(EdgeInsets())
-                .padding(.bottom, 20)
-
-            Section(header: Text("Visited Countries")) {
-                ForEach(countries) { country in
-                    Text(country.countryInfo.name)
+                Section(header: Text("\(countries.count) countries")) {
+                    ForEach(countries) { country in
+                        NavigationLink(destination: CountryView(country: country, selectedYear: self.selectedYear)) {
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text(country.countryInfo.name)
+                                    .font(.headline)
+                                Text("\(country.stayDurationForYear(self.selectedYear)) days")
+                            }
+                        }
+                    }
                 }
             }
+            .navigationBarTitle("Countries")
         }
 
-        .edgesIgnoringSafeArea(.top)
     }
 }
 
 struct CountriesView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), geoDatabase: GeoDatabase())
+        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
         
         return CountriesView(
-            countries: model.countries,
-            yearStats: model.countryYearCounts
+            countries: model.countriesForYear(2019),
+            yearStats: model.countryYearCounts,
+            selectedYear: 2019
         )
     }
 }

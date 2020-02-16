@@ -10,36 +10,20 @@ import Foundation
 import GEOSwift
 import CoreData
 
-class YearHeatmapUpdater {
+class HeatmapUpdater {
     var context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
         self.context = context
     }
 
-    func update(year: Year, cumulative: Bool) {
-        if let geohashes = year.geohashes(cumulative: cumulative),
+    func update(seenArea: SeenArea) {
+        if let geohashes = seenArea.geohashes,
             let heatmap = heatmapFor(geohashes: geohashes),
             let (wkt, landWKT, waterWKT) = processHeatmap(heatmap: heatmap.geometry) {
-
-            let wktModel = GeometryWKT(context: context)
-            wktModel.wkt = wkt
-
-            let landWKTModel = GeometryWKT(context: context)
-            landWKTModel.wkt = landWKT
-
-            let waterWKTModel = GeometryWKT(context: context)
-            waterWKTModel.wkt = waterWKT
-
-            if cumulative {
-                year.cumulativeProcessedHeatmapWKT = wktModel
-                year.cumulativeLandWKT = landWKTModel
-                year.cumulativeWaterWKT = waterWKTModel
-            } else {
-                year.processedHeatmapWKT = wktModel
-                year.landWKT = landWKTModel
-                year.waterWKT = waterWKTModel
-            }
+            seenArea.processedHeatmapWKT = wkt
+            seenArea.landWKT = landWKT
+            seenArea.waterWKT = waterWKT
         }
     }
 

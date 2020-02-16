@@ -10,10 +10,10 @@ import Foundation
 import MapKit
 
 protocol MapManager {
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool)
-    func unload()
-    func updateForZoomType(_ zoomType: ZoomType)
-    func viewChanged(visibleMapRect: MKMapRect)
-    func longPress()
-    func viewFor(annotation: MKAnnotation) -> MKAnnotationView?
+    func load(mapViewDelegate: MainMapViewDelegate)
+    func unload(mapViewDelegate: MainMapViewDelegate)
+    func updateForZoomType(_ zoomType: ZoomType, mapViewDelegate: MainMapViewDelegate)
+    func viewChanged(visibleMapRect: MKMapRect, mapViewDelegate: MainMapViewDelegate)
+    func longPress(mapViewDelegate: MainMapViewDelegate)
+    func viewFor(annotation: MKAnnotation, mapViewDelegate: MainMapViewDelegate) -> MKAnnotationView?
 }

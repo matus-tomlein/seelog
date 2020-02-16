@@ -11,9 +11,9 @@ import SwiftUI
 struct TimezonesView: View {
     var body: some View {
         VStack {
-            MapView()
-                .edgesIgnoringSafeArea(.top)
-                .frame(height: 300)
+//            MapView()
+//                .edgesIgnoringSafeArea(.top)
+//                .frame(height: 300)
 
             VStack(alignment: .leading) {
                 Text("Timezones")

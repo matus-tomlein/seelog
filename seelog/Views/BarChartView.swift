@@ -10,24 +10,20 @@ import SwiftUI
 
 struct BarChartView: View {
     var yearStats: [(year: Int, count: Int)]
-    var barUnitHeight: Int {
-        get {
-            return 170 / max(1, yearStats.map { $0.count }.max() ?? 1)
-        }
-    }
+    var selectedYear: Int?
 
     var body: some View {
         ScrollView(.horizontal) {
             HStack(alignment: .bottom) {
                 VStack(alignment: .center) {
-                    Text("Total")
-                        .foregroundColor(Color(UIColor.systemBlue))
+                    Text(String(self.totalCount()))
+                        .foregroundColor(color(nil))
                         .fontWeight(.semibold)
                     Rectangle()
-                        .fill(Color(UIColor.systemBlue))
+                        .fill(color(nil))
                         .frame(width: 50, height: 56)
                     Rectangle()
-                        .fill(Color(UIColor.systemBlue))
+                        .fill(color(nil))
                         .frame(width: 50, height: 106)
                     Text("Total")
                         .foregroundColor(Color(UIColor.systemBlue))
@@ -39,16 +35,16 @@ struct BarChartView: View {
                 ForEach(yearStats, id: \.year) { stat in
                     VStack(alignment: .center) {
                         Text(String(stat.count))
-                            .foregroundColor(Color(UIColor.systemOrange))
+                            .foregroundColor(self.color(stat.year))
                             .fontWeight(.semibold)
                         Rectangle()
-                            .fill(Color(UIColor.systemOrange))
+                            .fill(self.color(stat.year))
                             .frame(
                                 width: 50,
-                                height: CGFloat(self.barUnitHeight * stat.count)
+                                height: self.barHeight(stat.count)
                             )
                         Text(String(stat.year))
-                            .foregroundColor(Color(UIColor.systemOrange))
+                            .foregroundColor(self.color(stat.year))
                             .fontWeight(.semibold)
                     }
                     .padding(.trailing, 10)
@@ -57,6 +53,27 @@ struct BarChartView: View {
         }
 //        }.offset(100)
     }
+
+    func barHeight(_ count: Int) -> CGFloat {
+        return CGFloat(
+            CGFloat(count) *
+            CGFloat(170) /
+            (yearStats.map { CGFloat($0.count) }.max() ?? CGFloat(1))
+        )
+    }
+    
+    func color(_ year: Int?) -> Color {
+        if year == self.selectedYear {
+            return Color(UIColor.systemOrange)
+        } else {
+            return Color(UIColor.systemBlue)
+        }
+    }
+    
+    func totalCount() -> Int {
+        yearStats.map { $0.count }.reduce(0, +)
+    }
+
 }
 
 struct BarChartView_Previews: PreviewProvider {
@@ -64,10 +81,10 @@ struct BarChartView_Previews: PreviewProvider {
         Group {
             BarChartView(
                 yearStats: [
-                    (year: 2020, count: 5),
+                    (year: 2020, count: 180),
                     (year: 2019, count: 4),
                     (year: 2018, count: 1)
-                ]
+                ], selectedYear: 2018
             )
         }
     }

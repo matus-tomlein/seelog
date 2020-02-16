@@ -146,16 +146,15 @@ class LargerGeohashManager {
     var loadedPhotoGeohashes: [String: PhotoGeohashManager] = [:]
     var mapView: MKMapView
     var loaded = false
-    var year: Int32
-    var cumulative: Bool
+    var year: Int?
+    var cumulative: Bool { get { return year == nil } }
     var currentViewport: CurrentViewport
     var overlayVersion: Int
 
-    init(geohash: String, mapView: MKMapView, year: Int32, cumulative: Bool, currentViewPort: CurrentViewport, overlayVersion: Int) {
+    init(geohash: String, mapView: MKMapView, year: Int?, currentViewPort: CurrentViewport, overlayVersion: Int) {
         self.geohash = geohash
         self.mapView = mapView
         self.year = year
-        self.cumulative = cumulative
         self.currentViewport = currentViewPort
         self.overlayVersion = overlayVersion
     }
@@ -189,15 +188,15 @@ class LargerGeohashManager {
 
         return assets
     }
-
+    
     private func load(context mainContext: NSManagedObjectContext) {
         loaded = true
-
+        
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         context.parent = mainContext
         context.perform {
             guard let photos = Photo.allWith(geohash: self.geohash,
-                                             year: self.year,
+                                             year: Int32(self.year ?? Date().year()),
                                              cumulative: self.cumulative,
                                              context: context) else {
                                                 return
@@ -275,8 +274,7 @@ class PhotoMapViewer {
     var mapView: MKMapView
     var mapViewDelegate: MainMapViewDelegate
     var context: NSManagedObjectContext
-    var year: Year?
-    var cumulative: Bool?
+    var year: Int?
     var loadedGeohashes: [String: LargerGeohashManager] = [:]
     var currentViewPort: CurrentViewport
     var updateQueue = BlockingQueue<Date>()
@@ -300,17 +298,15 @@ class PhotoMapViewer {
         loadedGeohashes.removeAll()
     }
 
-    func load(year: Year, cumulative: Bool) {
+    func load(model: DomainModel, year: Int?) {
         self.year = year
-        self.cumulative = cumulative
         let overlayVersion = GeometryOverlayCreator.overlayVersion
-
-        guard let geohashes = year.geohashes(cumulative: cumulative) else { return }
+        
+        guard let geohashes = model.seenGeometryForYear(year)?.geohashes else { return }
         for geohash in geohashes {
             let manager = LargerGeohashManager(geohash: geohash,
                                                mapView: self.mapView,
-                                               year: year.year,
-                                               cumulative: cumulative,
+                                               year: year,
                                                currentViewPort: currentViewPort,
                                                overlayVersion: overlayVersion)
             self.loadedGeohashes[geohash] = manager

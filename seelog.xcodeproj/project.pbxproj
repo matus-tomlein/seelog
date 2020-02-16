@@ -15,29 +15,21 @@
 		6B521D1A23B74C7F00570CF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B521D1823B74C7F00570CF2 /* LaunchScreen.storyboard */; };
 		6B521D2523B74C7F00570CF2 /* seelogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D2423B74C7F00570CF2 /* seelogTests.swift */; };
 		6B521D3023B74C7F00570CF2 /* seelogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D2F23B74C7F00570CF2 /* seelogUITests.swift */; };
-		6B521D3E23B7513E00570CF2 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D3D23B7513E00570CF2 /* MapView.swift */; };
+		6B521D3E23B7513E00570CF2 /* CountriesMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D3D23B7513E00570CF2 /* CountriesMapView.swift */; };
 		6B521D4023B7571C00570CF2 /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D3F23B7571C00570CF2 /* CircleImage.swift */; };
 		6B521D5623BCFC9900570CF2 /* VisitPeriodUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D4B23BCFC9800570CF2 /* VisitPeriodUpdater.swift */; };
-		6B521D5723BCFC9900570CF2 /* YearCitiesUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D4C23BCFC9800570CF2 /* YearCitiesUpdater.swift */; };
 		6B521D5823BCFC9900570CF2 /* PhotoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D4D23BCFC9800570CF2 /* PhotoInfo.swift */; };
-		6B521D5923BCFC9900570CF2 /* YearStatsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D4E23BCFC9800570CF2 /* YearStatsUpdater.swift */; };
-		6B521D5A23BCFC9900570CF2 /* YearCountriesUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D4F23BCFC9800570CF2 /* YearCountriesUpdater.swift */; };
-		6B521D5B23BCFC9900570CF2 /* YearTimezonesUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5023BCFC9900570CF2 /* YearTimezonesUpdater.swift */; };
-		6B521D5C23BCFC9900570CF2 /* YearSeenAreaUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5123BCFC9900570CF2 /* YearSeenAreaUpdater.swift */; };
+		6B521D5C23BCFC9900570CF2 /* SeenAreaUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5123BCFC9900570CF2 /* SeenAreaUpdater.swift */; };
 		6B521D5D23BCFC9900570CF2 /* DatabaseCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5223BCFC9900570CF2 /* DatabaseCreator.swift */; };
-		6B521D5E23BCFC9900570CF2 /* YearContinentsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5323BCFC9900570CF2 /* YearContinentsUpdater.swift */; };
 		6B521D5F23BCFC9900570CF2 /* DatabaseInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5423BCFC9900570CF2 /* DatabaseInitializer.swift */; };
-		6B521D6023BCFC9900570CF2 /* YearHeatmapUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5523BCFC9900570CF2 /* YearHeatmapUpdater.swift */; };
+		6B521D6023BCFC9900570CF2 /* HeatmapUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5523BCFC9900570CF2 /* HeatmapUpdater.swift */; };
 		6B521D7023BCFCCB00570CF2 /* ContinentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6323BCFCCB00570CF2 /* ContinentInfo.swift */; };
-		6B521D7123BCFCCB00570CF2 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6423BCFCCB00570CF2 /* Year.swift */; };
 		6B521D7223BCFCCB00570CF2 /* CityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6523BCFCCB00570CF2 /* CityInfo.swift */; };
 		6B521D7323BCFCCB00570CF2 /* CompleteHistoryPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6623BCFCCB00570CF2 /* CompleteHistoryPurchase.swift */; };
 		6B521D7423BCFCCB00570CF2 /* TimezoneInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6723BCFCCB00570CF2 /* TimezoneInfo.swift */; };
 		6B521D7523BCFCCB00570CF2 /* CurrentInitializationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6823BCFCCB00570CF2 /* CurrentInitializationState.swift */; };
-		6B521D7623BCFCCB00570CF2 /* PlaceStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6923BCFCCB00570CF2 /* PlaceStats.swift */; };
 		6B521D7723BCFCCB00570CF2 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6A23BCFCCB00570CF2 /* Photo.swift */; };
 		6B521D7823BCFCCB00570CF2 /* StateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6B23BCFCCB00570CF2 /* StateInfo.swift */; };
-		6B521D7923BCFCCB00570CF2 /* VisitPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6C23BCFCCB00570CF2 /* VisitPeriod.swift */; };
 		6B521D7A23BCFCCB00570CF2 /* StatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6D23BCFCCB00570CF2 /* StatsProvider.swift */; };
 		6B521D7B23BCFCCB00570CF2 /* GeoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6E23BCFCCB00570CF2 /* GeoDatabase.swift */; };
 		6B521D7C23BCFCCB00570CF2 /* CountryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6F23BCFCCB00570CF2 /* CountryInfo.swift */; };
@@ -68,7 +60,6 @@
 		6B521DBC23BCFD4200570CF2 /* CountryCodeMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB123BCFD4100570CF2 /* CountryCodeMappings.swift */; };
 		6B521DBD23BCFD4200570CF2 /* synchronize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB223BCFD4100570CF2 /* synchronize.swift */; };
 		6B521DBE23BCFD4200570CF2 /* VisitPeriodManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB323BCFD4100570CF2 /* VisitPeriodManager.swift */; };
-		6B521DBF23BCFD4200570CF2 /* PlaceStatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB423BCFD4100570CF2 /* PlaceStatsManager.swift */; };
 		6B521DC023BCFD4200570CF2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB523BCFD4100570CF2 /* Date.swift */; };
 		6B521DC123BCFD4200570CF2 /* Geohash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB623BCFD4100570CF2 /* Geohash.swift */; };
 		6B521DC223BCFD4200570CF2 /* ConcurrentArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB723BCFD4100570CF2 /* ConcurrentArray.swift */; };
@@ -84,9 +75,22 @@
 		6B660E1A23CB30FA000CD3BB /* generated.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6B660E1823CB30FA000CD3BB /* generated.sqlite */; };
 		6B660E1B23CB30FA000CD3BB /* generated.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6B660E1823CB30FA000CD3BB /* generated.sqlite */; };
 		6B660E3623CB7CD7000CD3BB /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B660E3523CB7CD7000CD3BB /* BarChartView.swift */; };
+		6B70A7B823F7119000833906 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B70A7B723F7119000833906 /* MapView.swift */; };
+		6BCBE6FE23F0719200DBC9D7 /* SeenArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE6FD23F0719200DBC9D7 /* SeenArea.swift */; };
+		6BCBE70023F07E0400DBC9D7 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE6FF23F07E0400DBC9D7 /* Country.swift */; };
+		6BCBE70223F07E1C00DBC9D7 /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70123F07E1C00DBC9D7 /* Trip.swift */; };
+		6BCBE70423F07E5A00DBC9D7 /* Year.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70323F07E5A00DBC9D7 /* Year.swift */; };
+		6BCBE70623F07FB900DBC9D7 /* Trippable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70523F07FB900DBC9D7 /* Trippable.swift */; };
+		6BCBE70823F0819E00DBC9D7 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70723F0819E00DBC9D7 /* State.swift */; };
+		6BCBE70A23F081FE00DBC9D7 /* Continent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70923F081FE00DBC9D7 /* Continent.swift */; };
+		6BCBE70C23F0823A00DBC9D7 /* Timezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70B23F0823A00DBC9D7 /* Timezone.swift */; };
+		6BCBE70E23F0827200DBC9D7 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70D23F0827200DBC9D7 /* City.swift */; };
+		6BCBE71023F0934500DBC9D7 /* SeenGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70F23F0934500DBC9D7 /* SeenGeometry.swift */; };
 		6BE6749323EEBD0C00102673 /* visit_periods.csv in Resources */ = {isa = PBXBuildFile; fileRef = 6BE6749223EEBD0C00102673 /* visit_periods.csv */; };
 		6BE6749423EEBD1100102673 /* visit_periods.csv in Resources */ = {isa = PBXBuildFile; fileRef = 6BE6749223EEBD0C00102673 /* visit_periods.csv */; };
 		6BE6749523EEBD1200102673 /* visit_periods.csv in Resources */ = {isa = PBXBuildFile; fileRef = 6BE6749223EEBD0C00102673 /* visit_periods.csv */; };
+		6BE6749723EF049200102673 /* CountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE6749623EF049200102673 /* CountryView.swift */; };
+		6BE6749923F00C7700102673 /* VisitPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE6749823F00C7700102673 /* VisitPeriod.swift */; };
 		A38E7734F495BA28C6F817F9 /* Pods_seelogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E83FACDD2B0ED93AB93EC3 /* Pods_seelogUITests.framework */; };
 		E30B7798C618BD5DF9B33EF6 /* Pods_seelogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0DDB346E252DDF42D2CCB74 /* Pods_seelogTests.framework */; };
 		FC1357755037C13E4601F2C2 /* Pods_seelog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 417D0D4340E1F30EED3E45A6 /* Pods_seelog.framework */; };
@@ -131,29 +135,21 @@
 		6B521D2B23B74C7F00570CF2 /* seelogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = seelogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B521D2F23B74C7F00570CF2 /* seelogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seelogUITests.swift; sourceTree = "<group>"; };
 		6B521D3123B74C7F00570CF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B521D3D23B7513E00570CF2 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		6B521D3D23B7513E00570CF2 /* CountriesMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesMapView.swift; sourceTree = "<group>"; };
 		6B521D3F23B7571C00570CF2 /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		6B521D4B23BCFC9800570CF2 /* VisitPeriodUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPeriodUpdater.swift; sourceTree = "<group>"; };
-		6B521D4C23BCFC9800570CF2 /* YearCitiesUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YearCitiesUpdater.swift; sourceTree = "<group>"; };
 		6B521D4D23BCFC9800570CF2 /* PhotoInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoInfo.swift; sourceTree = "<group>"; };
-		6B521D4E23BCFC9800570CF2 /* YearStatsUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YearStatsUpdater.swift; sourceTree = "<group>"; };
-		6B521D4F23BCFC9800570CF2 /* YearCountriesUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YearCountriesUpdater.swift; sourceTree = "<group>"; };
-		6B521D5023BCFC9900570CF2 /* YearTimezonesUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YearTimezonesUpdater.swift; sourceTree = "<group>"; };
-		6B521D5123BCFC9900570CF2 /* YearSeenAreaUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YearSeenAreaUpdater.swift; sourceTree = "<group>"; };
+		6B521D5123BCFC9900570CF2 /* SeenAreaUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeenAreaUpdater.swift; sourceTree = "<group>"; };
 		6B521D5223BCFC9900570CF2 /* DatabaseCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseCreator.swift; sourceTree = "<group>"; };
-		6B521D5323BCFC9900570CF2 /* YearContinentsUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YearContinentsUpdater.swift; sourceTree = "<group>"; };
 		6B521D5423BCFC9900570CF2 /* DatabaseInitializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInitializer.swift; sourceTree = "<group>"; };
-		6B521D5523BCFC9900570CF2 /* YearHeatmapUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YearHeatmapUpdater.swift; sourceTree = "<group>"; };
+		6B521D5523BCFC9900570CF2 /* HeatmapUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeatmapUpdater.swift; sourceTree = "<group>"; };
 		6B521D6323BCFCCB00570CF2 /* ContinentInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinentInfo.swift; sourceTree = "<group>"; };
-		6B521D6423BCFCCB00570CF2 /* Year.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
 		6B521D6523BCFCCB00570CF2 /* CityInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityInfo.swift; sourceTree = "<group>"; };
 		6B521D6623BCFCCB00570CF2 /* CompleteHistoryPurchase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompleteHistoryPurchase.swift; sourceTree = "<group>"; };
 		6B521D6723BCFCCB00570CF2 /* TimezoneInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimezoneInfo.swift; sourceTree = "<group>"; };
 		6B521D6823BCFCCB00570CF2 /* CurrentInitializationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentInitializationState.swift; sourceTree = "<group>"; };
-		6B521D6923BCFCCB00570CF2 /* PlaceStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceStats.swift; sourceTree = "<group>"; };
 		6B521D6A23BCFCCB00570CF2 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		6B521D6B23BCFCCB00570CF2 /* StateInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateInfo.swift; sourceTree = "<group>"; };
-		6B521D6C23BCFCCB00570CF2 /* VisitPeriod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPeriod.swift; sourceTree = "<group>"; };
 		6B521D6D23BCFCCB00570CF2 /* StatsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsProvider.swift; sourceTree = "<group>"; };
 		6B521D6E23BCFCCB00570CF2 /* GeoDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoDatabase.swift; sourceTree = "<group>"; };
 		6B521D6F23BCFCCB00570CF2 /* CountryInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryInfo.swift; sourceTree = "<group>"; };
@@ -184,7 +180,6 @@
 		6B521DB123BCFD4100570CF2 /* CountryCodeMappings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodeMappings.swift; sourceTree = "<group>"; };
 		6B521DB223BCFD4100570CF2 /* synchronize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = synchronize.swift; sourceTree = "<group>"; };
 		6B521DB323BCFD4100570CF2 /* VisitPeriodManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPeriodManager.swift; sourceTree = "<group>"; };
-		6B521DB423BCFD4100570CF2 /* PlaceStatsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceStatsManager.swift; sourceTree = "<group>"; };
 		6B521DB523BCFD4100570CF2 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		6B521DB623BCFD4100570CF2 /* Geohash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geohash.swift; sourceTree = "<group>"; };
 		6B521DB723BCFD4100570CF2 /* ConcurrentArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentArray.swift; sourceTree = "<group>"; };
@@ -201,7 +196,20 @@
 		6B660E1623CB24EA000CD3BB /* DomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainModel.swift; sourceTree = "<group>"; };
 		6B660E1823CB30FA000CD3BB /* generated.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = generated.sqlite; sourceTree = "<group>"; };
 		6B660E3523CB7CD7000CD3BB /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
+		6B70A7B723F7119000833906 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		6BCBE6FD23F0719200DBC9D7 /* SeenArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeenArea.swift; sourceTree = "<group>"; };
+		6BCBE6FF23F07E0400DBC9D7 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		6BCBE70123F07E1C00DBC9D7 /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		6BCBE70323F07E5A00DBC9D7 /* Year.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Year.swift; sourceTree = "<group>"; };
+		6BCBE70523F07FB900DBC9D7 /* Trippable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trippable.swift; sourceTree = "<group>"; };
+		6BCBE70723F0819E00DBC9D7 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		6BCBE70923F081FE00DBC9D7 /* Continent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Continent.swift; sourceTree = "<group>"; };
+		6BCBE70B23F0823A00DBC9D7 /* Timezone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timezone.swift; sourceTree = "<group>"; };
+		6BCBE70D23F0827200DBC9D7 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		6BCBE70F23F0934500DBC9D7 /* SeenGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeenGeometry.swift; sourceTree = "<group>"; };
 		6BE6749223EEBD0C00102673 /* visit_periods.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = visit_periods.csv; path = seelog/visit_periods.csv; sourceTree = SOURCE_ROOT; };
+		6BE6749623EF049200102673 /* CountryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryView.swift; sourceTree = "<group>"; };
+		6BE6749823F00C7700102673 /* VisitPeriod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPeriod.swift; sourceTree = "<group>"; };
 		6C8AAE841A9EB7692AECCA09 /* Pods-seelogUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogUITests.release.xcconfig"; path = "Target Support Files/Pods-seelogUITests/Pods-seelogUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B08E9CF3D581C76F237A98F7 /* Pods-seelog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelog.debug.xcconfig"; path = "Target Support Files/Pods-seelog/Pods-seelog.debug.xcconfig"; sourceTree = "<group>"; };
 		B34D835C1370EB0D1CCD3621 /* Pods-seelogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogUITests.debug.xcconfig"; path = "Target Support Files/Pods-seelogUITests/Pods-seelogUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -327,13 +335,8 @@
 				6B521D5423BCFC9900570CF2 /* DatabaseInitializer.swift */,
 				6B521D4D23BCFC9800570CF2 /* PhotoInfo.swift */,
 				6B521D4B23BCFC9800570CF2 /* VisitPeriodUpdater.swift */,
-				6B521D4C23BCFC9800570CF2 /* YearCitiesUpdater.swift */,
-				6B521D5323BCFC9900570CF2 /* YearContinentsUpdater.swift */,
-				6B521D4F23BCFC9800570CF2 /* YearCountriesUpdater.swift */,
-				6B521D5523BCFC9900570CF2 /* YearHeatmapUpdater.swift */,
-				6B521D5123BCFC9900570CF2 /* YearSeenAreaUpdater.swift */,
-				6B521D4E23BCFC9800570CF2 /* YearStatsUpdater.swift */,
-				6B521D5023BCFC9900570CF2 /* YearTimezonesUpdater.swift */,
+				6B521D5523BCFC9900570CF2 /* HeatmapUpdater.swift */,
+				6B521D5123BCFC9900570CF2 /* SeenAreaUpdater.swift */,
 			);
 			path = Initialization;
 			sourceTree = "<group>";
@@ -348,13 +351,21 @@
 				6B521D6823BCFCCB00570CF2 /* CurrentInitializationState.swift */,
 				6B521D6E23BCFCCB00570CF2 /* GeoDatabase.swift */,
 				6B521D6A23BCFCCB00570CF2 /* Photo.swift */,
-				6B521D6923BCFCCB00570CF2 /* PlaceStats.swift */,
 				6B521D6B23BCFCCB00570CF2 /* StateInfo.swift */,
+				6BE6749823F00C7700102673 /* VisitPeriod.swift */,
 				6B521D6D23BCFCCB00570CF2 /* StatsProvider.swift */,
 				6B521D6723BCFCCB00570CF2 /* TimezoneInfo.swift */,
-				6B521D6C23BCFCCB00570CF2 /* VisitPeriod.swift */,
-				6B521D6423BCFCCB00570CF2 /* Year.swift */,
 				6B660E1623CB24EA000CD3BB /* DomainModel.swift */,
+				6BCBE6FD23F0719200DBC9D7 /* SeenArea.swift */,
+				6BCBE6FF23F07E0400DBC9D7 /* Country.swift */,
+				6BCBE70123F07E1C00DBC9D7 /* Trip.swift */,
+				6BCBE70323F07E5A00DBC9D7 /* Year.swift */,
+				6BCBE70523F07FB900DBC9D7 /* Trippable.swift */,
+				6BCBE70723F0819E00DBC9D7 /* State.swift */,
+				6BCBE70923F081FE00DBC9D7 /* Continent.swift */,
+				6BCBE70B23F0823A00DBC9D7 /* Timezone.swift */,
+				6BCBE70D23F0827200DBC9D7 /* City.swift */,
+				6BCBE70F23F0934500DBC9D7 /* SeenGeometry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -405,7 +416,6 @@
 				6B521DB623BCFD4100570CF2 /* Geohash.swift */,
 				6B521DB823BCFD4200570CF2 /* Helpers.swift */,
 				6B521DAF23BCFD4100570CF2 /* IAPHelper.swift */,
-				6B521DB423BCFD4100570CF2 /* PlaceStatsManager.swift */,
 				6B521DB223BCFD4100570CF2 /* synchronize.swift */,
 				6B521DB323BCFD4100570CF2 /* VisitPeriodManager.swift */,
 				6B521DB023BCFD4100570CF2 /* WorldPolygons.swift */,
@@ -417,7 +427,7 @@
 			isa = PBXGroup;
 			children = (
 				6B521D1123B74C7A00570CF2 /* ContentView.swift */,
-				6B521D3D23B7513E00570CF2 /* MapView.swift */,
+				6B521D3D23B7513E00570CF2 /* CountriesMapView.swift */,
 				6B521D3F23B7571C00570CF2 /* CircleImage.swift */,
 				6B660E0423BD2D00000CD3BB /* CountriesView.swift */,
 				6B660E0723BE62D7000CD3BB /* LoadingView.swift */,
@@ -425,6 +435,8 @@
 				6B660E0B23BE6388000CD3BB /* ContinentsView.swift */,
 				6B660E0D23BE63A0000CD3BB /* TimezonesView.swift */,
 				6B660E3523CB7CD7000CD3BB /* BarChartView.swift */,
+				6BE6749623EF049200102673 /* CountryView.swift */,
+				6B70A7B723F7119000833906 /* MapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -693,11 +705,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BCBE70223F07E1C00DBC9D7 /* Trip.swift in Sources */,
 				6B521D7723BCFCCB00570CF2 /* Photo.swift in Sources */,
 				6B660E1723CB24EA000CD3BB /* DomainModel.swift in Sources */,
 				6B521D7023BCFCCB00570CF2 /* ContinentInfo.swift in Sources */,
+				6BCBE70C23F0823A00DBC9D7 /* Timezone.swift in Sources */,
 				6B521D5F23BCFC9900570CF2 /* DatabaseInitializer.swift in Sources */,
 				6B521DA823BCFD1F00570CF2 /* ImageOverlayRenderer.swift in Sources */,
+				6BE6749723EF049200102673 /* CountryView.swift in Sources */,
 				6B521D7823BCFCCB00570CF2 /* StateInfo.swift in Sources */,
 				6B660E0823BE62D7000CD3BB /* LoadingView.swift in Sources */,
 				6B521DC023BCFD4200570CF2 /* Date.swift in Sources */,
@@ -709,38 +724,43 @@
 				6B660E0523BD2D00000CD3BB /* CountriesView.swift in Sources */,
 				6B521D8E23BCFCFF00570CF2 /* MainMapViewDelegate.swift in Sources */,
 				6B521D5823BCFC9900570CF2 /* PhotoInfo.swift in Sources */,
+				6BCBE70423F07E5A00DBC9D7 /* Year.swift in Sources */,
 				6B660E0C23BE6388000CD3BB /* ContinentsView.swift in Sources */,
 				6B660E0A23BE636D000CD3BB /* CitiesView.swift in Sources */,
 				6B521D0E23B74C7A00570CF2 /* AppDelegate.swift in Sources */,
-				6B521D7123BCFCCB00570CF2 /* Year.swift in Sources */,
-				6B521D5723BCFC9900570CF2 /* YearCitiesUpdater.swift in Sources */,
 				6B521D8923BCFCFF00570CF2 /* StatesMapManager.swift in Sources */,
-				6B521D5E23BCFC9900570CF2 /* YearContinentsUpdater.swift in Sources */,
 				6B660E3623CB7CD7000CD3BB /* BarChartView.swift in Sources */,
-				6B521D3E23B7513E00570CF2 /* MapView.swift in Sources */,
+				6B521D3E23B7513E00570CF2 /* CountriesMapView.swift in Sources */,
 				6B521D9223BCFCFF00570CF2 /* CountriesMapManager.swift in Sources */,
+				6BCBE70A23F081FE00DBC9D7 /* Continent.swift in Sources */,
+				6BCBE6FE23F0719200DBC9D7 /* SeenArea.swift in Sources */,
 				6B521D5D23BCFC9900570CF2 /* DatabaseCreator.swift in Sources */,
 				6B521D8D23BCFCFF00570CF2 /* TimezoneMapManager.swift in Sources */,
 				6B521D7523BCFCCB00570CF2 /* CurrentInitializationState.swift in Sources */,
 				6B521DA323BCFD1F00570CF2 /* MapOverlayProperties.swift in Sources */,
 				6B521DBC23BCFD4200570CF2 /* CountryCodeMappings.swift in Sources */,
+				6BCBE70823F0819E00DBC9D7 /* State.swift in Sources */,
 				6B521D7423BCFCCB00570CF2 /* TimezoneInfo.swift in Sources */,
 				6B521D8C23BCFCFF00570CF2 /* CitiesMapManager.swift in Sources */,
 				6B521DAA23BCFD1F00570CF2 /* MapPolyline.swift in Sources */,
+				6BCBE70E23F0827200DBC9D7 /* City.swift in Sources */,
 				6B521DA423BCFD1F00570CF2 /* OverlayManager.swift in Sources */,
 				6B521D5623BCFC9900570CF2 /* VisitPeriodUpdater.swift in Sources */,
+				6BCBE70623F07FB900DBC9D7 /* Trippable.swift in Sources */,
 				6B521DA523BCFD1F00570CF2 /* ImageOverlay.swift in Sources */,
 				6B521D8F23BCFCFF00570CF2 /* ContinentsMapManager.swift in Sources */,
 				6B521DAC23BCFD1F00570CF2 /* MapOverlay.swift in Sources */,
 				6B521D9123BCFCFF00570CF2 /* PhotoMapViewer.swift in Sources */,
 				6B521DC223BCFD4200570CF2 /* ConcurrentArray.swift in Sources */,
-				6B521D5A23BCFC9900570CF2 /* YearCountriesUpdater.swift in Sources */,
-				6B521D6023BCFC9900570CF2 /* YearHeatmapUpdater.swift in Sources */,
+				6B521D6023BCFC9900570CF2 /* HeatmapUpdater.swift in Sources */,
 				6B521D1023B74C7A00570CF2 /* SceneDelegate.swift in Sources */,
 				6B521D7A23BCFCCB00570CF2 /* StatsProvider.swift in Sources */,
+				6BCBE70023F07E0400DBC9D7 /* Country.swift in Sources */,
 				6B521DBD23BCFD4200570CF2 /* synchronize.swift in Sources */,
 				6B521D7223BCFCCB00570CF2 /* CityInfo.swift in Sources */,
+				6BE6749923F00C7700102673 /* VisitPeriod.swift in Sources */,
 				6B521D7C23BCFCCB00570CF2 /* CountryInfo.swift in Sources */,
+				6B70A7B823F7119000833906 /* MapView.swift in Sources */,
 				6B521DC323BCFD4200570CF2 /* Helpers.swift in Sources */,
 				6B521DA123BCFD1F00570CF2 /* MapCircle.swift in Sources */,
 				6B660E0E23BE63A0000CD3BB /* TimezonesView.swift in Sources */,
@@ -755,13 +775,9 @@
 				6B521D1223B74C7A00570CF2 /* ContentView.swift in Sources */,
 				6B521DC123BCFD4200570CF2 /* Geohash.swift in Sources */,
 				6B521D4023B7571C00570CF2 /* CircleImage.swift in Sources */,
-				6B521D5B23BCFC9900570CF2 /* YearTimezonesUpdater.swift in Sources */,
 				6B521DC723BCFDF500570CF2 /* seelog.xcdatamodeld in Sources */,
-				6B521D7923BCFCCB00570CF2 /* VisitPeriod.swift in Sources */,
-				6B521DBF23BCFD4200570CF2 /* PlaceStatsManager.swift in Sources */,
-				6B521D7623BCFCCB00570CF2 /* PlaceStats.swift in Sources */,
-				6B521D5C23BCFC9900570CF2 /* YearSeenAreaUpdater.swift in Sources */,
-				6B521D5923BCFC9900570CF2 /* YearStatsUpdater.swift in Sources */,
+				6B521D5C23BCFC9900570CF2 /* SeenAreaUpdater.swift in Sources */,
+				6BCBE71023F0934500DBC9D7 /* SeenGeometry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

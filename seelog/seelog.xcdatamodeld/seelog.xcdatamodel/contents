@@ -1,60 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18C54" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="GeometryWKT" representedClassName="GeometryWKT" syncable="YES" codeGenerationType="class">
-        <attribute name="wkt" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
-        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="geohash" attributeType="String" syncable="YES"/>
-        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="localIdentifier" attributeType="String" syncable="YES"/>
-        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="year" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="geohash" attributeType="String"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="localIdentifier" attributeType="String"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="year" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="PlaceStats" representedClassName="PlaceStats" syncable="YES" codeGenerationType="class">
-        <attribute name="firstDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="firstYearDay" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="lastDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="lastYearDay" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="months" attributeType="Transformable" customClassName="[Int16]" syncable="YES"/>
-        <attribute name="numDays" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="visitedEntityKey" attributeType="String" syncable="YES"/>
-        <attribute name="visitedEntityType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="years" attributeType="Transformable" customClassName="[Int16]" syncable="YES"/>
+    <entity name="SeenArea" representedClassName="SeenArea" syncable="YES" codeGenerationType="class">
+        <attribute name="geohashes" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="landWKT" optional="YES" attributeType="String"/>
+        <attribute name="processedHeatmapWKT" optional="YES" attributeType="String"/>
+        <attribute name="waterWKT" optional="YES" attributeType="String"/>
+        <attribute name="year" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <entity name="VisitPeriod" representedClassName="VisitPeriod" syncable="YES" codeGenerationType="class">
-        <attribute name="closed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="since" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="until" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="visitedEntityKey" attributeType="String" syncable="YES"/>
-        <attribute name="visitedEntityType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-    </entity>
-    <entity name="Year" representedClassName="Year" syncable="YES" codeGenerationType="class">
-        <attribute name="cities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
-        <attribute name="continents" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
-        <attribute name="countries" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="[String: [String]]" syncable="YES"/>
-        <attribute name="cumulativeCities" optional="YES" attributeType="Transformable" customClassName="[Int64]" syncable="YES"/>
-        <attribute name="cumulativeContinents" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
-        <attribute name="cumulativeCountries" optional="YES" attributeType="Transformable" customClassName="[String: [String]]" syncable="YES"/>
-        <attribute name="cumulativeGeohashes" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
-        <attribute name="cumulativeSeenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="cumulativeTimezones" optional="YES" attributeType="Transformable" customClassName="[Int32]" syncable="YES"/>
-        <attribute name="geohashes" optional="YES" attributeType="Transformable" customClassName="[String]" syncable="YES"/>
-        <attribute name="seenArea" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="timezones" optional="YES" attributeType="Transformable" customClassName="[Int32]" syncable="YES"/>
-        <attribute name="year" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="cumulativeLandWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
-        <relationship name="cumulativeProcessedHeatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
-        <relationship name="cumulativeWaterWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
-        <relationship name="landWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
-        <relationship name="processedHeatmapWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
-        <relationship name="waterWKT" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GeometryWKT" syncable="YES"/>
+        <attribute name="closed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="since" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="until" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="visitedEntityKey" attributeType="String"/>
+        <attribute name="visitedEntityType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="GeometryWKT" positionX="630" positionY="360" width="128" height="60"/>
         <element name="Photo" positionX="619" positionY="216" width="128" height="135"/>
+        <element name="SeenArea" positionX="630" positionY="360" width="128" height="118"/>
         <element name="VisitPeriod" positionX="630" positionY="369" width="128" height="120"/>
-        <element name="Year" positionX="621" positionY="279" width="128" height="330"/>
-        <element name="PlaceStats" positionX="630" positionY="369" width="128" height="180"/>
     </elements>
 </model>

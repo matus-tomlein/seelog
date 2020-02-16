@@ -32,8 +32,7 @@ class DatabaseInitializer {
         print("Fetched photos \(Date().timeIntervalSince(start))")
         start = Date()
         if allPhotos.count > 0 {
-            let yearStatsUpdater = YearStatsUpdater(initializationState: &initializationState,
-                                                    context: context)
+            let seenAreaUpdater = SeenAreaUpdater(initializationState: &initializationState, context: context)
             let visitPeriodUpdater = VisitPeriodUpdater(context: context)
 
             allPhotos.enumerateObjects { asset, _, _ in
@@ -41,22 +40,17 @@ class DatabaseInitializer {
                     if let photo = self.savePhoto(asset: asset, location: location) {
                         let photoInfo = PhotoInfo(photo: photo, geoDB: self.geoDatabase)
 
-                        yearStatsUpdater.processNewPhoto(photoInfo: photoInfo)
+                        seenAreaUpdater.processNewPhoto(photoInfo: photoInfo)
                         visitPeriodUpdater.processNewPhoto(photoInfo: photoInfo)
                     }
                 }
             }
 
-            yearStatsUpdater.update()
+            initializationState.processingHeatmaps = true
+            seenAreaUpdater.update()
             saveContext()
             print("Saved photos \(Date().timeIntervalSince(start))")
-            start = Date()
         }
-
-        initializationState.processingHeatmaps = true
-
-        updateHeatmaps()
-        print("Saved heatmaps \(Date().timeIntervalSince(start))")
 
         geoDatabase.clearCaches()
     }
@@ -75,35 +69,6 @@ class DatabaseInitializer {
         newPhoto.geohash = geohash
 
         return newPhoto
-    }
-
-    private func updateHeatmaps() {
-        do {
-            let request = NSFetchRequest<Year>(entityName: "Year")
-            request.sortDescriptors = [NSSortDescriptor(key: "year", ascending: false)]
-            let years = try context.fetch(request)
-            var changed = false
-            for year in years {
-                if self.updateHeatmap(year: year) { changed = true }
-            }
-            if changed { self.saveContext() }
-        } catch let err as NSError {
-            print(err.debugDescription)
-        }
-    }
-
-    private func updateHeatmap(year: Year) -> Bool {
-        let heatmapUpdater = YearHeatmapUpdater(context: context)
-        var changed = false
-        if year.cumulativeProcessedHeatmapWKT == nil && year.year == Calendar.current.component(.year, from: Date()) {
-            heatmapUpdater.update(year: year, cumulative: true)
-            changed = true
-        }
-        if year.processedHeatmapWKT == nil {
-            heatmapUpdater.update(year: year, cumulative: false)
-            changed = true
-        }
-        return changed
     }
 
     private func saveContext() {

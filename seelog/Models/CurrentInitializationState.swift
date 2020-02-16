@@ -20,12 +20,10 @@ final class CurrentInitializationState: ObservableObject {
     @Published var numberOfTimezones: Int = 0
     
     var visitPeriodManager: VisitPeriodManager
-    var placeStatsManager: PlaceStatsManager
     
     init() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         self.visitPeriodManager = VisitPeriodManager(context: context)
-        self.placeStatsManager = PlaceStatsManager(context: context, visitPeriodManager: self.visitPeriodManager)
     }
 }

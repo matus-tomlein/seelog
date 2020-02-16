@@ -27,11 +27,6 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            LoadingView().tabItem {
-                Image(systemName: "phone.fill")
-                Text("Places")
-            }
-            
             CountriesView(countries: [], yearStats: []).tabItem {
                 Image(systemName: "phone.fill")
                 Text("Countries")
@@ -51,6 +46,11 @@ struct ContentView: View {
                 Image(systemName: "phone.fill")
                 Text("Timezones")
             }
+            
+//            MapView().tabItem {
+//                Image(systemName: "phone.fill")
+//                Text("Map")
+//            }
         }
     }
 }

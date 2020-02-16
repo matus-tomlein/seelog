@@ -11,31 +11,23 @@ import MapKit
 import GEOSwift
 
 class ContinentsMapManager: MapManager {
-    var mapView: MKMapView
-    var mapViewDelegate: MainMapViewDelegate
-    var geoDB: GeoDatabase
+    private var continents: [Continent]
     private var overlayManagers: [String: OverlayManager] = [:]
 
-    init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, geoDB: GeoDatabase) {
-        self.mapView = mapView
-        self.mapViewDelegate = mapViewDelegate
-        self.geoDB = geoDB
+    init(continents: [Continent]) {
+        self.continents = continents
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
+    func load(mapViewDelegate: MainMapViewDelegate) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
-        var continentsToAdd: [ContinentInfo] = []
-        if !year.isLocked(purchasedHistory: purchasedHistory) {
-            if let continents = year.continentInfos(cumulative: cumulative, geoDB: self.geoDB) {
-                for continent in continents {
-                    if overlayManagers[continent.name] == nil {
-                        continentsToAdd.append(continent)
-                    }
-                    polygonPropertyNamesToKeep.insert(continent.name)
-                }
+        var continentsToAdd: [Continent] = []
+        for continent in continents {
+            if overlayManagers[continent.continentInfo.name] == nil {
+                continentsToAdd.append(continent)
             }
+            polygonPropertyNamesToKeep.insert(continent.continentInfo.name)
         }
 
         for name in overlayManagers.keys {
@@ -48,7 +40,7 @@ class ContinentsMapManager: MapManager {
         }
 
         for continent in continentsToAdd {
-            if let geometry = continent.geometry {
+            if let geometry = continent.continentInfo.geometry {
                 let polygonProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                              overlayVersion: overlayVersion)
                 polygonProperties.alpha = 0.25
@@ -56,29 +48,29 @@ class ContinentsMapManager: MapManager {
                 polygonProperties.strokeColor = UIColor.white
                 polygonProperties.lineWidth = 1
 
-                let manager = OverlayManager(mapView: mapView)
+                let manager = OverlayManager(mapView: mapViewDelegate.mapView)
                 manager.add(geometry: geometry, properties: polygonProperties)
-                overlayManagers[continent.name] = manager
+                overlayManagers[continent.continentInfo.name] = manager
             }
         }
     }
 
-    func unload() {
+    func unload(mapViewDelegate: MainMapViewDelegate) {
         for manager in overlayManagers.values { manager.unload() }
         overlayManagers = [:]
     }
 
-    func updateForZoomType(_ zoomType: ZoomType) {}
+    func updateForZoomType(_ zoomType: ZoomType, mapViewDelegate: MainMapViewDelegate) {}
 
-    func viewChanged(visibleMapRect: MKMapRect) {
+    func viewChanged(visibleMapRect: MKMapRect, mapViewDelegate: MainMapViewDelegate) {
         for manager in overlayManagers.values {
             manager.viewChanged(visibleMapRect: visibleMapRect)
         }
     }
 
-    func longPress() {}
-    func nonPolygonRendererFor(overlay: MKOverlay) -> MKOverlayRenderer? { return nil }
-    func viewFor(annotation: MKAnnotation) -> MKAnnotationView? { return nil }
+    func longPress(mapViewDelegate: MainMapViewDelegate) {}
+    func nonPolygonRendererFor(overlay: MKOverlay, mapViewDelegate: MainMapViewDelegate) -> MKOverlayRenderer? { return nil }
+    func viewFor(annotation: MKAnnotation, mapViewDelegate: MainMapViewDelegate) -> MKAnnotationView? { return nil }
 
 
 }

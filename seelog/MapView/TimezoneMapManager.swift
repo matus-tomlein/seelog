@@ -11,31 +11,23 @@ import MapKit
 import GEOSwift
 
 class TimezoneMapManager: MapManager {
-    var mapView: MKMapView
-    var mapViewDelegate: MainMapViewDelegate
-    var geoDB: GeoDatabase
+    var timezones: [Timezone]
     private var overlayManagers: [String: OverlayManager] = [:]
 
-    init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, geoDB: GeoDatabase) {
-        self.mapView = mapView
-        self.mapViewDelegate = mapViewDelegate
-        self.geoDB = geoDB
+    init(timezones: [Timezone]) {
+        self.timezones = timezones
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
+    func load(mapViewDelegate: MainMapViewDelegate) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
-        var timezonesToAdd: [TimezoneInfo] = []
-        if !year.isLocked(purchasedHistory: purchasedHistory) {
-            if let timezones = year.timezones(cumulative: cumulative, geoDB: self.geoDB) {
-                for timezone in timezones {
-                    if overlayManagers[timezone.uniqueName] == nil {
-                        timezonesToAdd.append(timezone)
-                    }
-                    polygonPropertyNamesToKeep.insert(timezone.uniqueName)
-                }
+        var timezonesToAdd: [Timezone] = []
+        for timezone in timezones {
+            if overlayManagers[timezone.id] == nil {
+                timezonesToAdd.append(timezone)
             }
+            polygonPropertyNamesToKeep.insert(timezone.id)
         }
 
         for name in overlayManagers.keys {
@@ -48,7 +40,7 @@ class TimezoneMapManager: MapManager {
         }
 
         for timezone in timezonesToAdd {
-            if let geometry = timezone.geometry {
+            if let geometry = timezone.timezoneInfo.geometry {
                 let polygonProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                              overlayVersion: overlayVersion)
                 polygonProperties.alpha = 0.25
@@ -56,28 +48,28 @@ class TimezoneMapManager: MapManager {
                 polygonProperties.strokeColor = UIColor.white
                 polygonProperties.lineWidth = 1
 
-                let manager = OverlayManager(mapView: mapView)
+                let manager = OverlayManager(mapView: mapViewDelegate.mapView)
                 manager.add(geometry: geometry, properties: polygonProperties)
-                overlayManagers[timezone.uniqueName] = manager
+                overlayManagers[timezone.id] = manager
             }
         }
     }
 
-    func unload() {
+    func unload(mapViewDelegate: MainMapViewDelegate) {
         for manager in overlayManagers.values { manager.unload() }
         overlayManagers = [:]
     }
 
-    func updateForZoomType(_ zoomType: ZoomType) {}
+    func updateForZoomType(_ zoomType: ZoomType, mapViewDelegate: MainMapViewDelegate) {}
 
-    func viewChanged(visibleMapRect: MKMapRect) {
+    func viewChanged(visibleMapRect: MKMapRect, mapViewDelegate: MainMapViewDelegate) {
         for manager in overlayManagers.values {
             manager.viewChanged(visibleMapRect: visibleMapRect)
         }
     }
 
-    func longPress() {}
-    func viewFor(annotation: MKAnnotation) -> MKAnnotationView? { return nil }
+    func longPress(mapViewDelegate: MainMapViewDelegate) {}
+    func viewFor(annotation: MKAnnotation, mapViewDelegate: MainMapViewDelegate) -> MKAnnotationView? { return nil }
 
 
 }

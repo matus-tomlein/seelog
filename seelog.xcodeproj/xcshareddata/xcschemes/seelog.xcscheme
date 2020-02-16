@@ -17,7 +17,7 @@
                BlueprintIdentifier = "6B521D0923B74C7A00570CF2"
                BuildableName = "seelog.app"
                BlueprintName = "seelog"
-               ReferencedContainer = "container:Seelog2.xcodeproj">
+               ReferencedContainer = "container:seelog.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,26 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6B521D1F23B74C7F00570CF2"
-               BuildableName = "seelogTests.xctest"
-               BlueprintName = "seelogTests"
-               ReferencedContainer = "container:Seelog2.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6B521D2A23B74C7F00570CF2"
-               BuildableName = "seelogUITests.xctest"
-               BlueprintName = "seelogUITests"
-               ReferencedContainer = "container:Seelog2.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -67,7 +47,7 @@
             BlueprintIdentifier = "6B521D0923B74C7A00570CF2"
             BuildableName = "seelog.app"
             BlueprintName = "seelog"
-            ReferencedContainer = "container:Seelog2.xcodeproj">
+            ReferencedContainer = "container:seelog.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -84,7 +64,7 @@
             BlueprintIdentifier = "6B521D0923B74C7A00570CF2"
             BuildableName = "seelog.app"
             BlueprintName = "seelog"
-            ReferencedContainer = "container:Seelog2.xcodeproj">
+            ReferencedContainer = "container:seelog.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

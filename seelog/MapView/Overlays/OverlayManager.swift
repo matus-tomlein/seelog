@@ -22,7 +22,7 @@ fileprivate class MapOverlayState {
     var properties: MapOverlayProperties
     private var overlays: [MapOverlay] = []
     private var envelope: Polygon?
-    private weak var mapView: MKMapView?
+    private weak var mapView: MapView?
 
     var shown: Bool { get { return overlays.count > 0 }}
 
@@ -31,7 +31,7 @@ fileprivate class MapOverlayState {
         set { properties.overlayVersion = newValue }
     }
 
-    init(geometry: Geometry, properties: MapOverlayProperties, mapView: MKMapView) {
+    init(geometry: Geometry, properties: MapOverlayProperties, mapView: MapView) {
         self.geometry = geometry
         if let envelopeGeometry = try? geometry.envelope().geometry {
             if case let .polygon(envelope) = envelopeGeometry {
@@ -43,7 +43,7 @@ fileprivate class MapOverlayState {
     }
 
     func viewChanged(visibleMapRect: MKMapRect) {
-        if intersects(visibleMapRect: visibleMapRect) {
+        if mapView?.world ?? false || intersects(visibleMapRect: visibleMapRect) {
             let zoomType = zoomTypeFor(visibleMapRect: visibleMapRect)
             if properties.zoomTypes?.contains(zoomType) ?? false {
                 show()
@@ -113,7 +113,7 @@ fileprivate class MapOverlayState {
 
 class OverlayManager {
     private var overlays = [MapOverlayState]()
-    private weak var mapView: MKMapView?
+    private weak var mapView: MapView?
 
     var allProperties: [MapOverlayProperties] {
         get {
@@ -121,7 +121,7 @@ class OverlayManager {
         }
     }
 
-    init(mapView: MKMapView) {
+    init(mapView: MapView) {
         self.mapView = mapView
     }
 

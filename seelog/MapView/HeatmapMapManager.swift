@@ -13,29 +13,26 @@ import CoreData
 
 class HeatmapMapManager: MapManager {
 
-    var mapView: MKMapView
-    var mapViewDelegate: MainMapViewDelegate
-    var photoViewer: PhotoMapViewer
-    var overlayManager: OverlayManager
+    var seenGeometry: SeenGeometry?
+    var photoViewer: PhotoMapViewer?
+    var overlayManager: OverlayManager?
 
-    init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, context: NSManagedObjectContext) {
-        self.mapView = mapView
-        self.overlayManager = OverlayManager(mapView: mapView)
-        self.mapViewDelegate = mapViewDelegate
-
-        photoViewer = PhotoMapViewer(mapView: mapView,
-                                     mapViewDelegate: mapViewDelegate,
-                                     context: context)
+    init(seenGeometry: SeenGeometry?, photoViewer: PhotoMapViewer?) {
+        self.seenGeometry = seenGeometry
+        self.photoViewer = photoViewer
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
-        mapView.mapType = .mutedStandard
+    func load(mapViewDelegate: MainMapViewDelegate) {
+        mapViewDelegate.mapView.mapType = .mutedStandard
         DispatchQueue.main.sync {
-            unload()
+            unload(mapViewDelegate: mapViewDelegate)
             if #available(iOS 13.0, *) {
-                mapView.overrideUserInterfaceStyle = .light
+                mapViewDelegate.mapView.overrideUserInterfaceStyle = .light
             }
         }
+        let overlayManager = OverlayManager(mapView: mapViewDelegate.mapView)
+        self.overlayManager = overlayManager
+
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         let landProperties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
@@ -46,23 +43,14 @@ class HeatmapMapManager: MapManager {
                                                    overlayVersion: overlayVersion)
         waterProperties.fillColor = UIColor(red: 49 / 255.0, green: 68 / 255.0, blue: 101 / 255.0, alpha: 1)
 
-        if year.isLocked(purchasedHistory: purchasedHistory) {
-            if let land = WorldPolygons.landsPolygon,
-                let water = WorldPolygons.waterPolygon {
-                overlayManager.add(geometry: land.geometry, properties: landProperties)
-                overlayManager.add(geometry: water.geometry, properties: waterProperties)
-            }
-        } else {
-            if let waterWKT = year.waterWKT(cumulative: cumulative),
-                let landWKT = year.landWKT(cumulative: cumulative),
-                let land = Helpers.geometry(fromWKT: landWKT),
-                let water = Helpers.geometry(fromWKT: waterWKT),
-                let heatmapWKT = year.processedHeatmapWKT(cumulative: cumulative),
-                let heatmap = Helpers.geometry(fromWKT: heatmapWKT) {
+        if let seenGeometry = seenGeometry {
+            if let land = Helpers.geometry(fromWKT: seenGeometry.landWKT),
+                let water = Helpers.geometry(fromWKT: seenGeometry.waterWKT),
+                let heatmap = Helpers.geometry(fromWKT: seenGeometry.processedWKT) {
                 overlayManager.add(geometry: land, properties: landProperties)
                 overlayManager.add(geometry: water, properties: waterProperties)
 
-    //                self.mapView.centerCoordinate = self.mapView.centerCoordinate
+        //                self.mapView.centerCoordinate = self.mapView.centerCoordinate
                 var boundary: Geometry? {
                     switch heatmap {
                     case let .polygon(polygon):
@@ -89,55 +77,62 @@ class HeatmapMapManager: MapManager {
                 }
             }
 
-            self.photoViewer.load(year: year, cumulative: cumulative)
+//            self.photoViewer.load(model: model, year: year)
+        } else {
+            if let land = WorldPolygons.landsPolygon,
+                let water = WorldPolygons.waterPolygon {
+                overlayManager.add(geometry: land.geometry, properties: landProperties)
+                overlayManager.add(geometry: water.geometry, properties: waterProperties)
+            }
         }
     }
 
-    func unload() {
-        photoViewer.unload()
-        overlayManager.unload()
+    func unload(mapViewDelegate: MainMapViewDelegate) {
+//        photoViewer.unload()
+        overlayManager?.unload()
+        overlayManager = nil
 
         if #available(iOS 13.0, *) {
-            mapView.overrideUserInterfaceStyle = .unspecified
+            mapViewDelegate.mapView.overrideUserInterfaceStyle = .unspecified
         }
     }
 
-    func viewFor(annotation: MKAnnotation) -> MKAnnotationView? {
+    func viewFor(annotation: MKAnnotation, mapViewDelegate: MainMapViewDelegate) -> MKAnnotationView? {
         return nil
     }
 
-    func updateForZoomType(_ zoomType: ZoomType) {}
+    func updateForZoomType(_ zoomType: ZoomType, mapViewDelegate: MainMapViewDelegate) {}
 
-    func viewChanged(visibleMapRect: MKMapRect) {
-        photoViewer.viewChanged(visibleMapRect: visibleMapRect)
-        overlayManager.viewChanged(visibleMapRect: visibleMapRect)
+    func viewChanged(visibleMapRect: MKMapRect, mapViewDelegate: MainMapViewDelegate) {
+//        photoViewer.viewChanged(visibleMapRect: visibleMapRect)
+        overlayManager?.viewChanged(visibleMapRect: visibleMapRect)
     }
 
     var lastActiveLongPress: TimeInterval?
-    func longPress() {
+    func longPress(mapViewDelegate: MainMapViewDelegate) {
         if lastActiveLongPress == nil {
-            setHeatmapPolygonTransparency(alpha: 0.5)
+            setHeatmapPolygonTransparency(alpha: 0.5, mapViewDelegate: mapViewDelegate)
         }
         lastActiveLongPress = Date().timeIntervalSince1970
         Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
-            self.resetLongPress()
+            self.resetLongPress(mapViewDelegate: mapViewDelegate)
         }
     }
 
-    func resetLongPress() {
+    func resetLongPress(mapViewDelegate: MainMapViewDelegate) {
         guard let lastActiveLongPress = self.lastActiveLongPress else { return }
         if Date().timeIntervalSince1970 - lastActiveLongPress >= 3 {
-            setHeatmapPolygonTransparency(alpha: 1)
+            setHeatmapPolygonTransparency(alpha: 1, mapViewDelegate: mapViewDelegate)
             self.lastActiveLongPress = nil
         }
     }
 
-    private func setHeatmapPolygonTransparency(alpha: CGFloat) {
-        for overlay in mapView.overlays {
+    private func setHeatmapPolygonTransparency(alpha: CGFloat, mapViewDelegate: MainMapViewDelegate) {
+        for overlay in mapViewDelegate.mapView.overlays {
             if let polygon = overlay as? MapPolygon,
                 let polygonProperties = polygon.properties {
                 if polygonProperties.polygonType == .heatmapWater || polygonProperties.polygonType == .heatmapLand {
-                    mapView.renderer(for: overlay)?.alpha = alpha
+                    mapViewDelegate.mapView.renderer(for: overlay)?.alpha = alpha
                 }
             }
         }

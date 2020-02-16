@@ -11,41 +11,29 @@ import MapKit
 import GEOSwift
 
 class StatesMapManager: MapManager {
-    var mapView: MKMapView
-    var mapViewDelegate: MainMapViewDelegate
-    var geoDB: GeoDatabase
-
+    
     private var overlayManagers: [String: OverlayManager] = [:]
     private let fillColor = UIColor.red
     private let strokeColor = UIColor.white
     private let lineWidth: CGFloat = 1
     private let alpha: CGFloat = 0.25
+    private let states: [State]
 
-    init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, geoDB: GeoDatabase) {
-        self.mapView = mapView
-        self.mapViewDelegate = mapViewDelegate
-        self.geoDB = geoDB
+    init(states: [State]) {
+        self.states = states
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
+    func load(mapViewDelegate: MainMapViewDelegate) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
         var stateKeysToAdd = Set<String>()
-        if !year.isLocked(purchasedHistory: purchasedHistory) {
-            if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
-                for countryKey in visitedCountriesAndStates.keys {
-                    if let stateKeys = visitedCountriesAndStates[countryKey] {
-                        for stateKey in stateKeys {
-                            if overlayManagers[stateKey] == nil {
-                                stateKeysToAdd.insert(stateKey)
-                            }
-
-                            polygonPropertyNamesToKeep.insert(stateKey)
-                        }
-                    }
-                }
+        for state in states {
+            if overlayManagers[state.stateInfo.stateKey] == nil {
+                stateKeysToAdd.insert(state.stateInfo.stateKey)
             }
+
+            polygonPropertyNamesToKeep.insert(state.stateInfo.stateKey)
         }
 
         for name in overlayManagers.keys {
@@ -58,37 +46,37 @@ class StatesMapManager: MapManager {
         }
 
         for stateKey in stateKeysToAdd {
-            self.createPolygon(forStateKey: stateKey, overlayVersion: overlayVersion)
+            self.createPolygon(forStateKey: stateKey, overlayVersion: overlayVersion, mapViewDelegate: mapViewDelegate)
         }
     }
 
-    func unload() {
+    func unload(mapViewDelegate: MainMapViewDelegate) {
         for manager in overlayManagers.values { manager.unload() }
         overlayManagers = [:]
     }
 
-    func updateForZoomType(_ zoomType: ZoomType) {}
+    func updateForZoomType(_ zoomType: ZoomType, mapViewDelegate: MainMapViewDelegate) {}
 
-    func viewChanged(visibleMapRect: MKMapRect) {
+    func viewChanged(visibleMapRect: MKMapRect, mapViewDelegate: MainMapViewDelegate) {
         for manager in overlayManagers.values {
             manager.viewChanged(visibleMapRect: visibleMapRect)
         }
     }
 
-    func longPress() {}
+    func longPress(mapViewDelegate: MainMapViewDelegate) {}
 
-    func nonPolygonRendererFor(overlay: MKOverlay) -> MKOverlayRenderer? {
+    func nonPolygonRendererFor(overlay: MKOverlay, mapViewDelegate: MainMapViewDelegate) -> MKOverlayRenderer? {
         return nil
     }
 
-    func viewFor(annotation: MKAnnotation) -> MKAnnotationView? {
+    func viewFor(annotation: MKAnnotation, mapViewDelegate: MainMapViewDelegate) -> MKAnnotationView? {
         return nil
     }
 
-    private func createPolygon(forStateKey stateKey: String, overlayVersion: Int) {
-        let overlayVersionManager = OverlayManager(mapView: mapView)
+    private func createPolygon(forStateKey stateKey: String, overlayVersion: Int, mapViewDelegate: MainMapViewDelegate) {
+        let overlayVersionManager = OverlayManager(mapView: mapViewDelegate.mapView)
 
-        if let stateInfo = geoDB.stateInfoFor(stateKey: stateKey) {
+        if let stateInfo = states.first(where: { $0.stateInfo.stateKey == stateKey })?.stateInfo {
             var closeZoomTypes: [ZoomType] = [.close]
             if let geometry50m = stateInfo.geometry50m {
                 let polygonProperties = MapOverlayProperties(zoomTypes: [.medium, .far],

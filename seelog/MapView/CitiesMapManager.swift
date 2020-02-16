@@ -11,70 +11,63 @@ import MapKit
 import GEOSwift
 
 class CitiesMapManager: MapManager {
-    var mapView: MKMapView
-    var mapViewDelegate: MainMapViewDelegate
-    var geoDB: GeoDatabase
-    var tintColor: UIColor
+    private var cities: [City]
     private let circleRadius: Double = 10000
     private let lineWidth: CGFloat = 3
 
-    init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, geoDB: GeoDatabase) {
-        self.mapView = mapView
-        self.tintColor = mapView.tintColor
-        self.mapViewDelegate = mapViewDelegate
-        self.geoDB = geoDB
+    init(cities: [City], mapView: MKMapView) {
+        self.cities = cities
     }
 
-    func unload() {
+    func unload(mapViewDelegate: MainMapViewDelegate) {
+        let mapView = mapViewDelegate.mapView
         mapView.removeOverlays(mapView.overlays)
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
-        if year.isLocked(purchasedHistory: purchasedHistory) { return }
-
+    func load(mapViewDelegate: MainMapViewDelegate) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
         
-        guard let cityInfos = year.cityInfos(cumulative: cumulative, geoDB: geoDB) else { return }
-        let majorCities = cityInfos.filter({ $0.worldCity || $0.megaCity })
-        let smallerCities = cityInfos.filter({ !$0.worldCity && !$0.megaCity })
+        let majorCities = cities.filter({ $0.cityInfo.worldCity || $0.cityInfo.megaCity })
+        let smallerCities = cities.filter({ !$0.cityInfo.worldCity && !$0.cityInfo.megaCity })
 
-        for cityInfo in smallerCities {
+        for city in smallerCities {
             let properties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                   overlayVersion: overlayVersion)
-            properties.strokeColor = tintColor
+            properties.strokeColor = mapViewDelegate.mapView.tintColor
             properties.lineWidth = lineWidth
-            mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude),
+            mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: city.cityInfo.latitude, longitude: city.cityInfo.longitude),
                                            radius: circleRadius,
                                            properties: properties)
         }
 
-        for cityInfo in majorCities {
+        for city in majorCities {
             let properties = MapOverlayProperties(zoomTypes: [.close, .medium, .far],
                                                   overlayVersion: overlayVersion)
             properties.strokeColor = UIColor.red
             properties.lineWidth = lineWidth
-            mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: cityInfo.latitude, longitude: cityInfo.longitude),
+            mapViewDelegate.addCircleToMap(center: CLLocationCoordinate2D(latitude: city.cityInfo.latitude, longitude: city.cityInfo.longitude),
                                            radius: circleRadius,
                                            properties: properties)
         }
     }
 
-    func updateForZoomType(_ zoomType: ZoomType) {
+    func updateForZoomType(_ zoomType: ZoomType, mapViewDelegate: MainMapViewDelegate) {
+        let mapView = mapViewDelegate.mapView
         for case let annot as Annotation in mapView.annotations {
             mapView.view(for: annot)?.isHidden = !annot.zoomTypes.contains(zoomType)
         }
     }
 
-    func viewChanged(visibleMapRect: MKMapRect) {}
+    func viewChanged(visibleMapRect: MKMapRect, mapViewDelegate: MainMapViewDelegate) {}
 
-    func longPress() {
+    func longPress(mapViewDelegate: MainMapViewDelegate) {
     }
 
-    func viewFor(annotation: MKAnnotation) -> MKAnnotationView? {
+    func viewFor(annotation: MKAnnotation, mapViewDelegate: MainMapViewDelegate) -> MKAnnotationView? {
         guard let annotation = annotation as? Annotation else { return nil }
 
         var view: MKMarkerAnnotationView
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: "city")
+        if let dequeuedView = mapViewDelegate.mapView.dequeueReusableAnnotationView(withIdentifier: "city")
             as? MKMarkerAnnotationView {
             dequeuedView.annotation = annotation
             view = dequeuedView

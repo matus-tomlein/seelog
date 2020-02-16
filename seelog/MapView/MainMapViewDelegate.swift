@@ -13,11 +13,12 @@ import CoreData
 import Photos
 
 class MainMapViewDelegate: NSObject, MKMapViewDelegate {
-    var mapView: MKMapView
-    var mapManager: MapManager?
+    var mapView: MapView
+    var mapManager: MapManager
 
-    init(mapView: MKMapView) {
+    init(mapView: MapView, mapManager: MapManager) {
         self.mapView = mapView
+        self.mapManager = mapManager
         super.init()
 
         let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(gestureRecognizer:)))
@@ -25,9 +26,6 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
         mapView.addGestureRecognizer(tapRecognizer)
-
-        mapView.isRotateEnabled = false
-        mapView.isPitchEnabled = false
     }
 
     var currentZoomType: ZoomType = .close {
@@ -36,12 +34,12 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
                 return
             }
 
-            mapManager?.updateForZoomType(currentZoomType)
+            mapManager.updateForZoomType(currentZoomType, mapViewDelegate: self)
         }
     }
 
     @objc func longPress(gestureRecognizer: UIGestureRecognizer) {
-        mapManager?.longPress()
+        mapManager.longPress(mapViewDelegate: self)
     }
 
     @objc func tap(_ tap: UITapGestureRecognizer) {
@@ -62,53 +60,16 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
         }
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool, geoDB: GeoDatabase, context: NSManagedObjectContext) {
+    func load() {
         GeometryOverlayCreator.overlayVersion += 1
-
-        switch currentTab {
-        case .countries:
-            if !(self.mapManager is CountriesMapManager) {
-                mapManager?.unload()
-                mapManager = CountriesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-            }
-
-        case .states:
-            if !(self.mapManager is StatesMapManager) {
-                mapManager?.unload()
-                mapManager = StatesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-            }
-
-        case .places:
-            if !(self.mapManager is HeatmapMapManager) {
-                mapManager?.unload()
-                mapManager = HeatmapMapManager(mapView: mapView, mapViewDelegate: self, context: context)
-            }
-
-        case .cities:
-            if !(self.mapManager is CitiesMapManager) {
-                mapManager?.unload()
-                mapManager = CitiesMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-            }
-
-        case .continents:
-            if !(self.mapManager is ContinentsMapManager) {
-                mapManager?.unload()
-                mapManager = ContinentsMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-            }
-
-        case .timezones:
-            if !(self.mapManager is TimezoneMapManager) {
-                mapManager?.unload()
-                mapManager = TimezoneMapManager(mapView: mapView, mapViewDelegate: self, geoDB: geoDB)
-            }
-        }
+        mapManager.unload(mapViewDelegate: self)
 
         DispatchQueue.global(qos: .background).async {
-            self.mapManager?.load(currentTab: currentTab, year: year, cumulative: cumulative, purchasedHistory: purchasedHistory)
+            self.mapManager.load(mapViewDelegate: self)
             self.removeOldOverlays()
 
             DispatchQueue.main.async {
-                self.mapManager?.viewChanged(visibleMapRect: self.mapView.visibleMapRect)
+                self.mapManager.viewChanged(visibleMapRect: self.mapView.visibleMapRect, mapViewDelegate: self)
             }
         }
     }
@@ -180,7 +141,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return mapManager?.viewFor(annotation: annotation)
+        mapManager.viewFor(annotation: annotation, mapViewDelegate: self)
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
@@ -192,7 +153,7 @@ class MainMapViewDelegate: NSObject, MKMapViewDelegate {
             currentZoomType = .far
         }
 
-        mapManager?.viewChanged(visibleMapRect: mapView.visibleMapRect)
+        mapManager.viewChanged(visibleMapRect: mapView.visibleMapRect, mapViewDelegate: self)
     }
 
     func removeOldOverlays() {

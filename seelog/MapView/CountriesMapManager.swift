@@ -11,37 +11,29 @@ import MapKit
 import GEOSwift
 
 class CountriesMapManager: MapManager {
-    var mapView: MKMapView
-    var mapViewDelegate: MainMapViewDelegate
-    var geoDB: GeoDatabase
     private var overlayManagers: [String: OverlayManager] = [:]
 
+    private let countries: [Country]
     private let fillColor = UIColor.red
     private let strokeColor = UIColor.white
     private let lineWidth: CGFloat = 1
     private let alpha: CGFloat = 0.25
 
-    init(mapView: MKMapView, mapViewDelegate: MainMapViewDelegate, geoDB: GeoDatabase) {
-        self.mapView = mapView
-        self.mapViewDelegate = mapViewDelegate
-        self.geoDB = geoDB
+    init(countries: [Country]) {
+        self.countries = countries
     }
 
-    func load(currentTab: SelectedTab, year: Year, cumulative: Bool, purchasedHistory: Bool) {
+    func load(mapViewDelegate: MainMapViewDelegate) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
         var polygonPropertyNamesToKeep = Set<String>()
         var countryKeysToAdd = Set<String>()
-        if !year.isLocked(purchasedHistory: purchasedHistory) {
-            if let visitedCountriesAndStates = year.countries(cumulative: cumulative) {
-                for countryKey in visitedCountriesAndStates.keys {
-                    if overlayManagers[countryKey] == nil {
-                        countryKeysToAdd.insert(countryKey)
-                    }
-
-                    polygonPropertyNamesToKeep.insert(countryKey)
-                }
+        for country in countries {
+            if overlayManagers[country.countryInfo.countryKey] == nil {
+                countryKeysToAdd.insert(country.countryInfo.countryKey)
             }
+
+            polygonPropertyNamesToKeep.insert(country.countryInfo.countryKey)
         }
 
         for name in overlayManagers.keys {
@@ -54,79 +46,78 @@ class CountriesMapManager: MapManager {
         }
 
         for countryKey in countryKeysToAdd {
-            self.createPolygon(forCountryKey: countryKey, overlayVersion: overlayVersion)
+            if let country = countries.first(where: { $0.countryInfo.countryKey == countryKey }) {
+                self.createPolygon(countryInfo: country.countryInfo, overlayVersion: overlayVersion, mapViewDelegate: mapViewDelegate)
+            }
         }
     }
 
-    func unload() {
+    func unload(mapViewDelegate: MainMapViewDelegate) {
         for manager in overlayManagers.values { manager.unload() }
         overlayManagers = [:]
     }
 
-    func updateForZoomType(_ zoomType: ZoomType) {}
+    func updateForZoomType(_ zoomType: ZoomType, mapViewDelegate: MainMapViewDelegate) {}
 
-    func viewChanged(visibleMapRect: MKMapRect) {
+    func viewChanged(visibleMapRect: MKMapRect, mapViewDelegate: MainMapViewDelegate) {
         for manager in overlayManagers.values {
             manager.viewChanged(visibleMapRect: visibleMapRect)
         }
     }
 
-    func longPress() {}
+    func longPress(mapViewDelegate: MainMapViewDelegate) {}
 
-    func nonPolygonRendererFor(overlay: MKOverlay) -> MKOverlayRenderer? {
+    func nonPolygonRendererFor(overlay: MKOverlay, mapViewDelegate: MainMapViewDelegate) -> MKOverlayRenderer? {
         return nil
     }
 
-    func viewFor(annotation: MKAnnotation) -> MKAnnotationView? {
+    func viewFor(annotation: MKAnnotation, mapViewDelegate: MainMapViewDelegate) -> MKAnnotationView? {
         return nil
     }
 
-    private func createPolygon(forCountryKey countryKey: String, overlayVersion: Int) {
-        let overlayVersionManager = OverlayManager(mapView: mapView)
+    private func createPolygon(countryInfo: CountryInfo, overlayVersion: Int, mapViewDelegate: MainMapViewDelegate) {
+        let overlayVersionManager = OverlayManager(mapView: mapViewDelegate.mapView)
+        var closeZoomTypes: [ZoomType] = [.close]
+        var mediumZoomTypes: [ZoomType] = [.medium]
 
-        if let countryInfo = geoDB.countryInfoFor(countryKey: countryKey) {
-            var closeZoomTypes: [ZoomType] = [.close]
-            var mediumZoomTypes: [ZoomType] = [.medium]
-
-            if let geometry110m = countryInfo.geometry110m {
-                let polygonProperties = MapOverlayProperties(zoomTypes: [.far],
-                                                             overlayVersion: overlayVersion)
-                polygonProperties.fillColor = fillColor
-                polygonProperties.strokeColor = strokeColor
-                polygonProperties.lineWidth = lineWidth
-                polygonProperties.alpha = alpha
-                overlayVersionManager.add(geometry: geometry110m,
-                                          properties: polygonProperties)
-            } else {
-                mediumZoomTypes.append(.far)
-            }
-            if let geometry50m = countryInfo.geometry50m {
-                let polygonProperties = MapOverlayProperties(zoomTypes: mediumZoomTypes,
-                                                             overlayVersion: overlayVersion)
-                polygonProperties.fillColor = fillColor
-                polygonProperties.strokeColor = strokeColor
-                polygonProperties.lineWidth = lineWidth
-                polygonProperties.alpha = alpha
-                overlayVersionManager.add(geometry: geometry50m,
-                                          properties: polygonProperties)
-            } else {
-                for zoomType in mediumZoomTypes {
-                    closeZoomTypes.append(zoomType)
-                }
-            }
-            if let geometry10m = countryInfo.geometry10m {
-                let polygonProperties = MapOverlayProperties(zoomTypes: closeZoomTypes,
-                                                             overlayVersion: overlayVersion)
-                polygonProperties.fillColor = fillColor
-                polygonProperties.strokeColor = strokeColor
-                polygonProperties.lineWidth = lineWidth
-                polygonProperties.alpha = alpha
-                overlayVersionManager.add(geometry: geometry10m,
-                                          properties: polygonProperties)
+        if let geometry110m = countryInfo.geometry110m {
+            let polygonProperties = MapOverlayProperties(zoomTypes: [.far],
+                                                         overlayVersion: overlayVersion)
+            polygonProperties.fillColor = fillColor
+            polygonProperties.strokeColor = strokeColor
+            polygonProperties.lineWidth = lineWidth
+            polygonProperties.alpha = alpha
+            overlayVersionManager.add(geometry: geometry110m,
+                                      properties: polygonProperties)
+        } else {
+            mediumZoomTypes.append(.far)
+        }
+        if let geometry50m = countryInfo.geometry50m {
+            let polygonProperties = MapOverlayProperties(zoomTypes: mediumZoomTypes,
+                                                         overlayVersion: overlayVersion)
+            polygonProperties.fillColor = fillColor
+            polygonProperties.strokeColor = strokeColor
+            polygonProperties.lineWidth = lineWidth
+            polygonProperties.alpha = alpha
+            overlayVersionManager.add(geometry: geometry50m,
+                                      properties: polygonProperties)
+        } else {
+            for zoomType in mediumZoomTypes {
+                closeZoomTypes.append(zoomType)
             }
         }
+        if let geometry10m = countryInfo.geometry10m {
+            let polygonProperties = MapOverlayProperties(zoomTypes: closeZoomTypes,
+                                                         overlayVersion: overlayVersion)
+            polygonProperties.fillColor = fillColor
+            polygonProperties.strokeColor = strokeColor
+            polygonProperties.lineWidth = lineWidth
+            polygonProperties.alpha = alpha
+            overlayVersionManager.add(geometry: geometry10m,
+                                      properties: polygonProperties)
+        }
 
-        overlayManagers[countryKey] = overlayVersionManager
+        overlayManagers[countryInfo.countryKey] = overlayVersionManager
     }
 
 }
