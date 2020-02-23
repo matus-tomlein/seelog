@@ -17,20 +17,7 @@ struct ContinentsView: View {
     var body: some View {
         List {
             VStack(spacing: 0) {
-                PolygonView(
-                    shapes: viewState.model.continentInfos.map { continent in
-                        (
-                            geometry: continent.geometry,
-                            color: .gray
-                        )
-                        } + continents.map { continent in
-                            (
-                                geometry: continent.continentInfo.geometry,
-                                color: .red
-                            )
-                    },
-                    points: []
-                ).frame(height: 370, alignment: Alignment.bottom)
+                ContinentsHeatView()
 
                 BarChartView(showCounts: true, yearStats: yearStats)
                     .padding(.bottom, 20)
@@ -40,15 +27,7 @@ struct ContinentsView: View {
 
             Section(header: Text("\(continents.count) continents")) {
                 ForEach(continents) { continent in
-                    NavigationLink(destination: ContinentView(continent: continent)
-                        .environmentObject(self.viewState)
-                    ) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(continent.continentInfo.name)
-                                .font(.headline)
-                            Text("\(continent.stayDurationForYear(self.selectedYear)) days")
-                        }
-                    }
+                    ContinentListItemView(continent: continent)
                 }
             }
         }

@@ -9,16 +9,25 @@
 import SwiftUI
 
 struct LoadingView: View {
+    @EnvironmentObject var loadingViewState: LoadingViewState
+
     var body: some View {
         VStack() {
             Spacer()
             CircleImage()
 
             VStack {
-                Text("Loading...")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.bottom)
+                if loadingViewState.permissionGranted {
+                    Text("Loading...")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .padding(.bottom)
+                } else {
+                    Text("Permission to access photo library denied.")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .padding(.bottom)
+                }
             }
             .padding()
 

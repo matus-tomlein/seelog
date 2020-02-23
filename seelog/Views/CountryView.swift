@@ -31,7 +31,7 @@ struct CountryView: View {
                     (
                         lat: city.cityInfo.latitude,
                         lng: city.cityInfo.longitude,
-                        color: .black
+                        color: .blue
                     )
                 }
             ).frame(height: 300, alignment: Alignment.bottom)

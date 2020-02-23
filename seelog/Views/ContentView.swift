@@ -23,14 +23,14 @@ enum TableViewSetting {
 }
 
 struct ContentView: View {
-    @EnvironmentObject var viewState: ViewState
+    @EnvironmentObject var loadingViewState: LoadingViewState
 
     @ViewBuilder
     var body: some View {
-        if viewState.loading {
+        if loadingViewState.loading {
             LoadingView()
         } else {
-            LogbookView()
+            LogbookView().environmentObject(loadingViewState.viewState!)
         }
     }
 }

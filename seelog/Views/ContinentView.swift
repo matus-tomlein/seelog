@@ -14,6 +14,16 @@ struct ContinentView: View {
 
     var body: some View {
         List {
+            PolygonView(
+                shapes: [
+                    (
+                        geometry: continent.continentInfo.geometry,
+                        color: .gray
+                    )
+                ] ,
+                points: []
+            ).frame(height: 300, alignment: Alignment.bottom)
+
             StayDurationBarChartView(destination: continent)
             TripsListView(destination: continent)
         }

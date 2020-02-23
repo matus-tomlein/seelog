@@ -16,13 +16,7 @@ struct CitiesListView: View {
     var body: some View {
         Section(header: Text("\(cities.count) cities")) {
             ForEach(cities) { city in
-                NavigationLink(destination: CityView(city: city).environmentObject(self.viewState)) {
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text(city.cityInfo.name)
-                            .font(.headline)
-                        Text("\(city.stayDurationForYear(self.selectedYear)) days")
-                    }
-                }
+                CityListItemView(city: city)
             }
         }
     }

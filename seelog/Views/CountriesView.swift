@@ -17,20 +17,7 @@ struct CountriesView: View {
     var body: some View {
         List {
             VStack(spacing: 0) {
-                PolygonView(
-                    shapes: viewState.model.continentInfos.map { continent in
-                        (
-                            geometry: continent.geometry,
-                            color: .gray
-                        )
-                        } + countries.map { country in
-                            (
-                                geometry: country.countryInfo.geometry110m,
-                                color: .red
-                            )
-                    },
-                    points: []
-                ).frame(height: 370, alignment: Alignment.bottom)
+                CountriesHeatView()
 
                 BarChartView(showCounts: true, yearStats: yearStats)
                     .padding(.bottom, 20)
@@ -40,15 +27,7 @@ struct CountriesView: View {
 
             Section(header: Text("\(countries.count) countries")) {
                 ForEach(countries) { country in
-                    NavigationLink(destination: CountryView(country: country)
-                        .environmentObject(self.viewState)
-                    ) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(country.countryInfo.name)
-                                .font(.headline)
-                            Text("\(country.stayDurationForYear(self.selectedYear)) days")
-                        }
-                    }
+                    CountryListItemView(country: country)
                 }
             }
         }
