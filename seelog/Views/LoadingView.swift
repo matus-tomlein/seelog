@@ -15,7 +15,7 @@ struct LoadingView: View {
             CircleImage()
 
             VStack {
-                Text("Loading")
+                Text("Loading...")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.bottom)
@@ -23,13 +23,13 @@ struct LoadingView: View {
             .padding()
 
             Spacer()
-            Spacer()
         }
     }
 }
 
 struct LoadingView_Previews: PreviewProvider {
     static var previews: some View {
-        LoadingView()
+        return LoadingView()
+            .colorScheme(.dark)
     }
 }

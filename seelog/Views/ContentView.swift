@@ -25,33 +25,13 @@ enum TableViewSetting {
 struct ContentView: View {
     @EnvironmentObject var viewState: ViewState
 
+    @ViewBuilder
     var body: some View {
-        TabView {
-            CountriesView().environmentObject(viewState).tabItem {
-                Image(systemName: "phone.fill")
-                Text("Countries")
-            }
-
-            CitiesView().tabItem {
-                Image(systemName: "phone.fill")
-                Text("Cities")
-            }
-            
-            ContinentsView().tabItem {
-                Image(systemName: "phone.fill")
-                Text("Continents")
-            }
-            
-            TimezonesView().tabItem {
-                Image(systemName: "phone.fill")
-                Text("Timezones")
-            }
-            
-//            MapView().tabItem {
-//                Image(systemName: "phone.fill")
-//                Text("Map")
-//            }
-        }.edgesIgnoringSafeArea(.top)
+        if viewState.loading {
+            LoadingView()
+        } else {
+            LogbookView()
+        }
     }
 }
 

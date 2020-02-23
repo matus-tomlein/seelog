@@ -11,6 +11,7 @@ import Combine
 
 final class ViewState: ObservableObject {
     @Published var selectedYear: Int?
+    @Published var loading: Bool = false
     var model: DomainModel
 
     init(model: DomainModel) {
