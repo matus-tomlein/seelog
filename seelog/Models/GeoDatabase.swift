@@ -312,6 +312,25 @@ class GeoDatabase {
         }
         return nil
     }
+    
+    func allContinents() -> [ContinentInfo] {
+        if let db = self.db {
+            do {
+                return try db.prepare(continents).map { row in
+                    if let continentInfo = cachedContinents[row[name]] {
+                        return continentInfo
+                    } else {
+                        let continentInfo = ContinentInfo(name: row[name], geometry: row[geometry].bytes)
+                        cachedContinents[row[name]] = continentInfo
+                        return continentInfo
+                    }
+                }
+            } catch {
+                print("Error querying geo database")
+            }
+        }
+        return []
+    }
 
     func getGeohashesOfAllLengths(geohash: String) -> [String] {
         var allGeohashes: [String] = []

@@ -13,11 +13,9 @@ import Photos
 class DatabaseInitializer {
     var context: NSManagedObjectContext
     var geoDatabase = GeoDatabase()
-    var initializationState: CurrentInitializationState
     
-    init(initializationState: inout CurrentInitializationState, context: NSManagedObjectContext) {
+    init(context: NSManagedObjectContext) {
         self.context = context
-        self.initializationState = initializationState
     }
 
     func start() {
@@ -32,7 +30,7 @@ class DatabaseInitializer {
         print("Fetched photos \(Date().timeIntervalSince(start))")
         start = Date()
         if allPhotos.count > 0 {
-            let seenAreaUpdater = SeenAreaUpdater(initializationState: &initializationState, context: context)
+            let seenAreaUpdater = SeenAreaUpdater(context: context)
             let visitPeriodUpdater = VisitPeriodUpdater(context: context)
 
             allPhotos.enumerateObjects { asset, _, _ in
@@ -46,7 +44,6 @@ class DatabaseInitializer {
                 }
             }
 
-            initializationState.processingHeatmaps = true
             seenAreaUpdater.update()
             saveContext()
             print("Saved photos \(Date().timeIntervalSince(start))")

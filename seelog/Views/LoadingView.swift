@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct LoadingView: View {
-    @EnvironmentObject var initializationState: CurrentInitializationState
-    
     var body: some View {
         VStack() {
             Spacer()
@@ -21,27 +19,6 @@ struct LoadingView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.bottom)
-                HStack {
-                    Text("\(Int64(self.initializationState.seenArea)) km²")
-                        .font(.title)
-                    Spacer()
-                    Text("\(self.initializationState.numberOfCountries) countries")
-                        .font(.title)
-                }
-                HStack {
-                    Text("\(self.initializationState.numberOfStates) regions")
-                        .font(.title)
-                    Spacer()
-                    Text("\(self.initializationState.numberOfCities) cities")
-                        .font(.title)
-                }
-                HStack {
-                    Text("\(self.initializationState.numberOfContinents) continents")
-                        .font(.title)
-                    Spacer()
-                    Text("\(self.initializationState.numberOfTimezones) timezones")
-                        .font(.title)
-                }
             }
             .padding()
 
@@ -54,6 +31,5 @@ struct LoadingView: View {
 struct LoadingView_Previews: PreviewProvider {
     static var previews: some View {
         LoadingView()
-            .environmentObject(CurrentInitializationState())
     }
 }

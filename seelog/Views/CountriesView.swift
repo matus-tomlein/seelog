@@ -1,41 +1,49 @@
 //
-//  ContentView.swift
+//  CountriesStatsView.swift
 //  seelog
 //
-//  Created by Matus Tomlein on 28/12/2019.
-//  Copyright © 2019 Matus Tomlein. All rights reserved.
+//  Created by Matus Tomlein on 16/02/2020.
+//  Copyright © 2020 Matus Tomlein. All rights reserved.
 //
 
 import SwiftUI
 
-struct CountryVisitStat: Hashable, Codable, Identifiable {
-    var id: Int
-    var name: String
-}
-
 struct CountriesView: View {
-    var countries: [Country]
-    var yearStats: [(year: Int, count: Int)]
-    var selectedYear: Int?
-    var mapView = MapView(world: true)
+    @EnvironmentObject var viewState: ViewState
+    var selectedYear: Int? { get { return viewState.selectedYear } }
+    var countries: [Country] { get { return viewState.model.countriesForYear(selectedYear) } }
+    var yearStats: [(year: Int, count: Int)] { get { return viewState.model.countryYearCounts } }
     
     var body: some View {
         NavigationView {
             List {
                 VStack(spacing: 0) {
-                    CountriesMapView(countries: countries, mapView: mapView)
-                        .frame(height: CGFloat(300))
-                        .listRowInsets(EdgeInsets())
+                    PolygonView(
+                        shapes: viewState.model.continentInfos.map { continent in
+                            (
+                                geometry: continent.geometry,
+                                color: .gray
+                            )
+                            } + countries.map { country in
+                                (
+                                    geometry: country.countryInfo.geometry110m,
+                                    color: .red
+                                )
+                        },
+                        points: []
+                    ).frame(height: 370, alignment: Alignment.bottom)
 
-                    BarChartView(yearStats: yearStats, selectedYear: selectedYear)
-                        .listRowInsets(EdgeInsets())
+                    BarChartView(yearStats: yearStats)
                         .padding(.bottom, 20)
                         .padding(.top, 20)
+                        .environmentObject(viewState)
                 }.listRowInsets(EdgeInsets())
 
                 Section(header: Text("\(countries.count) countries")) {
                     ForEach(countries) { country in
-                        NavigationLink(destination: CountryView(country: country, selectedYear: self.selectedYear)) {
+                        NavigationLink(destination: CountryView(country: country)
+                            .environmentObject(self.viewState)
+                        ) {
                             VStack(alignment: .leading, spacing: 5) {
                                 Text(country.countryInfo.name)
                                     .font(.headline)
@@ -46,6 +54,7 @@ struct CountriesView: View {
                 }
             }
             .navigationBarTitle("Countries")
+            .navigationBarHidden(true)
         }
 
     }
@@ -55,10 +64,6 @@ struct CountriesView_Previews: PreviewProvider {
     static var previews: some View {
         let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
         
-        return CountriesView(
-            countries: model.countriesForYear(2019),
-            yearStats: model.countryYearCounts,
-            selectedYear: 2019
-        )
+        return CountriesView().environmentObject(ViewState(model: model))
     }
 }

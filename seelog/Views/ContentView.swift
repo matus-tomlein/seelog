@@ -23,15 +23,15 @@ enum TableViewSetting {
 }
 
 struct ContentView: View {
-    @EnvironmentObject var initializationState: CurrentInitializationState
+    @EnvironmentObject var viewState: ViewState
 
     var body: some View {
         TabView {
-            CountriesView(countries: [], yearStats: []).tabItem {
+            CountriesView().environmentObject(viewState).tabItem {
                 Image(systemName: "phone.fill")
                 Text("Countries")
             }
-            
+
             CitiesView().tabItem {
                 Image(systemName: "phone.fill")
                 Text("Cities")
@@ -51,14 +51,18 @@ struct ContentView: View {
 //                Image(systemName: "phone.fill")
 //                Text("Map")
 //            }
-        }
+        }.edgesIgnoringSafeArea(.top)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
-        ContentView()
-            .environmentObject(CurrentInitializationState())
+        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        
+        return ContentView()
+            .environmentObject(ViewState(model: model))
+            .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
+            .environment(\.colorScheme, .dark)
     }
 }

@@ -9,26 +9,49 @@
 import SwiftUI
 
 struct CitiesView: View {
+    @EnvironmentObject var viewState: ViewState
+    var selectedYear: Int? { get { return viewState.selectedYear } }
+    var cities: [City] { get { return viewState.model.citiesForYear(selectedYear) } }
+    var yearStats: [(year: Int, count: Int)] { get { return viewState.model.cityYearCounts } }
+
     var body: some View {
-        VStack {
-//            MapView()
-//                .edgesIgnoringSafeArea(.top)
-//                .frame(height: 300)
+        NavigationView {
+            List {
+                VStack(spacing: 0) {
+                    PolygonView(
+                        shapes: viewState.model.continentInfos.map { continent in
+                            (
+                                geometry: continent.geometry,
+                                color: .gray
+                            )
+                        },
+                        points: cities.map { city in
+                            (
+                                lat: city.cityInfo.latitude,
+                                lng: city.cityInfo.longitude,
+                                color: .red
+                            )
+                        }
+                    ).frame(height: 370, alignment: Alignment.bottom)
 
-            VStack(alignment: .leading) {
-                Text("Cities")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    BarChartView(yearStats: yearStats)
+                        .padding(.bottom, 20)
+                        .padding(.top, 20)
+                        .environmentObject(viewState)
+                }.listRowInsets(EdgeInsets())
+
+                CitiesListView(cities: cities)
             }
-            .padding()
-
-            Spacer()
+            .navigationBarTitle("Cities")
+            .navigationBarHidden(true)
         }
     }
 }
 
 struct CitiesView_Previews: PreviewProvider {
     static var previews: some View {
-        CitiesView()
+        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        
+        return CitiesView().environmentObject(ViewState(model: model))
     }
 }

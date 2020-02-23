@@ -11,6 +11,7 @@ import Foundation
 struct Year: Identifiable {
     var id: Int { get { return year } }
     var year: Int
+    var cities: [City]
     var countries: [Country]
     var states: [State]
     var timezones: [Timezone]

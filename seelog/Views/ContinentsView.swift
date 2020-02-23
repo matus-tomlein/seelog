@@ -9,26 +9,60 @@
 import SwiftUI
 
 struct ContinentsView: View {
+    @EnvironmentObject var viewState: ViewState
+    var selectedYear: Int? { get { return viewState.selectedYear } }
+    var continents: [Continent] { get { return viewState.model.continentsForYear(selectedYear) } }
+    var yearStats: [(year: Int, count: Int)] { get { return viewState.model.continentYearCounts } }
+
     var body: some View {
-        VStack {
-//            MapView()
-//                .edgesIgnoringSafeArea(.top)
-//                .frame(height: 300)
+        NavigationView {
+            List {
+                VStack(spacing: 0) {
+                    PolygonView(
+                        shapes: viewState.model.continentInfos.map { continent in
+                            (
+                                geometry: continent.geometry,
+                                color: .gray
+                            )
+                            } + continents.map { continent in
+                                (
+                                    geometry: continent.continentInfo.geometry,
+                                    color: .red
+                                )
+                        },
+                        points: []
+                    ).frame(height: 370, alignment: Alignment.bottom)
 
-            VStack(alignment: .leading) {
-                Text("Continents")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+                    BarChartView(yearStats: yearStats)
+                        .padding(.bottom, 20)
+                        .padding(.top, 20)
+                        .environmentObject(viewState)
+                }.listRowInsets(EdgeInsets())
+
+                Section(header: Text("\(continents.count) continents")) {
+                    ForEach(continents) { continent in
+                        NavigationLink(destination: ContinentView(continent: continent)
+                            .environmentObject(self.viewState)
+                        ) {
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text(continent.continentInfo.name)
+                                    .font(.headline)
+                                Text("\(continent.stayDurationForYear(self.selectedYear)) days")
+                            }
+                        }
+                    }
+                }
             }
-            .padding()
-
-            Spacer()
+            .navigationBarTitle("Continents")
+            .navigationBarHidden(true)
         }
     }
 }
 
 struct ContinentsView_Previews: PreviewProvider {
     static var previews: some View {
-        ContinentsView()
+        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        
+        return ContinentsView().environmentObject(ViewState(model: model))
     }
 }

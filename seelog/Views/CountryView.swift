@@ -10,23 +10,37 @@ import SwiftUI
 
 struct CountryView: View {
     var country: Country
-    var selectedYear: Int?
-    
+    @EnvironmentObject var viewState: ViewState
+    var year: Int? { get { return viewState.selectedYear } }
+
     var body: some View {
         List {
-            BarChartView(
-                yearStats: country.stayStatsByYear(),
-                selectedYear: self.selectedYear
-            )
-            .listRowInsets(EdgeInsets())
-            .padding(.top, 20)
-            .padding(.bottom, 20)
-            
-            Section(header: Text("\(country.stayDurationForYear(self.selectedYear)) days")) {
-                ForEach(country.tripsForYear(self.selectedYear)) { trip in
-                    Text(trip.formatDateInterval())
+            PolygonView(
+                shapes: [
+                    (
+                        geometry: country.countryInfo.geometry10m,
+                        color: .gray
+                    )
+                ] + country.statesForYear(year: year).map { state in
+                    (
+                        geometry: state.stateInfo.geometry10m,
+                        color: .red
+                    )
+                },
+                points: country.citiesForYear(year: year).map { city in
+                    (
+                        lat: city.cityInfo.latitude,
+                        lng: city.cityInfo.longitude,
+                        color: .black
+                    )
                 }
-            }
+            ).frame(height: 300, alignment: Alignment.bottom)
+
+            StayDurationBarChartView(destination: country)
+
+            StatesListView(states: country.statesForYear(year: self.year))
+            CitiesListView(cities: country.citiesForYear(year: self.year))
+            TripsListView(destination: country)
         }
         .navigationBarTitle(Text(country.countryInfo.name), displayMode: .inline)
     }
@@ -37,8 +51,7 @@ struct CountryView_Previews: PreviewProvider {
         let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
         
         return CountryView(
-            country: model.countries.first(where: { $0.countryInfo.name == "Denmark" })!,
-            selectedYear: 2017
-        )
+            country: model.countries.first(where: { $0.countryInfo.name == "Slovakia" })!
+        ).environmentObject(ViewState(model: model))
     }
 }

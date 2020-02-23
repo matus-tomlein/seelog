@@ -10,11 +10,12 @@ import Foundation
 import SwiftCSV
 
 class DomainModel {
-    var trips: [Trip]
+    var world: World
     var countries: [Country] = []
     var states: [State] = []
     var timezones: [Timezone] = []
     var continents: [Continent] = []
+    var continentInfos: [ContinentInfo] = []
     var cities: [City] = []
     var years: [Year] = []
     var seenGeometry: SeenGeometry?
@@ -22,19 +23,31 @@ class DomainModel {
     var countryYearCounts: [(year: Int, count: Int)] {
         get { return years.reversed().map { year in (year: year.year, count: year.countries.count) } }
     }
+    var continentYearCounts: [(year: Int, count: Int)] {
+        get { return years.reversed().map { year in (year: year.year, count: year.continents.count) } }
+    }
+    var timezonesYearCounts: [(year: Int, count: Int)] {
+        get { return years.reversed().map { year in (year: year.year, count: year.timezones.count) } }
+    }
+    var cityYearCounts: [(year: Int, count: Int)] {
+        get { return years.reversed().map { year in (year: year.year, count: year.cities.count) } }
+    }
 
     init(trips: [Trip], seenGeometries: [SeenGeometry], geoDatabase: GeoDatabase) {
-        self.trips = trips
+        self.world = World(trips: trips)
         self.seenGeometry = seenGeometries.first { $0.isTotal }
         self.geoDatabase = geoDatabase
+        self.continentInfos = geoDatabase.allContinents()
 
         let tripsByType = Dictionary(grouping: trips, by: { $0.visitedEntityType }).mapValues { trips in Dictionary(grouping: trips, by: { $0.visitedEntityKey }) }
+        var countryTrips: [(countryInfo: CountryInfo, trips: [Trip])] = []
+
         for (type, tripsByPlace) in tripsByType {
             for (entityKey, trips) in tripsByPlace {
                 switch type {
                 case .country:
                     if let countryInfo = geoDatabase.countryInfoFor(countryKey: entityKey) {
-                        countries.append(Country(countryInfo: countryInfo, trips: trips))
+                        countryTrips.append((countryInfo: countryInfo, trips: trips))
                     }
                     
                 case .state:
@@ -62,6 +75,11 @@ class DomainModel {
             }
         }
 
+        countries = countryTrips.map { (countryInfo, trips) in
+            let countryStates = states.filter { state in state.stateInfo.countryKey == countryInfo.countryKey }
+            let countryCities = cities.filter { city in city.cityInfo.countryKey == countryInfo.countryKey }
+            return Country(countryInfo: countryInfo, states: countryStates, cities: countryCities, trips: trips)
+        }
         countries = countries.sorted(by: { $0.countryInfo.name < $1.countryInfo.name })
         states = states.sorted(by: { $0.stateInfo.name < $1.stateInfo.name })
         timezones = timezones.sorted(by: { $0.timezoneInfo.name < $1.timezoneInfo.name })
@@ -83,8 +101,12 @@ class DomainModel {
             let yearContinents = continents.filter { continent in
                 !continent.trips.filter { trip in trip.years.contains(year) }.isEmpty
             }
+            let yearCities = cities.filter { city in
+                !city.trips.filter { trip in trip.years.contains(year) }.isEmpty
+            }
             return Year(
                 year: year,
+                cities: yearCities,
                 countries: yearCountries,
                 states: yearStates,
                 timezones: yearTimezones,
@@ -110,14 +132,6 @@ class DomainModel {
         }
     }
     
-    func citiesForYear(_ year: Int?) -> [City] {
-        if let year = year {
-            return self.cities.filter { $0.years.contains(year) }
-        } else {
-            return self.cities
-        }
-    }
-    
     func timezonesForYear(_ year: Int?) -> [Timezone] {
         if let year = year {
             return self.timezones.filter { $0.years.contains(year) }
@@ -131,6 +145,14 @@ class DomainModel {
             return self.continents.filter { $0.years.contains(year) }
         } else {
             return self.continents
+        }
+    }
+    
+    func citiesForYear(_ year: Int?) -> [City] {
+        if let year = year {
+            return self.cities.filter { $0.years.contains(year) }
+        } else {
+            return self.cities
         }
     }
     

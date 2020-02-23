@@ -17,11 +17,9 @@ class SeenAreaUpdater {
     var cumulativeGeohashes: Set<String>
     var changedHeatmap = [Int32: Bool]()
     var changedCumulativeHeatmap = false
-    var initializationState: CurrentInitializationState
     var context: NSManagedObjectContext
     
-    init(initializationState: inout CurrentInitializationState, context: NSManagedObjectContext) {
-        self.initializationState = initializationState
+    init(context: NSManagedObjectContext) {
         self.context = context
         self.totalSeenArea = SeenArea.total(context: context)
         self.cumulativeGeohashes = Set(self.totalSeenArea.geohashes ?? [])
