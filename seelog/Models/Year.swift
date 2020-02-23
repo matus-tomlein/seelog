@@ -13,7 +13,7 @@ struct Year: Identifiable {
     var year: Int
     var cities: [City]
     var countries: [Country]
-    var states: [State]
+    var states: [Region]
     var timezones: [Timezone]
     var continents: [Continent]
     var seenGeometry: SeenGeometry?

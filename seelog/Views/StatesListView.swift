@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct StatesListView: View {
-    var states: [State]
+    var states: [Region]
     @EnvironmentObject var viewState: ViewState
     var year: Int? { get { return viewState.selectedYear } }
     

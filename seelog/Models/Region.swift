@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct State: Identifiable, Trippable {
+struct Region: Identifiable, Trippable {
     var id: String { get { return stateInfo.stateKey } }
     var stateInfo: StateInfo
 
@@ -19,7 +19,7 @@ struct State: Identifiable, Trippable {
     var years: [Int]
 }
 
-extension State {
+extension Region {
     init(stateInfo: StateInfo, trips: [Trip]) {
         self.stateInfo = stateInfo
         self.trips = trips

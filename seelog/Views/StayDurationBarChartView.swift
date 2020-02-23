@@ -15,6 +15,7 @@ struct StayDurationBarChartView: View {
     var body: some View {
         Section(header: Text("\(destination.stayDurationForYear(self.viewState.selectedYear)) days")) {
             BarChartView(
+                showCounts: true,
                 yearStats: destination.stayStatsByYear()
             )
             .listRowInsets(EdgeInsets())

@@ -17,9 +17,9 @@ class StatesMapManager: MapManager {
     private let strokeColor = UIColor.white
     private let lineWidth: CGFloat = 1
     private let alpha: CGFloat = 0.25
-    private let states: [State]
+    private let states: [Region]
 
-    init(states: [State]) {
+    init(states: [Region]) {
         self.states = states
     }
 

@@ -42,7 +42,7 @@ struct CountryView: View {
             CitiesListView(cities: country.citiesForYear(year: self.year))
             TripsListView(destination: country)
         }
-        .navigationBarTitle(Text(country.countryInfo.name), displayMode: .inline)
+        .navigationBarTitle(country.countryInfo.name)
     }
 }
 

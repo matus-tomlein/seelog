@@ -15,47 +15,44 @@ struct TimezonesView: View {
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.timezonesYearCounts } }
 
     var body: some View {
-        NavigationView {
-            List {
-                VStack(spacing: 0) {
-                    PolygonView(
-                        shapes: viewState.model.continentInfos.map { continent in
+        List {
+            VStack(spacing: 0) {
+                PolygonView(
+                    shapes: viewState.model.continentInfos.map { continent in
+                        (
+                            geometry: continent.geometry,
+                            color: .gray
+                        )
+                        } + timezones.map { timezone in
                             (
-                                geometry: continent.geometry,
-                                color: .gray
+                                geometry: timezone.timezoneInfo.geometry,
+                                color: Color.red.opacity(0.5)
                             )
-                            } + timezones.map { timezone in
-                                (
-                                    geometry: timezone.timezoneInfo.geometry,
-                                    color: Color.red.opacity(0.5)
-                                )
-                        },
-                        points: []
-                    ).frame(height: 370, alignment: Alignment.bottom)
+                    },
+                    points: []
+                ).frame(height: 370, alignment: Alignment.bottom)
 
-                    BarChartView(yearStats: yearStats)
-                        .padding(.bottom, 20)
-                        .padding(.top, 20)
-                        .environmentObject(viewState)
-                }.listRowInsets(EdgeInsets())
+                BarChartView(showCounts: true, yearStats: yearStats)
+                    .padding(.bottom, 20)
+                    .padding(.top, 20)
+                    .environmentObject(viewState)
+            }.listRowInsets(EdgeInsets())
 
-                Section(header: Text("\(timezones.count) timezones")) {
-                    ForEach(timezones) { timezone in
-                        NavigationLink(destination: TimezoneView(timezone: timezone)
-                            .environmentObject(self.viewState)
-                        ) {
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(timezone.timezoneInfo.name)
-                                    .font(.headline)
-                                Text("\(timezone.stayDurationForYear(self.selectedYear)) days")
-                            }
+            Section(header: Text("\(timezones.count) timezones")) {
+                ForEach(timezones) { timezone in
+                    NavigationLink(destination: TimezoneView(timezone: timezone)
+                        .environmentObject(self.viewState)
+                    ) {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(timezone.timezoneInfo.name)
+                                .font(.headline)
+                            Text("\(timezone.stayDurationForYear(self.selectedYear)) days")
                         }
                     }
                 }
             }
-            .navigationBarTitle("Timezones")
-            .navigationBarHidden(true)
         }
+        .navigationBarTitle("Timezones")
 
     }
 }

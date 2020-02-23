@@ -13,7 +13,7 @@ struct Country: Identifiable, Trippable {
     var countryInfo: CountryInfo
 
     var stayDurationByYear: [Int: Int]
-    var states: [State]
+    var states: [Region]
     var cities: [City]
     var trips: [Trip]
     var tripsByYear: [Int : [Trip]]
@@ -22,7 +22,7 @@ struct Country: Identifiable, Trippable {
 }
 
 extension Country {
-    init(countryInfo: CountryInfo, states: [State], cities: [City], trips: [Trip]) {
+    init(countryInfo: CountryInfo, states: [Region], cities: [City], trips: [Trip]) {
         self.countryInfo = countryInfo
         self.states = states
         self.cities = cities
@@ -35,7 +35,7 @@ extension Country {
         self.years = tripsInfo.years
     }
     
-    func statesForYear(year: Int?) -> [State] {
+    func statesForYear(year: Int?) -> [Region] {
         if let year = year {
             return states.filter { state in state.years.contains(year) }
         } else {

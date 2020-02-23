@@ -17,6 +17,7 @@ struct ContinentView: View {
             StayDurationBarChartView(destination: continent)
             TripsListView(destination: continent)
         }
+        .navigationBarTitle(continent.continentInfo.name)
     }
 }
 

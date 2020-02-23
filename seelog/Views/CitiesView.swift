@@ -15,36 +15,33 @@ struct CitiesView: View {
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.cityYearCounts } }
 
     var body: some View {
-        NavigationView {
-            List {
-                VStack(spacing: 0) {
-                    PolygonView(
-                        shapes: viewState.model.continentInfos.map { continent in
-                            (
-                                geometry: continent.geometry,
-                                color: .gray
-                            )
-                        },
-                        points: cities.map { city in
-                            (
-                                lat: city.cityInfo.latitude,
-                                lng: city.cityInfo.longitude,
-                                color: .red
-                            )
-                        }
-                    ).frame(height: 370, alignment: Alignment.bottom)
+        List {
+            VStack(spacing: 0) {
+                PolygonView(
+                    shapes: viewState.model.continentInfos.map { continent in
+                        (
+                            geometry: continent.geometry,
+                            color: .gray
+                        )
+                    },
+                    points: cities.map { city in
+                        (
+                            lat: city.cityInfo.latitude,
+                            lng: city.cityInfo.longitude,
+                            color: .red
+                        )
+                    }
+                ).frame(height: 370, alignment: Alignment.bottom)
 
-                    BarChartView(yearStats: yearStats)
-                        .padding(.bottom, 20)
-                        .padding(.top, 20)
-                        .environmentObject(viewState)
-                }.listRowInsets(EdgeInsets())
+                BarChartView(showCounts: true, yearStats: yearStats)
+                    .padding(.bottom, 20)
+                    .padding(.top, 20)
+                    .environmentObject(viewState)
+            }.listRowInsets(EdgeInsets())
 
-                CitiesListView(cities: cities)
-            }
-            .navigationBarTitle("Cities")
-            .navigationBarHidden(true)
+            CitiesListView(cities: cities)
         }
+        .navigationBarTitle("Cities")
     }
 }
 

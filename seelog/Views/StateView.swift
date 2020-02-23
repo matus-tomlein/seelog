@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct StateView: View {
-    var state: State
+    var state: Region
     @EnvironmentObject var viewState: ViewState
     
     var body: some View {
@@ -17,7 +17,7 @@ struct StateView: View {
             StayDurationBarChartView(destination: state)
             TripsListView(destination: state)
         }
-        .navigationBarTitle(Text(state.stateInfo.name), displayMode: .inline)
+        .navigationBarTitle(state.stateInfo.name)
     }
 }
 

@@ -12,7 +12,7 @@ import SwiftCSV
 class DomainModel {
     var world: World
     var countries: [Country] = []
-    var states: [State] = []
+    var states: [Region] = []
     var timezones: [Timezone] = []
     var continents: [Continent] = []
     var continentInfos: [ContinentInfo] = []
@@ -31,6 +31,16 @@ class DomainModel {
     }
     var cityYearCounts: [(year: Int, count: Int)] {
         get { return years.reversed().map { year in (year: year.year, count: year.cities.count) } }
+    }
+    var totalYearCounts: [(year: Int, count: Int)] {
+        get {
+            return years.reversed().map { year in
+                (
+                    year: year.year,
+                    count: year.countries.count + year.continents.count + year.timezones.count + year.cities.count
+                )
+            }
+        }
     }
 
     init(trips: [Trip], seenGeometries: [SeenGeometry], geoDatabase: GeoDatabase) {
@@ -52,7 +62,7 @@ class DomainModel {
                     
                 case .state:
                     if let stateInfo = geoDatabase.stateInfoFor(stateKey: entityKey) {
-                        states.append(State(stateInfo: stateInfo, trips: trips))
+                        states.append(Region(stateInfo: stateInfo, trips: trips))
                     }
                     
                 case .timezone:
@@ -124,7 +134,7 @@ class DomainModel {
         }
     }
     
-    func statesForYear(_ year: Int?) -> [State] {
+    func regionsForYear(_ year: Int?) -> [Region] {
         if let year = year {
             return self.states.filter { $0.years.contains(year) }
         } else {

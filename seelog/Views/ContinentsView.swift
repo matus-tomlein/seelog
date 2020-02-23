@@ -15,47 +15,44 @@ struct ContinentsView: View {
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.continentYearCounts } }
 
     var body: some View {
-        NavigationView {
-            List {
-                VStack(spacing: 0) {
-                    PolygonView(
-                        shapes: viewState.model.continentInfos.map { continent in
+        List {
+            VStack(spacing: 0) {
+                PolygonView(
+                    shapes: viewState.model.continentInfos.map { continent in
+                        (
+                            geometry: continent.geometry,
+                            color: .gray
+                        )
+                        } + continents.map { continent in
                             (
-                                geometry: continent.geometry,
-                                color: .gray
+                                geometry: continent.continentInfo.geometry,
+                                color: .red
                             )
-                            } + continents.map { continent in
-                                (
-                                    geometry: continent.continentInfo.geometry,
-                                    color: .red
-                                )
-                        },
-                        points: []
-                    ).frame(height: 370, alignment: Alignment.bottom)
+                    },
+                    points: []
+                ).frame(height: 370, alignment: Alignment.bottom)
 
-                    BarChartView(yearStats: yearStats)
-                        .padding(.bottom, 20)
-                        .padding(.top, 20)
-                        .environmentObject(viewState)
-                }.listRowInsets(EdgeInsets())
+                BarChartView(showCounts: true, yearStats: yearStats)
+                    .padding(.bottom, 20)
+                    .padding(.top, 20)
+                    .environmentObject(viewState)
+            }.listRowInsets(EdgeInsets())
 
-                Section(header: Text("\(continents.count) continents")) {
-                    ForEach(continents) { continent in
-                        NavigationLink(destination: ContinentView(continent: continent)
-                            .environmentObject(self.viewState)
-                        ) {
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(continent.continentInfo.name)
-                                    .font(.headline)
-                                Text("\(continent.stayDurationForYear(self.selectedYear)) days")
-                            }
+            Section(header: Text("\(continents.count) continents")) {
+                ForEach(continents) { continent in
+                    NavigationLink(destination: ContinentView(continent: continent)
+                        .environmentObject(self.viewState)
+                    ) {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(continent.continentInfo.name)
+                                .font(.headline)
+                            Text("\(continent.stayDurationForYear(self.selectedYear)) days")
                         }
                     }
                 }
             }
-            .navigationBarTitle("Continents")
-            .navigationBarHidden(true)
         }
+        .navigationBarTitle("Continents")
     }
 }
 

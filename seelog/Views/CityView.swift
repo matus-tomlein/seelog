@@ -17,7 +17,7 @@ struct CityView: View {
             StayDurationBarChartView(destination: city)
             TripsListView(destination: city)
         }
-        .navigationBarTitle(Text(city.cityInfo.name), displayMode: .inline)
+        .navigationBarTitle(city.cityInfo.name)
     }
 }
 

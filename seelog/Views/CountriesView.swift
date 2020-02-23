@@ -15,47 +15,44 @@ struct CountriesView: View {
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.countryYearCounts } }
     
     var body: some View {
-        NavigationView {
-            List {
-                VStack(spacing: 0) {
-                    PolygonView(
-                        shapes: viewState.model.continentInfos.map { continent in
+        List {
+            VStack(spacing: 0) {
+                PolygonView(
+                    shapes: viewState.model.continentInfos.map { continent in
+                        (
+                            geometry: continent.geometry,
+                            color: .gray
+                        )
+                        } + countries.map { country in
                             (
-                                geometry: continent.geometry,
-                                color: .gray
+                                geometry: country.countryInfo.geometry110m,
+                                color: .red
                             )
-                            } + countries.map { country in
-                                (
-                                    geometry: country.countryInfo.geometry110m,
-                                    color: .red
-                                )
-                        },
-                        points: []
-                    ).frame(height: 370, alignment: Alignment.bottom)
+                    },
+                    points: []
+                ).frame(height: 370, alignment: Alignment.bottom)
 
-                    BarChartView(yearStats: yearStats)
-                        .padding(.bottom, 20)
-                        .padding(.top, 20)
-                        .environmentObject(viewState)
-                }.listRowInsets(EdgeInsets())
+                BarChartView(showCounts: true, yearStats: yearStats)
+                    .padding(.bottom, 20)
+                    .padding(.top, 20)
+                    .environmentObject(viewState)
+            }.listRowInsets(EdgeInsets())
 
-                Section(header: Text("\(countries.count) countries")) {
-                    ForEach(countries) { country in
-                        NavigationLink(destination: CountryView(country: country)
-                            .environmentObject(self.viewState)
-                        ) {
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(country.countryInfo.name)
-                                    .font(.headline)
-                                Text("\(country.stayDurationForYear(self.selectedYear)) days")
-                            }
+            Section(header: Text("\(countries.count) countries")) {
+                ForEach(countries) { country in
+                    NavigationLink(destination: CountryView(country: country)
+                        .environmentObject(self.viewState)
+                    ) {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(country.countryInfo.name)
+                                .font(.headline)
+                            Text("\(country.stayDurationForYear(self.selectedYear)) days")
                         }
                     }
                 }
             }
-            .navigationBarTitle("Countries")
-            .navigationBarHidden(true)
         }
+        .navigationBarTitle("Countries")
 
     }
 }

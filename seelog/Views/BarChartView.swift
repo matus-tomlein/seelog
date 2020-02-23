@@ -10,6 +10,7 @@ import SwiftUI
 
 struct BarChartView: View {
     @EnvironmentObject var viewState: ViewState
+    var showCounts: Bool
     var yearStats: [(year: Int, count: Int)]
     let totalBarHeight = 130
 
@@ -17,9 +18,11 @@ struct BarChartView: View {
         ScrollView(.horizontal) {
             HStack(alignment: .bottom) {
                 VStack(alignment: .center) {
-                    Text("\(self.totalCount())")
-                        .foregroundColor(color(nil))
-                        .fontWeight(.semibold)
+                    if showCounts {
+                        Text("\(self.totalCount())")
+                            .foregroundColor(color(nil))
+                            .fontWeight(.semibold)
+                    }
                     Rectangle()
                         .fill(color(nil))
                         .frame(width: 50, height: 56)
@@ -38,9 +41,11 @@ struct BarChartView: View {
 
                 ForEach(yearStats, id: \.year) { stat in
                     VStack(alignment: .center) {
-                        Text("\(stat.count)")
-                            .foregroundColor(self.color(stat.year))
-                            .fontWeight(.semibold)
+                        if self.showCounts {
+                            Text("\(stat.count)")
+                                .foregroundColor(self.color(stat.year))
+                                .fontWeight(.semibold)
+                        }
                         Rectangle()
                             .fill(self.color(stat.year))
                             .frame(
@@ -88,6 +93,7 @@ struct BarChartView_Previews: PreviewProvider {
         let model = DomainModel(trips: [], seenGeometries: [], geoDatabase: GeoDatabase())
         return Group {
             return BarChartView(
+                showCounts: true,
                 yearStats: [
                     (year: 2020, count: 180),
                     (year: 2019, count: 4),
