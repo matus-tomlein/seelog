@@ -16,13 +16,7 @@ struct StatesListView: View {
     var body: some View {
         Section(header: Text("\(states.count) regions")) {
             ForEach(states) { state in
-                NavigationLink(destination: StateView(state: state)) {
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text(state.stateInfo.name)
-                            .font(.headline)
-                        Text("\(state.stayDurationForYear(self.year)) days")
-                    }
-                }
+                StateListItemView(region: state)
             }
         }
     }

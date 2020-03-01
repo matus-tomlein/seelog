@@ -270,4 +270,11 @@ class Helpers {
         return Int16(Calendar.current.component(.month, from: date))
     }
 
+    static func geolocationToXY(latitude: Double, longitude: Double) -> (Double, Double) {
+        (
+            (180 + longitude) / 360,
+            (90 - latitude) / 180
+        )
+    }
+    
 }

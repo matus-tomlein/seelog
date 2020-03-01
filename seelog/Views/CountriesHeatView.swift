@@ -14,20 +14,13 @@ struct CountriesHeatView: View {
     var countries: [Country] { get { return viewState.model.countriesForYear(selectedYear) } }
 
     var body: some View {
-        PolygonView(
-            shapes: viewState.model.continentInfos.map { continent in
-                (
-                    geometry: continent.geometry,
-                    color: .gray
-                )
-                } + countries.map { country in
-                    (
-                        geometry: country.countryInfo.geometry110m,
-                        color: .red
-                    )
-            },
-            points: []
-        ).frame(height: 370, alignment: Alignment.bottom)
+        WorldView(
+            background: (continents: viewState.model.continentInfos, countries: []),
+            foreground: (continents: [], countries: countries.map { $0.countryInfo }, regions: [], timezones: []),
+            cities: [],
+            detailed: false,
+            opaque: false
+        )
     }
 }
 

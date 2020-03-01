@@ -25,6 +25,10 @@ class GeoDatabase {
     let name = Expression<String>("name")
     let latitude = Expression<Double>("latitude")
     let longitude = Expression<Double>("longitude")
+    let minLatitude = Expression<Double>("min_latitude")
+    let minLongitude = Expression<Double>("min_longitude")
+    let maxLatitude = Expression<Double>("max_latitude")
+    let maxLongitude = Expression<Double>("max_longitude")
     let countryKey = Expression<String>("adm0_a3")
     let stateKey = Expression<String>("adm1_code")
     let geometry = Expression<Blob>("geometry")
@@ -205,6 +209,10 @@ class GeoDatabase {
                         geometry110mBytes: item[geometry110m]?.bytes,
                         latitude: item[latitude],
                         longitude: item[longitude],
+                        minLatitude: item[minLatitude],
+                        minLongitude: item[minLongitude],
+                        maxLatitude: item[maxLatitude],
+                        maxLongitude: item[maxLongitude],
                         continent: item[continent],
                         region: item[region],
                         subregion: item[subregion])
@@ -229,11 +237,16 @@ class GeoDatabase {
                 if let item = try db.pluck(query) {
                     let stateInfo = StateInfo(stateKey: sk,
                                      name: item[name],
+                                     continent: item[continent],
                                      geometry10mBytes: item[geometry].bytes,
                                      geometry50mBytes: item[geometry50m]?.bytes,
                                      geometry110mBytes: item[geometry110m]?.bytes,
                                      latitude: item[latitude],
                                      longitude: item[longitude],
+                                     minLatitude: item[minLatitude],
+                                     minLongitude: item[minLongitude],
+                                     maxLatitude: item[maxLatitude],
+                                     maxLongitude: item[maxLongitude],
                                      countryKey: item[countryKey])
 
                     cachedStateInfos[sk] = stateInfo
@@ -255,6 +268,8 @@ class GeoDatabase {
                 if let item = try db.pluck(query) {
                     let cityInfo = CityInfo(cityKey: key,
                                     name: item[name],
+                                    stateKey: item[stateKey],
+                                    continent: item[continent],
                                     latitude: item[latitude],
                                     longitude: item[longitude],
                                     countryKey: item[countryKey],
@@ -283,7 +298,11 @@ class GeoDatabase {
                                         name: item[name],
                                         value: item[value],
                                         places: item[places],
-                                        geometry: item[geometry].bytes)
+                                        geometry: item[geometry].bytes,
+                                        minLatitude: item[minLatitude],
+                                        minLongitude: item[minLongitude],
+                                        maxLatitude: item[maxLatitude],
+                                        maxLongitude: item[maxLongitude])
                     cachedTimezones[id] = timezoneInfo
                     return timezoneInfo
                 }
@@ -302,7 +321,11 @@ class GeoDatabase {
                 let query = continents.where(name == continentName)
                 if let item = try db.pluck(query) {
                     let continentInfo = ContinentInfo(name: item[name],
-                                                      geometry: item[geometry].bytes)
+                                                      geometry: item[geometry].bytes,
+                                                      minLatitude: item[minLatitude],
+                                                      minLongitude: item[minLongitude],
+                                                      maxLatitude: item[maxLatitude],
+                                                      maxLongitude: item[maxLongitude])
                     cachedContinents[continentName] = continentInfo
                     return continentInfo
                 }
@@ -320,7 +343,14 @@ class GeoDatabase {
                     if let continentInfo = cachedContinents[row[name]] {
                         return continentInfo
                     } else {
-                        let continentInfo = ContinentInfo(name: row[name], geometry: row[geometry].bytes)
+                        let continentInfo = ContinentInfo(
+                            name: row[name],
+                            geometry: row[geometry].bytes,
+                            minLatitude: row[minLatitude],
+                            minLongitude: row[minLongitude],
+                            maxLatitude: row[maxLatitude],
+                            maxLongitude: row[maxLongitude]
+                        )
                         cachedContinents[row[name]] = continentInfo
                         return continentInfo
                     }

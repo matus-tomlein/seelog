@@ -12,7 +12,7 @@ import GEOSwift
 
 class TimezoneMapManager: MapManager {
     var timezones: [Timezone]
-    private var overlayManagers: [String: OverlayManager] = [:]
+    private var overlayManagers: [Int32: OverlayManager] = [:]
 
     init(timezones: [Timezone]) {
         self.timezones = timezones
@@ -21,7 +21,7 @@ class TimezoneMapManager: MapManager {
     func load(mapViewDelegate: MainMapViewDelegate) {
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
-        var polygonPropertyNamesToKeep = Set<String>()
+        var polygonPropertyNamesToKeep = Set<Int32>()
         var timezonesToAdd: [Timezone] = []
         for timezone in timezones {
             if overlayManagers[timezone.id] == nil {

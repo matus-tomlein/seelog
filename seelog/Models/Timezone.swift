@@ -9,7 +9,7 @@
 import Foundation
 
 struct Timezone: Identifiable, Trippable {
-    var id: String { get { return timezoneInfo.uniqueName } }
+    var id: Int32 { get { return timezoneInfo.timezoneId } }
     var timezoneInfo: TimezoneInfo
 
     var stayDurationByYear: [Int: Int]

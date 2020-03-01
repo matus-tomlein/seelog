@@ -17,21 +17,7 @@ struct CitiesView: View {
     var body: some View {
         List {
             VStack(spacing: 0) {
-                PolygonView(
-                    shapes: viewState.model.continentInfos.map { continent in
-                        (
-                            geometry: continent.geometry,
-                            color: .gray
-                        )
-                    },
-                    points: cities.map { city in
-                        (
-                            lat: city.cityInfo.latitude,
-                            lng: city.cityInfo.longitude,
-                            color: .red
-                        )
-                    }
-                ).frame(height: 370, alignment: Alignment.bottom)
+                CitiesHeatView()
 
                 BarChartView(showCounts: true, yearStats: yearStats)
                     .padding(.bottom, 20)

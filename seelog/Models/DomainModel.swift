@@ -11,12 +11,19 @@ import SwiftCSV
 
 class DomainModel {
     var world: World
-    var countries: [Country] = []
-    var states: [Region] = []
-    var timezones: [Timezone] = []
-    var continents: [Continent] = []
+    private var countriesById: [String: Country] = [:]
+    private var statesById: [String: Region] = [:]
+    private var timezonesById: [Int32: Timezone] = [:]
+    private var continentsById: [String: Continent] = [:]
+    private var citiesById: [Int64: City] = [:]
+
+    var countries: [Country] { return countriesById.values.sorted(by: { $0.countryInfo.name < $1.countryInfo.name }) }
+    var states: [Region] { return statesById.values.sorted(by: { $0.stateInfo.name < $1.stateInfo.name }) }
+    var timezones: [Timezone] { return timezonesById.values.sorted(by: { $0.timezoneInfo.name < $1.timezoneInfo.name }) }
+    var continents: [Continent] { return continentsById.values.sorted(by: { $0.continentInfo.name < $1.continentInfo.name }) }
+    var cities: [City] { return citiesById.values.sorted(by: { $0.cityInfo.name < $1.cityInfo.name }) }
+
     var continentInfos: [ContinentInfo] = []
-    var cities: [City] = []
     var years: [Year] = []
     var seenGeometry: SeenGeometry?
     var geoDatabase: GeoDatabase
@@ -50,51 +57,44 @@ class DomainModel {
         self.continentInfos = geoDatabase.allContinents()
 
         let tripsByType = Dictionary(grouping: trips, by: { $0.visitedEntityType }).mapValues { trips in Dictionary(grouping: trips, by: { $0.visitedEntityKey }) }
-        var countryTrips: [(countryInfo: CountryInfo, trips: [Trip])] = []
 
         for (type, tripsByPlace) in tripsByType {
             for (entityKey, trips) in tripsByPlace {
                 switch type {
                 case .country:
                     if let countryInfo = geoDatabase.countryInfoFor(countryKey: entityKey) {
-                        countryTrips.append((countryInfo: countryInfo, trips: trips))
+                        let country = Country(countryInfo: countryInfo, trips: trips, model: self)
+                        self.countriesById[country.id] = country
                     }
                     
                 case .state:
                     if let stateInfo = geoDatabase.stateInfoFor(stateKey: entityKey) {
-                        states.append(Region(stateInfo: stateInfo, trips: trips))
+                        let region = Region(stateInfo: stateInfo, trips: trips, model: self)
+                        self.statesById[region.id] = region
                     }
                     
                 case .timezone:
                     if let timezoneId = Int32(entityKey),
                         let timezoneInfo = geoDatabase.timezoneInfoFor(timezoneId: timezoneId) {
-                        timezones.append(Timezone(timezoneInfo: timezoneInfo, trips: trips))
+                        let timezone = Timezone(timezoneInfo: timezoneInfo, trips: trips)
+                        self.timezonesById[timezone.id] = timezone
                     }
 
                 case .city:
                     if let cityKey = Int64(entityKey),
                         let cityInfo = geoDatabase.cityInfoFor(cityKey: cityKey) {
-                        cities.append(City(cityInfo: cityInfo, trips: trips))
+                        let city = City(cityInfo: cityInfo, trips: trips, model: self)
+                        self.citiesById[city.id] = city
                     }
 
                 case .continent:
                     if let continentInfo = geoDatabase.continentInfoFor(name: entityKey) {
-                        continents.append(Continent(continentInfo: continentInfo, trips: trips))
+                        let continent = Continent(continentInfo: continentInfo, trips: trips, model: self)
+                        self.continentsById[continent.id] = continent
                     }
                 }
             }
         }
-
-        countries = countryTrips.map { (countryInfo, trips) in
-            let countryStates = states.filter { state in state.stateInfo.countryKey == countryInfo.countryKey }
-            let countryCities = cities.filter { city in city.cityInfo.countryKey == countryInfo.countryKey }
-            return Country(countryInfo: countryInfo, states: countryStates, cities: countryCities, trips: trips)
-        }
-        countries = countries.sorted(by: { $0.countryInfo.name < $1.countryInfo.name })
-        states = states.sorted(by: { $0.stateInfo.name < $1.stateInfo.name })
-        timezones = timezones.sorted(by: { $0.timezoneInfo.name < $1.timezoneInfo.name })
-        cities = cities.sorted(by: { $0.cityInfo.name < $1.cityInfo.name })
-        continents = continents.sorted(by: { $0.continentInfo.name < $1.continentInfo.name })
 
         var years = Set(trips.flatMap { trip in trip.years })
         years.insert(Date().year())
@@ -173,6 +173,12 @@ class DomainModel {
             return self.seenGeometry
         }
     }
+    
+    func region(id: String) -> Region { return self.statesById[id]! }
+    func country(id: String) -> Country { return self.countriesById[id]! }
+    func city(id: Int64) -> City { return self.citiesById[id]! }
+    func timezone(id: Int32) -> Timezone { return self.timezonesById[id]! }
+    func continent(id: String) -> Continent { return self.continentsById[id]! }
 }
 
 func loadTrips() -> [Trip] {

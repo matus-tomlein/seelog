@@ -14,20 +14,13 @@ struct TimezoneHeatView: View {
     var timezones: [Timezone] { get { return viewState.model.timezonesForYear(selectedYear) } }
 
     var body: some View {
-        PolygonView(
-            shapes: viewState.model.continentInfos.map { continent in
-                (
-                    geometry: continent.geometry,
-                    color: .gray
-                )
-                } + timezones.map { timezone in
-                    (
-                        geometry: timezone.timezoneInfo.geometry,
-                        color: Color.red.opacity(0.5)
-                    )
-            },
-            points: []
-        ).frame(height: 370, alignment: Alignment.bottom)
+        WorldView(
+            background: (continents: viewState.model.continentInfos, countries: []),
+            foreground: (continents: [], countries: [], regions: [], timezones: timezones.map { $0.timezoneInfo }),
+            cities: [],
+            detailed: false,
+            opaque: true
+        )
     }
 }
 

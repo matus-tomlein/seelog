@@ -17,6 +17,10 @@ struct CountryInfo {
     var subregion: String
     var latitude: Double
     var longitude: Double
+    var minLatitude: Double
+    var minLongitude: Double
+    var maxLatitude: Double
+    var maxLongitude: Double
     var geometry10mBytes: [UInt8]
     var geometry50mBytes: [UInt8]?
     var geometry110mBytes: [UInt8]?
@@ -28,6 +32,10 @@ struct CountryInfo {
          geometry110mBytes: [UInt8]?,
          latitude: Double,
          longitude: Double,
+         minLatitude: Double,
+         minLongitude: Double,
+         maxLatitude: Double,
+         maxLongitude: Double,
          continent: String,
          region: String,
          subregion: String) {
@@ -35,6 +43,10 @@ struct CountryInfo {
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
+        self.minLatitude = minLatitude
+        self.minLongitude = minLongitude
+        self.maxLatitude = maxLatitude
+        self.maxLongitude = maxLongitude
         self.geometry10mBytes = geometry10mBytes
         self.geometry50mBytes = geometry50mBytes
         self.geometry110mBytes = geometry110mBytes

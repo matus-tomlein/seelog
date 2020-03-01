@@ -25,11 +25,7 @@ struct CountriesView: View {
                     .environmentObject(viewState)
             }.listRowInsets(EdgeInsets())
 
-            Section(header: Text("\(countries.count) countries")) {
-                ForEach(countries) { country in
-                    CountryListItemView(country: country)
-                }
-            }
+            CountriesListView(countries: countries)
         }
         .navigationBarTitle("Countries")
 

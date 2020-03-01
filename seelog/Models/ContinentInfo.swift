@@ -12,10 +12,23 @@ import GEOSwift
 struct ContinentInfo {
     var name: String
     var geometryBytes: [UInt8]
+    var minLatitude: Double
+    var minLongitude: Double
+    var maxLatitude: Double
+    var maxLongitude: Double
 
-    init(name: String, geometry: [UInt8]) {
+    init(name: String,
+         geometry: [UInt8],
+         minLatitude: Double,
+         minLongitude: Double,
+         maxLatitude: Double,
+         maxLongitude: Double) {
         self.name = name
         self.geometryBytes = geometry
+        self.minLatitude = minLatitude
+        self.minLongitude = minLongitude
+        self.maxLatitude = maxLatitude
+        self.maxLongitude = maxLongitude
     }
 
     var geometry: Geometry? {

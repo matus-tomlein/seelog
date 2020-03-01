@@ -15,13 +15,29 @@ struct TimezoneInfo {
     var value: Double
     var places: String
     var geometryBytes: [UInt8]
+    var minLatitude: Double
+    var minLongitude: Double
+    var maxLatitude: Double
+    var maxLongitude: Double
 
-    init(timezoneId: Int32, name: String, value: Double, places: String, geometry: [UInt8]) {
+    init(timezoneId: Int32,
+        name: String,
+        value: Double,
+        places: String,
+        geometry: [UInt8],
+        minLatitude: Double,
+        minLongitude: Double,
+        maxLatitude: Double,
+        maxLongitude: Double) {
         self.timezoneId = timezoneId
         self.name = name
         self.places = places
         self.geometryBytes = geometry
         self.value = value
+        self.minLatitude = minLatitude
+        self.minLongitude = minLongitude
+        self.maxLatitude = maxLatitude
+        self.maxLongitude = maxLongitude
     }
 
     var geometry: Geometry? {

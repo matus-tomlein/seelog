@@ -9,12 +9,14 @@
 import Foundation
 
 struct Country: Identifiable, Trippable {
-    var id: String { get { return countryInfo.countryKey } }
+    var id: String { return countryInfo.countryKey }
     var countryInfo: CountryInfo
+    var model: DomainModel
 
     var stayDurationByYear: [Int: Int]
-    var states: [Region]
-    var cities: [City]
+    var states: [Region] { return model.states.filter { $0.stateInfo.countryKey == id } }
+    var cities: [City] { return model.cities.filter { $0.cityInfo.countryKey == id } }
+    var continent: Continent { return model.continent(id: countryInfo.continent) }
     var trips: [Trip]
     var tripsByYear: [Int : [Trip]]
     var stayDuration: Int
@@ -22,10 +24,9 @@ struct Country: Identifiable, Trippable {
 }
 
 extension Country {
-    init(countryInfo: CountryInfo, states: [Region], cities: [City], trips: [Trip]) {
+    init(countryInfo: CountryInfo, trips: [Trip], model: DomainModel) {
         self.countryInfo = countryInfo
-        self.states = states
-        self.cities = cities
+        self.model = model
         self.trips = trips
 
         let tripsInfo = Trip.extractTripsInfo(trips: trips)

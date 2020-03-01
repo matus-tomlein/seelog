@@ -11,35 +11,25 @@ import SwiftUI
 struct CountryView: View {
     var country: Country
     @EnvironmentObject var viewState: ViewState
-    var year: Int? { get { return viewState.selectedYear } }
+    var year: Int? { return viewState.selectedYear }
+    var cities: [City] { return country.citiesForYear(year: self.year) }
+    var regions: [Region] { return country.statesForYear(year: self.year) }
 
     var body: some View {
         List {
-            PolygonView(
-                shapes: [
-                    (
-                        geometry: country.countryInfo.geometry10m,
-                        color: .gray
-                    )
-                ] + country.statesForYear(year: year).map { state in
-                    (
-                        geometry: state.stateInfo.geometry10m,
-                        color: .red
-                    )
-                },
-                points: country.citiesForYear(year: year).map { city in
-                    (
-                        lat: city.cityInfo.latitude,
-                        lng: city.cityInfo.longitude,
-                        color: .blue
-                    )
-                }
-            ).frame(height: 300, alignment: Alignment.bottom)
+            WorldView(
+                background: (continents: [], countries: [country.countryInfo]),
+                foreground: (continents: [], countries: [], regions: regions.map { $0.stateInfo }, timezones: []),
+                cities: cities.map { $0.cityInfo },
+                detailed: true,
+                opaque: false
+            )
 
             StayDurationBarChartView(destination: country)
+            ContinentListItemView(continent: country.continent)
 
-            StatesListView(states: country.statesForYear(year: self.year))
-            CitiesListView(cities: country.citiesForYear(year: self.year))
+            StatesListView(states: regions)
+            CitiesListView(cities: cities)
             TripsListView(destination: country)
         }
         .navigationBarTitle(country.countryInfo.name)

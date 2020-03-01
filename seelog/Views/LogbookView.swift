@@ -76,52 +76,52 @@ struct LogbookView: View {
                 Section(header: Text("Countries")) {
                     CountriesHeatView()
 
+                    ForEach(topCountries) { country in
+                        CountryListItemView(country: country)
+                    }
+
                     NavigationLink(destination: CountriesView()) {
                         Text("\(countries.count) countries and \(regions.count) regions")
                             .font(.headline)
                     }
-
-                    ForEach(topCountries) { country in
-                        CountryListItemView(country: country)
-                    }
                 }
-                
+
                 Section(header: Text("Cities")) {
                     CitiesHeatView()
+
+                    ForEach(topCities) { city in
+                        CityListItemView(city: city)
+                    }
 
                     NavigationLink(destination: CitiesView()) {
                         Text("\(cities.count) cities")
                             .font(.headline)
-                    }
-                    
-                    ForEach(topCities) { city in
-                        CityListItemView(city: city)
                     }
                 }
 
                 Section(header: Text("Continents")) {
                     ContinentsHeatView()
 
+                    ForEach(topContinents) { continent in
+                        ContinentListItemView(continent: continent)
+                    }
+
                     NavigationLink(destination: ContinentsView()) {
                         Text("\(continents.count) continents")
                             .font(.headline)
-                    }
-                    
-                    ForEach(topContinents) { continent in
-                        ContinentListItemView(continent: continent)
                     }
                 }
 
                 Section(header: Text("Timezones")) {
                     TimezoneHeatView()
 
+                    ForEach(topTimezones) { timezone in
+                        TimezoneListItemView(timezone: timezone)
+                    }
+
                     NavigationLink(destination: TimezonesView()) {
                         Text("\(timezones.count) timezones")
                             .font(.headline)
-                    }
-                    
-                    ForEach(topTimezones) { timezone in
-                        TimezoneListItemView(timezone: timezone)
                     }
                 }
             }
