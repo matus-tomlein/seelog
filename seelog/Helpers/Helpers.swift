@@ -10,6 +10,7 @@ import Foundation
 import GEOSwift
 import CoreLocation
 import MapKit
+import UTMConversion
 
 class Helpers {
     static func seasonForDate(_ date: Date) -> String {
@@ -270,11 +271,53 @@ class Helpers {
         return Int16(Calendar.current.component(.month, from: date))
     }
 
+    static func longitudeToX(_ longitude: Double) -> Double {
+        let mercator = SphericalMercator()
+        return mercator.lon2x(aLong: longitude)
+    }
+
+    static func latitudeToY(_ latitude: Double) -> Double {
+        let mercator = SphericalMercator()
+        return mercator.lat2y(aLat: latitude) * -1
+    }
+
     static func geolocationToXY(latitude: Double, longitude: Double) -> (Double, Double) {
-        (
-            (180 + longitude) / 360,
-            (90 - latitude) / 180
+//        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+//        let utmCoordinate = coordinate.utmCoordinate()
+//        return (
+//            utmCoordinate.northing,
+//            utmCoordinate.easting
+//        )
+
+        return (
+            longitudeToX(longitude),
+            latitudeToY(latitude)
         )
+    }
+    
+    static func formatNumber(_ num: Double) ->String{
+        let thousandNum = num / 1000
+        let millionNum = num / 1000000
+        if num >= 1000 && num < 1000000 {
+            if(floor(thousandNum) == thousandNum){
+                return("\(Int(thousandNum))k")
+            }
+            let rounded = round(thousandNum * 10) / 10
+            if floor(rounded) == rounded { return "\(Int(rounded))k" }
+            return("\(rounded)k")
+        }
+        if num > 1000000 {
+            if(floor(millionNum) == millionNum){
+                return("\(Int(thousandNum))k")
+            }
+            let rounded = round(millionNum * 10) / 10
+            if floor(rounded) == rounded { return "\(Int(rounded))M" }
+            return ("\(rounded)M")
+        }
+        else{
+            return ("\(Int(num.rounded()))")
+        }
+
     }
     
 }

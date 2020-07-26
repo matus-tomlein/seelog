@@ -15,8 +15,10 @@ extension SeenArea {
     static func last(context: NSManagedObjectContext) -> SeenArea? {
         let request = NSFetchRequest<SeenArea>(entityName: "SeenArea")
         request.fetchLimit = 1
-        let sortDescriptor = NSSortDescriptor(key: "year", ascending: false)
-        request.sortDescriptors = [sortDescriptor]
+        request.sortDescriptors = [
+            NSSortDescriptor(key: "year", ascending: false),
+            NSSortDescriptor(key: "month", ascending: false)
+        ]
 
         do {
             let last = try context.fetch(request).first

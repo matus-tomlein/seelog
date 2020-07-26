@@ -8,59 +8,59 @@
 
 import SwiftUI
 
-struct BarChartView: View {
+struct BarChartViewInner: View {
     @EnvironmentObject var viewState: ViewState
     var showCounts: Bool
     var yearStats: [(year: Int, count: Int)]
     let totalBarHeight = 130
+    var totalLeadingPadding: CGFloat = 20
+    var totalTrailingPadding: CGFloat = 35
 
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack(alignment: .bottom) {
-                VStack(alignment: .center) {
-                    if showCounts {
-                        Text("\(self.totalCount())")
-                            .foregroundColor(color(nil))
-                            .fontWeight(.semibold)
-                    }
-                    Rectangle()
-                        .fill(color(nil))
-                        .frame(width: 50, height: 56)
-                    Rectangle()
-                        .fill(color(nil))
-                        .frame(width: 50, height: CGFloat(totalBarHeight - 64))
-                    Text("Total")
+        HStack(alignment: .bottom) {
+            VStack(alignment: .center) {
+                if showCounts {
+                    Text(Helpers.formatNumber(Double(self.totalCount())))
                         .foregroundColor(color(nil))
                         .fontWeight(.semibold)
                 }
-                .onTapGesture {
-                    self.viewState.selectedYear = nil
-                }
-                .padding(.leading, 20)
-                .padding(.trailing, 35)
+                Rectangle()
+                    .fill(color(nil))
+                    .frame(width: 50, height: 56)
+                Rectangle()
+                    .fill(color(nil))
+                    .frame(width: 50, height: CGFloat(totalBarHeight - 64))
+                Text("Total")
+                    .foregroundColor(color(nil))
+                    .fontWeight(.semibold)
+            }
+            .onTapGesture {
+                self.viewState.selectedYear = nil
+            }
+            .padding(.leading, totalLeadingPadding)
+            .padding(.trailing, totalTrailingPadding)
 
-                ForEach(yearStats, id: \.year) { stat in
-                    VStack(alignment: .center) {
-                        if self.showCounts {
-                            Text("\(stat.count)")
-                                .foregroundColor(self.color(stat.year))
-                                .fontWeight(.semibold)
-                        }
-                        Rectangle()
-                            .fill(self.color(stat.year))
-                            .frame(
-                                width: 50,
-                                height: self.barHeight(stat.count)
-                            )
-                        Text(String(stat.year))
+            ForEach(yearStats, id: \.year) { stat in
+                VStack(alignment: .center) {
+                    if self.showCounts {
+                        Text(Helpers.formatNumber(Double(stat.count)))
                             .foregroundColor(self.color(stat.year))
                             .fontWeight(.semibold)
                     }
-                    .onTapGesture {
-                        self.viewState.selectedYear = stat.year
-                    }
-                    .padding(.trailing, 10)
+                    Rectangle()
+                        .fill(self.color(stat.year))
+                        .frame(
+                            width: 50,
+                            height: self.barHeight(stat.count)
+                        )
+                    Text(String(stat.year))
+                        .foregroundColor(self.color(stat.year))
+                        .fontWeight(.semibold)
                 }
+                .onTapGesture {
+                    self.viewState.selectedYear = stat.year
+                }
+                .padding(.trailing, 10)
             }
         }
 //        }.offset(100)
@@ -76,9 +76,9 @@ struct BarChartView: View {
     
     func color(_ year: Int?) -> Color {
         if year == self.viewState.selectedYear {
-            return Color(UIColor.systemOrange)
+            return Color.red
         } else {
-            return Color(UIColor.systemBlue)
+            return Color(UIColor.label)
         }
     }
     
@@ -86,6 +86,19 @@ struct BarChartView: View {
         yearStats.map { $0.count }.reduce(0, +)
     }
 
+}
+
+
+struct BarChartView: View {
+    @EnvironmentObject var viewState: ViewState
+    var showCounts: Bool
+    var yearStats: [(year: Int, count: Int)]
+
+    var body: some View {
+        ScrollView(.horizontal) {
+            BarChartViewInner(showCounts: showCounts, yearStats: yearStats)
+        }
+    }
 }
 
 struct BarChartView_Previews: PreviewProvider {

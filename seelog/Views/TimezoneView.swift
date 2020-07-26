@@ -14,6 +14,15 @@ struct TimezoneView: View {
 
     var body: some View {
         List {
+            WorldView(
+                background: (continents: viewState.model.continentInfos, countries: []),
+                foreground: (continents: [], countries: [], regions: [], timezones: [timezone.timezoneInfo]),
+                cities: [],
+                positions: [],
+                detailed: false,
+                opaque: true
+            )
+            
             StayDurationBarChartView(destination: timezone)
             TripsListView(destination: timezone)
         }
@@ -23,7 +32,7 @@ struct TimezoneView: View {
 
 struct TimezoneView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return TimezoneView(
             timezone: model.timezones[0]

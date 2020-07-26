@@ -3,4 +3,5 @@ ${BUILT_PRODUCTS_DIR}/GEOSwift/GEOSwift.framework
 ${BUILT_PRODUCTS_DIR}/GEOSwiftMapKit/GEOSwiftMapKit.framework
 ${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework
 ${BUILT_PRODUCTS_DIR}/SwiftCSV/SwiftCSV.framework
+${BUILT_PRODUCTS_DIR}/UTMConversion/UTMConversion.framework
 ${BUILT_PRODUCTS_DIR}/geos/geos.framework

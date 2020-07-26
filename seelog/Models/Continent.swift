@@ -35,7 +35,7 @@ extension Continent {
         self.years = tripsInfo.years
     }
     
-    func citiesForYear(year: Int?) -> [City] {
+    func citiesForYear(_ year: Int?) -> [City] {
         if let year = year {
             return cities.filter { city in city.years.contains(year) }
         } else {
@@ -43,11 +43,23 @@ extension Continent {
         }
     }
     
-    func countriesForYear(year: Int?) -> [Country] {
+    func countriesForYear(_ year: Int?) -> [Country] {
         if let year = year {
             return countries.filter { country in country.years.contains(year) }
         } else {
             return countries
+        }
+    }
+
+    func explorationStatusForYear(_ year: Int?) -> ExplorationStatus {
+        let explorationRatio = Double(countriesForYear(year).count) / Double(continentInfo.numberOfCountries)
+        
+        if explorationRatio < 0.33 {
+            return .visitor
+        } else if explorationRatio < 0.66 {
+            return .explorer
+        } else {
+            return .conqueror
         }
     }
 }

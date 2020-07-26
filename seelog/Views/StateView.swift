@@ -20,6 +20,7 @@ struct StateView: View {
                 background: (continents: [], countries: [state.country.countryInfo]),
                 foreground: (continents: [], countries: [], regions: [state.stateInfo], timezones: []),
                 cities: cities.map { $0.cityInfo },
+                positions: [],
                 detailed: true,
                 opaque: false
             )
@@ -36,8 +37,8 @@ struct StateView: View {
 
 struct StateView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
-        
+        let model = simulatedDomainModel()
+
         return StateView(state: model.states[11])
             .environmentObject(ViewState(model: model))
     }

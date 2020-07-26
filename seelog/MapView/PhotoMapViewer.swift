@@ -301,8 +301,8 @@ class PhotoMapViewer {
     func load(model: DomainModel, year: Int?) {
         self.year = year
         let overlayVersion = GeometryOverlayCreator.overlayVersion
-        
-        guard let geohashes = model.seenGeometryForYear(year)?.geohashes else { return }
+
+        let geohashes = Set(model.seenGeometriesForYear(year).flatMap { $0.geohashes })
         for geohash in geohashes {
             let manager = LargerGeohashManager(geohash: geohash,
                                                mapView: self.mapView,

@@ -28,7 +28,7 @@ struct CountryListItemView: View {
 
 struct CountryListItemView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return CountryListItemView(
             country: model.countries.first(where: { $0.countryInfo.name == "Slovakia" })!

@@ -38,7 +38,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return ContentView()
             .environmentObject(ViewState(model: model))

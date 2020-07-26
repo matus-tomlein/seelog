@@ -24,6 +24,7 @@ struct CountryInfo {
     var geometry10mBytes: [UInt8]
     var geometry50mBytes: [UInt8]?
     var geometry110mBytes: [UInt8]?
+    var numberOfRegions: Int
 
     init(countryKey: String,
          name: String,
@@ -38,7 +39,8 @@ struct CountryInfo {
          maxLongitude: Double,
          continent: String,
          region: String,
-         subregion: String) {
+         subregion: String,
+         numberOfRegions: Int) {
         self.countryKey = countryKey
         self.name = name
         self.latitude = latitude
@@ -53,6 +55,7 @@ struct CountryInfo {
         self.continent = continent
         self.region = region
         self.subregion = subregion
+        self.numberOfRegions = numberOfRegions
     }
 
     var geometry10m: Geometry? {
@@ -76,6 +79,46 @@ struct CountryInfo {
                 return try? Geometry(wkb: Data(bytes))
             }
             return nil
+        }
+    }
+    
+    var geometry10mDescription: GeometryDescription {
+        GeometryDescription(
+            geometry: geometry10m,
+            minLatitude: minLatitude,
+            minLongitude: minLongitude,
+            maxLatitude: maxLatitude,
+            maxLongitude: maxLongitude
+        )
+    }
+    
+    var geometry50mDescription: GeometryDescription {
+        GeometryDescription(
+            geometry: geometry50m,
+            minLatitude: minLatitude,
+            minLongitude: minLongitude,
+            maxLatitude: maxLatitude,
+            maxLongitude: maxLongitude
+        )
+    }
+    
+    var geometry110mDescription: GeometryDescription {
+        GeometryDescription(
+            geometry: geometry110m,
+            minLatitude: minLatitude,
+            minLongitude: minLongitude,
+            maxLatitude: maxLatitude,
+            maxLongitude: maxLongitude
+        )
+    }
+    
+    var badgeGeometryDescription: GeometryDescription {
+        if maxLatitude - minLatitude < 2 {
+            return geometry10mDescription
+        } else if maxLatitude - minLatitude < 5 {
+            return geometry50mDescription
+        } else {
+            return geometry110mDescription
         }
     }
 }

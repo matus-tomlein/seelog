@@ -20,6 +20,13 @@ class PhotoInfo {
     let creationDate: Date?
     var cities: [Int64] = []
     let year: Int32
+    var month: Int16 {
+        if let date = creationDate {
+            return Int16(Calendar.current.component(.month, from: date))
+        } else {
+            return 0
+        }
+    }
     weak var geoDB: GeoDatabase?
 
     init(photo: Photo, geoDB: GeoDatabase) {

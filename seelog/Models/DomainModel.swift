@@ -114,6 +114,8 @@ class DomainModel {
             let yearCities = cities.filter { city in
                 !city.trips.filter { trip in trip.years.contains(year) }.isEmpty
             }
+            let seenGeometriesByMonth = Dictionary(grouping: seenGeometries.filter { $0.year == year }, by: { $0.month! }).mapValues { $0.first! }
+
             return Year(
                 year: year,
                 cities: yearCities,
@@ -121,7 +123,7 @@ class DomainModel {
                 states: yearStates,
                 timezones: yearTimezones,
                 continents: yearContinents,
-                seenGeometry: seenGeometries.first { $0.year == year }
+                seenGeometriesByMonth: seenGeometriesByMonth
             )
         }.sorted(by: { s1, s2 in s1.year < s2.year })
     }
@@ -165,13 +167,98 @@ class DomainModel {
             return self.cities
         }
     }
-    
-    func seenGeometryForYear(_ year: Int?) -> SeenGeometry? {
-        if let year = year {
-            return self.years.first { $0.year == year }?.seenGeometry
+
+    func seenGeometry(year: Int?, month: Int?) -> SeenGeometry? {
+        if let year = year, let month = month {
+            return self.years.first { $0.year == year }?.seenGeometriesByMonth[month]
         } else {
             return self.seenGeometry
         }
+    }
+    
+    func seenGeometriesForYear(_ year: Int?) -> [SeenGeometry] {
+        if let year = year {
+            return self.years.first { $0.year == year }?.seenGeometriesByMonth.values.map { $0 } ?? []
+        } else {
+            if let seenGeometry = self.seenGeometry { return [seenGeometry] }
+            else { return [] }
+        }
+    }
+
+    func seenGeometriesByYearAndMonth() -> [Int: [Int: SeenGeometry]] {
+        var result = [Int: [Int: SeenGeometry]]()
+        for year in years {
+            result[year.year] = year.seenGeometriesByMonth
+        }
+        return result
+    }
+
+    func countries(year: Int?, explorationStatus: ExplorationStatus) -> [Country] {
+        return countriesForYear(year).filter { $0.explorationStatusForYear(year) == explorationStatus }
+    }
+
+    func countries(year: Int?, stayDurationStatus: StayDurationStatus) -> [Country] {
+        return countriesForYear(year).filter { $0.stayDurationStatusForYear(year) == stayDurationStatus }
+    }
+    
+    func countriesByExplorationStatus(year: Int?) -> [(status: ExplorationStatus, countries: [Country])] {
+        let dict = Dictionary(grouping: countriesForYear(year), by: { $0.explorationStatusForYear(year) })
+        return [
+            ExplorationStatus.conqueror, ExplorationStatus.explorer
+        ].map { status in
+            if let countries = dict[status] {
+                return (status: status, countries: countries)
+            } else {
+                return (status: status, countries: [])
+            }
+        }.filter { $0.countries.count > 0 }
+    }
+    
+    func countriesByStayDurationStatus(year: Int?) -> [(status: StayDurationStatus, countries: [Country])] {
+        let dict = Dictionary(grouping: countriesForYear(year), by: { $0.stayDurationStatusForYear(year) })
+        return [
+            StayDurationStatus.native, StayDurationStatus.tourist
+        ].map { status in
+            if let countries = dict[status] {
+                return (status: status, countries: countries)
+            } else {
+                return (status: status, countries: [])
+            }
+        }.filter { $0.countries.count > 0 }
+    }
+    
+    func continents(year: Int?, explorationStatus: ExplorationStatus) -> [Continent] {
+        return continentsForYear(year).filter { $0.explorationStatusForYear(year) == explorationStatus }
+    }
+    
+    func continents(year: Int?, stayDurationStatus: StayDurationStatus) -> [Continent] {
+        return continentsForYear(year).filter { $0.stayDurationStatusForYear(year) == stayDurationStatus }
+    }
+    
+    func continentsByExplorationStatus(year: Int?) -> [(status: ExplorationStatus, continents: [Continent])] {
+        let dict = Dictionary(grouping: continentsForYear(year), by: { $0.explorationStatusForYear(year) })
+        return [
+            ExplorationStatus.conqueror, ExplorationStatus.explorer, ExplorationStatus.visitor
+        ].map { status in
+            if let continents = dict[status] {
+                return (status: status, continents: continents)
+            } else {
+                return (status: status, continents: [])
+            }
+        }.filter { $0.continents.count > 0 }
+    }
+
+    func continentsByStayDurationStatus(year: Int?) -> [(status: StayDurationStatus, continents: [Continent])] {
+        let dict = Dictionary(grouping: continentsForYear(year), by: { $0.stayDurationStatusForYear(year) })
+        return [
+            StayDurationStatus.native, StayDurationStatus.tourist
+        ].map { status in
+            if let continents = dict[status] {
+                return (status: status, continents: continents)
+            } else {
+                return (status: status, continents: [])
+            }
+        }.filter { $0.continents.count > 0 }
     }
     
     func region(id: String) -> Region { return self.statesById[id]! }
@@ -183,7 +270,6 @@ class DomainModel {
 
 func loadTrips() -> [Trip] {
     let filePath = Bundle.main.path(forResource: "visit_periods", ofType: "csv")!
-    print("HERE")
     do {
         let csv = try CSV(url: URL(fileURLWithPath: filePath))
         let dateFormatter = DateFormatter()
@@ -202,4 +288,32 @@ func loadTrips() -> [Trip] {
         print("Unexpected error: \(error).")
     }
     return []
+}
+
+func loadSeenGeometries() -> [SeenGeometry] {
+    let filePath = Bundle.main.path(forResource: "seen_areas", ofType: "csv")!
+    do {
+        let csv = try CSV(url: URL(fileURLWithPath: filePath))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        return csv.namedRows.enumerated().map { (index, row) in
+            SeenGeometry(
+                year: Int(row["ZYEAR"] ?? ""),
+                month: Int(row["ZMONTH"] ?? ""),
+                geohashes: Set(),
+                travelledDistance: Double(row["ZTRAVELLEDDISTANCE"] ?? "") ?? 0,
+                landWKT: row["ZLANDWKT"] ?? "",
+                waterWKT: row["ZWATERWKT"] ?? "",
+                processedWKT: row["ZPROCESSEDHEATMAPWKT"] ?? ""
+            )
+        }
+    } catch {
+        print("Unexpected error: \(error).")
+    }
+    return []
+}
+
+func simulatedDomainModel() -> DomainModel {
+    return DomainModel(trips: loadTrips(), seenGeometries: loadSeenGeometries(), geoDatabase: GeoDatabase())
 }

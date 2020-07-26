@@ -8,12 +8,14 @@ PODS:
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
   - SwiftCSV (0.5.5)
+  - UTMConversion (1.2.2)
 
 DEPENDENCIES:
   - GEOSwift
   - GEOSwiftMapKit
   - SQLite.swift (~> 0.12.0)
   - SwiftCSV
+  - UTMConversion (~> 1.2)
 
 SPEC REPOS:
   trunk:
@@ -22,6 +24,7 @@ SPEC REPOS:
     - GEOSwiftMapKit
     - SQLite.swift
     - SwiftCSV
+    - UTMConversion
 
 SPEC CHECKSUMS:
   geos: ee2ae833c7b3c881a33de35a3cea18bf3e0cf7bc
@@ -29,7 +32,8 @@ SPEC CHECKSUMS:
   GEOSwiftMapKit: 7079f598ca49c92bcc1deb3414aa0d38a2a9b074
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   SwiftCSV: 13e494244a4a65c3ff71002444491026de625643
+  UTMConversion: 28136ebcdc4e6f7f0d5c385d03764ca2c2625d6c
 
-PODFILE CHECKSUM: c2a8f1627e8d4481cbb7e75562a5c2ee4ebbd82a
+PODFILE CHECKSUM: b7ec92f8b76ceb7c86f44a938690885b5cc21311
 
 COCOAPODS: 1.8.4

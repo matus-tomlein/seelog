@@ -27,7 +27,7 @@ struct CountriesMapView: UIViewRepresentable {
 
 struct CountriesMapView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return CountriesMapView(
             countries: model.countriesForYear(nil),

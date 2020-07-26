@@ -7,6 +7,61 @@
 //
 
 import Foundation
+import SwiftUI
+
+enum StayDurationStatus {
+    case tourist
+    case native
+    
+    var name: String {
+        switch self {
+        case .tourist:
+            return "Tourist"
+        case .native:
+            return "Native"
+        }
+    }
+    
+    var color: Color? {
+        switch self {
+        case .native:
+            return .white
+        default:
+            return nil
+        }
+    }
+    
+}
+
+enum ExplorationStatus {
+    case visitor
+    case explorer
+    case conqueror
+    
+    var name: String {
+        switch self {
+        case .conqueror:
+            return "Conqueror"
+        case .explorer:
+            return "Explorer"
+        case .visitor:
+            return "Visitor"
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .conqueror:
+            return .red
+            
+        case .explorer:
+            return Color(UIColor.systemOrange)
+            
+        case .visitor:
+            return .gray
+        }
+    }
+}
 
 protocol Trippable {
     var trips: [Trip] { get }
@@ -38,5 +93,14 @@ extension Trippable {
             return Array(min...Date().year()).map { year in (year: year, count: self.stayDurationForYear(year)) }.reversed()
         }
         return []
+    }
+
+    func stayDurationStatusForYear(_ year: Int?) -> StayDurationStatus {
+        let stayDuration = stayDurationForYear(year)
+        if stayDuration > 100 {
+            return .native
+        } else {
+            return .tourist
+        }
     }
 }

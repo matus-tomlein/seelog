@@ -37,7 +37,7 @@ struct ContinentsView: View {
 
 struct ContinentsView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return ContinentsView().environmentObject(ViewState(model: model))
     }

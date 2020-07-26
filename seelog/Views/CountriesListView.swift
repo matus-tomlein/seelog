@@ -23,7 +23,7 @@ struct CountriesListView: View {
 
 struct CountriesListView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return List {
             CountriesListView(countries: model.countries)

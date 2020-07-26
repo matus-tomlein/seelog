@@ -18,6 +18,7 @@ struct CountriesHeatView: View {
             background: (continents: viewState.model.continentInfos, countries: []),
             foreground: (continents: [], countries: countries.map { $0.countryInfo }, regions: [], timezones: []),
             cities: [],
+            positions: [],
             detailed: false,
             opaque: false
         )
@@ -26,7 +27,7 @@ struct CountriesHeatView: View {
 
 struct CountriesHeatView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return CountriesHeatView().environmentObject(ViewState(model: model))
     }

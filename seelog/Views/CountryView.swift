@@ -21,6 +21,7 @@ struct CountryView: View {
                 background: (continents: [], countries: [country.countryInfo]),
                 foreground: (continents: [], countries: [], regions: regions.map { $0.stateInfo }, timezones: []),
                 cities: cities.map { $0.cityInfo },
+                positions: [],
                 detailed: true,
                 opaque: false
             )
@@ -38,10 +39,10 @@ struct CountryView: View {
 
 struct CountryView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return CountryView(
-            country: model.countries.first(where: { $0.countryInfo.name == "Slovakia" })!
+            country: model.countries.first(where: { $0.countryInfo.name == "Hungary" })!
         ).environmentObject(ViewState(model: model))
     }
 }

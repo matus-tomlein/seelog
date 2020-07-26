@@ -62,8 +62,19 @@ class InitializationController {
             }
         }
     }
-    
+
     private func createDomainModel(context: NSManagedObjectContext) -> DomainModel? {
+        let geoDB = GeoDatabase()
+        let model = DomainModel(
+            trips: getTrips(context: context),
+            seenGeometries: getSeenGeometries(context: context),
+            geoDatabase: geoDB
+        )
+        
+        return model
+    }
+
+    private func getTrips(context: NSManagedObjectContext) -> [Trip] {
         do {
             let request = NSFetchRequest<VisitPeriod>(entityName: "VisitPeriod")
             let visitPeriods = try context.fetch(request)
@@ -76,13 +87,31 @@ class InitializationController {
                     visitedEntityKey: visitPeriod.visitedEntityKey ?? ""
                 )
             }
-            let geoDB = GeoDatabase()
-            let model = DomainModel(trips: trips, seenGeometries: [], geoDatabase: geoDB)
-            
-            return model
+            return trips
         } catch let err as NSError {
             print(err.debugDescription)
         }
-        return nil
+        return []
+    }
+
+    private func getSeenGeometries(context: NSManagedObjectContext) -> [SeenGeometry] {
+        do {
+            let request = NSFetchRequest<SeenArea>(entityName: "SeenArea")
+            let seenAreas = try context.fetch(request)
+            return seenAreas.map { seenArea in
+                SeenGeometry(
+                    year: seenArea.year > 0 ? Int(seenArea.year) : nil,
+                    month: seenArea.month > 0 ? Int(seenArea.month) : nil,
+                    geohashes: Set(seenArea.geohashes ?? []),
+                    travelledDistance: seenArea.travelledDistance,
+                    landWKT: seenArea.landWKT ?? "",
+                    waterWKT: seenArea.waterWKT ?? "",
+                    processedWKT: seenArea.processedHeatmapWKT ?? ""
+                )
+            }
+        } catch let err as NSError {
+            print(err.debugDescription)
+        }
+        return []
     }
 }

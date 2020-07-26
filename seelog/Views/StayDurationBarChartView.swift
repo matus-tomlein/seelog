@@ -27,10 +27,11 @@ struct StayDurationBarChartView: View {
 
 struct StayDurationBarChartView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
+
         return List {
             StayDurationBarChartView(destination: model.countries[0])
             .environmentObject(ViewState(model: model))
-        }
+        }.previewLayout(.fixed(width: 320, height: 260))
     }
 }

@@ -45,6 +45,16 @@ struct TimezoneInfo {
             return try? Geometry.init(wkb: Data(geometryBytes))
         }
     }
+    
+    var geometryDescription: GeometryDescription {
+        GeometryDescription(
+            geometry: geometry,
+            minLatitude: minLatitude,
+            minLongitude: minLongitude,
+            maxLatitude: maxLatitude,
+            maxLongitude: maxLongitude
+        )
+    }
 
     var uniqueName: String {
         return String(self.timezoneId)

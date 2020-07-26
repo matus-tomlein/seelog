@@ -45,6 +45,8 @@ class GeoDatabase {
     let worldCity = Expression<Int>("worldcity")
     let megaCity = Expression<Int>("megacity")
     let value = Expression<Double>("value")
+    let numberOfCountries = Expression<Int>("number_of_countries")
+    let numberOfRegions = Expression<Int>("number_of_states")
     
     init() {
         if let filePath = Bundle.main.path(forResource: "generated", ofType: "sqlite") {
@@ -215,7 +217,8 @@ class GeoDatabase {
                         maxLongitude: item[maxLongitude],
                         continent: item[continent],
                         region: item[region],
-                        subregion: item[subregion])
+                        subregion: item[subregion],
+                        numberOfRegions: item[numberOfRegions])
                     cachedCountryInfos[ck] = countryInfo
                     return countryInfo
                 }
@@ -325,7 +328,8 @@ class GeoDatabase {
                                                       minLatitude: item[minLatitude],
                                                       minLongitude: item[minLongitude],
                                                       maxLatitude: item[maxLatitude],
-                                                      maxLongitude: item[maxLongitude])
+                                                      maxLongitude: item[maxLongitude],
+                                                      numberOfCountries: item[numberOfCountries])
                     cachedContinents[continentName] = continentInfo
                     return continentInfo
                 }
@@ -349,7 +353,8 @@ class GeoDatabase {
                             minLatitude: row[minLatitude],
                             minLongitude: row[minLongitude],
                             maxLatitude: row[maxLatitude],
-                            maxLongitude: row[maxLongitude]
+                            maxLongitude: row[maxLongitude],
+                            numberOfCountries: row[numberOfCountries]
                         )
                         cachedContinents[row[name]] = continentInfo
                         return continentInfo

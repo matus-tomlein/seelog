@@ -8,6 +8,7 @@ target 'seelog' do
   pod 'GEOSwiftMapKit'
   pod "SwiftCSV"
   pod 'SQLite.swift', '~> 0.12.0'
+  pod 'UTMConversion', '~> 1.2'
 
   # Pods for seelog
 

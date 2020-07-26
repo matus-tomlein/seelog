@@ -28,7 +28,7 @@ struct ContinentListItemView: View {
 
 struct ContinentListItemView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return ContinentListItemView(
             continent: model.continents[0]

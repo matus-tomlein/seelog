@@ -12,8 +12,8 @@ struct ContinentView: View {
     var continent: Continent
     @EnvironmentObject var viewState: ViewState
     var year: Int? { return viewState.selectedYear }
-    var countries: [Country] { return continent.countriesForYear(year: year) }
-    var cities: [City] { return continent.citiesForYear(year: year) }
+    var countries: [Country] { return continent.countriesForYear(year) }
+    var cities: [City] { return continent.citiesForYear(year) }
 
     var body: some View {
         List {
@@ -21,6 +21,7 @@ struct ContinentView: View {
                 background: (continents: [continent.continentInfo], countries: []),
                 foreground: (continents: [], countries: countries.map { $0.countryInfo }, regions: [], timezones: []),
                 cities: cities.map { $0.cityInfo },
+                positions: [],
                 detailed: false,
                 opaque: false
             )
@@ -36,7 +37,7 @@ struct ContinentView: View {
 
 struct ContinentView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
+        let model = simulatedDomainModel()
         
         return ContinentView(continent: model.continents[3])
             .environmentObject(ViewState(model: model))

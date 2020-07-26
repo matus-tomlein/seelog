@@ -76,6 +76,36 @@ struct StateInfo {
             return nil
         }
     }
+    
+    var geometry10mDescription: GeometryDescription {
+        GeometryDescription(
+            geometry: geometry10m,
+            minLatitude: minLatitude,
+            minLongitude: minLongitude,
+            maxLatitude: maxLatitude,
+            maxLongitude: maxLongitude
+        )
+    }
+    
+    var geometry50mDescription: GeometryDescription {
+        GeometryDescription(
+            geometry: geometry50m,
+            minLatitude: minLatitude,
+            minLongitude: minLongitude,
+            maxLatitude: maxLatitude,
+            maxLongitude: maxLongitude
+        )
+    }
+    
+    var geometry110mDescription: GeometryDescription {
+        GeometryDescription(
+            geometry: geometry110m,
+            minLatitude: minLatitude,
+            minLongitude: minLongitude,
+            maxLatitude: maxLatitude,
+            maxLongitude: maxLongitude
+        )
+    }
 
     func country(geoDB: GeoDatabase) -> CountryInfo? {
         return geoDB.countryInfoFor(countryKey: countryKey)

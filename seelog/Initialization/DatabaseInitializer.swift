@@ -33,13 +33,30 @@ class DatabaseInitializer {
             let seenAreaUpdater = SeenAreaUpdater(context: context)
             let visitPeriodUpdater = VisitPeriodUpdater(context: context)
 
+            var lastLocation: CLLocation?
             allPhotos.enumerateObjects { asset, _, _ in
                 if let location = asset.location {
-                    if let photo = self.savePhoto(asset: asset, location: location) {
-                        let photoInfo = PhotoInfo(photo: photo, geoDB: self.geoDatabase)
+                    var speedIsReasonable = true
+                    if let lastKnownLocation = lastLocation {
+                        let distance = lastKnownLocation.distance(from: location) / 1000
+                        let duration = location.timestamp.distance(to: lastKnownLocation.timestamp) / 3600
+                        if duration > 0 {
+                            let speed = distance / duration
+                            speedIsReasonable = speed <= 500
+                            if !speedIsReasonable {
+                                print("Speed unreasonable \(speed)")
+                            }
+                        }
+                    }
 
-                        seenAreaUpdater.processNewPhoto(photoInfo: photoInfo)
-                        visitPeriodUpdater.processNewPhoto(photoInfo: photoInfo)
+                    if speedIsReasonable {
+                        lastLocation = location
+                        if let photo = self.savePhoto(asset: asset, location: location) {
+                            let photoInfo = PhotoInfo(photo: photo, geoDB: self.geoDatabase)
+
+                            seenAreaUpdater.processNewPhoto(photoInfo: photoInfo)
+                            visitPeriodUpdater.processNewPhoto(photoInfo: photoInfo)
+                        }
                     }
                 }
             }

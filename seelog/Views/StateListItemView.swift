@@ -26,8 +26,8 @@ struct StateListItemView: View {
 
 struct StateListItemView_Previews: PreviewProvider {
     static var previews: some View {
-        let model = DomainModel(trips: loadTrips(), seenGeometries: [], geoDatabase: GeoDatabase())
-        
+        let model = simulatedDomainModel()
+
         return StateListItemView(
             region: model.states[0]
         ).environmentObject(ViewState(model: model))
