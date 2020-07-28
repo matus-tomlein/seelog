@@ -15,7 +15,7 @@ struct CountriesHeatView: View {
 
     var body: some View {
         WorldView(
-            background: (continents: viewState.model.continentInfos, countries: []),
+            background: (continents: viewState.model.continentInfos, countries: [], regions: []),
             foreground: (continents: [], countries: countries.map { $0.countryInfo }, regions: [], timezones: []),
             cities: [],
             positions: [],

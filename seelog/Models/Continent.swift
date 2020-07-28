@@ -20,6 +20,22 @@ struct Continent: Identifiable, Trippable {
     var tripsByYear: [Int : [Trip]]
     var stayDuration: Int
     var years: [Int]
+
+    func info(year: Int?) -> TextInfo {
+        let link = ViewLink.continent(self)
+        if !visited(year: year) {
+            return TextInfo(id: id, link: link, heading: continentInfo.name, enabled: false)
+        }
+        
+        return TextInfo(
+            id: id,
+            link: link,
+            heading: continentInfo.name,
+            body: [
+                "\(stayDurationForYear(year)) days"
+            ]
+        )
+    }
 }
 
 extension Continent {

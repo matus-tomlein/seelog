@@ -11,9 +11,9 @@ import SwiftUI
 struct CountriesView: View {
     @EnvironmentObject var viewState: ViewState
     var selectedYear: Int? { get { return viewState.selectedYear } }
-    var countries: [Country] { get { return viewState.model.countriesForYear(selectedYear) } }
+    var countries: [Country] { get { return viewState.model.countries } }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.countryYearCounts } }
-    
+
     var body: some View {
         List {
             VStack(spacing: 0) {
@@ -24,6 +24,11 @@ struct CountriesView: View {
                     .padding(.top, 20)
                     .environmentObject(viewState)
             }.listRowInsets(EdgeInsets())
+
+            ForEach(TextInfoGenerator.countries(model: self.viewState.model
+            , year: selectedYear, linkToCountries: false)) { textInfo in
+                TextInfoView(info: textInfo)
+            }
 
             CountriesListView(countries: countries)
         }

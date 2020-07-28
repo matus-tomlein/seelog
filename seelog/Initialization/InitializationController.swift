@@ -101,7 +101,6 @@ class InitializationController {
             return seenAreas.map { seenArea in
                 SeenGeometry(
                     year: seenArea.year > 0 ? Int(seenArea.year) : nil,
-                    month: seenArea.month > 0 ? Int(seenArea.month) : nil,
                     geohashes: Set(seenArea.geohashes ?? []),
                     travelledDistance: seenArea.travelledDistance,
                     landWKT: seenArea.landWKT ?? "",

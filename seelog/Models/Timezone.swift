@@ -17,6 +17,22 @@ struct Timezone: Identifiable, Trippable {
     var tripsByYear: [Int : [Trip]]
     var stayDuration: Int
     var years: [Int]
+
+    func info(year: Int?) -> TextInfo {
+        let link = ViewLink.timezone(self)
+        if !visited(year: year) {
+            return TextInfo(id: String(id), link: link, heading: timezoneInfo.name, enabled: false)
+        }
+        
+        return TextInfo(
+            id: String(id),
+            link: link,
+            heading: timezoneInfo.name,
+            body: [
+                "\(stayDurationForYear(year)) days"
+            ]
+        )
+    }
 }
 
 extension Timezone {

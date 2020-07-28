@@ -12,21 +12,24 @@ struct CountryView: View {
     var country: Country
     @EnvironmentObject var viewState: ViewState
     var year: Int? { return viewState.selectedYear }
-    var cities: [City] { return country.citiesForYear(year: self.year) }
-    var regions: [Region] { return country.statesForYear(year: self.year) }
+    var cities: [City] { return country.cities }
+    var citiesForYear: [City] { return country.citiesForYear(year: year) }
+    var regions: [Region] { return country.regions }
+    var regionsForYear: [Region] { return country.regionsForYear(year) }
 
     var body: some View {
         List {
             WorldView(
-                background: (continents: [], countries: [country.countryInfo]),
-                foreground: (continents: [], countries: [], regions: regions.map { $0.stateInfo }, timezones: []),
-                cities: cities.map { $0.cityInfo },
-                positions: [],
+                background: (continents: [], countries: [country.countryInfo], regions: []),
+                foreground: (continents: [], countries: [], regions: regionsForYear.map { $0.stateInfo }, timezones: []),
+                cities: citiesForYear.map { $0.cityInfo },
+                positions: country.positions(year: year),
                 detailed: true,
                 opaque: false
             )
 
             StayDurationBarChartView(destination: country)
+            TextInfoView(info: country.info(year: year), addHeading: false)
             ContinentListItemView(continent: country.continent)
 
             StatesListView(states: regions)

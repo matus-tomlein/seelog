@@ -10,18 +10,22 @@ import SwiftUI
 import GEOSwift
 
 struct WorldView: View {
-    var background: (continents: [ContinentInfo], countries: [CountryInfo])
+    var background: (continents: [ContinentInfo], countries: [CountryInfo], regions: [StateInfo])
     var foreground: (continents: [ContinentInfo], countries: [CountryInfo], regions: [StateInfo], timezones: [TimezoneInfo])
     var cities: [CityInfo]
     var positions: [Location]
     var detailed: Bool
     var opaque: Bool
+    var zoomIn: Bool = false
+    var showPositionsAsDots = false
 
     var backgroundGeometries: [GeometryDescription] {
         return background.continents.map { continent in
             continent.geometryDescription
         } + background.countries.map {country in
             detailed ? country.geometry10mDescription : country.geometry110mDescription
+        } + background.regions.map { region in
+            detailed ? region.geometry10mDescription : region.geometry110mDescription
         }
     }
     var foregroundGeometries: [GeometryDescription] {
@@ -38,28 +42,38 @@ struct WorldView: View {
     var foregroundColor: Color {
         opaque ? Color.red.opacity(0.5) : Color.red
     }
-    var shapes: [(geometryDescription: GeometryDescription, color: Color)] {
+    var backgroundShapes: [(geometryDescription: GeometryDescription, color: Color, opacity: Double)] {
         backgroundGeometries.map { geometry in
             (
                 geometryDescription: geometry,
-                color: .gray
-            )
-        } + foregroundGeometries.map { geometry in
-            (
-                geometryDescription: geometry,
-                color: foregroundColor
+                color: .gray,
+                opacity: 1
             )
         }
     }
+    var foregroundShapes: [(geometryDescription: GeometryDescription, color: Color, opacity: Double)] {
+        foregroundGeometries.map { geometry in
+            (
+                geometryDescription: geometry,
+                color: foregroundColor,
+                opacity: 1
+            )
+        }
+    }
+    var shapes: [(geometryDescription: GeometryDescription, color: Color, opacity: Double)] {
+        backgroundShapes + foregroundShapes
+    }
     var bounds: (minX: Double, maxX: Double, minY: Double, maxY: Double, scale: CGFloat) {
-        let minX = shapes.map { $0.geometryDescription.minX }.min() ?? 0
-        var minY = shapes.map { $0.geometryDescription.minY }.min() ?? 0
-        let maxX = shapes.map { $0.geometryDescription.maxX }.max() ?? 0
-        var maxY = shapes.map { $0.geometryDescription.maxY }.max() ?? 0
+        let shapesToUse = (zoomIn && foregroundGeometries.count > 0) ? foregroundShapes : shapes
+
+        let minX = shapesToUse.map { $0.geometryDescription.minX }.min() ?? 0
+        var minY = shapesToUse.map { $0.geometryDescription.minY }.min() ?? 0
+        let maxX = shapesToUse.map { $0.geometryDescription.maxX }.max() ?? 0
+        var maxY = shapesToUse.map { $0.geometryDescription.maxY }.max() ?? 0
 
         let globalMaxY = Helpers.latitudeToY(-59)
         let globalMinY = Helpers.latitudeToY(85)
-        
+
         minY = max(globalMinY, minY)
         maxY = min(globalMaxY, maxY)
 
@@ -71,22 +85,32 @@ struct WorldView: View {
             scale: CGFloat((maxY - minY) / (maxX - minX))
         )
     }
-    var points: [(lat: Double, lng: Double, color: Color, size: Double, opacity: Double)] {
+    var points: [(x: Double, y: Double, color: Color, size: Double, opacity: Double)] {
         return self.cities.map { city in
             (
-                lat: city.latitude,
-                lng: city.longitude,
+                x: Helpers.longitudeToX(city.longitude),
+                y: Helpers.latitudeToY(city.latitude),
                 color: Color(UIColor.label),
                 size: 10,
                 opacity: 0.7
             )
-        } + self.positions.map { position in
+        } + (showPositionsAsDots ? self.positions.map { position in
             (
-                lat: position.lat,
-                lng: position.lng,
-                color: .red,
+                x: position.x,
+                y: position.y,
+                color: Color.red,
                 size: 5,
-                opacity: 1
+                opacity: 0.7
+            )
+        } : [])
+    }
+    var rectangles: [(x: Double, y: Double, width: Double, height: Double)] {
+        return showPositionsAsDots ? [] : self.positions.map { position in
+            (
+                x: position.x,
+                y: position.y,
+                width: position.width,
+                height: position.height
             )
         }
     }
@@ -97,6 +121,7 @@ struct WorldView: View {
         return PolygonView(
             shapes: self.shapes,
             points: self.points,
+            rectangles: self.rectangles,
             minX: bounds.minX,
             maxX: bounds.maxX,
             minY: bounds.minY,
@@ -113,7 +138,7 @@ struct WorldView_Previews: PreviewProvider {
         let model = simulatedDomainModel()
         
         return WorldView(
-            background: (continents: model.continentInfos, countries: []),
+            background: (continents: model.continentInfos, countries: [], regions: []),
             foreground: (continents: [], countries: model.countries.map {$0.countryInfo}, regions: [], timezones: []),
             cities: model.cities.map {$0.cityInfo},
             positions: [],

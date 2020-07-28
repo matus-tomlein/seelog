@@ -10,9 +10,11 @@ import SwiftUI
 import GEOSwift
 
 struct PolygonView: View {
-    var polygonExteriors: [[(Double, Double)]]
+    var polygonExteriors: [[(x: Double, y: Double)]]
     var polygonColors: [Color]
-    var points: [(Double, Double)]
+    var polygonOpacities: [Double]
+    var points: [(x: Double, y: Double)]
+    var rectangles: [(x: Double, y: Double, width: Double, height: Double)]
     var pointColors: [Color]
     var pointSizes: [CGFloat]
     var pointOpacities: [Double]
@@ -44,6 +46,15 @@ struct PolygonView: View {
                     }
                 }
                 .fill(self.polygonColors[polygon.id])
+                .opacity(self.polygonOpacities[polygon.id])
+            }
+
+            ForEach(self.processedRectangles(width: geometry.size.width, height: geometry.size.height)) { rectangle in
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(width: CGFloat(rectangle.width), height: CGFloat(rectangle.height))
+                    .opacity(0.4)
+                    .offset(x: CGFloat(rectangle.x), y: CGFloat(rectangle.y))
             }
 
             ForEach(self.processedPoints(width: geometry.size.width, height: geometry.size.height)) { point in
@@ -68,6 +79,14 @@ struct PointPosition: Identifiable {
     var y: Double
 }
 
+struct RectanglePosition: Identifiable {
+    var id: Int
+    var x: Double
+    var y: Double
+    var width: Double
+    var height: Double
+}
+
 extension PolygonView {
     func scale(width: CGFloat, height: CGFloat) -> (Double, Double, Double) {
         let scale = max(
@@ -79,6 +98,20 @@ extension PolygonView {
             max(0, (Double(width) - self.width / scale) / 2),
             max(0, (Double(height) - self.height / scale) / 2)
         )
+    }
+    
+    func processedRectangles(width: CGFloat, height: CGFloat) -> [RectanglePosition] {
+        let (scale, paddingX, paddingY) = self.scale(width: width, height: height)
+        
+        return rectangles.enumerated().map { (i, rectangle) in
+            RectanglePosition(
+                id: i,
+                x: getX(rectangle.x, scale: scale, paddingX: paddingX),
+                y: getY(rectangle.y, scale: scale, paddingY: paddingY),
+                width: rectangle.width / scale,
+                height: rectangle.height / scale
+            )
+        }
     }
 
     func processedPolygons(width: CGFloat, height: CGFloat) -> [PolygonPoints] {
@@ -103,8 +136,8 @@ extension PolygonView {
         return points.enumerated().map { (i, point) in
             PointPosition(
                 id: i,
-                x: getX(point.0, scale: scale, paddingX: paddingX),
-                y: getY(point.1, scale: scale, paddingY: paddingY)
+                x: getX(point.x, scale: scale, paddingX: paddingX),
+                y: getY(point.y, scale: scale, paddingY: paddingY)
             )
         }
     }
@@ -118,8 +151,9 @@ extension PolygonView {
     }
 
     init(
-        shapes: [(geometryDescription: GeometryDescription, color: Color)],
-        points: [(lat: Double, lng: Double, color: Color, size: Double, opacity: Double)],
+        shapes: [(geometryDescription: GeometryDescription, color: Color, opacity: Double)],
+        points: [(x: Double, y: Double, color: Color, size: Double, opacity: Double)],
+        rectangles: [(x: Double, y: Double, width: Double, height: Double)],
         minX: Double,
         maxX: Double,
         minY: Double,
@@ -131,16 +165,20 @@ extension PolygonView {
         self.polygonColors = shapes.flatMap { shape in
             shape.geometryDescription.polygons.map { _ in shape.color }
         }
+        self.polygonOpacities = shapes.flatMap { shape in
+            shape.geometryDescription.polygons.map { _ in shape.opacity }
+        }
 
         self.minX = minX
         self.minY = minY
         self.maxX = maxX
         self.maxY = maxY
 
-        self.points = points.map { Helpers.geolocationToXY(latitude: $0.lat, longitude: $0.lng) }
+        self.points = points.map { (x: $0.x, y: $0.y) }
         self.pointColors = points.map { $0.color }
         self.pointSizes = points.map { CGFloat($0.size) }
         self.pointOpacities = points.map { $0.opacity }
+        self.rectangles = rectangles
     }
 }
 
@@ -151,8 +189,15 @@ struct PolygonView_Previews: PreviewProvider {
         let city = geoDB.cityInfoFor(cityKey: 7266)
         let geometry = country.geometry10mDescription
         return PolygonView(
-            shapes: [(geometryDescription: geometry, color: .red)],
-            points: [(lat: city?.latitude ?? 0, lng: city?.longitude ?? 0, color: .black, size: 10, opacity: 0.7)],
+            shapes: [(geometryDescription: geometry, color: .red, opacity: 1)],
+            points: [(
+                x: Helpers.longitudeToX(city?.longitude ?? 0),
+                y: Helpers.latitudeToY(city?.latitude ?? 0),
+                color: .black,
+                size: 10,
+                opacity: 0.7
+            )],
+            rectangles: [],
             minX: geometry.minX,
             maxX: geometry.maxX,
             minY: geometry.minY,

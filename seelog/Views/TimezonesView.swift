@@ -11,7 +11,8 @@ import SwiftUI
 struct TimezonesView: View {
     @EnvironmentObject var viewState: ViewState
     var selectedYear: Int? { get { return viewState.selectedYear } }
-    var timezones: [Timezone] { get { return viewState.model.timezonesForYear(selectedYear) } }
+    var timezones: [Timezone] { get { return viewState.model.timezones } }
+    var timezonesCount: Int { return timezones.filter { $0.visited(year: selectedYear) }.count }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.timezonesYearCounts } }
 
     var body: some View {
@@ -25,7 +26,7 @@ struct TimezonesView: View {
                     .environmentObject(viewState)
             }.listRowInsets(EdgeInsets())
 
-            Section(header: Text("\(timezones.count) timezones")) {
+            Section(header: Text("\(timezonesCount) timezones")) {
                 ForEach(timezones) { timezone in
                     TimezoneListItemView(timezone: timezone)
                 }

@@ -103,4 +103,12 @@ extension Trippable {
             return .tourist
         }
     }
+
+    func visited(year: Int?) -> Bool {
+        if let year = year {
+            return years.contains(year)
+        } else {
+            return true
+        }
+    }
 }

@@ -30,7 +30,7 @@ struct ContentView: View {
         if loadingViewState.loading {
             LoadingView()
         } else {
-            LogbookView().environmentObject(loadingViewState.viewState!)
+            MainView().environmentObject(loadingViewState.viewState!)
         }
     }
 }

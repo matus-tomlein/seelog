@@ -21,6 +21,32 @@ struct Country: Identifiable, Trippable {
     var tripsByYear: [Int : [Trip]]
     var stayDuration: Int
     var years: [Int]
+
+    func positions(year: Int?) -> [Location] {
+        return model.positions(
+            year: year,
+            minLatitude: self.countryInfo.minLatitude,
+            maxLatitude: self.countryInfo.maxLatitude,
+            minLongitude: self.countryInfo.minLongitude,
+            maxLongitude: self.countryInfo.maxLongitude
+        )
+    }
+
+    func info(year: Int?) -> TextInfo {
+        let link = ViewLink.country(self)
+        if !visited(year: year) {
+            return TextInfo(id: id, link: link, heading: countryInfo.name, enabled: false)
+        }
+        
+        return TextInfo(
+            id: id,
+            link: link,
+            heading: countryInfo.name,
+            body: [
+                "\(stayDurationForYear(year)) days"
+            ]
+        )
+    }
 }
 
 extension Country {

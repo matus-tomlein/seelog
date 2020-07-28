@@ -11,10 +11,11 @@ import SwiftUI
 struct CitiesListView: View {
     @EnvironmentObject var viewState: ViewState
     var cities: [City]
+    var citiesCount: Int { return cities.filter { $0.visited(year: selectedYear) }.count }
     var selectedYear: Int? { get { return viewState.selectedYear } }
 
     var body: some View {
-        Section(header: Text("\(cities.count) cities")) {
+        Section(header: Text("\(citiesCount) cities")) {
             ForEach(cities) { city in
                 CityListItemView(city: city)
             }

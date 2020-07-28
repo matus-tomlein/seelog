@@ -11,7 +11,8 @@ import SwiftUI
 struct ContinentsView: View {
     @EnvironmentObject var viewState: ViewState
     var selectedYear: Int? { get { return viewState.selectedYear } }
-    var continents: [Continent] { get { return viewState.model.continentsForYear(selectedYear) } }
+    var continents: [Continent] { get { return viewState.model.continents } }
+    var continentsCount: Int { return continents.filter { $0.visited(year: selectedYear) }.count }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.continentYearCounts } }
 
     var body: some View {
@@ -25,7 +26,7 @@ struct ContinentsView: View {
                     .environmentObject(viewState)
             }.listRowInsets(EdgeInsets())
 
-            Section(header: Text("\(continents.count) continents")) {
+            Section(header: Text("\(continentsCount) continents")) {
                 ForEach(continents) { continent in
                     ContinentListItemView(continent: continent)
                 }

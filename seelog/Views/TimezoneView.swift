@@ -11,11 +11,12 @@ import SwiftUI
 struct TimezoneView: View {
     var timezone: Timezone
     @EnvironmentObject var viewState: ViewState
+    var year: Int? { return viewState.selectedYear }
 
     var body: some View {
         List {
             WorldView(
-                background: (continents: viewState.model.continentInfos, countries: []),
+                background: (continents: viewState.model.continentInfos, countries: [], regions: []),
                 foreground: (continents: [], countries: [], regions: [], timezones: [timezone.timezoneInfo]),
                 cities: [],
                 positions: [],
@@ -24,6 +25,7 @@ struct TimezoneView: View {
             )
             
             StayDurationBarChartView(destination: timezone)
+            TextInfoView(info: timezone.info(year: year), addHeading: false)
             TripsListView(destination: timezone)
         }
         .navigationBarTitle(Text(timezone.timezoneInfo.name), displayMode: .inline)

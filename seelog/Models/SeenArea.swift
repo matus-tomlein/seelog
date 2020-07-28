@@ -16,8 +16,7 @@ extension SeenArea {
         let request = NSFetchRequest<SeenArea>(entityName: "SeenArea")
         request.fetchLimit = 1
         request.sortDescriptors = [
-            NSSortDescriptor(key: "year", ascending: false),
-            NSSortDescriptor(key: "month", ascending: false)
+            NSSortDescriptor(key: "year", ascending: false)
         ]
 
         do {

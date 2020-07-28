@@ -2,7 +2,7 @@
 //  LogbookView.swift
 //  seelog
 //
-//  Created by Matus Tomlein on 16/02/2020.
+//  Created by Matus Tomlein on 26/07/2020.
 //  Copyright © 2020 Matus Tomlein. All rights reserved.
 //
 
@@ -10,47 +10,13 @@ import SwiftUI
 
 struct LogbookView: View {
     @EnvironmentObject var viewState: ViewState
-    var year: Int? { get { return viewState.selectedYear } }
+    var year: Int? { return viewState.selectedYear }
     var model: DomainModel { return viewState.model }
-    var countries: [Country] { get { return model.countriesForYear(year) } }
-    var topCountries: [Country] {
-        get {
-            Array(countries.sorted(by: { c1, c2 in
-                c1.stayDurationForYear(year) > c2.stayDurationForYear(year)
-            }).prefix(3))
-        }
-    }
-    var cities: [City] { get { return viewState.model.citiesForYear(year) } }
-    var topCities: [City] {
-        get {
-            Array(cities.sorted(by: { c1, c2 in
-                c1.stayDurationForYear(year) > c2.stayDurationForYear(year)
-            }).prefix(3))
-        }
-    }
-    var continents: [Continent] { get { return model.continentsForYear(year) } }
-    var topContinents: [Continent] {
-        get {
-            Array(continents.sorted(by: { c1, c2 in
-                c1.stayDurationForYear(year) > c2.stayDurationForYear(year)
-            }).prefix(3))
-        }
-    }
-    var timezones: [Timezone] { get { return model.timezonesForYear(year) } }
-    var topTimezones: [Timezone] {
-        get {
-            Array(timezones.sorted(by: { c1, c2 in
-                c1.stayDurationForYear(year) > c2.stayDurationForYear(year)
-            }).prefix(3))
-        }
-    }
-    var regions: [Region] { get { return model.regionsForYear(year) } }
-    var seenGeometry: SeenGeometry? { get { return model.seenGeometry(year: year, month: 0) } }
+    
+    var seenGeometry: SeenGeometry? { get { return model.seenGeometry(year: year) } }
     var yearStats: [(year: Int, count: Int)] {
         return model.years.reversed().map { year in
-            let distance = year.seenGeometriesByMonth.map { (_, geometry) in
-                geometry.travelledDistance
-            }.reduce(0, +)
+            let distance = year.seenGeometry?.travelledDistance ?? 0
 
             return (
                 year: year.year,
@@ -60,153 +26,64 @@ struct LogbookView: View {
     }
 
     var body: some View {
-        TabView {
-            NavigationView {
-                List {
-                    VStack(spacing: 0) {
-                        WorldView(
-                            background: (continents: model.continentInfos, countries: []),
-                            foreground: (continents: [], countries: [], regions: [], timezones: []),
-                            cities: [],
-                            positions: seenGeometry?.higherLevelPositions ?? [],
-                            detailed: false,
-                            opaque: false
-                        )
-                        
-                        BarChartView(
-                            showCounts: true,
-                            yearStats: yearStats
-                        )
-                    }.listRowInsets(EdgeInsets())
-                }
-                .navigationBarTitle("Seelog")
+        List {
+            VStack(spacing: 0) {
+                WorldView(
+                    background: (continents: model.continentInfos, countries: [], regions: []),
+                    foreground: (continents: [], countries: [], regions: [], timezones: []),
+                    cities: [],
+                    positions: seenGeometry?.higherLevelPositions ?? [],
+                    detailed: false,
+                    opaque: false,
+                    showPositionsAsDots: true
+                )
+
+            }.listRowInsets(EdgeInsets())
+
+            BarChartView(
+                showCounts: true,
+                yearStats: yearStats
+            )
+            VStack(alignment: .leading, spacing: 5) {
+                Text("You travelled ") + Text("\(seenGeometry?.travelledDistanceRounded ?? 0) km!").bold()
             }
-                .tabItem {
-                    Text("Seelog")
+
+            Section(header: Text("Countries")) {
+                ForEach(TextInfoGenerator.countries(model: self.model
+                , year: year)) { textInfo in
+                    TextInfoView(info: textInfo)
                 }
+            }
             
-            NavigationView {
-                CountriesView()
-            }
-                .tabItem {
-                    Text("Countries")
+            Section(header: Text("Cities")) {
+                ForEach(TextInfoGenerator.cities(model: self.model
+                , year: year)) { textInfo in
+                    TextInfoView(info: textInfo)
                 }
-
-            NavigationView {
-                ContinentsView()
             }
-                .tabItem {
-                    Text("Continents")
+            
+            Section(header: Text("Continents")) {
+                ForEach(TextInfoGenerator.continents(model: self.model
+                , year: year)) { textInfo in
+                    TextInfoView(info: textInfo)
                 }
-
-            NavigationView {
-                CitiesView()
             }
-                .tabItem {
-                    Text("Cities")
+            
+            Section(header: Text("Timezones")) {
+                ForEach(TextInfoGenerator.timezones(model: self.model
+                , year: year)) { textInfo in
+                    TextInfoView(info: textInfo)
                 }
-
-            NavigationView {
-                TimezonesView()
             }
-                .tabItem {
-                    Text("Timezones")
-                }
         }
-//        NavigationView {
-//            List {
-//                VStack(spacing: 0) {
-//                    WorldView(
-//                        background: (continents: model.continentInfos, countries: []),
-//                        foreground: (continents: [], countries: [], regions: [], timezones: []),
-//                        cities: [],
-//                        positions: seenGeometry?.higherLevelPositions ?? [],
-//                        detailed: false,
-//                        opaque: false
-//                    )
-//
-//                    DistanceGridView(
-//                        seenGeometries: model.seenGeometriesByYearAndMonth()
-//                    )
-//                }.listRowInsets(EdgeInsets())
-//
-//                NavigationLink(destination: CountriesView()) {
-//                    VStack(alignment: .leading) {
-//                        Text("\(countries.count) countries")
-//                            .font(.title)
-//                            .fontWeight(.bold)
-//                        Text("Show more")
-//                    }
-//                }
-//                .padding(.top, CGFloat(20))
-//
-//
-////                    CountriesHeatView()
-//
-//                ScrollView(.horizontal) {
-//                    HStack {
-//                        ForEach(
-//                            model.countriesByExplorationStatus(year: year),
-//                            id: \.status
-//                        ) { (status, countries) in
-//                            ForEach(countries) { country in
-//                                CountryBadgeView(country: country)
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                NavigationLink(destination: CitiesView()) {
-//                    VStack(alignment: .leading) {
-//                        Text("\(cities.count) cities")
-//                            .font(.title)
-//                            .fontWeight(.bold)
-//                        Text("Show more")
-//                    }
-//                }
-//                .padding(.top, 20)
-//
-//                Section(header: Text("Cities")) {
-//
-//                    ForEach(topCities) { city in
-//                        CityListItemView(city: city)
-//                    }
-//
-//                }
-//
-//                Section(header: Text("Continents")) {
-//                    ForEach(topContinents) { continent in
-//                        ContinentListItemView(continent: continent)
-//                    }
-//
-//                    NavigationLink(destination: ContinentsView()) {
-//                        Text("\(continents.count) continents")
-//                            .font(.headline)
-//                    }
-//                }
-//
-//                Section(header: Text("Timezones")) {
-//
-//                    ForEach(topTimezones) { timezone in
-//                        TimezoneListItemView(timezone: timezone)
-//                    }
-//
-//                    NavigationLink(destination: TimezonesView()) {
-//                        Text("\(timezones.count) timezones")
-//                            .font(.headline)
-//                    }
-//                }
-//            }
-//            .navigationBarTitle("Seelog")
-//        }
+        .navigationBarTitle("Hey Explorer!")
     }
 }
 
 struct LogbookView_Previews: PreviewProvider {
     static var previews: some View {
         let model = simulatedDomainModel()
-
-        return LogbookView()
-            .environmentObject(ViewState(model: model))
+        
+        return LogbookView().environmentObject(ViewState(model: model))
     }
 }

@@ -16,5 +16,5 @@ struct Year: Identifiable {
     var states: [Region]
     var timezones: [Timezone]
     var continents: [Continent]
-    var seenGeometriesByMonth: [Int: SeenGeometry]
+    var seenGeometry: SeenGeometry?
 }

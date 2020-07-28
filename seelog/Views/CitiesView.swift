@@ -11,7 +11,7 @@ import SwiftUI
 struct CitiesView: View {
     @EnvironmentObject var viewState: ViewState
     var selectedYear: Int? { get { return viewState.selectedYear } }
-    var cities: [City] { get { return viewState.model.citiesForYear(selectedYear) } }
+    var cities: [City] { get { return viewState.model.cities } }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.cityYearCounts } }
 
     var body: some View {

@@ -14,15 +14,7 @@ struct CountryListItemView: View {
     var selectedYear: Int? { get { return viewState.selectedYear } }
 
     var body: some View {
-        NavigationLink(destination: CountryView(country: country)
-            .environmentObject(self.viewState)
-        ) {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(country.countryInfo.name)
-                    .font(.headline)
-                Text("\(country.stayDurationForYear(self.selectedYear)) days")
-            }
-        }
+        TextInfoView(info: country.info(year: selectedYear))
     }
 }
 

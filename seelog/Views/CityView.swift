@@ -11,10 +11,23 @@ import SwiftUI
 struct CityView: View {
     var city: City
     @EnvironmentObject var viewState: ViewState
+    var year: Int? { return viewState.selectedYear }
 
     var body: some View {
         List {
+            city.region.map { region in
+                WorldView(
+                    background: (continents: [], countries: [], regions: [region.stateInfo]),
+                    foreground: (continents: [], countries: [], regions: [], timezones: []),
+                    cities: [city.cityInfo],
+                    positions: region.positions(year: year),
+                    detailed: true,
+                    opaque: false
+                )
+            }
+
             StayDurationBarChartView(destination: city)
+            TextInfoView(info: city.info(year: year), addHeading: false)
             ContinentListItemView(continent: city.continent)
             CountryListItemView(country: city.country)
             city.region.map { region in

@@ -85,6 +85,14 @@ class DomainModel {
                         let cityInfo = geoDatabase.cityInfoFor(cityKey: cityKey) {
                         let city = City(cityInfo: cityInfo, trips: trips, model: self)
                         self.citiesById[city.id] = city
+                        if let stateKey = cityInfo.stateKey {
+                            if self.statesById[stateKey] == nil {
+                                if let stateInfo = geoDatabase.stateInfoFor(stateKey: stateKey) {
+                                    let region = Region(stateInfo: stateInfo, trips: trips, model: self)
+                                    self.statesById[region.id] = region
+                                }
+                            }
+                        }
                     }
 
                 case .continent:
@@ -114,7 +122,7 @@ class DomainModel {
             let yearCities = cities.filter { city in
                 !city.trips.filter { trip in trip.years.contains(year) }.isEmpty
             }
-            let seenGeometriesByMonth = Dictionary(grouping: seenGeometries.filter { $0.year == year }, by: { $0.month! }).mapValues { $0.first! }
+            let seenGeometry = seenGeometries.filter { $0.year == year }.first
 
             return Year(
                 year: year,
@@ -123,7 +131,7 @@ class DomainModel {
                 states: yearStates,
                 timezones: yearTimezones,
                 continents: yearContinents,
-                seenGeometriesByMonth: seenGeometriesByMonth
+                seenGeometry: seenGeometry
             )
         }.sorted(by: { s1, s2 in s1.year < s2.year })
     }
@@ -162,35 +170,26 @@ class DomainModel {
     
     func citiesForYear(_ year: Int?) -> [City] {
         if let year = year {
-            return self.cities.filter { $0.years.contains(year) }
+            return self.cities.filter { $0.visited(year: year) }
         } else {
             return self.cities
         }
     }
 
-    func seenGeometry(year: Int?, month: Int?) -> SeenGeometry? {
-        if let year = year, let month = month {
-            return self.years.first { $0.year == year }?.seenGeometriesByMonth[month]
-        } else {
-            return self.seenGeometry
-        }
-    }
-    
-    func seenGeometriesForYear(_ year: Int?) -> [SeenGeometry] {
+    func citiesNotVisited(_ year: Int?) -> [City] {
         if let year = year {
-            return self.years.first { $0.year == year }?.seenGeometriesByMonth.values.map { $0 } ?? []
+            return self.cities.filter { !$0.visited(year: year) }
         } else {
-            if let seenGeometry = self.seenGeometry { return [seenGeometry] }
-            else { return [] }
+            return []
         }
     }
 
-    func seenGeometriesByYearAndMonth() -> [Int: [Int: SeenGeometry]] {
-        var result = [Int: [Int: SeenGeometry]]()
-        for year in years {
-            result[year.year] = year.seenGeometriesByMonth
+    func seenGeometry(year: Int?) -> SeenGeometry? {
+        if let year = year {
+            return self.years.first { $0.year == year }?.seenGeometry
+        } else {
+            return self.seenGeometry
         }
-        return result
     }
 
     func countries(year: Int?, explorationStatus: ExplorationStatus) -> [Country] {
@@ -266,6 +265,26 @@ class DomainModel {
     func city(id: Int64) -> City { return self.citiesById[id]! }
     func timezone(id: Int32) -> Timezone { return self.timezonesById[id]! }
     func continent(id: String) -> Continent { return self.continentsById[id]! }
+    
+    func positions(year: Int?, minLatitude: Double, maxLatitude: Double, minLongitude: Double, maxLongitude: Double) -> [Location] {
+        let xs = [
+            Helpers.longitudeToX(minLongitude),
+            Helpers.longitudeToX(maxLongitude)
+        ].sorted()
+        let minX = xs.first!
+        let maxX = xs.last!
+        let ys = [
+            Helpers.latitudeToY(minLatitude),
+            Helpers.latitudeToY(maxLatitude)
+        ].sorted()
+        let minY = ys.first!
+        let maxY = ys.last!
+        let positions = self.seenGeometry(year: year)?.positions ?? []
+        return positions.filter { position in
+            position.x >= minX && position.x <= maxX &&
+                position.y >= minY && position.y <= maxY
+        }
+    }
 }
 
 func loadTrips() -> [Trip] {
@@ -300,7 +319,6 @@ func loadSeenGeometries() -> [SeenGeometry] {
         return csv.namedRows.enumerated().map { (index, row) in
             SeenGeometry(
                 year: Int(row["ZYEAR"] ?? ""),
-                month: Int(row["ZMONTH"] ?? ""),
                 geohashes: Set(),
                 travelledDistance: Double(row["ZTRAVELLEDDISTANCE"] ?? "") ?? 0,
                 landWKT: row["ZLANDWKT"] ?? "",

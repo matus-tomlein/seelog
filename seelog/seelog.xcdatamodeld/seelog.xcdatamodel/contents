@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="geohash" attributeType="String"/>
@@ -14,7 +14,6 @@
         <attribute name="lastLatitude" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lastLongitude" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="lastPhotoDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="month" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="processedHeatmapWKT" optional="YES" attributeType="String"/>
         <attribute name="travelledDistance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="waterWKT" optional="YES" attributeType="String"/>
@@ -30,8 +29,8 @@
     </entity>
     <elements>
         <element name="Photo" positionX="619" positionY="216" width="128" height="135"/>
-        <element name="SeenArea" positionX="630" positionY="360" width="128" height="193"/>
-        <element name="VisitPeriod" positionX="630" positionY="369" width="128" height="120"/>
+        <element name="SeenArea" positionX="630" positionY="360" width="128" height="178"/>
         <element name="TravelPath" positionX="621" positionY="333" width="128" height="43"/>
+        <element name="VisitPeriod" positionX="630" positionY="369" width="128" height="120"/>
     </elements>
 </model>

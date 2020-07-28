@@ -302,7 +302,7 @@ class PhotoMapViewer {
         self.year = year
         let overlayVersion = GeometryOverlayCreator.overlayVersion
 
-        let geohashes = Set(model.seenGeometriesForYear(year).flatMap { $0.geohashes })
+        let geohashes = Set(model.seenGeometry(year: year)?.geohashes ?? [])
         for geohash in geohashes {
             let manager = LargerGeohashManager(geohash: geohash,
                                                mapView: self.mapView,

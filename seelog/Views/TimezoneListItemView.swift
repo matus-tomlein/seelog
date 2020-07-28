@@ -14,15 +14,7 @@ struct TimezoneListItemView: View {
     var timezone: Timezone
 
     var body: some View {
-        NavigationLink(destination: TimezoneView(timezone: timezone)
-            .environmentObject(self.viewState)
-        ) {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(timezone.timezoneInfo.name)
-                    .font(.headline)
-                Text("\(timezone.stayDurationForYear(self.selectedYear)) days")
-            }
-        }
+        TextInfoView(info: timezone.info(year: selectedYear))
     }
 }
 

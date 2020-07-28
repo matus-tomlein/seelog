@@ -9,13 +9,53 @@
 import SwiftUI
 
 struct CountryBadgeView: View {
+    @EnvironmentObject var viewState: ViewState
+    var country: Country
+    var year: Int? { get { return viewState.selectedYear } }
+    
+    var foregroundColor: Color {
+        return country.stayDurationStatusForYear(year).color ?? backgroundColor
+    }
+    var backgroundColor: Color {
+        return country.explorationStatusForYear(year).color
+    }
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationLink(destination: CountryView(country: country)
+            .environmentObject(self.viewState)
+        ) {
+            VStack {
+                BadgeView(
+                    geometryDescription: country.countryInfo.badgeGeometryDescription,
+                    foregroundColor: foregroundColor,
+                    backgroundColor: backgroundColor
+                )
+                Text(country.countryInfo.name)
+                    .font(.headline)
+                    .foregroundColor(Color(UIColor.label))
+                Text("\(country.regionsForYear(self.year).count)/\(country.countryInfo.numberOfRegions) regions")
+                    .foregroundColor(Color(UIColor.label))
+                Text("\(country.stayDurationForYear(self.year)) days")
+                    .foregroundColor(Color(UIColor.label))
+            }.padding()
+        }
     }
 }
 
 struct CountryBadgeView_Previews: PreviewProvider {
     static var previews: some View {
-        CountryBadgeView()
+        let model = simulatedDomainModel()
+        
+        return List {
+            CountryBadgeView(
+                country: model.countries.first(where: { $0.countryInfo.name == "Slovakia" })!
+            ).environmentObject(ViewState(model: model))
+            CountryBadgeView(
+                country: model.countries.first(where: { $0.countryInfo.name == "Ukraine" })!
+            ).environmentObject(ViewState(model: model))
+            CountryBadgeView(
+                country: model.countries.first(where: { $0.countryInfo.name == "Germany" })!
+            ).environmentObject(ViewState(model: model))
+        }
     }
 }

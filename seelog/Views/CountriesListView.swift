@@ -10,10 +10,12 @@ import SwiftUI
 
 struct CountriesListView: View {
     var countries: [Country]
+    var countriesCount: Int { return countries.filter { $0.visited(year: selectedYear) }.count }
     @EnvironmentObject var viewState: ViewState
+    var selectedYear: Int? { get { return viewState.selectedYear } }
 
     var body: some View {
-        Section(header: Text("\(countries.count) countries")) {
+        Section(header: Text("\(countriesCount) countries")) {
             ForEach(countries) { country in
                 CountryListItemView(country: country)
             }

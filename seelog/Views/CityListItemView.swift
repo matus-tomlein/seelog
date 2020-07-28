@@ -14,13 +14,7 @@ struct CityListItemView: View {
     var city: City
     
     var body: some View {
-        NavigationLink(destination: CityView(city: city).environmentObject(self.viewState)) {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(city.cityInfo.name)
-                    .font(.headline)
-                Text("\(city.stayDurationForYear(self.selectedYear)) days")
-            }
-        }
+        TextInfoView(info: city.info(year: selectedYear))
     }
 }
 

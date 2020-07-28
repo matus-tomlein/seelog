@@ -11,18 +11,13 @@ import GEOSwift
 import CoreData
 import CoreLocation
 
-struct YearMonth: Hashable {
-    let year: Int32
-    let month: Int16
-}
-
 class SeenAreaUpdater {
     var totalSeenArea: SeenArea
-    var seenAreas = [YearMonth: SeenArea]()
-    var geohashes = [YearMonth: Set<String>]()
-    var travelledDistances = [YearMonth: Double]()
+    var seenAreas = [Int32: SeenArea]()
+    var geohashes = [Int32: Set<String>]()
+    var travelledDistances = [Int32: Double]()
     var cumulativeGeohashes: Set<String>
-    var changedHeatmap = [YearMonth: Bool]()
+    var changedHeatmap = [Int32: Bool]()
     var changedCumulativeHeatmap = false
     var context: NSManagedObjectContext
 
@@ -32,16 +27,16 @@ class SeenAreaUpdater {
 
         self.cumulativeGeohashes = Set(self.totalSeenArea.geohashes ?? [])
         if let last = SeenArea.last(context: context) {
-            let yearMonth = YearMonth(year: last.year, month: last.month)
-            self.seenAreas[yearMonth] = last
-            self.geohashes[yearMonth] = Set(last.geohashes ?? [])
-            self.changedHeatmap[yearMonth] = false
+            let year = last.year
+            self.seenAreas[year] = last
+            self.geohashes[year] = Set(last.geohashes ?? [])
+            self.changedHeatmap[year] = false
         }
     }
 
     func processNewPhoto(photoInfo: PhotoInfo) {
         let geohash = photoInfo.geohash4
-        let yearMonth = YearMonth(year: photoInfo.year, month: photoInfo.month)
+        let year = photoInfo.year
 
         if !cumulativeGeohashes.contains(geohash) {
             cumulativeGeohashes.insert(geohash)
@@ -53,25 +48,25 @@ class SeenAreaUpdater {
             let location = CLLocation(latitude: photoInfo.latitude, longitude: photoInfo.longitude)
             let distance = lastLocation.distance(from: location) / 1000 // km
 
-            if let previousDistance = travelledDistances[yearMonth] {
-                travelledDistances[yearMonth] = previousDistance + distance
+            if let previousDistance = travelledDistances[year] {
+                travelledDistances[year] = previousDistance + distance
             } else {
-                travelledDistances[yearMonth] = distance
+                travelledDistances[year] = distance
             }
             totalSeenArea.travelledDistance += distance
         }
         totalSeenArea.lastLatitude = photoInfo.latitude
         totalSeenArea.lastLongitude = photoInfo.longitude
 
-        if var known = geohashes[yearMonth] {
+        if var known = geohashes[year] {
             if !known.contains(geohash) {
-                changedHeatmap[yearMonth] = true
+                changedHeatmap[year] = true
                 known.insert(geohash)
-                geohashes[yearMonth] = known
+                geohashes[year] = known
             }
         } else {
-            geohashes[yearMonth] = Set([geohash])
-            changedHeatmap[yearMonth] = true
+            geohashes[year] = Set([geohash])
+            changedHeatmap[year] = true
         }
     }
 
@@ -82,16 +77,15 @@ class SeenAreaUpdater {
             totalSeenArea.geohashes = Array(self.cumulativeGeohashes)
             heatmapUpdater.update(seenArea: totalSeenArea)
         }
-        for (yearMonth, geohashes) in geohashes {
-            let seenArea = seenAreas[yearMonth] ?? SeenArea(context: context)
-            seenArea.year = yearMonth.year
-            seenArea.month = yearMonth.month
-            if let travelledDistance = self.travelledDistances[yearMonth] {
+        for (year, geohashes) in geohashes {
+            let seenArea = seenAreas[year] ?? SeenArea(context: context)
+            seenArea.year = year
+            if let travelledDistance = self.travelledDistances[year] {
                 seenArea.travelledDistance += travelledDistance
             }
 
-            if changedHeatmap[yearMonth] ?? false {
-                if let seenArea = seenAreas[yearMonth] {
+            if changedHeatmap[year] ?? false {
+                if let seenArea = seenAreas[year] {
                     seenArea.geohashes = Array(geohashes)
                     heatmapUpdater.update(seenArea: seenArea)
                 } else {

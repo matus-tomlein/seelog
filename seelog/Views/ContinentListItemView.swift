@@ -14,15 +14,7 @@ struct ContinentListItemView: View {
     var continent: Continent
 
     var body: some View {
-        NavigationLink(destination: ContinentView(continent: continent)
-            .environmentObject(self.viewState)
-        ) {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(continent.continentInfo.name)
-                    .font(.headline)
-                Text("\(continent.stayDurationForYear(self.selectedYear)) days")
-            }
-        }
+        TextInfoView(info: continent.info(year: selectedYear))
     }
 }
 

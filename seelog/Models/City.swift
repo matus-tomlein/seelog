@@ -25,6 +25,22 @@ struct City: Identifiable, Trippable {
     var tripsByYear: [Int : [Trip]]
     var stayDuration: Int
     var years: [Int]
+
+    func info(year: Int?) -> TextInfo {
+        let link = ViewLink.city(self)
+        if !visited(year: year) {
+            return TextInfo(id: String(id), link: link, heading: cityInfo.name, enabled: false)
+        }
+        
+        return TextInfo(
+            id: String(id),
+            link: link,
+            heading: cityInfo.name,
+            body: [
+                "\(stayDurationForYear(year)) days"
+            ]
+        )
+    }
 }
 
 extension City {
