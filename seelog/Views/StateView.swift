@@ -13,15 +13,14 @@ struct StateView: View {
     @EnvironmentObject var viewState: ViewState
     @ObservedObject var selectedYearState = SelectedYearState()
     var year: Int? { return selectedYearState.year }
-    var cities: [City] { return state.cities }
-    var citiesForYear: [City] { return state.citiesForYear(year: year) }
+    var cities: [City] { return state.citiesForYear(year: year) }
     
     var body: some View {
         List {
             WorldView(
                 background: (continents: [], countries: [state.country.countryInfo], regions: []),
                 foreground: (continents: [], countries: [], regions: [state.stateInfo], timezones: []),
-                cities: citiesForYear.map { $0.cityInfo },
+                cities: cities.map { $0.cityInfo },
                 positions: state.positions(year: year),
                 detailed: true,
                 opaque: false,

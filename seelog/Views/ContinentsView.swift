@@ -10,17 +10,17 @@ import SwiftUI
 
 struct ContinentsView: View {
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var selectedYearState: SelectedYearState
+    @ObservedObject var selectedYearState = SelectedYearState()
     var model: DomainModel { return viewState.model }
     var selectedYear: Int? { get { return selectedYearState.year } }
-    var continents: [Continent] { get { return viewState.model.continents } }
+    var continents: [Continent] { get { return viewState.model.continentsForYear(selectedYear) } }
     var continentsCount: Int { return continents.filter { $0.visited(year: selectedYear) }.count }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.continentYearCounts } }
 
     var body: some View {
         List {
             VStack(spacing: 0) {
-                ContinentsHeatView()
+                ContinentsHeatView(selectedYearState: selectedYearState)
 
                 BarChartView(showCounts: true, yearStats: yearStats)
                     .padding(.bottom, 20)

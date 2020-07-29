@@ -13,7 +13,7 @@ struct TimezonesView: View {
     @ObservedObject var selectedYearState = SelectedYearState()
     var model: DomainModel { return viewState.model }
     var selectedYear: Int? { get { return selectedYearState.year } }
-    var timezones: [Timezone] { get { return viewState.model.timezones } }
+    var timezones: [Timezone] { get { return viewState.model.timezonesForYear(selectedYear) } }
     var timezonesCount: Int { return timezones.filter { $0.visited(year: selectedYear) }.count }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.timezonesYearCounts } }
 

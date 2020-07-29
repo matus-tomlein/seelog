@@ -13,7 +13,7 @@ struct CitiesView: View {
     @ObservedObject var selectedYearState = SelectedYearState()
     var model: DomainModel { return viewState.model }
     var selectedYear: Int? { get { return selectedYearState.year } }
-    var cities: [City] { get { return viewState.model.cities } }
+    var cities: [City] { get { return viewState.model.citiesForYear(selectedYear) } }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.cityYearCounts } }
 
     var body: some View {

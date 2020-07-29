@@ -12,7 +12,7 @@ struct CountriesView: View {
     @EnvironmentObject var viewState: ViewState
     @ObservedObject var selectedYearState = SelectedYearState()
     var selectedYear: Int? { get { return selectedYearState.year } }
-    var countries: [Country] { get { return viewState.model.countries } }
+    var countries: [Country] { get { return viewState.model.countriesForYear(selectedYear) } }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.countryYearCounts } }
 
     var body: some View {
