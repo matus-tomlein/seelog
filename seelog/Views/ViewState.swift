@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 final class ViewState: ObservableObject {
-    @Published var selectedYear: Int?
     var model: DomainModel
 
     init(model: DomainModel) {

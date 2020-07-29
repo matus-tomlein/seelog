@@ -11,13 +11,16 @@ import SwiftUI
 struct StatesListView: View {
     var states: [Region]
     var statesCount: Int { return states.filter { $0.visited(year: year) }.count }
-    @EnvironmentObject var viewState: ViewState
-    var year: Int? { get { return viewState.selectedYear } }
+    @ObservedObject var selectedYearState: SelectedYearState
+    var year: Int? { get { return selectedYearState.year } }
     
     var body: some View {
         Section(header: Text("\(statesCount) regions")) {
             ForEach(states) { state in
-                StateListItemView(region: state)
+                StateListItemView(
+                    region: state,
+                    selectedYearState: self.selectedYearState
+                )
             }
         }
     }
@@ -28,7 +31,10 @@ struct StatesListView_Previews: PreviewProvider {
         let model = simulatedDomainModel()
 
         return List {
-            StatesListView(states: model.states).environmentObject(ViewState(model: model))
+            StatesListView(
+                states: model.states,
+                selectedYearState: SelectedYearState()
+            ).environmentObject(ViewState(model: model))
         }
     }
 }

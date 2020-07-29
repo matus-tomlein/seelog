@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ContinentsHeatView: View {
     @EnvironmentObject var viewState: ViewState
-    var selectedYear: Int? { get { return viewState.selectedYear } }
+    @EnvironmentObject var selectedYearState: SelectedYearState
+    var selectedYear: Int? { get { return selectedYearState.year } }
     var continents: [Continent] { get { return viewState.model.continentsForYear(selectedYear) } }
 
     var body: some View {

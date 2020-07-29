@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6B521D0923B74C7A00570CF2"
-               BuildableName = "seelog.app"
+               BuildableName = "Seelog.app"
                BlueprintName = "seelog"
                ReferencedContainer = "container:seelog.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6B521D0923B74C7A00570CF2"
-            BuildableName = "seelog.app"
+            BuildableName = "Seelog.app"
             BlueprintName = "seelog"
             ReferencedContainer = "container:seelog.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6B521D0923B74C7A00570CF2"
-            BuildableName = "seelog.app"
+            BuildableName = "Seelog.app"
             BlueprintName = "seelog"
             ReferencedContainer = "container:seelog.xcodeproj">
          </BuildableReference>

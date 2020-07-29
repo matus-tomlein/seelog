@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct CityListItemView: View {
-    @EnvironmentObject var viewState: ViewState
-    var selectedYear: Int? { get { return viewState.selectedYear } }
     var city: City
+    @ObservedObject var selectedYearState: SelectedYearState
+    var selectedYear: Int? { get { return selectedYearState.year } }
     
     var body: some View {
         TextInfoView(info: city.info(year: selectedYear))
@@ -23,7 +23,8 @@ struct CityListItemView_Previews: PreviewProvider {
         let model = simulatedDomainModel()
 
         return CityListItemView(
-            city: model.cities[0]
-        ).environmentObject(ViewState(model: model))
+            city: model.cities[0],
+            selectedYearState: SelectedYearState()
+        )
     }
 }

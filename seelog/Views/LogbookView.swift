@@ -10,9 +10,10 @@ import SwiftUI
 
 struct LogbookView: View {
     @EnvironmentObject var viewState: ViewState
-    var year: Int? { return viewState.selectedYear }
+    @ObservedObject var selectedYearState = SelectedYearState()
+    var year: Int? { return selectedYearState.year }
     var model: DomainModel { return viewState.model }
-    
+
     var seenGeometry: SeenGeometry? { get { return model.seenGeometry(year: year) } }
     var yearStats: [(year: Int, count: Int)] {
         return model.years.reversed().map { year in
@@ -38,13 +39,15 @@ struct LogbookView: View {
                     showPositionsAsDots: true
                 )
 
+                BarChartView(
+                    showCounts: true,
+                    yearStats: yearStats
+                )
+                    .environmentObject(selectedYearState)
+                    .padding(.bottom, 20)
+                    .padding(.top, 20)
             }.listRowInsets(EdgeInsets())
 
-            BarChartView(
-                showCounts: true,
-                yearStats: yearStats
-            )
-            
             ForEach(TextInfoGenerator.travelledDistance(model: self.model
             , year: year)) { textInfo in
                 TextInfoView(info: textInfo)

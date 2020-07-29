@@ -10,10 +10,10 @@ import SwiftUI
 
 struct StayDurationBarChartView: View {
     var destination: Trippable
-    @EnvironmentObject var viewState: ViewState
-    
+    @EnvironmentObject var selectedYearState: SelectedYearState
+
     var body: some View {
-        Section(header: Text("\(destination.stayDurationForYear(self.viewState.selectedYear)) days")) {
+        Section(header: Text("\(destination.stayDurationForYear(selectedYearState.year)) days")) {
             BarChartView(
                 showCounts: true,
                 yearStats: destination.stayStatsByYear()
@@ -31,7 +31,7 @@ struct StayDurationBarChartView_Previews: PreviewProvider {
 
         return List {
             StayDurationBarChartView(destination: model.countries[0])
-            .environmentObject(ViewState(model: model))
+            .environmentObject(SelectedYearState())
         }.previewLayout(.fixed(width: 320, height: 260))
     }
 }

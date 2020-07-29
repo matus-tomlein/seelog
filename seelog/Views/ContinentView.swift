@@ -11,7 +11,8 @@ import SwiftUI
 struct ContinentView: View {
     var continent: Continent
     @EnvironmentObject var viewState: ViewState
-    var year: Int? { return viewState.selectedYear }
+    @ObservedObject var selectedYearState = SelectedYearState()
+    var year: Int? { return selectedYearState.year }
     var countries: [Country] { return continent.countries }
     var countriesForYear: [Country] { return continent.countriesForYear(year) }
     var cities: [City] { return continent.cities }
@@ -29,9 +30,16 @@ struct ContinentView: View {
             )
 
             StayDurationBarChartView(destination: continent)
+                .environmentObject(selectedYearState)
             TextInfoView(info: continent.info(year: year), addHeading: false)
-            CountriesListView(countries: countries)
-            CitiesListView(cities: cities)
+            CountriesListView(
+                countries: countries,
+                selectedYearState: selectedYearState
+            )
+            CitiesListView(
+                cities: cities,
+                selectedYearState: selectedYearState
+            )
 //            TripsListView(destination: continent)
         }
         .navigationBarTitle(continent.continentInfo.name)

@@ -21,6 +21,8 @@ class InitializationController {
     }
     
     func run() {
+        DatabaseCreator.create(container: persistentContainer)
+
         switch PHPhotoLibrary.authorizationStatus() {
         case .authorized:
             accessGranted()

@@ -10,7 +10,8 @@ import SwiftUI
 
 struct CountriesView: View {
     @EnvironmentObject var viewState: ViewState
-    var selectedYear: Int? { get { return viewState.selectedYear } }
+    @ObservedObject var selectedYearState = SelectedYearState()
+    var selectedYear: Int? { get { return selectedYearState.year } }
     var countries: [Country] { get { return viewState.model.countries } }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.countryYearCounts } }
 
@@ -18,11 +19,12 @@ struct CountriesView: View {
         List {
             VStack(spacing: 0) {
                 CountriesHeatView()
+                    .environmentObject(selectedYearState)
 
                 BarChartView(showCounts: true, yearStats: yearStats)
                     .padding(.bottom, 20)
                     .padding(.top, 20)
-                    .environmentObject(viewState)
+                    .environmentObject(selectedYearState)
             }.listRowInsets(EdgeInsets())
 
             ForEach(TextInfoGenerator.countries(model: self.viewState.model
@@ -30,9 +32,17 @@ struct CountriesView: View {
                 TextInfoView(info: textInfo)
             }
 
-            CountriesListView(countries: countries)
+            CountriesListView(
+                countries: countries,
+                selectedYearState: selectedYearState
+            )
         }
         .navigationBarTitle("Countries")
+//        .navigationBarItems(trailing:
+//            NavigationLink(destination: LogbookView().environmentObject(self.viewState)) {
+//                Image(systemName: "house")
+//            }.isDetailLink(false)
+//        )
 
     }
 }

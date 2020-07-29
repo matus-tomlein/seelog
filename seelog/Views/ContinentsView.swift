@@ -10,8 +10,9 @@ import SwiftUI
 
 struct ContinentsView: View {
     @EnvironmentObject var viewState: ViewState
+    @EnvironmentObject var selectedYearState: SelectedYearState
     var model: DomainModel { return viewState.model }
-    var selectedYear: Int? { get { return viewState.selectedYear } }
+    var selectedYear: Int? { get { return selectedYearState.year } }
     var continents: [Continent] { get { return viewState.model.continents } }
     var continentsCount: Int { return continents.filter { $0.visited(year: selectedYear) }.count }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.continentYearCounts } }
@@ -24,7 +25,7 @@ struct ContinentsView: View {
                 BarChartView(showCounts: true, yearStats: yearStats)
                     .padding(.bottom, 20)
                     .padding(.top, 20)
-                    .environmentObject(viewState)
+                    .environmentObject(selectedYearState)
             }.listRowInsets(EdgeInsets())
 
             ForEach(TextInfoGenerator.continents(model: self.model
@@ -34,7 +35,10 @@ struct ContinentsView: View {
 
             Section(header: Text("\(continentsCount) continents")) {
                 ForEach(continents) { continent in
-                    ContinentListItemView(continent: continent)
+                    ContinentListItemView(
+                        continent: continent,
+                        selectedYearState: SelectedYearState()
+                    )
                 }
             }
         }

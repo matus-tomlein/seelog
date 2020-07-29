@@ -9,15 +9,19 @@
 import SwiftUI
 
 struct CitiesListView: View {
-    @EnvironmentObject var viewState: ViewState
     var cities: [City]
+    @EnvironmentObject var viewState: ViewState
+    @ObservedObject var selectedYearState: SelectedYearState
     var citiesCount: Int { return cities.filter { $0.visited(year: selectedYear) }.count }
-    var selectedYear: Int? { get { return viewState.selectedYear } }
+    var selectedYear: Int? { get { return selectedYearState.year } }
 
     var body: some View {
         Section(header: Text("\(citiesCount) cities")) {
             ForEach(cities) { city in
-                CityListItemView(city: city)
+                CityListItemView(
+                    city: city,
+                    selectedYearState: self.selectedYearState
+                )
             }
         }
     }
@@ -28,7 +32,10 @@ struct CitiesListView_Previews: PreviewProvider {
         let model = simulatedDomainModel()
         
         return List {
-            CitiesListView(cities: model.cities).environmentObject(ViewState(model: model))
+            CitiesListView(
+                cities: model.cities,
+                selectedYearState: SelectedYearState()
+            ).environmentObject(ViewState(model: model))
         }
     }
 }

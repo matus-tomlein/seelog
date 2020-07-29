@@ -6,7 +6,22 @@
 	objectVersion = 51;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		6B04670724D1D335009892AF /* GitVersion */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6B04670824D1D335009892AF /* Build configuration list for PBXAggregateTarget "GitVersion" */;
+			buildPhases = (
+				6B04670B24D1D33B009892AF /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = GitVersion;
+			productName = GitVersion;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
+		6B04671124D1FE83009892AF /* SelectedYearState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B04671024D1FE83009892AF /* SelectedYearState.swift */; };
 		6B20F12E24CD7FA500ED5766 /* TextPresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F12D24CD7FA500ED5766 /* TextPresentationView.swift */; };
 		6B20F13024CD824B00ED5766 /* LogbookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F12F24CD824B00ED5766 /* LogbookView.swift */; };
 		6B20F13424CEF71500ED5766 /* TextInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F13324CEF71400ED5766 /* TextInfo.swift */; };
@@ -132,6 +147,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6B04670C24D1D36D009892AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B521D0223B74C7A00570CF2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B04670724D1D335009892AF;
+			remoteInfo = GitVersion;
+		};
 		6B521D2123B74C7F00570CF2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6B521D0223B74C7A00570CF2 /* Project object */;
@@ -156,6 +178,7 @@
 		3B482479223D97A5ED109F6E /* Pods-seelog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelog.release.xcconfig"; path = "Target Support Files/Pods-seelog/Pods-seelog.release.xcconfig"; sourceTree = "<group>"; };
 		417D0D4340E1F30EED3E45A6 /* Pods_seelog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5030618676CFEB4890AA3291 /* Pods-seelogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogTests.release.xcconfig"; path = "Target Support Files/Pods-seelogTests/Pods-seelogTests.release.xcconfig"; sourceTree = "<group>"; };
+		6B04671024D1FE83009892AF /* SelectedYearState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedYearState.swift; sourceTree = "<group>"; };
 		6B20F12D24CD7FA500ED5766 /* TextPresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPresentationView.swift; sourceTree = "<group>"; };
 		6B20F12F24CD824B00ED5766 /* LogbookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogbookView.swift; sourceTree = "<group>"; };
 		6B20F13324CEF71400ED5766 /* TextInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfo.swift; sourceTree = "<group>"; };
@@ -164,7 +187,7 @@
 		6B50C19F240BEE480090B578 /* CountriesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListView.swift; sourceTree = "<group>"; };
 		6B50C1A1240BF0690090B578 /* WorldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldView.swift; sourceTree = "<group>"; };
 		6B50C1A3240BF8FF0090B578 /* StateListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateListItemView.swift; sourceTree = "<group>"; };
-		6B521D0A23B74C7A00570CF2 /* seelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = seelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B521D0A23B74C7A00570CF2 /* Seelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B521D0D23B74C7A00570CF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B521D0F23B74C7A00570CF2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6B521D1123B74C7A00570CF2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -351,7 +374,7 @@
 		6B521D0B23B74C7A00570CF2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B521D0A23B74C7A00570CF2 /* seelog.app */,
+				6B521D0A23B74C7A00570CF2 /* Seelog.app */,
 				6B521D2023B74C7F00570CF2 /* seelogTests.xctest */,
 				6B521D2B23B74C7F00570CF2 /* seelogUITests.xctest */,
 			);
@@ -549,6 +572,7 @@
 				6B20F12D24CD7FA500ED5766 /* TextPresentationView.swift */,
 				6B20F12F24CD824B00ED5766 /* LogbookView.swift */,
 				6B20F13824CEF9D400ED5766 /* TextInfoView.swift */,
+				6B04671024D1FE83009892AF /* SelectedYearState.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -607,10 +631,11 @@
 			buildRules = (
 			);
 			dependencies = (
+				6B04670D24D1D36D009892AF /* PBXTargetDependency */,
 			);
 			name = seelog;
 			productName = seelog;
-			productReference = 6B521D0A23B74C7A00570CF2 /* seelog.app */;
+			productReference = 6B521D0A23B74C7A00570CF2 /* Seelog.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6B521D1F23B74C7F00570CF2 /* seelogTests */ = {
@@ -661,6 +686,9 @@
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Matus Tomlein";
 				TargetAttributes = {
+					6B04670724D1D335009892AF = {
+						CreatedOnToolsVersion = 11.6;
+					};
 					6B521D0923B74C7A00570CF2 = {
 						CreatedOnToolsVersion = 11.3;
 					};
@@ -690,6 +718,7 @@
 				6B521D0923B74C7A00570CF2 /* seelog */,
 				6B521D1F23B74C7F00570CF2 /* seelogTests */,
 				6B521D2A23B74C7F00570CF2 /* seelogUITests */,
+				6B04670724D1D335009892AF /* GitVersion */,
 			);
 		};
 /* End PBXProject section */
@@ -767,6 +796,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-seelog/Pods-seelog-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		6B04670B24D1D33B009892AF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd seelog && ./GitVersion.sh\n";
 		};
 		8A2019CC83ECBD7F5142C60C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -904,6 +950,7 @@
 				6BF5BF8E2402F4090038AD9E /* ContinentsHeatView.swift in Sources */,
 				6B521DA123BCFD1F00570CF2 /* MapCircle.swift in Sources */,
 				6BF5BF8A2402F2B60038AD9E /* CountriesHeatView.swift in Sources */,
+				6B04671124D1FE83009892AF /* SelectedYearState.swift in Sources */,
 				6B50C1A2240BF0690090B578 /* WorldView.swift in Sources */,
 				6B660E0E23BE63A0000CD3BB /* TimezonesView.swift in Sources */,
 				6B521DA923BCFD1F00570CF2 /* ZoomType.swift in Sources */,
@@ -948,6 +995,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6B04670D24D1D36D009892AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6B04670724D1D335009892AF /* GitVersion */;
+			targetProxy = 6B04670C24D1D36D009892AF /* PBXContainerItemProxy */;
+		};
 		6B521D2223B74C7F00570CF2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6B521D0923B74C7A00570CF2 /* seelog */;
@@ -972,6 +1024,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6B04670924D1D335009892AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6B04670A24D1D335009892AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		6B521D3223B74C7F00570CF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1096,13 +1162,15 @@
 				DEVELOPMENT_TEAM = V487J8L84E;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = seelog/Info.plist;
+				INFOPLIST_PREFIX_HEADER = seelog/InfoPlist.h;
+				INFOPLIST_PREPROCESS = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.seelog.seelog;
-				PRODUCT_NAME = seelog;
+				PRODUCT_BUNDLE_IDENTIFIER = app.seelog;
+				PRODUCT_NAME = Seelog;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1118,13 +1186,15 @@
 				DEVELOPMENT_TEAM = V487J8L84E;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = seelog/Info.plist;
+				INFOPLIST_PREFIX_HEADER = seelog/InfoPlist.h;
+				INFOPLIST_PREPROCESS = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.seelog.seelog;
-				PRODUCT_NAME = seelog;
+				PRODUCT_BUNDLE_IDENTIFIER = app.seelog;
+				PRODUCT_NAME = Seelog;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1221,6 +1291,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6B04670824D1D335009892AF /* Build configuration list for PBXAggregateTarget "GitVersion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B04670924D1D335009892AF /* Debug */,
+				6B04670A24D1D335009892AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6B521D0523B74C7A00570CF2 /* Build configuration list for PBXProject "seelog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

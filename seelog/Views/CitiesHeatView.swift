@@ -10,7 +10,8 @@ import SwiftUI
 
 struct CitiesHeatView: View {
     @EnvironmentObject var viewState: ViewState
-    var selectedYear: Int? { get { return viewState.selectedYear } }
+    @ObservedObject var selectedYearState: SelectedYearState
+    var selectedYear: Int? { get { return selectedYearState.year } }
     var cities: [City] { get { return viewState.model.citiesForYear(selectedYear) } }
 
     var body: some View {
@@ -29,6 +30,8 @@ struct CitiesHeatView_Previews: PreviewProvider {
     static var previews: some View {
         let model = simulatedDomainModel()
         
-        return CitiesHeatView().environmentObject(ViewState(model: model))
+        return CitiesHeatView(
+            selectedYearState: SelectedYearState()
+        ).environmentObject(ViewState(model: model))
     }
 }

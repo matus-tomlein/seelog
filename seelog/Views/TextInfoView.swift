@@ -29,7 +29,7 @@ struct TextInfoInnerView: View {
             return "You stayed here for a long time!"
             
         case .passedThrough:
-            return "Just passed-through."
+            return "Just passed through."
             
         case .regular:
             return "You are a regular!"
@@ -37,17 +37,20 @@ struct TextInfoInnerView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 2) {
             if !addHeading {
                 Text(status).font(.headline)
             }
 
             if info.enabled {
                 if addHeading {
-                    Text(info.heading).font(.headline)
+                    Text(info.heading)
+                        .font(.headline)
                 }
                 ForEach(info.body, id: \.self) { body in
-                    Text(body).font(.footnote)
+                    Text(body)
+                        .font(.callout)
+                        .foregroundColor(.gray)
                 }
             } else if addHeading {
                 Text(info.heading)
@@ -62,6 +65,7 @@ struct TextInfoView: View {
     @EnvironmentObject var viewState: ViewState
     var info: TextInfo
     var addHeading: Bool = true
+    let backgroundOpacity = 0.25
 
     var body: some View {
         infoBodyWithBackground()
@@ -73,15 +77,15 @@ extension TextInfoView {
         let body = infoBody()
         switch info.status {
         case .new:
-            return AnyView(body.listRowBackground(Color.blue.opacity(0.3)))
+            return AnyView(body.listRowBackground(Color.blue.opacity(backgroundOpacity)))
         case .explored:
-            return AnyView(body.listRowBackground(Color.green.opacity(0.3)))
+            return AnyView(body.listRowBackground(Color.green.opacity(backgroundOpacity)))
         case .stayed:
-            return AnyView(body.listRowBackground(Color.yellow.opacity(0.3)))
+            return AnyView(body.listRowBackground(Color.yellow.opacity(backgroundOpacity)))
         case .native:
-            return AnyView(body.listRowBackground(Color.red.opacity(0.3)))
+            return AnyView(body.listRowBackground(Color.red.opacity(backgroundOpacity)))
         case .regular:
-            return AnyView(body.listRowBackground(Color.purple.opacity(0.3)))
+            return AnyView(body.listRowBackground(Color.purple.opacity(backgroundOpacity)))
         default:
             return AnyView(body.listRowBackground(Color(UIColor.systemBackground)))
         }

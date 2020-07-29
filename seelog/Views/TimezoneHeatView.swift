@@ -10,7 +10,8 @@ import SwiftUI
 
 struct TimezoneHeatView: View {
     @EnvironmentObject var viewState: ViewState
-    var selectedYear: Int? { get { return viewState.selectedYear } }
+    @ObservedObject var selectedYearState: SelectedYearState
+    var selectedYear: Int? { get { return selectedYearState.year } }
     var timezones: [Timezone] { get { return viewState.model.timezonesForYear(selectedYear) } }
 
     var body: some View {
@@ -29,6 +30,8 @@ struct TimezoneHeatView_Previews: PreviewProvider {
     static var previews: some View {
         let model = simulatedDomainModel()
 
-        return TimezoneHeatView().environmentObject(ViewState(model: model))
+        return TimezoneHeatView(
+            selectedYearState: SelectedYearState()
+        ).environmentObject(ViewState(model: model))
     }
 }

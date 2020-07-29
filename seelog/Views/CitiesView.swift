@@ -10,20 +10,21 @@ import SwiftUI
 
 struct CitiesView: View {
     @EnvironmentObject var viewState: ViewState
+    @ObservedObject var selectedYearState = SelectedYearState()
     var model: DomainModel { return viewState.model }
-    var selectedYear: Int? { get { return viewState.selectedYear } }
+    var selectedYear: Int? { get { return selectedYearState.year } }
     var cities: [City] { get { return viewState.model.cities } }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.cityYearCounts } }
 
     var body: some View {
         List {
             VStack(spacing: 0) {
-                CitiesHeatView()
+                CitiesHeatView(selectedYearState: selectedYearState)
 
                 BarChartView(showCounts: true, yearStats: yearStats)
                     .padding(.bottom, 20)
                     .padding(.top, 20)
-                    .environmentObject(viewState)
+                    .environmentObject(selectedYearState)
             }.listRowInsets(EdgeInsets())
 
             ForEach(TextInfoGenerator.cities(model: self.model
@@ -31,7 +32,10 @@ struct CitiesView: View {
                 TextInfoView(info: textInfo)
             }
 
-            CitiesListView(cities: cities)
+            CitiesListView(
+                cities: cities,
+                selectedYearState: selectedYearState
+            )
         }
         .navigationBarTitle("Cities")
     }

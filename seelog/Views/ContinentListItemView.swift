@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct ContinentListItemView: View {
-    @EnvironmentObject var viewState: ViewState
-    var selectedYear: Int? { get { return viewState.selectedYear } }
     var continent: Continent
+    @ObservedObject var selectedYearState: SelectedYearState
+    var selectedYear: Int? { get { return selectedYearState.year } }
 
     var body: some View {
         TextInfoView(info: continent.info(year: selectedYear))
@@ -23,7 +23,8 @@ struct ContinentListItemView_Previews: PreviewProvider {
         let model = simulatedDomainModel()
         
         return ContinentListItemView(
-            continent: model.continents[0]
-        ).environmentObject(ViewState(model: model))
+            continent: model.continents[0],
+            selectedYearState: SelectedYearState()
+        )
     }
 }

@@ -11,7 +11,8 @@ import SwiftUI
 struct TimezoneView: View {
     var timezone: Timezone
     @EnvironmentObject var viewState: ViewState
-    var year: Int? { return viewState.selectedYear }
+    @ObservedObject var selectedYearState = SelectedYearState()
+    var year: Int? { return selectedYearState.year }
 
     var body: some View {
         List {
@@ -25,6 +26,7 @@ struct TimezoneView: View {
             )
             
             StayDurationBarChartView(destination: timezone)
+                .environmentObject(selectedYearState)
             TextInfoView(info: timezone.info(year: year), addHeading: false)
 //            TripsListView(destination: timezone)
         }
@@ -39,5 +41,6 @@ struct TimezoneView_Previews: PreviewProvider {
         return TimezoneView(
             timezone: model.timezones[0]
         ).environmentObject(ViewState(model: model))
+        .environmentObject(SelectedYearState())
     }
 }

@@ -10,8 +10,9 @@ import SwiftUI
 
 struct CountryBadgeView: View {
     @EnvironmentObject var viewState: ViewState
+    @EnvironmentObject var selectedYearState: SelectedYearState
     var country: Country
-    var year: Int? { get { return viewState.selectedYear } }
+    var year: Int? { get { return selectedYearState.year } }
     
     var foregroundColor: Color {
         return country.stayDurationStatusForYear(year).color ?? backgroundColor

@@ -10,8 +10,8 @@ import SwiftUI
 
 struct TripsListView: View {
     var destination: Trippable
-    @EnvironmentObject var viewState: ViewState
-    var trips: [Trip] { get { return destination.tripsForYear(viewState.selectedYear) } }
+    @EnvironmentObject var selectedYearState: SelectedYearState
+    var trips: [Trip] { get { return destination.tripsForYear(selectedYearState.year) } }
 
     var body: some View {
         Section(header: Text("\(trips.count) trips")) {

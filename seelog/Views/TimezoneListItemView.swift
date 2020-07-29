@@ -9,9 +9,10 @@
 import SwiftUI
 
 struct TimezoneListItemView: View {
-    @EnvironmentObject var viewState: ViewState
-    var selectedYear: Int? { get { return viewState.selectedYear } }
     var timezone: Timezone
+    @EnvironmentObject var viewState: ViewState
+    @ObservedObject var selectedYearState: SelectedYearState
+    var selectedYear: Int? { get { return selectedYearState.year } }
 
     var body: some View {
         TextInfoView(info: timezone.info(year: selectedYear))
@@ -23,7 +24,8 @@ struct TimezoneListItemView_Previews: PreviewProvider {
         let model = simulatedDomainModel()
 
         return TimezoneListItemView(
-            timezone: model.timezones[0]
+            timezone: model.timezones[0],
+            selectedYearState: SelectedYearState()
         ).environmentObject(ViewState(model: model))
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class DatabaseCreator {
-    static let currentDatabaseVersion: Double = 1.1
+    static let currentDatabaseVersion: Double = 1.2
 
     static func create(container: NSPersistentContainer) {
         let databaseVersionKey = "app.seelog.databaseversion"
