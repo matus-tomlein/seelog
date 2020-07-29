@@ -44,36 +44,30 @@ struct LogbookView: View {
                 showCounts: true,
                 yearStats: yearStats
             )
-            VStack(alignment: .leading, spacing: 5) {
-                Text("You travelled ") + Text("\(seenGeometry?.travelledDistanceRounded ?? 0) km!").bold()
+            
+            ForEach(TextInfoGenerator.travelledDistance(model: self.model
+            , year: year)) { textInfo in
+                TextInfoView(info: textInfo)
             }
 
-            Section(header: Text("Countries")) {
-                ForEach(TextInfoGenerator.countries(model: self.model
-                , year: year)) { textInfo in
-                    TextInfoView(info: textInfo)
-                }
+            ForEach(TextInfoGenerator.countries(model: self.model
+            , year: year)) { textInfo in
+                TextInfoView(info: textInfo)
             }
-            
-            Section(header: Text("Cities")) {
-                ForEach(TextInfoGenerator.cities(model: self.model
-                , year: year)) { textInfo in
-                    TextInfoView(info: textInfo)
-                }
+
+            ForEach(TextInfoGenerator.cities(model: self.model
+            , year: year)) { textInfo in
+                TextInfoView(info: textInfo)
             }
-            
-            Section(header: Text("Continents")) {
-                ForEach(TextInfoGenerator.continents(model: self.model
-                , year: year)) { textInfo in
-                    TextInfoView(info: textInfo)
-                }
+
+            ForEach(TextInfoGenerator.continents(model: self.model
+            , year: year)) { textInfo in
+                TextInfoView(info: textInfo)
             }
-            
-            Section(header: Text("Timezones")) {
-                ForEach(TextInfoGenerator.timezones(model: self.model
-                , year: year)) { textInfo in
-                    TextInfoView(info: textInfo)
-                }
+
+            ForEach(TextInfoGenerator.timezones(model: self.model
+            , year: year)) { textInfo in
+                TextInfoView(info: textInfo)
             }
         }
         .navigationBarTitle("Hey Explorer!")

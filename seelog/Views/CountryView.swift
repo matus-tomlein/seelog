@@ -34,7 +34,7 @@ struct CountryView: View {
 
             StatesListView(states: regions)
             CitiesListView(cities: cities)
-            TripsListView(destination: country)
+//            TripsListView(destination: country)
         }
         .navigationBarTitle(country.countryInfo.name)
     }

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContinentsView: View {
     @EnvironmentObject var viewState: ViewState
+    var model: DomainModel { return viewState.model }
     var selectedYear: Int? { get { return viewState.selectedYear } }
     var continents: [Continent] { get { return viewState.model.continents } }
     var continentsCount: Int { return continents.filter { $0.visited(year: selectedYear) }.count }
@@ -25,6 +26,11 @@ struct ContinentsView: View {
                     .padding(.top, 20)
                     .environmentObject(viewState)
             }.listRowInsets(EdgeInsets())
+
+            ForEach(TextInfoGenerator.continents(model: self.model
+            , year: selectedYear, addLink: false)) { textInfo in
+                TextInfoView(info: textInfo)
+            }
 
             Section(header: Text("\(continentsCount) continents")) {
                 ForEach(continents) { continent in

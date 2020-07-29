@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TimezonesView: View {
     @EnvironmentObject var viewState: ViewState
+    var model: DomainModel { return viewState.model }
     var selectedYear: Int? { get { return viewState.selectedYear } }
     var timezones: [Timezone] { get { return viewState.model.timezones } }
     var timezonesCount: Int { return timezones.filter { $0.visited(year: selectedYear) }.count }
@@ -25,6 +26,11 @@ struct TimezonesView: View {
                     .padding(.top, 20)
                     .environmentObject(viewState)
             }.listRowInsets(EdgeInsets())
+
+            ForEach(TextInfoGenerator.timezones(model: self.model
+            , year: selectedYear, addLink: false)) { textInfo in
+                TextInfoView(info: textInfo)
+            }
 
             Section(header: Text("\(timezonesCount) timezones")) {
                 ForEach(timezones) { timezone in

@@ -10,6 +10,7 @@ import Foundation
 
 struct City: Identifiable, Trippable {
     var id: Int64 { return cityInfo.cityKey }
+    var name: String { return cityInfo.name }
     var cityInfo: CityInfo
     var model: DomainModel
     
@@ -29,17 +30,22 @@ struct City: Identifiable, Trippable {
     func info(year: Int?) -> TextInfo {
         let link = ViewLink.city(self)
         if !visited(year: year) {
-            return TextInfo(id: String(id), link: link, heading: cityInfo.name, enabled: false)
+            return TextInfo(id: String(id), link: link, heading: cityInfo.name, status: .notVisited, enabled: false)
         }
         
         return TextInfo(
             id: String(id),
             link: link,
             heading: cityInfo.name,
+            status: status(year: year),
             body: [
-                "\(stayDurationForYear(year)) days"
+                stayDurationInfo(year: year)
             ]
         )
+    }
+    
+    func explored(year: Int?) -> Bool? {
+        return nil
     }
 }
 

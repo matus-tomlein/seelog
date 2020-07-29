@@ -10,6 +10,7 @@ import Foundation
 
 struct Timezone: Identifiable, Trippable {
     var id: Int32 { get { return timezoneInfo.timezoneId } }
+    var name: String { return timezoneInfo.name }
     var timezoneInfo: TimezoneInfo
 
     var stayDurationByYear: [Int: Int]
@@ -21,17 +22,22 @@ struct Timezone: Identifiable, Trippable {
     func info(year: Int?) -> TextInfo {
         let link = ViewLink.timezone(self)
         if !visited(year: year) {
-            return TextInfo(id: String(id), link: link, heading: timezoneInfo.name, enabled: false)
+            return TextInfo(id: String(id), link: link, heading: timezoneInfo.name, status: .notVisited, enabled: false)
         }
         
         return TextInfo(
             id: String(id),
             link: link,
             heading: timezoneInfo.name,
+            status: status(year: year),
             body: [
-                "\(stayDurationForYear(year)) days"
+                stayDurationInfo(year: year)
             ]
         )
+    }
+    
+    func explored(year: Int?) -> Bool? {
+        return nil
     }
 }
 

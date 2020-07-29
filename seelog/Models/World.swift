@@ -10,12 +10,17 @@ import Foundation
 
 struct World: Identifiable, Trippable {
     var id: String { get { return "world" } }
+    var name: String { return "World" }
 
     var stayDurationByYear: [Int: Int]
     var trips: [Trip]
     var tripsByYear: [Int : [Trip]]
     var stayDuration: Int
     var years: [Int]
+    
+    func explored(year: Int?) -> Bool? {
+        return nil
+    }
 }
 
 extension World {

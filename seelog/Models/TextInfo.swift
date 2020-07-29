@@ -26,6 +26,7 @@ struct TextInfo: Identifiable {
     var id: String
     var link: ViewLink
     var heading: String
+    var status: Status
     var body: [String] = []
     var enabled: Bool = true
 }

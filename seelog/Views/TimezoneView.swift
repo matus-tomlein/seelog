@@ -26,7 +26,7 @@ struct TimezoneView: View {
             
             StayDurationBarChartView(destination: timezone)
             TextInfoView(info: timezone.info(year: year), addHeading: false)
-            TripsListView(destination: timezone)
+//            TripsListView(destination: timezone)
         }
         .navigationBarTitle(Text(timezone.timezoneInfo.name), displayMode: .inline)
     }

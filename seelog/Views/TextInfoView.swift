@@ -11,15 +11,43 @@ import SwiftUI
 struct TextInfoInnerView: View {
     var info: TextInfo
     var addHeading: Bool = true
+    var status: String {
+        switch info.status {
+        case .notVisited:
+            return "You didn't visit."
+            
+        case .explored:
+            return "You explored it here well!"
+            
+        case .native:
+            return "You are basically a native!"
+
+        case .new:
+            return "First year here."
+            
+        case .stayed:
+            return "You stayed here for a long time!"
+            
+        case .passedThrough:
+            return "Just passed-through."
+            
+        case .regular:
+            return "You are a regular!"
+        }
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
+            if !addHeading {
+                Text(status).font(.headline)
+            }
+
             if info.enabled {
                 if addHeading {
-                    Text(info.heading).bold()
+                    Text(info.heading).font(.headline)
                 }
                 ForEach(info.body, id: \.self) { body in
-                    Text(body)
+                    Text(body).font(.footnote)
                 }
             } else if addHeading {
                 Text(info.heading)
@@ -36,11 +64,29 @@ struct TextInfoView: View {
     var addHeading: Bool = true
 
     var body: some View {
-        infoBody()
+        infoBodyWithBackground()
     }
 }
 
 extension TextInfoView {
+    func infoBodyWithBackground() -> AnyView {
+        let body = infoBody()
+        switch info.status {
+        case .new:
+            return AnyView(body.listRowBackground(Color.blue.opacity(0.3)))
+        case .explored:
+            return AnyView(body.listRowBackground(Color.green.opacity(0.3)))
+        case .stayed:
+            return AnyView(body.listRowBackground(Color.yellow.opacity(0.3)))
+        case .native:
+            return AnyView(body.listRowBackground(Color.red.opacity(0.3)))
+        case .regular:
+            return AnyView(body.listRowBackground(Color.purple.opacity(0.3)))
+        default:
+            return AnyView(body.listRowBackground(Color(UIColor.systemBackground)))
+        }
+    }
+    
     func infoBody() -> AnyView {
         if !addHeading {
             return AnyView(TextInfoInnerView(info: info, addHeading: false))
@@ -104,6 +150,7 @@ struct TextInfoView_Previews: PreviewProvider {
             id: "test",
             link: .none,
             heading: "Hello darkness, my old friend.",
+            status: .passedThrough,
             body: ["I've come to live with you again."]
         ))
     }

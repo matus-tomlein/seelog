@@ -34,6 +34,15 @@ extension Trip {
         self.years = Array(since.year()...until.year())
     }
     
+    func months(year: Int) -> [Int] {
+        let calendar = Calendar.current
+        let since = firstDayInYear(year)
+        let until = lastDayInYear(year)
+        let monthSince = calendar.component(.month, from: since)
+        let monthUntil = calendar.component(.month, from: until)
+        return Array(monthSince...monthUntil)
+    }
+    
     func firstDayInYear(_ year: Int) -> Date {
         let calendar = Calendar.current
         if let firstOfYear = calendar.date(from: DateComponents(year: year, month: 1, day: 1)) {

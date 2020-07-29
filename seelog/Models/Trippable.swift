@@ -37,7 +37,7 @@ enum ExplorationStatus {
     case visitor
     case explorer
     case conqueror
-    
+
     var name: String {
         switch self {
         case .conqueror:
@@ -48,7 +48,7 @@ enum ExplorationStatus {
             return "Visitor"
         }
     }
-    
+
     var color: Color {
         switch self {
         case .conqueror:
@@ -63,12 +63,25 @@ enum ExplorationStatus {
     }
 }
 
+enum Status {
+    case notVisited // no color
+    case passedThrough // no color
+    case new // blue
+    case regular // purple
+    case explored // green
+    case stayed // yellow
+    case native // red
+}
+
 protocol Trippable {
+    var name: String { get }
     var trips: [Trip] { get }
     var tripsByYear: [Int: [Trip]] { get }
     var stayDuration: Int { get }
     var stayDurationByYear: [Int: Int] { get }
     var years: [Int] { get }
+    
+    func explored(year: Int?) -> Bool?
 }
 
 extension Trippable {
@@ -109,6 +122,76 @@ extension Trippable {
             return years.contains(year)
         } else {
             return true
+        }
+    }
+
+    func stayDurationInfo(year: Int?) -> String {
+        if !visited(year: year) { return "" }
+        
+        var sentences: [String] = []
+        let stayDuration = stayDurationForYear(year)
+
+        if let year = year {
+            let months = Set(tripsForYear(year).flatMap { trip in
+                trip.months(year: year)
+            }).sorted()
+
+            if months.count < 3 {
+                let monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+                sentences.append(
+                    "\(stayDuration) days in \(months.map { month in monthNames[month] }.joined(separator: " and "))."
+                )
+            } else {
+                sentences.append(
+                    "\(stayDuration) days over \(months.count) months."
+                )
+            }
+        } else {
+            if years.count < 3 {
+                let yearsJoined = years.map { String($0) }.joined(separator: " and ")
+                sentences.append(
+                    "\(stayDuration) days in \(yearsJoined)."
+                )
+            } else {
+                sentences.append(
+                    "\(stayDuration) days over \(years.count) years, first in \(String(years.first!))."
+                )
+            }
+        }
+
+        // how much of the year was spent there
+        // how many years did you return
+        return sentences.joined(separator: " ")
+    }
+
+    func status(year: Int?) -> Status {
+        let stayDuration = stayDurationForYear(year)
+        if stayDuration > 100 {
+            if let explored = explored(year: year) {
+                if explored {
+                    return .native
+                } else {
+                    return .stayed
+                }
+            } else {
+                return .native
+            }
+        } else {
+            if let explored = explored(year: year) {
+                if explored {
+                    return .explored
+                }
+            }
+
+            if let year = year, let firstYear = years.min() {
+                if year == firstYear {
+                    return .new
+                }
+            } else if years.count >= 3 {
+                return .regular
+            }
+            return .passedThrough
         }
     }
 }

@@ -32,7 +32,7 @@ struct ContinentView: View {
             TextInfoView(info: continent.info(year: year), addHeading: false)
             CountriesListView(countries: countries)
             CitiesListView(cities: cities)
-            TripsListView(destination: continent)
+//            TripsListView(destination: continent)
         }
         .navigationBarTitle(continent.continentInfo.name)
     }

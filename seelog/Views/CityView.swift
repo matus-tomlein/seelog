@@ -33,7 +33,7 @@ struct CityView: View {
             city.region.map { region in
                 StateListItemView(region: region)
             }
-            TripsListView(destination: city)
+//            TripsListView(destination: city)
         }
         .navigationBarTitle(city.cityInfo.name)
     }

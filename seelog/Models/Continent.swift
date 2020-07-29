@@ -10,6 +10,7 @@ import Foundation
 
 struct Continent: Identifiable, Trippable {
     var id: String { get { return continentInfo.name } }
+    var name: String { return continentInfo.name }
     var continentInfo: ContinentInfo
     var model: DomainModel
 
@@ -24,17 +25,22 @@ struct Continent: Identifiable, Trippable {
     func info(year: Int?) -> TextInfo {
         let link = ViewLink.continent(self)
         if !visited(year: year) {
-            return TextInfo(id: id, link: link, heading: continentInfo.name, enabled: false)
+            return TextInfo(id: id, link: link, heading: continentInfo.name, status: .notVisited, enabled: false)
         }
         
         return TextInfo(
             id: id,
             link: link,
             heading: continentInfo.name,
+            status: status(year: year),
             body: [
-                "\(stayDurationForYear(year)) days"
+                stayDurationInfo(year: year)
             ]
         )
+    }
+    
+    func explored(year: Int?) -> Bool? {
+        return Double(countriesForYear(year).count) / Double(continentInfo.numberOfCountries) > 0.66
     }
 }
 

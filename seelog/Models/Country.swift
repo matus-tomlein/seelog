@@ -10,6 +10,7 @@ import Foundation
 
 struct Country: Identifiable, Trippable {
     var id: String { return countryInfo.countryKey }
+    var name: String { return countryInfo.name }
     var countryInfo: CountryInfo
     var model: DomainModel
 
@@ -35,17 +36,56 @@ struct Country: Identifiable, Trippable {
     func info(year: Int?) -> TextInfo {
         let link = ViewLink.country(self)
         if !visited(year: year) {
-            return TextInfo(id: id, link: link, heading: countryInfo.name, enabled: false)
+            return TextInfo(id: id, link: link, heading: countryInfo.name, status: .notVisited, enabled: false)
         }
-        
+
         return TextInfo(
             id: id,
             link: link,
             heading: countryInfo.name,
+            status: status(year: year),
             body: [
-                "\(stayDurationForYear(year)) days"
+                stayDurationInfo(year: year),
+                explorationInfo(year: year)
+                // first visited in year
+                // yearly frequency of stay
+                // number of regions visited out of total
+                // number of cities visited
             ]
         )
+    }
+    
+    func explorationInfo(year: Int?) -> String {
+        let regions = regionsForYear(year)
+        var sentences: [String] = []
+        if regions.count < 3 {
+            let regionNames = regions.map { $0.stateInfo.name }.joined(separator: ", ")
+            sentences.append(
+                "\(regions.count) regions (\(regionNames)) out of \(countryInfo.numberOfRegions)."
+            )
+        } else {
+            sentences.append(
+                "\(regions.count) out of \(countryInfo.numberOfRegions) regions."
+            )
+        }
+        let cities = citiesForYear(year: year)
+        if cities.count > 0 {
+            if cities.count < 3 {
+                let cityNames = cities.map { $0.cityInfo.name }.joined(separator: " and ")
+                sentences.append(
+                    "Visited \(cityNames)."
+                )
+            } else {
+               sentences.append(
+                   "\(cities.count) cities."
+               )
+            }
+        }
+        return sentences.joined(separator: " ")
+    }
+    
+    func explored(year: Int?) -> Bool? {
+        return Double(regionsForYear(year).count) / Double(countryInfo.numberOfRegions) > 0.66
     }
 }
 
