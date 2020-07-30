@@ -41,6 +41,7 @@ struct ContinentView: View {
 //            TripsListView(destination: continent)
         }
         .navigationBarTitle(continent.continentInfo.name)
+        .navigationBarItems(trailing: LogbookLinkView())
     }
 }
 

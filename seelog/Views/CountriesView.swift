@@ -14,6 +14,8 @@ struct CountriesView: View {
     var selectedYear: Int? { get { return selectedYearState.year } }
     var countries: [Country] { get { return viewState.model.countriesForYear(selectedYear) } }
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.countryYearCounts } }
+    
+    @Environment(\.presentationMode) var presentation
 
     var body: some View {
         List {
@@ -38,11 +40,7 @@ struct CountriesView: View {
             )
         }
         .navigationBarTitle("Countries")
-//        .navigationBarItems(trailing:
-//            NavigationLink(destination: LogbookView().environmentObject(self.viewState)) {
-//                Image(systemName: "house")
-//            }.isDetailLink(false)
-//        )
+        .navigationBarItems(trailing: LogbookLinkView())
 
     }
 }

@@ -43,7 +43,7 @@ struct TimezonesView: View {
             }
         }
         .navigationBarTitle("Timezones")
-
+        .navigationBarItems(trailing: LogbookLinkView())
     }
 }
 

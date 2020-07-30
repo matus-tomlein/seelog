@@ -104,16 +104,6 @@ struct WorldView: View {
             )
         } : [])
     }
-    var rectangles: [(x: Double, y: Double, width: Double, height: Double)] {
-        return showPositionsAsDots ? [] : self.positions.map { position in
-            (
-                x: position.x,
-                y: position.y,
-                width: position.width,
-                height: position.height
-            )
-        }
-    }
 
     var body: some View {
         let bounds = self.bounds
@@ -121,7 +111,12 @@ struct WorldView: View {
         return PolygonView(
             shapes: self.shapes,
             points: self.points,
-            rectangles: self.rectangles,
+            rectangles: self.rectangles(
+                minX: bounds.minX,
+                maxX: bounds.maxX,
+                minY: bounds.minY,
+                maxY: bounds.maxY
+            ),
             minX: bounds.minX,
             maxX: bounds.maxX,
             minY: bounds.minY,
@@ -130,6 +125,17 @@ struct WorldView: View {
             height: min(400, UIScreen.main.bounds.size.width * bounds.scale),
             alignment: Alignment.bottom
         )
+    }
+
+    func rectangles(minX: Double, maxX: Double, minY: Double, maxY: Double) -> [(x: Double, y: Double, width: Double, height: Double)] {
+        return showPositionsAsDots ? [] : self.positions.map {
+            $0.toRectangle(
+                boundsMinX: minX,
+                boundsMaxX: maxX,
+                boundsMinY: minY,
+                boundsMaxY: maxY
+            )
+        }
     }
 }
 

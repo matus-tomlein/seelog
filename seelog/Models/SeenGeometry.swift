@@ -15,8 +15,6 @@ struct Location: Hashable {
     let maxY: Double
     var x: Double { return (self.minX + self.maxX) / 2 }
     var y: Double { return (self.minY + self.maxY) / 2 }
-    var width: Double { return (self.maxX - self.minX) }
-    var height: Double { return (self.maxY - self.minY) }
     
     init(geohash: String) {
         let decoded = Geohash.decode(hash: geohash)!
@@ -32,6 +30,20 @@ struct Location: Hashable {
         ].sorted()
         self.minY = ys.first!
         self.maxY = ys.last!
+    }
+
+    func toRectangle(boundsMinX: Double, boundsMaxX: Double, boundsMinY: Double, boundsMaxY: Double) -> (x: Double, y: Double, width: Double, height: Double) {
+        let rectangleMinX = max(boundsMinX, self.minX)
+        let rectangleMaxX = min(boundsMaxX, self.maxX)
+        let rectangleMinY = max(boundsMinY, self.minY)
+        let rectangleMaxY = min(boundsMaxY, self.maxY)
+        let rect = (
+            x: rectangleMinX,
+            y: rectangleMinY,
+            width: rectangleMaxX - rectangleMinX,
+            height: rectangleMaxY - rectangleMinY
+        )
+        return rect
     }
 }
 

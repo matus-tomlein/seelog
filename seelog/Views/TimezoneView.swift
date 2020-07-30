@@ -31,6 +31,7 @@ struct TimezoneView: View {
 //            TripsListView(destination: timezone)
         }
         .navigationBarTitle(Text(timezone.timezoneInfo.name), displayMode: .inline)
+        .navigationBarItems(trailing: LogbookLinkView())
     }
 }
 

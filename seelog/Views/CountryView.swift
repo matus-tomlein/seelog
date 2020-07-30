@@ -16,6 +16,8 @@ struct CountryView: View {
     var cities: [City] { return country.citiesForYear(year: year) }
     var regions: [Region] { return country.regionsForYear(year) }
 
+    @Environment(\.presentationMode) var presentation
+
     var body: some View {
         List {
             WorldView(
@@ -46,6 +48,7 @@ struct CountryView: View {
 //            TripsListView(destination: country)
         }
         .navigationBarTitle(country.countryInfo.name)
+        .navigationBarItems(trailing: LogbookLinkView())
     }
 }
 

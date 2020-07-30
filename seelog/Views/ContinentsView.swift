@@ -43,6 +43,7 @@ struct ContinentsView: View {
             }
         }
         .navigationBarTitle("Continents")
+        .navigationBarItems(trailing: LogbookLinkView())
     }
 }
 

@@ -47,6 +47,7 @@ struct CityView: View {
 //            TripsListView(destination: city)
         }
         .navigationBarTitle(city.cityInfo.name)
+        .navigationBarItems(trailing: LogbookLinkView())
     }
 }
 

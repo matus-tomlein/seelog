@@ -45,6 +45,7 @@ struct StateView: View {
 //            TripsListView(destination: state)
         }
         .navigationBarTitle(state.stateInfo.name)
+        .navigationBarItems(trailing: LogbookLinkView())
     }
 }
 
