@@ -82,9 +82,14 @@ protocol Trippable {
     var years: [Int] { get }
     
     func explored(year: Int?) -> Bool?
+    func info(year: Int?) -> TextInfo
 }
 
 extension Trippable {
+    var lastVisited: Date? {
+        return self.trips.map({ $0.until }).max()
+    }
+
     func tripsForYear(_ year: Int?) -> [Trip] {
         if let year = year {
             return trips.filter { trip in trip.years.contains(year) }
@@ -184,8 +189,8 @@ extension Trippable {
                 }
             }
 
-            if let year = year, let firstYear = years.min() {
-                if year == firstYear {
+            if let year = year {
+                if isFirstYear(year) {
                     return .new
                 }
             } else if years.count >= 3 {
@@ -193,5 +198,36 @@ extension Trippable {
             }
             return .passedThrough
         }
+    }
+    
+    func isFirstYear(_ year: Int) -> Bool {
+        if let firstYear = years.min() {
+            return year == firstYear
+        }
+        return false
+    }
+
+    static func selectLongestStay<T: Trippable>(_ places: [T], year: Int?) -> T? {
+        return places.max(by: { a, b in a.stayDurationForYear(year) < b.stayDurationForYear(year) })
+    }
+
+    static func selectFirstYear<T: Trippable>(_ places: [T], year: Int) -> T? {
+        return selectLongestStay(
+            places.filter({ $0.isFirstYear(year) }),
+            year: year
+        )
+    }
+
+    static func lastVisited<T: Trippable>(_ places: [T]) -> T? {
+        var placeVisits: [(T, Date)] = []
+        for place in places {
+            if let lastVisited = place.lastVisited {
+                placeVisits.append((place, lastVisited))
+            }
+        }
+        if let last = placeVisits.max(by: { a, b in a.1 < b.1 }) {
+            return last.0
+        }
+        return nil
     }
 }

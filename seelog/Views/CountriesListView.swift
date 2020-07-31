@@ -14,9 +14,11 @@ struct CountriesListView: View {
     @EnvironmentObject var viewState: ViewState
     @ObservedObject var selectedYearState: SelectedYearState
     var selectedYear: Int? { get { return selectedYearState.year } }
+    var showCount: Bool = true
+    var title: String { return showCount ? "\(countriesCount) countries" : "All countries" }
 
     var body: some View {
-        Section(header: Text("\(countriesCount) countries")) {
+        Section(header: Text(title)) {
             ForEach(countries) { country in
                 CountryListItemView(
                     country: country,

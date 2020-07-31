@@ -21,6 +21,10 @@ struct World: Identifiable, Trippable {
     func explored(year: Int?) -> Bool? {
         return nil
     }
+    
+    func info(year: Int?) -> TextInfo {
+        TextInfo(id: "world", link: .none, heading: "World", status: .explored)
+    }
 }
 
 extension World {

@@ -41,53 +41,79 @@ class TextInfoGenerator {
     }
 
     static func countries(model: DomainModel, year: Int?, linkToCountries: Bool = true) -> [TextInfo] {
+        let countries = model.countriesForYear(year)
         return [
             TextInfo(
                 id: "countries",
                 link: linkToCountries ? .countries : .none,
-                heading: "\(model.countriesForYear(year).count) countries",
+                heading: "\(countries.count) countries",
                 status: .passedThrough,
                 body: statusDescriptions(places: model.countriesForYear(year), year: year)
             )
-        ]
+        ] + additionalItems(countries, model: model, year: year)
     }
 
     static func cities(model: DomainModel, year: Int?, addLink: Bool = true) -> [TextInfo] {
+        let cities = model.citiesForYear(year)
         return [
             TextInfo(
                 id: "cities",
                 link: addLink ? .cities : .none,
-                heading: "\(model.citiesForYear(year).count) cities",
+                heading: "\(cities.count) cities",
                 status: .passedThrough,
-                body: statusDescriptions(places: model.citiesForYear(year), year: year)
+                body: statusDescriptions(places: cities, year: year)
             )
-        ]
+        ] + additionalItems(cities, model: model, year: year)
     }
 
     static func continents(model: DomainModel, year: Int?, addLink: Bool = true) -> [TextInfo] {
+        let continents = model.continentsForYear(year)
         let info = TextInfo(
             id: "continents",
             link: addLink ? .continents : .none,
-            heading: "\(model.continentsForYear(year).count) continents",
+            heading: "\(continents.count) continents",
             status: .passedThrough,
-            body: statusDescriptions(places: model.continentsForYear(year), year: year)
+            body: statusDescriptions(places: continents, year: year)
         )
         return [
             info
-        ]
+        ] + additionalItems(continents, model: model, year: year)
     }
 
     static func timezones(model: DomainModel, year: Int?, addLink: Bool = true) -> [TextInfo] {
+        let timezones = model.timezonesForYear(year)
         let info = TextInfo(
             id: "timezones",
             link: addLink ? .timezones : .none,
-            heading: "\(model.timezonesForYear(year).count) timezones",
+            heading: "\(timezones.count) timezones",
             status: .passedThrough,
             body: statusDescriptions(places: model.timezonesForYear(year), year: year)
         )
         return [
             info
-        ]
+        ] + additionalItems(timezones, model: model, year: year)
+    }
+    
+    private static func additionalItems<T: Trippable>(_ places: [T], model: DomainModel, year: Int?) -> [TextInfo] {
+        var textInfos: [TextInfo] = []
+
+        var remainingPlaces = places
+        if let mostVisitedCountry = T.selectLongestStay(places, year: year) {
+            textInfos.append(mostVisitedCountry.info(year: year))
+            remainingPlaces = places.filter { $0.name != mostVisitedCountry.name }
+        }
+
+        if let year = year {
+            if let firstYearIn = T.selectFirstYear(remainingPlaces, year: year) {
+                textInfos.append(firstYearIn.info(year: year))
+            }
+        } else {
+            if let lastVisited = T.lastVisited(remainingPlaces) {
+                textInfos.append(lastVisited.info(year: year))
+            }
+        }
+
+        return textInfos
     }
     
     private static func statusDescriptions(places: [Trippable], year: Int?) -> [String] {

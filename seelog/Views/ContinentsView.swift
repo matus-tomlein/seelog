@@ -22,7 +22,7 @@ struct ContinentsView: View {
             VStack(spacing: 0) {
                 ContinentsHeatView(selectedYearState: selectedYearState)
 
-                BarChartView(showCounts: true, yearStats: yearStats)
+                BarChartView(showCounts: true, yearStats: yearStats, total: continents.count)
                     .padding(.bottom, 20)
                     .padding(.top, 20)
                     .environmentObject(selectedYearState)
@@ -33,7 +33,7 @@ struct ContinentsView: View {
                 TextInfoView(info: textInfo)
             }
 
-            Section(header: Text("\(continentsCount) continents")) {
+            Section(header: Text("All continents")) {
                 ForEach(continents) { continent in
                     ContinentListItemView(
                         continent: continent,

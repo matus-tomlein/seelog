@@ -21,7 +21,7 @@ struct CitiesView: View {
             VStack(spacing: 0) {
                 CitiesHeatView(selectedYearState: selectedYearState)
 
-                BarChartView(showCounts: true, yearStats: yearStats)
+                BarChartView(showCounts: true, yearStats: yearStats, total: cities.count)
                     .padding(.bottom, 20)
                     .padding(.top, 20)
                     .environmentObject(selectedYearState)
@@ -34,7 +34,8 @@ struct CitiesView: View {
 
             CitiesListView(
                 cities: cities,
-                selectedYearState: selectedYearState
+                selectedYearState: selectedYearState,
+                showCount: false
             )
         }
         .navigationBarTitle("Cities")

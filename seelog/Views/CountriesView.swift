@@ -23,7 +23,7 @@ struct CountriesView: View {
                 CountriesHeatView()
                     .environmentObject(selectedYearState)
 
-                BarChartView(showCounts: true, yearStats: yearStats)
+                BarChartView(showCounts: true, yearStats: yearStats, total: countries.count)
                     .padding(.bottom, 20)
                     .padding(.top, 20)
                     .environmentObject(selectedYearState)
@@ -36,7 +36,8 @@ struct CountriesView: View {
 
             CountriesListView(
                 countries: countries,
-                selectedYearState: selectedYearState
+                selectedYearState: selectedYearState,
+                showCount: false
             )
         }
         .navigationBarTitle("Countries")

@@ -12,6 +12,7 @@ struct BarChartViewInner: View {
     @EnvironmentObject var selectedYearState: SelectedYearState
     var showCounts: Bool
     var yearStats: [(year: Int, count: Int)]
+    var total: Int?
     let totalBarHeight = 130
     var totalLeadingPadding: CGFloat = 20
     var totalTrailingPadding: CGFloat = 35
@@ -95,7 +96,7 @@ struct BarChartViewInner: View {
     }
     
     func totalCount() -> Int {
-        yearStats.map { $0.count }.reduce(0, +)
+        total ?? yearStats.map { $0.count }.reduce(0, +)
     }
 
 }
@@ -104,10 +105,11 @@ struct BarChartView: View {
     @EnvironmentObject var selectedYearState: SelectedYearState
     var showCounts: Bool
     var yearStats: [(year: Int, count: Int)]
+    var total: Int?
 
     var body: some View {
         ScrollView(.horizontal) {
-            BarChartViewInner(showCounts: showCounts, yearStats: yearStats)
+            BarChartViewInner(showCounts: showCounts, yearStats: yearStats, total: total)
         }
     }
 }

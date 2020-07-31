@@ -14,9 +14,11 @@ struct CitiesListView: View {
     @ObservedObject var selectedYearState: SelectedYearState
     var citiesCount: Int { return cities.filter { $0.visited(year: selectedYear) }.count }
     var selectedYear: Int? { get { return selectedYearState.year } }
+    var showCount: Bool = true
+    var title: String { return showCount ? "\(citiesCount) cities" : "All cities" }
 
     var body: some View {
-        Section(header: Text("\(citiesCount) cities")) {
+        Section(header: Text(title)) {
             ForEach(cities) { city in
                 CityListItemView(
                     city: city,
