@@ -22,7 +22,6 @@
 
 /* Begin PBXBuildFile section */
 		6B04671124D1FE83009892AF /* SelectedYearState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B04671024D1FE83009892AF /* SelectedYearState.swift */; };
-		6B04671324D2BA5D009892AF /* LogbookLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B04671224D2BA5D009892AF /* LogbookLinkView.swift */; };
 		6B20F12E24CD7FA500ED5766 /* TextPresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F12D24CD7FA500ED5766 /* TextPresentationView.swift */; };
 		6B20F13024CD824B00ED5766 /* LogbookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F12F24CD824B00ED5766 /* LogbookView.swift */; };
 		6B20F13424CEF71500ED5766 /* TextInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F13324CEF71400ED5766 /* TextInfo.swift */; };
@@ -180,7 +179,6 @@
 		417D0D4340E1F30EED3E45A6 /* Pods_seelog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5030618676CFEB4890AA3291 /* Pods-seelogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogTests.release.xcconfig"; path = "Target Support Files/Pods-seelogTests/Pods-seelogTests.release.xcconfig"; sourceTree = "<group>"; };
 		6B04671024D1FE83009892AF /* SelectedYearState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedYearState.swift; sourceTree = "<group>"; };
-		6B04671224D2BA5D009892AF /* LogbookLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogbookLinkView.swift; sourceTree = "<group>"; };
 		6B20F12D24CD7FA500ED5766 /* TextPresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPresentationView.swift; sourceTree = "<group>"; };
 		6B20F12F24CD824B00ED5766 /* LogbookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogbookView.swift; sourceTree = "<group>"; };
 		6B20F13324CEF71400ED5766 /* TextInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfo.swift; sourceTree = "<group>"; };
@@ -575,7 +573,6 @@
 				6B20F12F24CD824B00ED5766 /* LogbookView.swift */,
 				6B20F13824CEF9D400ED5766 /* TextInfoView.swift */,
 				6B04671024D1FE83009892AF /* SelectedYearState.swift */,
-				6B04671224D2BA5D009892AF /* LogbookLinkView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -939,7 +936,6 @@
 				6B521DC223BCFD4200570CF2 /* ConcurrentArray.swift in Sources */,
 				6B521D6023BCFC9900570CF2 /* HeatmapUpdater.swift in Sources */,
 				6B521D1023B74C7A00570CF2 /* SceneDelegate.swift in Sources */,
-				6B04671324D2BA5D009892AF /* LogbookLinkView.swift in Sources */,
 				6B521D7A23BCFCCB00570CF2 /* StatsProvider.swift in Sources */,
 				6BF5BF8C2402F3A30038AD9E /* CitiesHeatView.swift in Sources */,
 				6BCBE70023F07E0400DBC9D7 /* Country.swift in Sources */,

@@ -16,6 +16,12 @@ struct TextInfoInnerView: View {
         case .notVisited:
             return "You didn't visit."
             
+        case .visited:
+            return "Visited for a while."
+            
+        case .hanged:
+            return "Hanged around."
+            
         case .explored:
             return "You explored it here well!"
             
@@ -37,20 +43,28 @@ struct TextInfoInnerView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 3) {
             if !addHeading {
                 Text(status).font(.headline)
             }
 
             if info.enabled {
                 if addHeading {
-                    Text(info.heading)
-                        .font(.headline)
-                }
-                ForEach(info.body, id: \.self) { body in
-                    Text(body)
-                        .font(.callout)
+                    if info.status == Status.passedThrough {
+                        Text(info.heading)
+                        .bold()
                         .foregroundColor(.gray)
+                    } else {
+                        Text(info.heading)
+                            .font(.headline)
+                    }
+                }
+                if !addHeading || info.status != Status.passedThrough {
+                    ForEach(info.body, id: \.self) { body in
+                        Text(body)
+                            .font(.callout)
+                            .foregroundColor(.gray)
+                    }
                 }
             } else if addHeading {
                 Text(info.heading)

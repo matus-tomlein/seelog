@@ -34,7 +34,7 @@ class TextInfoGenerator {
                 id: "distance",
                 link: .none,
                 heading: "Travelled \(distanceRounded) km",
-                status: .passedThrough,
+                status: .visited,
                 body: body
             )
         ]
@@ -47,7 +47,7 @@ class TextInfoGenerator {
                 id: "countries",
                 link: linkToCountries ? .countries : .none,
                 heading: "\(countries.count) countries",
-                status: .passedThrough,
+                status: .visited,
                 body: statusDescriptions(places: model.countriesForYear(year), year: year)
             )
         ] + additionalItems(countries, model: model, year: year)
@@ -60,7 +60,7 @@ class TextInfoGenerator {
                 id: "cities",
                 link: addLink ? .cities : .none,
                 heading: "\(cities.count) cities",
-                status: .passedThrough,
+                status: .visited,
                 body: statusDescriptions(places: cities, year: year)
             )
         ] + additionalItems(cities, model: model, year: year)
@@ -72,7 +72,7 @@ class TextInfoGenerator {
             id: "continents",
             link: addLink ? .continents : .none,
             heading: "\(continents.count) continents",
-            status: .passedThrough,
+            status: .visited,
             body: statusDescriptions(places: continents, year: year)
         )
         return [
@@ -86,7 +86,7 @@ class TextInfoGenerator {
             id: "timezones",
             link: addLink ? .timezones : .none,
             heading: "\(timezones.count) timezones",
-            status: .passedThrough,
+            status: .visited,
             body: statusDescriptions(places: model.timezonesForYear(year), year: year)
         )
         return [
@@ -151,6 +151,13 @@ class TextInfoGenerator {
         if newPlaces.count > 0 {
             descriptions.append(
                 "First time in \(newPlaces.map { $0.name }.joined(separator: ", "))."
+            )
+        }
+
+        let hangedPlaces = places.filter { $0.status(year: year) == .hanged }
+        if hangedPlaces.count > 0 {
+            descriptions.append(
+                "Hanged in \(hangedPlaces.map { $0.name }.joined(separator: ", "))."
             )
         }
 

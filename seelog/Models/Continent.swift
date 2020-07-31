@@ -40,7 +40,8 @@ struct Continent: Identifiable, Trippable {
     }
     
     func explored(year: Int?) -> Bool? {
-        return Double(countriesForYear(year).count) / Double(continentInfo.numberOfCountries) > 0.66
+        let countriesCount = countriesForYear(year).count
+        return countriesCount >= 10 || Double(countriesCount) / Double(continentInfo.numberOfCountries) > 0.66
     }
 }
 

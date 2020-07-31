@@ -66,6 +66,8 @@ enum ExplorationStatus {
 enum Status {
     case notVisited // no color
     case passedThrough // no color
+    case visited // no color
+    case hanged // no color
     case new // blue
     case regular // purple
     case explored // green
@@ -182,6 +184,8 @@ extension Trippable {
             } else {
                 return .native
             }
+        } else if stayDuration <= 1 {
+            return .passedThrough
         } else {
             if let explored = explored(year: year) {
                 if explored {
@@ -195,8 +199,10 @@ extension Trippable {
                 }
             } else if years.count >= 3 {
                 return .regular
+            } else if stayDuration >= 5 {
+                return .hanged
             }
-            return .passedThrough
+            return .visited
         }
     }
     

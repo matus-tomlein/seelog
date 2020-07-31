@@ -83,9 +83,10 @@ struct Country: Identifiable, Trippable {
         }
         return sentences.joined(separator: " ")
     }
-    
+
     func explored(year: Int?) -> Bool? {
-        return Double(regionsForYear(year).count) / Double(countryInfo.numberOfRegions) > 0.66
+        let regionsCount = regionsForYear(year).count
+        return regionsCount >= 10 || Double(regionsCount) / Double(countryInfo.numberOfRegions) > 0.66
     }
 }
 

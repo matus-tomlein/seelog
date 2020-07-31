@@ -41,7 +41,6 @@ struct CountriesView: View {
             )
         }
         .navigationBarTitle("Countries")
-        .navigationBarItems(trailing: LogbookLinkView())
 
     }
 }

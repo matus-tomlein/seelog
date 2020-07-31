@@ -48,7 +48,6 @@ struct CountryView: View {
 //            TripsListView(destination: country)
         }
         .navigationBarTitle(country.countryInfo.name)
-        .navigationBarItems(trailing: LogbookLinkView())
     }
 }
 
