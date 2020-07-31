@@ -17,8 +17,8 @@ class SeenAreaUpdater {
     var geohashes = [Int32: Set<String>]()
     var travelledDistances = [Int32: Double]()
     var cumulativeGeohashes: Set<String>
-    var changedHeatmap = [Int32: Bool]()
-    var changedCumulativeHeatmap = false
+    var changedGeohashes = [Int32: Bool]()
+    var changedCumulativeGeohashes = false
     var context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
@@ -30,7 +30,7 @@ class SeenAreaUpdater {
             let year = last.year
             self.seenAreas[year] = last
             self.geohashes[year] = Set(last.geohashes ?? [])
-            self.changedHeatmap[year] = false
+            self.changedGeohashes[year] = false
         }
     }
 
@@ -40,7 +40,7 @@ class SeenAreaUpdater {
 
         if !cumulativeGeohashes.contains(geohash) {
             cumulativeGeohashes.insert(geohash)
-            changedCumulativeHeatmap = true
+            changedCumulativeGeohashes = true
         }
 
         if self.totalSeenArea.lastLatitude != 0 && self.totalSeenArea.lastLongitude != 0 {
@@ -60,22 +60,19 @@ class SeenAreaUpdater {
 
         if var known = geohashes[year] {
             if !known.contains(geohash) {
-                changedHeatmap[year] = true
+                changedGeohashes[year] = true
                 known.insert(geohash)
                 geohashes[year] = known
             }
         } else {
             geohashes[year] = Set([geohash])
-            changedHeatmap[year] = true
+            changedGeohashes[year] = true
         }
     }
 
     func update() {
-        let heatmapUpdater = HeatmapUpdater(context: context)
-
-        if changedCumulativeHeatmap {
+        if changedCumulativeGeohashes {
             totalSeenArea.geohashes = Array(self.cumulativeGeohashes)
-            heatmapUpdater.update(seenArea: totalSeenArea)
         }
         for (year, geohashes) in geohashes {
             let seenArea = seenAreas[year] ?? SeenArea(context: context)
@@ -84,13 +81,11 @@ class SeenAreaUpdater {
                 seenArea.travelledDistance += travelledDistance
             }
 
-            if changedHeatmap[year] ?? false {
+            if changedGeohashes[year] ?? false {
                 if let seenArea = seenAreas[year] {
                     seenArea.geohashes = Array(geohashes)
-                    heatmapUpdater.update(seenArea: seenArea)
                 } else {
                     seenArea.geohashes = Array(geohashes)
-                    heatmapUpdater.update(seenArea: seenArea)
                 }
             }
         }

@@ -10,8 +10,8 @@
 #endif
 #endif
 
-#import "geos_c.h"
 #import "export.h"
+#import "geos_c.h"
 
 FOUNDATION_EXPORT double geosVersionNumber;
 FOUNDATION_EXPORT const unsigned char geosVersionString[];

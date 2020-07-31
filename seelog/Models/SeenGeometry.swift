@@ -54,19 +54,13 @@ struct SeenGeometry: Identifiable {
     var geohashes: Set<String>
     var travelledDistance: Double
     var travelledDistanceRounded: Int { Int(travelledDistance.rounded()) }
-    var landWKT: String
-    var waterWKT: String
-    var processedWKT: String
     var higherLevelPositions: [Location]
     var positions: [Location]
     
-    init(year: Int?, geohashes: Set<String>, travelledDistance: Double, landWKT: String, waterWKT: String, processedWKT: String) {
+    init(year: Int?, geohashes: Set<String>, travelledDistance: Double) {
         self.year = year
         self.geohashes = geohashes
         self.travelledDistance = travelledDistance
-        self.landWKT = landWKT
-        self.waterWKT = waterWKT
-        self.processedWKT = processedWKT
         self.positions = Array(geohashes).map { Location(geohash: $0) }
         self.higherLevelPositions = Array(Set(geohashes.map { geohash in String(geohash.prefix(3)) })).map { Location(geohash: $0) }
     }

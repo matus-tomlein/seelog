@@ -7,10 +7,8 @@
 //
 
 import Foundation
-import GEOSwift
 import CoreLocation
 import MapKit
-import UTMConversion
 
 class Helpers {
     static func seasonForDate(_ date: Date) -> String {
@@ -139,27 +137,6 @@ class Helpers {
         }
     }
 
-    static func blankWorldwidePolygon() throws -> GeometryConvertible {
-        let p1 = try Polygon(wkt: "POLYGON((-180 -90, 0 -90, 0 0, -180 0, -180 -90))")
-        let p2 = try Polygon(wkt: "POLYGON((0 0, 180 0, 180 90, 0 90, 0 0))")
-        let p3 = try Polygon(wkt: "POLYGON((-180 0, 0 0, 0 90, -180 90, -180 0))")
-        let p4 = try Polygon(wkt: "POLYGON((0 -90, 180 -90, 180 0, 0 0, 0 -90))")
-        let p12 = try p1.union(with: p2)
-        let p123 = try p12.union(with: p3)
-        return try p123.union(with: p4)
-    }
-
-    static func polygonFor(geohash: String) -> GeometryConvertible? {
-        if let result = Geohash.decode(hash: geohash) {
-            return try? Geometry(wkt: "POLYGON((\(result.longitude.min) \(result.latitude.min), \(result.longitude.max) \(result.latitude.min), \(result.longitude.max) \(result.latitude.max), \(result.longitude.min) \(result.latitude.max), \(result.longitude.min) \(result.latitude.min)))")
-        }
-        return nil
-    }
-
-    static func geometry(fromWKT wkt: String) -> Geometry? {
-        return try? Geometry.init(wkt: wkt)
-    }
-
     static func areaOf(geohash: String) -> Double {
         if let decoded = Geohash.decode(hash: geohash) {
             let a0 = CLLocation(latitude: decoded.latitude.min, longitude: decoded.longitude.min)
@@ -172,26 +149,6 @@ class Helpers {
             return width * height
         }
         return 0
-    }
-
-    static func convexHeatmap(heatmap: Geometry) -> Geometry {
-        switch heatmap {
-        case let .multiPolygon(multipolygon):
-            var convexPolygonUnion: Geometry?
-
-            for polygon in multipolygon.polygons {
-                if let convexPolygon = try? polygon.convexHull() {
-                    if let union = convexPolygonUnion {
-                        convexPolygonUnion = try? union.union(with: convexPolygon)
-                    } else {
-                        convexPolygonUnion = convexPolygon
-                    }
-                }
-            }
-            return convexPolygonUnion ?? heatmap
-        default:
-            return heatmap
-        }
     }
 
     static func geohashesIn(mapRect: MKMapRect) -> Set<String> {

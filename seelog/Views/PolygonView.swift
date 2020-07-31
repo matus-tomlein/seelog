@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import GEOSwift
 
 struct PolygonView: View {
     var polygonExteriors: [[(x: Double, y: Double)]]

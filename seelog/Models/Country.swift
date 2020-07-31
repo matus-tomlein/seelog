@@ -47,10 +47,6 @@ struct Country: Identifiable, Trippable {
             body: [
                 stayDurationInfo(year: year),
                 explorationInfo(year: year)
-                // first visited in year
-                // yearly frequency of stay
-                // number of regions visited out of total
-                // number of cities visited
             ]
         )
     }
@@ -86,7 +82,8 @@ struct Country: Identifiable, Trippable {
 
     func explored(year: Int?) -> Bool? {
         let regionsCount = regionsForYear(year).count
-        return regionsCount >= 10 || Double(regionsCount) / Double(countryInfo.numberOfRegions) > 0.66
+        let citiesCount = citiesForYear(year: year).count
+        return citiesCount >= 5 || regionsCount >= 10 || Double(regionsCount) / Double(countryInfo.numberOfRegions) > 0.66
     }
 }
 

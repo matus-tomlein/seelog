@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import GEOSwift
 
 struct WorldView: View {
     var background: (continents: [ContinentInfo], countries: [CountryInfo], regions: [StateInfo])

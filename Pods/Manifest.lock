@@ -1,39 +1,30 @@
 PODS:
-  - geos (4.0.2)
-  - GEOSwift (5.0.0):
-    - geos (= 4.0.2)
-  - GEOSwiftMapKit (1.0.0):
-    - GEOSwift (= 5.0.0)
+  - geos (5.0.0)
+  - GEOSwift (7.1.0):
+    - geos (~> 5.0)
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
-  - SwiftCSV (0.5.5)
-  - UTMConversion (1.2.2)
+  - SwiftCSV (0.5.6)
 
 DEPENDENCIES:
   - GEOSwift
-  - GEOSwiftMapKit
   - SQLite.swift (~> 0.12.0)
   - SwiftCSV
-  - UTMConversion (~> 1.2)
 
 SPEC REPOS:
   trunk:
     - geos
     - GEOSwift
-    - GEOSwiftMapKit
     - SQLite.swift
     - SwiftCSV
-    - UTMConversion
 
 SPEC CHECKSUMS:
-  geos: ee2ae833c7b3c881a33de35a3cea18bf3e0cf7bc
-  GEOSwift: 36a5ee6814414a7962c558a352705ef34f27e303
-  GEOSwiftMapKit: 7079f598ca49c92bcc1deb3414aa0d38a2a9b074
+  geos: e91fba0bb3497e3a8e68ca6103bddd45ec548e06
+  GEOSwift: 94dee5b6f18cac925ca9dd81b52a76628808d4ef
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
-  SwiftCSV: 13e494244a4a65c3ff71002444491026de625643
-  UTMConversion: 28136ebcdc4e6f7f0d5c385d03764ca2c2625d6c
+  SwiftCSV: efb4a15dd7f2f1212b3d6986f97a3369ff6c5100
 
-PODFILE CHECKSUM: b7ec92f8b76ceb7c86f44a938690885b5cc21311
+PODFILE CHECKSUM: a9b06ce519c66d947780f10f07eefd4c3cf4c151
 
 COCOAPODS: 1.8.4

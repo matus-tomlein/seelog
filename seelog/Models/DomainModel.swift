@@ -320,10 +320,7 @@ func loadSeenGeometries() -> [SeenGeometry] {
             SeenGeometry(
                 year: Int(row["ZYEAR"] ?? ""),
                 geohashes: Set(),
-                travelledDistance: Double(row["ZTRAVELLEDDISTANCE"] ?? "") ?? 0,
-                landWKT: row["ZLANDWKT"] ?? "",
-                waterWKT: row["ZWATERWKT"] ?? "",
-                processedWKT: row["ZPROCESSEDHEATMAPWKT"] ?? ""
+                travelledDistance: Double(row["ZTRAVELLEDDISTANCE"] ?? "") ?? 0
             )
         }
     } catch {

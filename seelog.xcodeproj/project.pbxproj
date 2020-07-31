@@ -38,14 +38,12 @@
 		6B521D1A23B74C7F00570CF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B521D1823B74C7F00570CF2 /* LaunchScreen.storyboard */; };
 		6B521D2523B74C7F00570CF2 /* seelogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D2423B74C7F00570CF2 /* seelogTests.swift */; };
 		6B521D3023B74C7F00570CF2 /* seelogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D2F23B74C7F00570CF2 /* seelogUITests.swift */; };
-		6B521D3E23B7513E00570CF2 /* CountriesMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D3D23B7513E00570CF2 /* CountriesMapView.swift */; };
 		6B521D4023B7571C00570CF2 /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D3F23B7571C00570CF2 /* CircleImage.swift */; };
 		6B521D5623BCFC9900570CF2 /* VisitPeriodUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D4B23BCFC9800570CF2 /* VisitPeriodUpdater.swift */; };
 		6B521D5823BCFC9900570CF2 /* PhotoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D4D23BCFC9800570CF2 /* PhotoInfo.swift */; };
 		6B521D5C23BCFC9900570CF2 /* SeenAreaUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5123BCFC9900570CF2 /* SeenAreaUpdater.swift */; };
 		6B521D5D23BCFC9900570CF2 /* DatabaseCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5223BCFC9900570CF2 /* DatabaseCreator.swift */; };
 		6B521D5F23BCFC9900570CF2 /* DatabaseInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5423BCFC9900570CF2 /* DatabaseInitializer.swift */; };
-		6B521D6023BCFC9900570CF2 /* HeatmapUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D5523BCFC9900570CF2 /* HeatmapUpdater.swift */; };
 		6B521D7023BCFCCB00570CF2 /* ContinentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6323BCFCCB00570CF2 /* ContinentInfo.swift */; };
 		6B521D7223BCFCCB00570CF2 /* CityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6523BCFCCB00570CF2 /* CityInfo.swift */; };
 		6B521D7323BCFCCB00570CF2 /* CompleteHistoryPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6623BCFCCB00570CF2 /* CompleteHistoryPurchase.swift */; };
@@ -56,30 +54,8 @@
 		6B521D7A23BCFCCB00570CF2 /* StatsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6D23BCFCCB00570CF2 /* StatsProvider.swift */; };
 		6B521D7B23BCFCCB00570CF2 /* GeoDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6E23BCFCCB00570CF2 /* GeoDatabase.swift */; };
 		6B521D7C23BCFCCB00570CF2 /* CountryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D6F23BCFCCB00570CF2 /* CountryInfo.swift */; };
-		6B521D8923BCFCFF00570CF2 /* StatesMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D7F23BCFCFF00570CF2 /* StatesMapManager.swift */; };
-		6B521D8A23BCFCFF00570CF2 /* HeatmapMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D8023BCFCFF00570CF2 /* HeatmapMapManager.swift */; };
-		6B521D8B23BCFCFF00570CF2 /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D8123BCFCFF00570CF2 /* MapManager.swift */; };
-		6B521D8C23BCFCFF00570CF2 /* CitiesMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D8223BCFCFF00570CF2 /* CitiesMapManager.swift */; };
-		6B521D8D23BCFCFF00570CF2 /* TimezoneMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D8323BCFCFF00570CF2 /* TimezoneMapManager.swift */; };
-		6B521D8E23BCFCFF00570CF2 /* MainMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D8423BCFCFF00570CF2 /* MainMapViewDelegate.swift */; };
-		6B521D8F23BCFCFF00570CF2 /* ContinentsMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D8523BCFCFF00570CF2 /* ContinentsMapManager.swift */; };
-		6B521D9123BCFCFF00570CF2 /* PhotoMapViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D8723BCFCFF00570CF2 /* PhotoMapViewer.swift */; };
-		6B521D9223BCFCFF00570CF2 /* CountriesMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D8823BCFCFF00570CF2 /* CountriesMapManager.swift */; };
-		6B521DA123BCFD1F00570CF2 /* MapCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9523BCFD1E00570CF2 /* MapCircle.swift */; };
-		6B521DA223BCFD1F00570CF2 /* GeometryOverlayCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9623BCFD1E00570CF2 /* GeometryOverlayCreator.swift */; };
-		6B521DA323BCFD1F00570CF2 /* MapOverlayProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9723BCFD1E00570CF2 /* MapOverlayProperties.swift */; };
-		6B521DA423BCFD1F00570CF2 /* OverlayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9823BCFD1E00570CF2 /* OverlayManager.swift */; };
-		6B521DA523BCFD1F00570CF2 /* ImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9923BCFD1E00570CF2 /* ImageOverlay.swift */; };
-		6B521DA623BCFD1F00570CF2 /* MapPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9A23BCFD1E00570CF2 /* MapPolygon.swift */; };
-		6B521DA723BCFD1F00570CF2 /* PolygonRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9B23BCFD1E00570CF2 /* PolygonRenderer.swift */; };
-		6B521DA823BCFD1F00570CF2 /* ImageOverlayRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9C23BCFD1E00570CF2 /* ImageOverlayRenderer.swift */; };
-		6B521DA923BCFD1F00570CF2 /* ZoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9D23BCFD1E00570CF2 /* ZoomType.swift */; };
-		6B521DAA23BCFD1F00570CF2 /* MapPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9E23BCFD1E00570CF2 /* MapPolyline.swift */; };
-		6B521DAB23BCFD1F00570CF2 /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D9F23BCFD1F00570CF2 /* Annotation.swift */; };
-		6B521DAC23BCFD1F00570CF2 /* MapOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DA023BCFD1F00570CF2 /* MapOverlay.swift */; };
 		6B521DB923BCFD4200570CF2 /* BlockingQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DAE23BCFD4100570CF2 /* BlockingQueue.swift */; };
 		6B521DBA23BCFD4200570CF2 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DAF23BCFD4100570CF2 /* IAPHelper.swift */; };
-		6B521DBB23BCFD4200570CF2 /* WorldPolygons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB023BCFD4100570CF2 /* WorldPolygons.swift */; };
 		6B521DBC23BCFD4200570CF2 /* CountryCodeMappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB123BCFD4100570CF2 /* CountryCodeMappings.swift */; };
 		6B521DBD23BCFD4200570CF2 /* synchronize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB223BCFD4100570CF2 /* synchronize.swift */; };
 		6B521DBE23BCFD4200570CF2 /* VisitPeriodManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521DB323BCFD4100570CF2 /* VisitPeriodManager.swift */; };
@@ -104,7 +80,6 @@
 		6B660E1B23CB30FA000CD3BB /* generated.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6B660E1823CB30FA000CD3BB /* generated.sqlite */; };
 		6B660E3623CB7CD7000CD3BB /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B660E3523CB7CD7000CD3BB /* BarChartView.swift */; };
 		6B6B5973244CB66A00E52D9D /* SphericalMercator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6B5972244CB66900E52D9D /* SphericalMercator.swift */; };
-		6B70A7B823F7119000833906 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B70A7B723F7119000833906 /* MapView.swift */; };
 		6B8F6F8C244C3CE100402F4F /* ChartColorTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8F6F8B244C3CE100402F4F /* ChartColorTemplates.swift */; };
 		6BB193E72401C276008BEFDD /* ContinentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB193E62401C276008BEFDD /* ContinentView.swift */; };
 		6BB193E92401C77A008BEFDD /* TimezoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB193E82401C77A008BEFDD /* TimezoneView.swift */; };
@@ -201,14 +176,12 @@
 		6B521D2B23B74C7F00570CF2 /* seelogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = seelogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B521D2F23B74C7F00570CF2 /* seelogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seelogUITests.swift; sourceTree = "<group>"; };
 		6B521D3123B74C7F00570CF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B521D3D23B7513E00570CF2 /* CountriesMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesMapView.swift; sourceTree = "<group>"; };
 		6B521D3F23B7571C00570CF2 /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		6B521D4B23BCFC9800570CF2 /* VisitPeriodUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPeriodUpdater.swift; sourceTree = "<group>"; };
 		6B521D4D23BCFC9800570CF2 /* PhotoInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoInfo.swift; sourceTree = "<group>"; };
 		6B521D5123BCFC9900570CF2 /* SeenAreaUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeenAreaUpdater.swift; sourceTree = "<group>"; };
 		6B521D5223BCFC9900570CF2 /* DatabaseCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseCreator.swift; sourceTree = "<group>"; };
 		6B521D5423BCFC9900570CF2 /* DatabaseInitializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseInitializer.swift; sourceTree = "<group>"; };
-		6B521D5523BCFC9900570CF2 /* HeatmapUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeatmapUpdater.swift; sourceTree = "<group>"; };
 		6B521D6323BCFCCB00570CF2 /* ContinentInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinentInfo.swift; sourceTree = "<group>"; };
 		6B521D6523BCFCCB00570CF2 /* CityInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityInfo.swift; sourceTree = "<group>"; };
 		6B521D6623BCFCCB00570CF2 /* CompleteHistoryPurchase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompleteHistoryPurchase.swift; sourceTree = "<group>"; };
@@ -219,30 +192,8 @@
 		6B521D6D23BCFCCB00570CF2 /* StatsProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsProvider.swift; sourceTree = "<group>"; };
 		6B521D6E23BCFCCB00570CF2 /* GeoDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoDatabase.swift; sourceTree = "<group>"; };
 		6B521D6F23BCFCCB00570CF2 /* CountryInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryInfo.swift; sourceTree = "<group>"; };
-		6B521D7F23BCFCFF00570CF2 /* StatesMapManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatesMapManager.swift; sourceTree = "<group>"; };
-		6B521D8023BCFCFF00570CF2 /* HeatmapMapManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeatmapMapManager.swift; sourceTree = "<group>"; };
-		6B521D8123BCFCFF00570CF2 /* MapManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
-		6B521D8223BCFCFF00570CF2 /* CitiesMapManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitiesMapManager.swift; sourceTree = "<group>"; };
-		6B521D8323BCFCFF00570CF2 /* TimezoneMapManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimezoneMapManager.swift; sourceTree = "<group>"; };
-		6B521D8423BCFCFF00570CF2 /* MainMapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMapViewDelegate.swift; sourceTree = "<group>"; };
-		6B521D8523BCFCFF00570CF2 /* ContinentsMapManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinentsMapManager.swift; sourceTree = "<group>"; };
-		6B521D8723BCFCFF00570CF2 /* PhotoMapViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoMapViewer.swift; sourceTree = "<group>"; };
-		6B521D8823BCFCFF00570CF2 /* CountriesMapManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesMapManager.swift; sourceTree = "<group>"; };
-		6B521D9523BCFD1E00570CF2 /* MapCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapCircle.swift; sourceTree = "<group>"; };
-		6B521D9623BCFD1E00570CF2 /* GeometryOverlayCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeometryOverlayCreator.swift; sourceTree = "<group>"; };
-		6B521D9723BCFD1E00570CF2 /* MapOverlayProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlayProperties.swift; sourceTree = "<group>"; };
-		6B521D9823BCFD1E00570CF2 /* OverlayManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayManager.swift; sourceTree = "<group>"; };
-		6B521D9923BCFD1E00570CF2 /* ImageOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageOverlay.swift; sourceTree = "<group>"; };
-		6B521D9A23BCFD1E00570CF2 /* MapPolygon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPolygon.swift; sourceTree = "<group>"; };
-		6B521D9B23BCFD1E00570CF2 /* PolygonRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonRenderer.swift; sourceTree = "<group>"; };
-		6B521D9C23BCFD1E00570CF2 /* ImageOverlayRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageOverlayRenderer.swift; sourceTree = "<group>"; };
-		6B521D9D23BCFD1E00570CF2 /* ZoomType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomType.swift; sourceTree = "<group>"; };
-		6B521D9E23BCFD1E00570CF2 /* MapPolyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapPolyline.swift; sourceTree = "<group>"; };
-		6B521D9F23BCFD1F00570CF2 /* Annotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Annotation.swift; sourceTree = "<group>"; };
-		6B521DA023BCFD1F00570CF2 /* MapOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapOverlay.swift; sourceTree = "<group>"; };
 		6B521DAE23BCFD4100570CF2 /* BlockingQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockingQueue.swift; sourceTree = "<group>"; };
 		6B521DAF23BCFD4100570CF2 /* IAPHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
-		6B521DB023BCFD4100570CF2 /* WorldPolygons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorldPolygons.swift; sourceTree = "<group>"; };
 		6B521DB123BCFD4100570CF2 /* CountryCodeMappings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCodeMappings.swift; sourceTree = "<group>"; };
 		6B521DB223BCFD4100570CF2 /* synchronize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = synchronize.swift; sourceTree = "<group>"; };
 		6B521DB323BCFD4100570CF2 /* VisitPeriodManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPeriodManager.swift; sourceTree = "<group>"; };
@@ -267,8 +218,8 @@
 		6B660E1623CB24EA000CD3BB /* DomainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainModel.swift; sourceTree = "<group>"; };
 		6B660E1823CB30FA000CD3BB /* generated.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = generated.sqlite; sourceTree = "<group>"; };
 		6B660E3523CB7CD7000CD3BB /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
+		6B66828A24D48CEB00E1EECE /* Seelog.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Seelog.entitlements; sourceTree = "<group>"; };
 		6B6B5972244CB66900E52D9D /* SphericalMercator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SphericalMercator.swift; sourceTree = "<group>"; };
-		6B70A7B723F7119000833906 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		6B8F6F8B244C3CE100402F4F /* ChartColorTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartColorTemplates.swift; sourceTree = "<group>"; };
 		6BB193E62401C276008BEFDD /* ContinentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentView.swift; sourceTree = "<group>"; };
 		6BB193E82401C77A008BEFDD /* TimezoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezoneView.swift; sourceTree = "<group>"; };
@@ -384,12 +335,12 @@
 		6B521D0C23B74C7A00570CF2 /* seelog */ = {
 			isa = PBXGroup;
 			children = (
+				6B66828A24D48CEB00E1EECE /* Seelog.entitlements */,
 				6B20F13524CEF7DE00ED5766 /* Services */,
 				6B660E2223CB720A000CD3BB /* BarChart */,
 				6B660E0F23BE76C3000CD3BB /* DemoData */,
 				6B660E0623BD2E00000CD3BB /* Views */,
 				6B521DC423BCFD4900570CF2 /* Helpers */,
-				6B521D9323BCFD0A00570CF2 /* MapView */,
 				6B521D6223BCFCBD00570CF2 /* Models */,
 				6B521D6123BCFCAE00570CF2 /* Initialization */,
 				6B521D0D23B74C7A00570CF2 /* AppDelegate.swift */,
@@ -437,7 +388,6 @@
 				6B521D5423BCFC9900570CF2 /* DatabaseInitializer.swift */,
 				6B521D4D23BCFC9800570CF2 /* PhotoInfo.swift */,
 				6B521D4B23BCFC9800570CF2 /* VisitPeriodUpdater.swift */,
-				6B521D5523BCFC9900570CF2 /* HeatmapUpdater.swift */,
 				6B521D5123BCFC9900570CF2 /* SeenAreaUpdater.swift */,
 				6BF5BF872402C2290038AD9E /* InitializationController.swift */,
 			);
@@ -475,42 +425,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		6B521D9323BCFD0A00570CF2 /* MapView */ = {
-			isa = PBXGroup;
-			children = (
-				6B521DAD23BCFD2600570CF2 /* Overlays */,
-				6B521D8223BCFCFF00570CF2 /* CitiesMapManager.swift */,
-				6B521D8523BCFCFF00570CF2 /* ContinentsMapManager.swift */,
-				6B521D8823BCFCFF00570CF2 /* CountriesMapManager.swift */,
-				6B521D8023BCFCFF00570CF2 /* HeatmapMapManager.swift */,
-				6B521D8423BCFCFF00570CF2 /* MainMapViewDelegate.swift */,
-				6B521D8123BCFCFF00570CF2 /* MapManager.swift */,
-				6B521D8723BCFCFF00570CF2 /* PhotoMapViewer.swift */,
-				6B521D7F23BCFCFF00570CF2 /* StatesMapManager.swift */,
-				6B521D8323BCFCFF00570CF2 /* TimezoneMapManager.swift */,
-			);
-			path = MapView;
-			sourceTree = "<group>";
-		};
-		6B521DAD23BCFD2600570CF2 /* Overlays */ = {
-			isa = PBXGroup;
-			children = (
-				6B521D9F23BCFD1F00570CF2 /* Annotation.swift */,
-				6B521D9623BCFD1E00570CF2 /* GeometryOverlayCreator.swift */,
-				6B521D9923BCFD1E00570CF2 /* ImageOverlay.swift */,
-				6B521D9C23BCFD1E00570CF2 /* ImageOverlayRenderer.swift */,
-				6B521D9523BCFD1E00570CF2 /* MapCircle.swift */,
-				6B521DA023BCFD1F00570CF2 /* MapOverlay.swift */,
-				6B521D9723BCFD1E00570CF2 /* MapOverlayProperties.swift */,
-				6B521D9A23BCFD1E00570CF2 /* MapPolygon.swift */,
-				6B521D9E23BCFD1E00570CF2 /* MapPolyline.swift */,
-				6B521D9823BCFD1E00570CF2 /* OverlayManager.swift */,
-				6B521D9B23BCFD1E00570CF2 /* PolygonRenderer.swift */,
-				6B521D9D23BCFD1E00570CF2 /* ZoomType.swift */,
-			);
-			path = Overlays;
-			sourceTree = "<group>";
-		};
 		6B521DC423BCFD4900570CF2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,7 +437,6 @@
 				6B521DAF23BCFD4100570CF2 /* IAPHelper.swift */,
 				6B521DB223BCFD4100570CF2 /* synchronize.swift */,
 				6B521DB323BCFD4100570CF2 /* VisitPeriodManager.swift */,
-				6B521DB023BCFD4100570CF2 /* WorldPolygons.swift */,
 				6B8F6F8B244C3CE100402F4F /* ChartColorTemplates.swift */,
 				6B6B5972244CB66900E52D9D /* SphericalMercator.swift */,
 			);
@@ -548,14 +461,12 @@
 				6BB193E62401C276008BEFDD /* ContinentView.swift */,
 				6BF5BF892402F2B60038AD9E /* CountriesHeatView.swift */,
 				6B50C19F240BEE480090B578 /* CountriesListView.swift */,
-				6B521D3D23B7513E00570CF2 /* CountriesMapView.swift */,
 				6B5CC36C23F9543700628C7F /* CountriesView.swift */,
 				6BF5BF912402FB780038AD9E /* CountryListItemView.swift */,
 				6BE6749623EF049200102673 /* CountryView.swift */,
 				6B660E0723BE62D7000CD3BB /* LoadingView.swift */,
 				6BF5BF852402C0FC0038AD9E /* LoadingViewState.swift */,
 				6B5CC36E23F95E7900628C7F /* MainView.swift */,
-				6B70A7B723F7119000833906 /* MapView.swift */,
 				6B5CC37023F97FAC00628C7F /* PolygonView.swift */,
 				6B50C1A3240BF8FF0090B578 /* StateListItemView.swift */,
 				6BB193F624026F79008BEFDD /* StatesListView.swift */,
@@ -874,7 +785,6 @@
 				6BCBE70C23F0823A00DBC9D7 /* Timezone.swift in Sources */,
 				6BF5BF94240304AB0038AD9E /* ContinentListItemView.swift in Sources */,
 				6B521D5F23BCFC9900570CF2 /* DatabaseInitializer.swift in Sources */,
-				6B521DA823BCFD1F00570CF2 /* ImageOverlayRenderer.swift in Sources */,
 				6B8F6F8C244C3CE100402F4F /* ChartColorTemplates.swift in Sources */,
 				6BB193F724026F79008BEFDD /* StatesListView.swift in Sources */,
 				6BE6749723EF049200102673 /* CountryView.swift in Sources */,
@@ -886,15 +796,11 @@
 				6BB193E72401C276008BEFDD /* ContinentView.swift in Sources */,
 				6B521DC023BCFD4200570CF2 /* Date.swift in Sources */,
 				6BB193E92401C77A008BEFDD /* TimezoneView.swift in Sources */,
-				6B521D8B23BCFCFF00570CF2 /* MapManager.swift in Sources */,
-				6B521DA623BCFD1F00570CF2 /* MapPolygon.swift in Sources */,
 				6B5CC36F23F95E7900628C7F /* MainView.swift in Sources */,
 				6B521DB923BCFD4200570CF2 /* BlockingQueue.swift in Sources */,
 				6B521DBE23BCFD4200570CF2 /* VisitPeriodManager.swift in Sources */,
 				6BB193F124026C14008BEFDD /* StayDurationBarChartView.swift in Sources */,
-				6B521DBB23BCFD4200570CF2 /* WorldPolygons.swift in Sources */,
 				6B20F13724CEF80B00ED5766 /* TextInfoGenerator.swift in Sources */,
-				6B521D8E23BCFCFF00570CF2 /* MainMapViewDelegate.swift in Sources */,
 				6B521D5823BCFC9900570CF2 /* PhotoInfo.swift in Sources */,
 				6BB193ED2402656E008BEFDD /* TripsListView.swift in Sources */,
 				6B5CC36D23F9543700628C7F /* CountriesView.swift in Sources */,
@@ -904,37 +810,24 @@
 				6B660E0A23BE636D000CD3BB /* CitiesView.swift in Sources */,
 				6B521D0E23B74C7A00570CF2 /* AppDelegate.swift in Sources */,
 				6B20F12E24CD7FA500ED5766 /* TextPresentationView.swift in Sources */,
-				6B521D8923BCFCFF00570CF2 /* StatesMapManager.swift in Sources */,
 				6B660E3623CB7CD7000CD3BB /* BarChartView.swift in Sources */,
-				6B521D3E23B7513E00570CF2 /* CountriesMapView.swift in Sources */,
-				6B521D9223BCFCFF00570CF2 /* CountriesMapManager.swift in Sources */,
 				6BCBE70A23F081FE00DBC9D7 /* Continent.swift in Sources */,
 				6BF5BF98240306CB0038AD9E /* TimezoneListItemView.swift in Sources */,
 				6BCBE6FE23F0719200DBC9D7 /* SeenArea.swift in Sources */,
 				6B521D5D23BCFC9900570CF2 /* DatabaseCreator.swift in Sources */,
 				6B20F13424CEF71500ED5766 /* TextInfo.swift in Sources */,
-				6B521D8D23BCFCFF00570CF2 /* TimezoneMapManager.swift in Sources */,
 				6B521D7523BCFCCB00570CF2 /* ViewState.swift in Sources */,
-				6B521DA323BCFD1F00570CF2 /* MapOverlayProperties.swift in Sources */,
 				6B521DBC23BCFD4200570CF2 /* CountryCodeMappings.swift in Sources */,
 				6BCBE70823F0819E00DBC9D7 /* Region.swift in Sources */,
 				6BB193F524026EB4008BEFDD /* CitiesListView.swift in Sources */,
 				6BB193F324026D55008BEFDD /* StateView.swift in Sources */,
 				6B521D7423BCFCCB00570CF2 /* TimezoneInfo.swift in Sources */,
-				6B521D8C23BCFCFF00570CF2 /* CitiesMapManager.swift in Sources */,
-				6B521DAA23BCFD1F00570CF2 /* MapPolyline.swift in Sources */,
 				6BCBE70E23F0827200DBC9D7 /* City.swift in Sources */,
-				6B521DA423BCFD1F00570CF2 /* OverlayManager.swift in Sources */,
 				6B521D5623BCFC9900570CF2 /* VisitPeriodUpdater.swift in Sources */,
 				6BCBE70623F07FB900DBC9D7 /* Trippable.swift in Sources */,
 				6BF5BF902402F4AE0038AD9E /* TimezoneHeatView.swift in Sources */,
-				6B521DA523BCFD1F00570CF2 /* ImageOverlay.swift in Sources */,
-				6B521D8F23BCFCFF00570CF2 /* ContinentsMapManager.swift in Sources */,
-				6B521DAC23BCFD1F00570CF2 /* MapOverlay.swift in Sources */,
 				6B6B5973244CB66A00E52D9D /* SphericalMercator.swift in Sources */,
-				6B521D9123BCFCFF00570CF2 /* PhotoMapViewer.swift in Sources */,
 				6B521DC223BCFD4200570CF2 /* ConcurrentArray.swift in Sources */,
-				6B521D6023BCFC9900570CF2 /* HeatmapUpdater.swift in Sources */,
 				6B521D1023B74C7A00570CF2 /* SceneDelegate.swift in Sources */,
 				6B521D7A23BCFCCB00570CF2 /* StatsProvider.swift in Sources */,
 				6BF5BF8C2402F3A30038AD9E /* CitiesHeatView.swift in Sources */,
@@ -944,26 +837,19 @@
 				6B20F13924CEF9D400ED5766 /* TextInfoView.swift in Sources */,
 				6BE6749923F00C7700102673 /* VisitPeriod.swift in Sources */,
 				6B521D7C23BCFCCB00570CF2 /* CountryInfo.swift in Sources */,
-				6B70A7B823F7119000833906 /* MapView.swift in Sources */,
 				6B521DC323BCFD4200570CF2 /* Helpers.swift in Sources */,
 				6BF5BF862402C0FC0038AD9E /* LoadingViewState.swift in Sources */,
 				6BF5BF8E2402F4090038AD9E /* ContinentsHeatView.swift in Sources */,
-				6B521DA123BCFD1F00570CF2 /* MapCircle.swift in Sources */,
 				6BF5BF8A2402F2B60038AD9E /* CountriesHeatView.swift in Sources */,
 				6B04671124D1FE83009892AF /* SelectedYearState.swift in Sources */,
 				6B50C1A2240BF0690090B578 /* WorldView.swift in Sources */,
 				6B660E0E23BE63A0000CD3BB /* TimezonesView.swift in Sources */,
-				6B521DA923BCFD1F00570CF2 /* ZoomType.swift in Sources */,
-				6B521DA723BCFD1F00570CF2 /* PolygonRenderer.swift in Sources */,
-				6B521DA223BCFD1F00570CF2 /* GeometryOverlayCreator.swift in Sources */,
 				6BF5BF922402FB780038AD9E /* CountryListItemView.swift in Sources */,
 				6B521DBA23BCFD4200570CF2 /* IAPHelper.swift in Sources */,
 				6BF5BF96240305390038AD9E /* CityListItemView.swift in Sources */,
 				6B521D7323BCFCCB00570CF2 /* CompleteHistoryPurchase.swift in Sources */,
 				6B521D7B23BCFCCB00570CF2 /* GeoDatabase.swift in Sources */,
 				6B20F13024CD824B00ED5766 /* LogbookView.swift in Sources */,
-				6B521DAB23BCFD1F00570CF2 /* Annotation.swift in Sources */,
-				6B521D8A23BCFCFF00570CF2 /* HeatmapMapManager.swift in Sources */,
 				6B5F97C32413E06A00624419 /* CountryBadgeView.swift in Sources */,
 				6BB193EB24026330008BEFDD /* CityView.swift in Sources */,
 				6B521D1223B74C7A00570CF2 /* ContentView.swift in Sources */,
@@ -1157,6 +1043,7 @@
 			baseConfigurationReference = B08E9CF3D581C76F237A98F7 /* Pods-seelog.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = seelog/Seelog.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"seelog/Preview Content\"";
 				DEVELOPMENT_TEAM = V487J8L84E;
@@ -1171,6 +1058,7 @@
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.seelog;
 				PRODUCT_NAME = Seelog;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1181,6 +1069,7 @@
 			baseConfigurationReference = 2F8277631EB3E5569579FF08 /* Pods-seelog.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = seelog/Seelog.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"seelog/Preview Content\"";
 				DEVELOPMENT_TEAM = V487J8L84E;
@@ -1195,6 +1084,7 @@
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.seelog;
 				PRODUCT_NAME = Seelog;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

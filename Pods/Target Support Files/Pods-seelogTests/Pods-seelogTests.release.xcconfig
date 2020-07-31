@@ -1,7 +1,7 @@
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/GEOSwift" "${PODS_CONFIGURATION_BUILD_DIR}/GEOSwiftMapKit" "${PODS_CONFIGURATION_BUILD_DIR}/SQLite.swift" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftCSV" "${PODS_CONFIGURATION_BUILD_DIR}/UTMConversion" "${PODS_CONFIGURATION_BUILD_DIR}/geos"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/GEOSwift" "${PODS_CONFIGURATION_BUILD_DIR}/SQLite.swift" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftCSV" "${PODS_CONFIGURATION_BUILD_DIR}/geos"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 GEOS_USE_ONLY_R_API
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/GEOSwift/GEOSwift.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/GEOSwiftMapKit/GEOSwiftMapKit.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SQLite.swift/SQLite.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftCSV/SwiftCSV.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/UTMConversion/UTMConversion.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/geos/geos.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -l"sqlite3" -framework "GEOSwift" -framework "GEOSwiftMapKit" -framework "SQLite" -framework "SwiftCSV" -framework "UTMConversion" -framework "geos"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/GEOSwift/GEOSwift.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SQLite.swift/SQLite.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftCSV/SwiftCSV.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/geos/geos.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -l"sqlite3" -framework "GEOSwift" -framework "SQLite" -framework "SwiftCSV" -framework "geos"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.

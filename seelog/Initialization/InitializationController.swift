@@ -104,10 +104,7 @@ class InitializationController {
                 SeenGeometry(
                     year: seenArea.year > 0 ? Int(seenArea.year) : nil,
                     geohashes: Set(seenArea.geohashes ?? []),
-                    travelledDistance: seenArea.travelledDistance,
-                    landWKT: seenArea.landWKT ?? "",
-                    waterWKT: seenArea.waterWKT ?? "",
-                    processedWKT: seenArea.processedHeatmapWKT ?? ""
+                    travelledDistance: seenArea.travelledDistance
                 )
             }
         } catch let err as NSError {
