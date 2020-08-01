@@ -121,7 +121,7 @@ struct WorldView: View {
             minY: bounds.minY,
             maxY: bounds.maxY
         ).frame(
-            height: min(400, UIScreen.main.bounds.size.width * bounds.scale),
+            height: UIScreen.main.bounds.size.width * bounds.scale,
             alignment: Alignment.bottom
         )
     }
