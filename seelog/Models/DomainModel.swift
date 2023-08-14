@@ -290,11 +290,11 @@ class DomainModel {
 func loadTrips() -> [Trip] {
     let filePath = Bundle.main.path(forResource: "visit_periods", ofType: "csv")!
     do {
-        let csv = try CSV(url: URL(fileURLWithPath: filePath))
+        let csv = try NamedCSV(url: URL(fileURLWithPath: filePath))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        return csv.namedRows.enumerated().map { (index, row) in
+        var index = 0
+        return csv.rows.enumerated().map { (index, row) in
             Trip(
                 id: index,
                 since: dateFormatter.date(from: row["since"] ?? "") ?? Date(),
@@ -312,11 +312,11 @@ func loadTrips() -> [Trip] {
 func loadSeenGeometries() -> [SeenGeometry] {
     let filePath = Bundle.main.path(forResource: "seen_areas", ofType: "csv")!
     do {
-        let csv = try CSV(url: URL(fileURLWithPath: filePath))
+        let csv = try NamedCSV(url: URL(fileURLWithPath: filePath))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        return csv.namedRows.enumerated().map { (index, row) in
+        return csv.rows.enumerated().map { (index, row) in
             SeenGeometry(
                 year: Int(row["ZYEAR"] ?? ""),
                 geohashes: Set(),

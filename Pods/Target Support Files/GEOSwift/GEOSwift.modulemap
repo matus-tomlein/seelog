@@ -1,6 +1,0 @@
-framework module GEOSwift {
-  umbrella header "GEOSwift-umbrella.h"
-
-  export *
-  module * { export * }
-}

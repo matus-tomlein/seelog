@@ -1,6 +1,0 @@
-framework module Pods_seelogUITests {
-  umbrella header "Pods-seelogUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -1,6 +1,0 @@
-framework module Pods_seelog {
-  umbrella header "Pods-seelog-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -22,11 +22,18 @@
 
 /* Begin PBXBuildFile section */
 		6B04671124D1FE83009892AF /* SelectedYearState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B04671024D1FE83009892AF /* SelectedYearState.swift */; };
+		6B1D517E278A1E8F009D6B07 /* CountriesBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D517D278A1E8F009D6B07 /* CountriesBarChartView.swift */; };
+		6B1D5180278A1FD2009D6B07 /* CitiesBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D517F278A1FD2009D6B07 /* CitiesBarChartView.swift */; };
+		6B1D5182278A20AA009D6B07 /* ContinentsBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D5181278A20AA009D6B07 /* ContinentsBarChartView.swift */; };
+		6B1D5184278A20EE009D6B07 /* TimezonesBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D5183278A20EE009D6B07 /* TimezonesBarChartView.swift */; };
 		6B20F12E24CD7FA500ED5766 /* TextPresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F12D24CD7FA500ED5766 /* TextPresentationView.swift */; };
 		6B20F13024CD824B00ED5766 /* LogbookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F12F24CD824B00ED5766 /* LogbookView.swift */; };
 		6B20F13424CEF71500ED5766 /* TextInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F13324CEF71400ED5766 /* TextInfo.swift */; };
 		6B20F13724CEF80B00ED5766 /* TextInfoGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F13624CEF80B00ED5766 /* TextInfoGenerator.swift */; };
 		6B20F13924CEF9D400ED5766 /* TextInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B20F13824CEF9D400ED5766 /* TextInfoView.swift */; };
+		6B2439292A8AAF24006A126A /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2439282A8AAF24006A126A /* SwiftCSV */; };
+		6B24392C2A8AAF4B006A126A /* GEOSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6B24392B2A8AAF4B006A126A /* GEOSwift */; };
+		6B24392F2A8AAF84006A126A /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 6B24392E2A8AAF84006A126A /* SQLite */; };
 		6B50C1A0240BEE480090B578 /* CountriesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50C19F240BEE480090B578 /* CountriesListView.swift */; };
 		6B50C1A2240BF0690090B578 /* WorldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50C1A1240BF0690090B578 /* WorldView.swift */; };
 		6B50C1A4240BF8FF0090B578 /* StateListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50C1A3240BF8FF0090B578 /* StateListItemView.swift */; };
@@ -116,9 +123,6 @@
 		6BF5BF96240305390038AD9E /* CityListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5BF95240305390038AD9E /* CityListItemView.swift */; };
 		6BF5BF98240306CB0038AD9E /* TimezoneListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5BF97240306CB0038AD9E /* TimezoneListItemView.swift */; };
 		6BFA74C22446350A004139EA /* seen_areas.csv in Resources */ = {isa = PBXBuildFile; fileRef = 6BFA74C12446350A004139EA /* seen_areas.csv */; };
-		A38E7734F495BA28C6F817F9 /* Pods_seelogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E83FACDD2B0ED93AB93EC3 /* Pods_seelogUITests.framework */; };
-		E30B7798C618BD5DF9B33EF6 /* Pods_seelogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0DDB346E252DDF42D2CCB74 /* Pods_seelogTests.framework */; };
-		FC1357755037C13E4601F2C2 /* Pods_seelog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 417D0D4340E1F30EED3E45A6 /* Pods_seelog.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,14 +150,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		08E83FACDD2B0ED93AB93EC3 /* Pods_seelogUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelogUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		14B0EEEE84FC220068F17F83 /* Pods-seelogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogTests.release.xcconfig"; path = "Target Support Files/Pods-seelogTests/Pods-seelogTests.release.xcconfig"; sourceTree = "<group>"; };
-		241927DBA825CB5C13476C57 /* Pods-seelogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogTests.debug.xcconfig"; path = "Target Support Files/Pods-seelogTests/Pods-seelogTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2F8277631EB3E5569579FF08 /* Pods-seelog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelog.release.xcconfig"; path = "Target Support Files/Pods-seelog/Pods-seelog.release.xcconfig"; sourceTree = "<group>"; };
-		3B482479223D97A5ED109F6E /* Pods-seelog.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelog.release.xcconfig"; path = "Target Support Files/Pods-seelog/Pods-seelog.release.xcconfig"; sourceTree = "<group>"; };
-		417D0D4340E1F30EED3E45A6 /* Pods_seelog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5030618676CFEB4890AA3291 /* Pods-seelogTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogTests.release.xcconfig"; path = "Target Support Files/Pods-seelogTests/Pods-seelogTests.release.xcconfig"; sourceTree = "<group>"; };
 		6B04671024D1FE83009892AF /* SelectedYearState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedYearState.swift; sourceTree = "<group>"; };
+		6B1D517D278A1E8F009D6B07 /* CountriesBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesBarChartView.swift; sourceTree = "<group>"; };
+		6B1D517F278A1FD2009D6B07 /* CitiesBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesBarChartView.swift; sourceTree = "<group>"; };
+		6B1D5181278A20AA009D6B07 /* ContinentsBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentsBarChartView.swift; sourceTree = "<group>"; };
+		6B1D5183278A20EE009D6B07 /* TimezonesBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezonesBarChartView.swift; sourceTree = "<group>"; };
 		6B20F12D24CD7FA500ED5766 /* TextPresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPresentationView.swift; sourceTree = "<group>"; };
 		6B20F12F24CD824B00ED5766 /* LogbookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogbookView.swift; sourceTree = "<group>"; };
 		6B20F13324CEF71400ED5766 /* TextInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfo.swift; sourceTree = "<group>"; };
@@ -254,14 +255,6 @@
 		6BF5BF95240305390038AD9E /* CityListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListItemView.swift; sourceTree = "<group>"; };
 		6BF5BF97240306CB0038AD9E /* TimezoneListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezoneListItemView.swift; sourceTree = "<group>"; };
 		6BFA74C12446350A004139EA /* seen_areas.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = seen_areas.csv; sourceTree = "<group>"; };
-		6C8AAE841A9EB7692AECCA09 /* Pods-seelogUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogUITests.release.xcconfig"; path = "Target Support Files/Pods-seelogUITests/Pods-seelogUITests.release.xcconfig"; sourceTree = "<group>"; };
-		B08E9CF3D581C76F237A98F7 /* Pods-seelog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelog.debug.xcconfig"; path = "Target Support Files/Pods-seelog/Pods-seelog.debug.xcconfig"; sourceTree = "<group>"; };
-		B34D835C1370EB0D1CCD3621 /* Pods-seelogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogUITests.debug.xcconfig"; path = "Target Support Files/Pods-seelogUITests/Pods-seelogUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		C0DDB346E252DDF42D2CCB74 /* Pods_seelogTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_seelogTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D3FD0AE19A01451AE1A9B6D1 /* Pods-seelogUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogUITests.debug.xcconfig"; path = "Target Support Files/Pods-seelogUITests/Pods-seelogUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		E88717B69E1119561B1067B4 /* Pods-seelogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogTests.debug.xcconfig"; path = "Target Support Files/Pods-seelogTests/Pods-seelogTests.debug.xcconfig"; sourceTree = "<group>"; };
-		E9FA45525ECEEC8B063ECC81 /* Pods-seelogUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelogUITests.release.xcconfig"; path = "Target Support Files/Pods-seelogUITests/Pods-seelogUITests.release.xcconfig"; sourceTree = "<group>"; };
-		F9AA3AED4D25C629207534A0 /* Pods-seelog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-seelog.debug.xcconfig"; path = "Target Support Files/Pods-seelog/Pods-seelog.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,7 +262,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC1357755037C13E4601F2C2 /* Pods_seelog.framework in Frameworks */,
+				6B24392F2A8AAF84006A126A /* SQLite in Frameworks */,
+				6B24392C2A8AAF4B006A126A /* GEOSwift in Frameworks */,
+				6B2439292A8AAF24006A126A /* SwiftCSV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +272,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E30B7798C618BD5DF9B33EF6 /* Pods_seelogTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,21 +279,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A38E7734F495BA28C6F817F9 /* Pods_seelogUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		66C6A78A664E4EDB7049B9C2 /* Frameworks */ = {
+		6B1D517C278A1E7B009D6B07 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
-				417D0D4340E1F30EED3E45A6 /* Pods_seelog.framework */,
-				C0DDB346E252DDF42D2CCB74 /* Pods_seelogTests.framework */,
-				08E83FACDD2B0ED93AB93EC3 /* Pods_seelogUITests.framework */,
+				6B1D517D278A1E8F009D6B07 /* CountriesBarChartView.swift */,
+				6B1D517F278A1FD2009D6B07 /* CitiesBarChartView.swift */,
+				6B1D5181278A20AA009D6B07 /* ContinentsBarChartView.swift */,
+				6B1D5183278A20EE009D6B07 /* TimezonesBarChartView.swift */,
 			);
-			name = Frameworks;
+			path = Charts;
 			sourceTree = "<group>";
 		};
 		6B20F13524CEF7DE00ED5766 /* Services */ = {
@@ -317,8 +311,6 @@
 				6B521D2323B74C7F00570CF2 /* seelogTests */,
 				6B521D2E23B74C7F00570CF2 /* seelogUITests */,
 				6B521D0B23B74C7A00570CF2 /* Products */,
-				9D6E290A4017EFCC61CF255A /* Pods */,
-				66C6A78A664E4EDB7049B9C2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -337,7 +329,6 @@
 			children = (
 				6B66828A24D48CEB00E1EECE /* Seelog.entitlements */,
 				6B20F13524CEF7DE00ED5766 /* Services */,
-				6B660E2223CB720A000CD3BB /* BarChart */,
 				6B660E0F23BE76C3000CD3BB /* DemoData */,
 				6B660E0623BD2E00000CD3BB /* Views */,
 				6B521DC423BCFD4900570CF2 /* Helpers */,
@@ -446,6 +437,7 @@
 		6B660E0623BD2E00000CD3BB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6B1D517C278A1E7B009D6B07 /* Charts */,
 				6B5F97C02413B5F000624419 /* BadgeView.swift */,
 				6B660E3523CB7CD7000CD3BB /* BarChartView.swift */,
 				6B521D3F23B7571C00570CF2 /* CircleImage.swift */,
@@ -500,32 +492,6 @@
 			path = DemoData;
 			sourceTree = "<group>";
 		};
-		6B660E2223CB720A000CD3BB /* BarChart */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = BarChart;
-			sourceTree = "<group>";
-		};
-		9D6E290A4017EFCC61CF255A /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F9AA3AED4D25C629207534A0 /* Pods-seelog.debug.xcconfig */,
-				3B482479223D97A5ED109F6E /* Pods-seelog.release.xcconfig */,
-				E88717B69E1119561B1067B4 /* Pods-seelogTests.debug.xcconfig */,
-				14B0EEEE84FC220068F17F83 /* Pods-seelogTests.release.xcconfig */,
-				D3FD0AE19A01451AE1A9B6D1 /* Pods-seelogUITests.debug.xcconfig */,
-				E9FA45525ECEEC8B063ECC81 /* Pods-seelogUITests.release.xcconfig */,
-				B08E9CF3D581C76F237A98F7 /* Pods-seelog.debug.xcconfig */,
-				2F8277631EB3E5569579FF08 /* Pods-seelog.release.xcconfig */,
-				241927DBA825CB5C13476C57 /* Pods-seelogTests.debug.xcconfig */,
-				5030618676CFEB4890AA3291 /* Pods-seelogTests.release.xcconfig */,
-				B34D835C1370EB0D1CCD3621 /* Pods-seelogUITests.debug.xcconfig */,
-				6C8AAE841A9EB7692AECCA09 /* Pods-seelogUITests.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -533,11 +499,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6B521D3423B74C7F00570CF2 /* Build configuration list for PBXNativeTarget "seelog" */;
 			buildPhases = (
-				B6BE6124FEADADE29833649C /* [CP] Check Pods Manifest.lock */,
 				6B521D0623B74C7A00570CF2 /* Sources */,
 				6B521D0723B74C7A00570CF2 /* Frameworks */,
 				6B521D0823B74C7A00570CF2 /* Resources */,
-				0FAED4C3F910B1AC1F0A85FF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -545,6 +509,11 @@
 				6B04670D24D1D36D009892AF /* PBXTargetDependency */,
 			);
 			name = seelog;
+			packageProductDependencies = (
+				6B2439282A8AAF24006A126A /* SwiftCSV */,
+				6B24392B2A8AAF4B006A126A /* GEOSwift */,
+				6B24392E2A8AAF84006A126A /* SQLite */,
+			);
 			productName = seelog;
 			productReference = 6B521D0A23B74C7A00570CF2 /* Seelog.app */;
 			productType = "com.apple.product-type.application";
@@ -553,7 +522,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6B521D3723B74C7F00570CF2 /* Build configuration list for PBXNativeTarget "seelogTests" */;
 			buildPhases = (
-				8A2019CC83ECBD7F5142C60C /* [CP] Check Pods Manifest.lock */,
 				6B521D1C23B74C7F00570CF2 /* Sources */,
 				6B521D1D23B74C7F00570CF2 /* Frameworks */,
 				6B521D1E23B74C7F00570CF2 /* Resources */,
@@ -572,7 +540,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6B521D3A23B74C7F00570CF2 /* Build configuration list for PBXNativeTarget "seelogUITests" */;
 			buildPhases = (
-				0023CABAB7622B80F212EAA0 /* [CP] Check Pods Manifest.lock */,
 				6B521D2723B74C7F00570CF2 /* Sources */,
 				6B521D2823B74C7F00570CF2 /* Frameworks */,
 				6B521D2923B74C7F00570CF2 /* Resources */,
@@ -622,6 +589,11 @@
 				Base,
 			);
 			mainGroup = 6B521D0123B74C7A00570CF2;
+			packageReferences = (
+				6B2439272A8AAF24006A126A /* XCRemoteSwiftPackageReference "SwiftCSV" */,
+				6B24392A2A8AAF4B006A126A /* XCRemoteSwiftPackageReference "GEOSwift" */,
+				6B24392D2A8AAF84006A126A /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+			);
 			productRefGroup = 6B521D0B23B74C7A00570CF2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -669,45 +641,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0023CABAB7622B80F212EAA0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-seelogUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		0FAED4C3F910B1AC1F0A85FF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-seelog/Pods-seelog-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-seelog/Pods-seelog-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-seelog/Pods-seelog-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6B04670B24D1D33B009892AF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -724,50 +657,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd seelog && ./GitVersion.sh\n";
-		};
-		8A2019CC83ECBD7F5142C60C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-seelogTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B6BE6124FEADADE29833649C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-seelog-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -795,6 +684,7 @@
 				6BF5BF882402C2290038AD9E /* InitializationController.swift in Sources */,
 				6BB193E72401C276008BEFDD /* ContinentView.swift in Sources */,
 				6B521DC023BCFD4200570CF2 /* Date.swift in Sources */,
+				6B1D5184278A20EE009D6B07 /* TimezonesBarChartView.swift in Sources */,
 				6BB193E92401C77A008BEFDD /* TimezoneView.swift in Sources */,
 				6B5CC36F23F95E7900628C7F /* MainView.swift in Sources */,
 				6B521DB923BCFD4200570CF2 /* BlockingQueue.swift in Sources */,
@@ -830,7 +720,9 @@
 				6B521DC223BCFD4200570CF2 /* ConcurrentArray.swift in Sources */,
 				6B521D1023B74C7A00570CF2 /* SceneDelegate.swift in Sources */,
 				6B521D7A23BCFCCB00570CF2 /* StatsProvider.swift in Sources */,
+				6B1D5180278A1FD2009D6B07 /* CitiesBarChartView.swift in Sources */,
 				6BF5BF8C2402F3A30038AD9E /* CitiesHeatView.swift in Sources */,
+				6B1D5182278A20AA009D6B07 /* ContinentsBarChartView.swift in Sources */,
 				6BCBE70023F07E0400DBC9D7 /* Country.swift in Sources */,
 				6B521DBD23BCFD4200570CF2 /* synchronize.swift in Sources */,
 				6B521D7223BCFCCB00570CF2 /* CityInfo.swift in Sources */,
@@ -852,6 +744,7 @@
 				6B20F13024CD824B00ED5766 /* LogbookView.swift in Sources */,
 				6B5F97C32413E06A00624419 /* CountryBadgeView.swift in Sources */,
 				6BB193EB24026330008BEFDD /* CityView.swift in Sources */,
+				6B1D517E278A1E8F009D6B07 /* CountriesBarChartView.swift in Sources */,
 				6B521D1223B74C7A00570CF2 /* ContentView.swift in Sources */,
 				6B521DC123BCFD4200570CF2 /* Geohash.swift in Sources */,
 				6B521D4023B7571C00570CF2 /* CircleImage.swift in Sources */,
@@ -1040,7 +933,6 @@
 		};
 		6B521D3523B74C7F00570CF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B08E9CF3D581C76F237A98F7 /* Pods-seelog.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = seelog/Seelog.entitlements;
@@ -1066,7 +958,6 @@
 		};
 		6B521D3623B74C7F00570CF2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2F8277631EB3E5569579FF08 /* Pods-seelog.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = seelog/Seelog.entitlements;
@@ -1092,7 +983,6 @@
 		};
 		6B521D3823B74C7F00570CF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 241927DBA825CB5C13476C57 /* Pods-seelogTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1115,7 +1005,6 @@
 		};
 		6B521D3923B74C7F00570CF2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5030618676CFEB4890AA3291 /* Pods-seelogTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1138,7 +1027,6 @@
 		};
 		6B521D3B23B74C7F00570CF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B34D835C1370EB0D1CCD3621 /* Pods-seelogUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1159,7 +1047,6 @@
 		};
 		6B521D3C23B74C7F00570CF2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C8AAE841A9EB7692AECCA09 /* Pods-seelogUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1227,6 +1114,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6B2439272A8AAF24006A126A /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftcsv/SwiftCSV.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.1;
+			};
+		};
+		6B24392A2A8AAF4B006A126A /* XCRemoteSwiftPackageReference "GEOSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/GEOSwift/GEOSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+		6B24392D2A8AAF84006A126A /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6B2439282A8AAF24006A126A /* SwiftCSV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B2439272A8AAF24006A126A /* XCRemoteSwiftPackageReference "SwiftCSV" */;
+			productName = SwiftCSV;
+		};
+		6B24392B2A8AAF4B006A126A /* GEOSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B24392A2A8AAF4B006A126A /* XCRemoteSwiftPackageReference "GEOSwift" */;
+			productName = GEOSwift;
+		};
+		6B24392E2A8AAF84006A126A /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B24392D2A8AAF84006A126A /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		6B521DC523BCFDF500570CF2 /* seelog.xcdatamodeld */ = {
