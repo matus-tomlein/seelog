@@ -13,7 +13,6 @@ struct CountriesView: View {
     @ObservedObject var selectedYearState = SelectedYearState()
     var selectedYear: Int? { get { return selectedYearState.year } }
     var countries: [Country] { get { return viewState.model.countriesForYear(selectedYear) } }
-    var yearStats: [(year: Int, count: Int)] { get { return viewState.model.countryYearCounts } }
     
     @Environment(\.presentationMode) var presentation
 
@@ -23,7 +22,7 @@ struct CountriesView: View {
                 CountriesHeatView()
                     .environmentObject(selectedYearState)
 
-                BarChartView(showCounts: true, yearStats: yearStats, total: countries.count)
+                CountriesBarChartView()
                     .padding(.bottom, 20)
                     .padding(.top, 20)
                     .environmentObject(selectedYearState)
@@ -50,5 +49,6 @@ struct CountriesView_Previews: PreviewProvider {
         let model = simulatedDomainModel()
         
         return CountriesView().environmentObject(ViewState(model: model))
+            .environmentObject(SelectedYearState())
     }
 }

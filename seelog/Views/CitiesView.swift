@@ -14,14 +14,13 @@ struct CitiesView: View {
     var model: DomainModel { return viewState.model }
     var selectedYear: Int? { get { return selectedYearState.year } }
     var cities: [City] { get { return viewState.model.citiesForYear(selectedYear) } }
-    var yearStats: [(year: Int, count: Int)] { get { return viewState.model.cityYearCounts } }
 
     var body: some View {
         List {
             VStack(spacing: 0) {
                 CitiesHeatView(selectedYearState: selectedYearState)
 
-                BarChartView(showCounts: true, yearStats: yearStats, total: cities.count)
+                CitiesBarChartView()
                     .padding(.bottom, 20)
                     .padding(.top, 20)
                     .environmentObject(selectedYearState)

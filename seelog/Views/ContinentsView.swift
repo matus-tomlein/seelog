@@ -14,15 +14,13 @@ struct ContinentsView: View {
     var model: DomainModel { return viewState.model }
     var selectedYear: Int? { get { return selectedYearState.year } }
     var continents: [Continent] { get { return viewState.model.continentsForYear(selectedYear) } }
-    var continentsCount: Int { return continents.filter { $0.visited(year: selectedYear) }.count }
-    var yearStats: [(year: Int, count: Int)] { get { return viewState.model.continentYearCounts } }
 
     var body: some View {
         List {
             VStack(spacing: 0) {
                 ContinentsHeatView(selectedYearState: selectedYearState)
 
-                BarChartView(showCounts: true, yearStats: yearStats, total: continents.count)
+                ContinentsBarChartView()
                     .padding(.bottom, 20)
                     .padding(.top, 20)
                     .environmentObject(selectedYearState)

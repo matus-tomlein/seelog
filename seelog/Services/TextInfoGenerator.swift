@@ -40,6 +40,19 @@ class TextInfoGenerator {
         ]
     }
 
+    static func countriesHome(model: DomainModel, year: Int?) -> [TextInfo] {
+        let countries = model.countriesForYear(year)
+        return [
+            TextInfo(
+                id: "countries",
+                link: .countries,
+                heading: "\(countries.count) countries",
+                status: .visited,
+                body: [model.countriesForYear(year).map({ $0.name }).joined(separator: ", ")]
+            )
+        ]
+    }
+
     static func countries(model: DomainModel, year: Int?, linkToCountries: Bool = true) -> [TextInfo] {
         let countries = model.countriesForYear(year)
         return [
@@ -51,6 +64,19 @@ class TextInfoGenerator {
                 body: statusDescriptions(places: model.countriesForYear(year), year: year)
             )
         ] + additionalItems(countries, model: model, year: year)
+    }
+
+    static func citiesHome(model: DomainModel, year: Int?) -> [TextInfo] {
+        let cities = model.citiesForYear(year)
+        return [
+            TextInfo(
+                id: "cities",
+                link: .cities,
+                heading: "\(cities.count) cities",
+                status: .visited,
+                body: [cities.map { $0.name }.joined(separator: ", ")]
+            )
+        ]
     }
 
     static func cities(model: DomainModel, year: Int?, addLink: Bool = true) -> [TextInfo] {
@@ -80,6 +106,19 @@ class TextInfoGenerator {
         ] + additionalItems(continents, model: model, year: year)
     }
 
+    static func continentsHome(model: DomainModel, year: Int?) -> [TextInfo] {
+        let continents = model.continentsForYear(year)
+        return [
+            TextInfo(
+                id: "continents",
+                link: .continents,
+                heading: "\(continents.count) continents",
+                status: .visited,
+                body: [continents.map { $0.name }.joined(separator: ", ")]
+            )
+        ]
+    }
+
     static func timezones(model: DomainModel, year: Int?, addLink: Bool = true) -> [TextInfo] {
         let timezones = model.timezonesForYear(year)
         let info = TextInfo(
@@ -92,6 +131,19 @@ class TextInfoGenerator {
         return [
             info
         ] + additionalItems(timezones, model: model, year: year)
+    }
+    
+    static func timezonesHome(model: DomainModel, year: Int?) -> [TextInfo] {
+        let timezones = model.timezonesForYear(year)
+        return [
+            TextInfo(
+                id: "timezones",
+                link: .timezones,
+                heading: "\(timezones.count) timezones",
+                status: .visited,
+                body: [timezones.map { $0.name }.joined(separator: ", ")]
+            )
+        ]
     }
     
     private static func additionalItems<T: Trippable>(_ places: [T], model: DomainModel, year: Int?) -> [TextInfo] {

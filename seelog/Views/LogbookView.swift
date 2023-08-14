@@ -25,6 +25,11 @@ struct LogbookView: View {
             )
         }
     }
+    
+    var countriesYearStats: [(year: Int, count: Int)] { get { return viewState.model.countryYearCounts } }
+    var citiesYearStats: [(year: Int, count: Int)] { get { return viewState.model.cityYearCounts } }
+    var continentsYearStats: [(year: Int, count: Int)] { get { return viewState.model.continentYearCounts } }
+    var timezonesYearStats: [(year: Int, count: Int)] { get { return viewState.model.timezonesYearCounts } }
 
     var body: some View {
         List {
@@ -54,28 +59,37 @@ struct LogbookView: View {
             }
             
             Section(header: Text("Countries")) {
-                ForEach(TextInfoGenerator.countries(model: self.model
-                , year: year)) { textInfo in
+                CountriesBarChartView()
+                    .environmentObject(selectedYearState)
+                
+                ForEach(TextInfoGenerator.countriesHome(model: self.model, year: year)) { textInfo in
                     TextInfoView(info: textInfo)
                 }
             }
             
             Section(header: Text("Cities")) {
-                ForEach(TextInfoGenerator.cities(model: self.model
+                CitiesBarChartView()
+                    .environmentObject(selectedYearState)
+                
+                ForEach(TextInfoGenerator.citiesHome(model: self.model
                 , year: year)) { textInfo in
                     TextInfoView(info: textInfo)
                 }
             }
             
             Section(header: Text("Continents")) {
-                ForEach(TextInfoGenerator.continents(model: self.model
+                ContinentsBarChartView()
+                    .environmentObject(selectedYearState)
+                ForEach(TextInfoGenerator.continentsHome(model: self.model
                 , year: year)) { textInfo in
                     TextInfoView(info: textInfo)
                 }
             }
             
             Section(header: Text("Timezones")) {
-                ForEach(TextInfoGenerator.timezones(model: self.model
+                TimezonesBarChartView()
+                    .environmentObject(selectedYearState)
+                ForEach(TextInfoGenerator.timezonesHome(model: self.model
                 , year: year)) { textInfo in
                     TextInfoView(info: textInfo)
                 }

@@ -22,7 +22,7 @@ struct TimezonesView: View {
             VStack(spacing: 0) {
                 TimezoneHeatView(selectedYearState: selectedYearState)
 
-                BarChartView(showCounts: true, yearStats: yearStats, total: timezones.count)
+                TimezonesBarChartView()
                     .padding(.bottom, 20)
                     .padding(.top, 20)
                     .environmentObject(selectedYearState)
