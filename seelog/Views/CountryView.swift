@@ -20,32 +20,44 @@ struct CountryView: View {
 
     var body: some View {
         List {
-            WorldView(
-                background: (continents: [], countries: [country.countryInfo], regions: []),
-                foreground: (continents: [], countries: [], regions: regions.map { $0.stateInfo }, timezones: []),
-                cities: cities.map { $0.cityInfo },
-                positions: country.positions(year: year),
-                detailed: true,
-                opaque: false
-            )
+            NavigationLink(destination: DrawablesMapView(
+                borderDrawables: [country],
+                drawables: regions,
+                cities: cities
+            )) {
+                WorldView(
+                    background: (continents: [], countries: [country.countryInfo], regions: []),
+                    foreground: (continents: [], countries: [], regions: regions.map { $0.stateInfo }, timezones: []),
+                    cities: cities.map { $0.cityInfo },
+                    positions: country.positions(year: year),
+                    detailed: true,
+                    opaque: false
+                )
+            }
 
             StayDurationBarChartView(destination: country)
                 .environmentObject(selectedYearState)
-            TextInfoView(info: country.info(year: year), addHeading: false)
-            ContinentListItemView(
-                continent: country.continent,
-                selectedYearState: selectedYearState
-            )
+            
+            Section(header: Text("Continent")) {
+                ContinentListItemView(
+                    continent: country.continent,
+                    selectedYearState: selectedYearState
+                )
+            }
 
-            StatesListView(
-                states: regions,
-                selectedYearState: selectedYearState
-            )
-            CitiesListView(
-                cities: cities,
-                selectedYearState: selectedYearState
-            )
-//            TripsListView(destination: country)
+            if !regions.isEmpty {
+                StatesListView(
+                    states: regions,
+                    total: country.countryInfo.numberOfRegions,
+                    selectedYearState: selectedYearState
+                )
+            }
+            if !cities.isEmpty {
+                CitiesListView(
+                    cities: cities,
+                    selectedYearState: selectedYearState
+                )
+            }
         }
         .navigationBarTitle(country.countryInfo.name)
     }

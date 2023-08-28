@@ -7,29 +7,35 @@
 //
 
 import Foundation
+import GEOSwift
 
 struct Location: Hashable {
-    let minX: Double
-    let maxX: Double
-    let minY: Double
-    let maxY: Double
+    var minX: Double { Helpers.longitudeToX(minXRaw) }
+    var maxX: Double { Helpers.longitudeToX(maxXRaw) }
+    var minY: Double { Helpers.latitudeToY(minYRaw) }
+    var maxY: Double { Helpers.latitudeToY(maxYRaw) }
+    let minXRaw: Double
+    let maxXRaw: Double
+    let minYRaw: Double
+    let maxYRaw: Double
     var x: Double { return (self.minX + self.maxX) / 2 }
     var y: Double { return (self.minY + self.maxY) / 2 }
+    var polygon: Polygon? {
+        return try? Polygon(exterior: Polygon.LinearRing(points: [
+            Point(x: minXRaw, y: minYRaw),
+            Point(x: maxXRaw, y: minYRaw),
+            Point(x: maxXRaw, y: maxYRaw),
+            Point(x: minXRaw, y: maxYRaw),
+            Point(x: minXRaw, y: minYRaw)
+        ]))
+    }
     
     init(geohash: String) {
         let decoded = Geohash.decode(hash: geohash)!
-        let xs = [
-            Helpers.longitudeToX(decoded.longitude.min),
-            Helpers.longitudeToX(decoded.longitude.max),
-        ].sorted()
-        self.minX = xs.first!
-        self.maxX = xs.last!
-        let ys = [
-            Helpers.latitudeToY(decoded.latitude.min),
-            Helpers.latitudeToY(decoded.latitude.max),
-        ].sorted()
-        self.minY = ys.first!
-        self.maxY = ys.last!
+        minXRaw = decoded.longitude.min
+        maxXRaw = decoded.longitude.max
+        minYRaw = decoded.latitude.min
+        maxYRaw = decoded.latitude.max
     }
 
     func toRectangle(boundsMinX: Double, boundsMaxX: Double, boundsMinY: Double, boundsMaxY: Double) -> (x: Double, y: Double, width: Double, height: Double) {
@@ -63,5 +69,46 @@ struct SeenGeometry: Identifiable {
         self.travelledDistance = travelledDistance
         self.positions = Array(geohashes).map { Location(geohash: $0) }
         self.higherLevelPositions = Array(Set(geohashes.map { geohash in String(geohash.prefix(3)) })).map { Location(geohash: $0) }
+    }
+    
+    var heatmap: [Polygon] {
+        let polygons = geohashes.map({ Helpers.polygonFor(geohash: $0) }).filter({ $0 != nil }).map({ $0! })
+        let heatmap = MultiPolygon(polygons: polygons)
+        
+        guard let buffered = try? heatmap.buffer(by: 0.05) else { return [] }
+        
+        let processedHeatmap = Helpers.convexHeatmap(heatmap: buffered)
+        
+        switch processedHeatmap {
+        case let .multiPolygon(multipolygon):
+            return multipolygon.polygons
+            
+        case let .polygon(polygon):
+            return [polygon]
+            
+        default:
+            return []
+        }
+    }
+    
+    func polygons(zoomType: ZoomType) -> [Polygon] {
+        let positions = zoomType == .far ? higherLevelPositions : positions
+        let polygons = positions.map { $0.polygon }.filter({ $0 != nil }).map({ $0! })
+        let heatmap = MultiPolygon(polygons: polygons)
+        
+        guard let buffered = try? heatmap.buffer(by: 0.05) else { return [] }
+        
+        let processedHeatmap = Helpers.convexHeatmap(heatmap: buffered)
+        
+        switch processedHeatmap {
+        case let .multiPolygon(multipolygon):
+            return multipolygon.polygons
+            
+        case let .polygon(polygon):
+            return [polygon]
+            
+        default:
+            return []
+        }
     }
 }

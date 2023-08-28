@@ -30,72 +30,29 @@ struct LogbookView: View {
     var citiesYearStats: [(year: Int, count: Int)] { get { return viewState.model.cityYearCounts } }
     var continentsYearStats: [(year: Int, count: Int)] { get { return viewState.model.continentYearCounts } }
     var timezonesYearStats: [(year: Int, count: Int)] { get { return viewState.model.timezonesYearCounts } }
+    
+    @State private var tab = 0
 
     var body: some View {
-        List {
-            VStack(spacing: 0) {
-                WorldView(
-                    background: (continents: model.continentInfos, countries: [], regions: []),
-                    foreground: (continents: [], countries: [], regions: [], timezones: []),
-                    cities: [],
-                    positions: seenGeometry?.higherLevelPositions ?? [],
-                    detailed: false,
-                    opaque: false,
-                    showPositionsAsDots: true
-                )
-
-                BarChartView(
-                    showCounts: true,
-                    yearStats: yearStats
-                )
-                    .environmentObject(selectedYearState)
-                    .padding(.bottom, 20)
-                    .padding(.top, 20)
-            }.listRowInsets(EdgeInsets())
-
-            ForEach(TextInfoGenerator.travelledDistance(model: self.model
-            , year: year)) { textInfo in
-                TextInfoView(info: textInfo)
-            }
-            
-            Section(header: Text("Countries")) {
-                CountriesBarChartView()
-                    .environmentObject(selectedYearState)
-                
-                ForEach(TextInfoGenerator.countriesHome(model: self.model, year: year)) { textInfo in
-                    TextInfoView(info: textInfo)
-                }
-            }
-            
-            Section(header: Text("Cities")) {
-                CitiesBarChartView()
-                    .environmentObject(selectedYearState)
-                
-                ForEach(TextInfoGenerator.citiesHome(model: self.model
-                , year: year)) { textInfo in
-                    TextInfoView(info: textInfo)
-                }
-            }
-            
-            Section(header: Text("Continents")) {
-                ContinentsBarChartView()
-                    .environmentObject(selectedYearState)
-                ForEach(TextInfoGenerator.continentsHome(model: self.model
-                , year: year)) { textInfo in
-                    TextInfoView(info: textInfo)
-                }
-            }
-            
-            Section(header: Text("Timezones")) {
-                TimezonesBarChartView()
-                    .environmentObject(selectedYearState)
-                ForEach(TextInfoGenerator.timezonesHome(model: self.model
-                , year: year)) { textInfo in
-                    TextInfoView(info: textInfo)
-                }
+        Group {
+            switch tab {
+            case 1: PlacesView()
+            case 2: ContinentsView()
+            case 3: TimezonesView()
+            default: CountriesView()
             }
         }
-        .navigationBarTitle("Hey Explorer!")
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Picker("What is your favorite color?", selection: $tab) {
+                    Text("Countries").tag(0)
+                    Text("Places").tag(1)
+                    Text("Continents").tag(2)
+                    Text("Timezones").tag(3)
+                }
+                .pickerStyle(.segmented)
+            }
+        }
     }
 }
 

@@ -16,14 +16,16 @@ struct TimezoneView: View {
 
     var body: some View {
         List {
-            WorldView(
-                background: (continents: viewState.model.continentInfos, countries: [], regions: []),
-                foreground: (continents: [], countries: [], regions: [], timezones: [timezone.timezoneInfo]),
-                cities: [],
-                positions: [],
-                detailed: false,
-                opaque: true
-            )
+            NavigationLink(destination: DrawablesMapView(drawables: [timezone])) {
+                WorldView(
+                    background: (continents: viewState.model.continentInfos, countries: [], regions: []),
+                    foreground: (continents: [], countries: [], regions: [], timezones: [timezone.timezoneInfo]),
+                    cities: [],
+                    positions: [],
+                    detailed: false,
+                    opaque: true
+                )
+            }
             
             StayDurationBarChartView(destination: timezone)
                 .environmentObject(selectedYearState)

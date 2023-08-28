@@ -13,7 +13,7 @@ struct StayDurationBarChartView: View {
     @EnvironmentObject var selectedYearState: SelectedYearState
 
     var body: some View {
-        Section(header: Text("\(destination.stayDurationForYear(selectedYearState.year)) days")) {
+        Section(header: Text(destination.stayDurationInfo(year: selectedYearState.year))) {
             BarChartView(
                 showCounts: true,
                 yearStats: destination.stayStatsByYear()

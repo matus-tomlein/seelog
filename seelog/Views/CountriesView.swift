@@ -19,7 +19,7 @@ struct CountriesView: View {
     var body: some View {
         List {
             VStack(spacing: 0) {
-                CountriesHeatView()
+                CountriesHeatView(year: selectedYear)
                     .environmentObject(selectedYearState)
 
                 CountriesBarChartView()
@@ -27,20 +27,12 @@ struct CountriesView: View {
                     .padding(.top, 20)
                     .environmentObject(selectedYearState)
             }.listRowInsets(EdgeInsets())
-
-            ForEach(TextInfoGenerator.countries(model: self.viewState.model
-            , year: selectedYear, linkToCountries: false)) { textInfo in
-                TextInfoView(info: textInfo)
-            }
-
+            
             CountriesListView(
                 countries: countries,
-                selectedYearState: selectedYearState,
-                showCount: false
+                selectedYearState: selectedYearState
             )
         }
-        .navigationBarTitle("Countries")
-
     }
 }
 

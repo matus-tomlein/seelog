@@ -15,14 +15,16 @@ struct TimezoneHeatView: View {
     var timezones: [Timezone] { get { return viewState.model.timezonesForYear(selectedYear) } }
 
     var body: some View {
-        WorldView(
-            background: (continents: viewState.model.continentInfos, countries: [], regions: []),
-            foreground: (continents: [], countries: [], regions: [], timezones: timezones.map { $0.timezoneInfo }),
-            cities: [],
-            positions: [],
-            detailed: false,
-            opaque: true
-        )
+        NavigationLink(destination: DrawablesMapView(drawables: timezones)) {
+            WorldView(
+                background: (continents: viewState.model.continentInfos, countries: [], regions: []),
+                foreground: (continents: [], countries: [], regions: [], timezones: timezones.map { $0.timezoneInfo }),
+                cities: [],
+                positions: [],
+                detailed: false,
+                opaque: true
+            )
+        }
     }
 }
 

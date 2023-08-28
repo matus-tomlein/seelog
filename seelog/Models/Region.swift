@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import GEOSwift
+import MapKit
 
-struct Region: Identifiable, Trippable {
-    var id: String { get { return stateInfo.stateKey } }
+struct Region: Identifiable, Trippable, Drawable {
+    var id: String { return stateInfo.stateKey }
+    var _id: String { return id }
     var name: String { return stateInfo.name }
     var stateInfo: StateInfo
     var model: DomainModel
@@ -52,6 +55,14 @@ struct Region: Identifiable, Trippable {
     
     func explored(year: Int?) -> Bool? {
         return nil
+    }
+    
+    func polygons(zoomType: ZoomType) -> [Polygon] {
+        stateInfo.geometry(zoomType: zoomType).polygons
+    }
+    
+    func intersects(mapRegion: MKCoordinateRegion) -> Bool {
+        return true
     }
 }
 

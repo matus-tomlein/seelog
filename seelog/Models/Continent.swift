@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import GEOSwift
+import MapKit
 
-struct Continent: Identifiable, Trippable {
-    var id: String { get { return continentInfo.name } }
+struct Continent: Identifiable, Trippable, Drawable {
+    var id: String { return continentInfo.name }
+    var _id: String { return id }
     var name: String { return continentInfo.name }
     var continentInfo: ContinentInfo
     var model: DomainModel
@@ -42,6 +45,14 @@ struct Continent: Identifiable, Trippable {
     func explored(year: Int?) -> Bool? {
         let countriesCount = countriesForYear(year).count
         return countriesCount >= 10 || Double(countriesCount) / Double(continentInfo.numberOfCountries) > 0.66
+    }
+    
+    func polygons(zoomType: ZoomType) -> [Polygon] {
+        continentInfo.geometryDescription.polygons
+    }
+    
+    func intersects(mapRegion: MKCoordinateRegion) -> Bool {
+        return true
     }
 }
 

@@ -17,32 +17,43 @@ struct StateView: View {
     
     var body: some View {
         List {
-            WorldView(
-                background: (continents: [], countries: [state.country.countryInfo], regions: []),
-                foreground: (continents: [], countries: [], regions: [state.stateInfo], timezones: []),
-                cities: cities.map { $0.cityInfo },
-                positions: state.positions(year: year),
-                detailed: true,
-                opaque: false,
-                zoomIn: true
-            )
+            NavigationLink(destination: DrawablesMapView(
+                borderDrawables: [state.country],
+                drawables: [state],
+                cities: cities
+            )) {
+                WorldView(
+                    background: (continents: [], countries: [state.country.countryInfo], regions: []),
+                    foreground: (continents: [], countries: [], regions: [state.stateInfo], timezones: []),
+                    cities: cities.map { $0.cityInfo },
+                    positions: state.positions(year: year),
+                    detailed: true,
+                    opaque: false,
+                    zoomIn: true
+                )
+            }
             
             StayDurationBarChartView(destination: state)
                 .environmentObject(selectedYearState)
-            TextInfoView(info: state.info(year: year), addHeading: false)
-            ContinentListItemView(
-                continent: state.continent,
-                selectedYearState: SelectedYearState()
-            )
-            CountryListItemView(
-                country: state.country,
-                selectedYearState: selectedYearState
-            )
-            CitiesListView(
-                cities: cities,
-                selectedYearState: selectedYearState
-            )
-//            TripsListView(destination: state)
+            
+            Section(header: Text("Continent")) {
+                ContinentListItemView(
+                    continent: state.continent,
+                    selectedYearState: SelectedYearState()
+                )
+            }
+            Section(header: Text("Country")) {
+                CountryListItemView(
+                    country: state.country,
+                    selectedYearState: selectedYearState
+                )
+            }
+            if !cities.isEmpty {
+                CitiesListView(
+                    cities: cities,
+                    selectedYearState: selectedYearState
+                )
+            }
         }
         .navigationBarTitle(state.stateInfo.name)
     }

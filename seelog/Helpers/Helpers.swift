@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import MapKit
+import GEOSwift
 
 class Helpers {
     static func seasonForDate(_ date: Date) -> String {
@@ -274,7 +275,85 @@ class Helpers {
         else{
             return ("\(Int(num.rounded()))")
         }
+        
+    }
+    
+    static func polygonFor(geohash: String) -> Polygon? {
+        if let result = Geohash.decode(hash: geohash) {
+            return try? Polygon(exterior: Polygon.LinearRing(points: [
+                Point(x: result.longitude.min, y: result.latitude.min),
+                Point(x: result.longitude.max, y: result.latitude.min),
+                Point(x: result.longitude.max, y: result.latitude.max),
+                Point(x: result.longitude.min, y: result.latitude.max),
+                Point(x: result.longitude.min, y: result.latitude.min)
+            ]))
+        }
+        return nil
+    }
+    
+    static func convexHeatmap(heatmap: Geometry) -> Geometry {
+        switch heatmap {
+        case let .multiPolygon(multipolygon):
+            var convexPolygonUnion: Geometry?
+            
+            for polygon in multipolygon.polygons {
+                if let convexPolygon = try? polygon.convexHull() {
+                    if let union = convexPolygonUnion {
+                        convexPolygonUnion = try? union.union(with: convexPolygon)
+                    } else {
+                        convexPolygonUnion = convexPolygon
+                    }
+                }
+            }
+            return convexPolygonUnion ?? heatmap
+        default:
+            return heatmap
+        }
+    }
+    
+    static func toPolygons(mapRegion: MKCoordinateRegion) -> [Polygon] {
+        let minX = Helpers.longitudeToX(mapRegion.center.longitude - mapRegion.span.longitudeDelta / 2)
+        let minY = Helpers.latitudeToY(mapRegion.center.latitude - mapRegion.span.latitudeDelta / 2)
+        let maxX = Helpers.longitudeToX(mapRegion.center.longitude + mapRegion.span.longitudeDelta / 2)
+        let maxY = Helpers.latitudeToY(mapRegion.center.latitude + mapRegion.span.latitudeDelta / 2)
+        
+        let lowLeft = Point(x: minX, y: minY)
+        let lowRight = Point(x: maxX, y: minY)
+        let topRight = Point(x: maxX, y: maxY)
+        let topLeft = Point(x: minX, y: maxY)
+        
+        do {
+            if lowLeft.x > lowRight.x {
+                let lowRight1 = Point(x: 180, y: lowRight.y)
+                let lowRight2 = Point(x: -180, y: lowRight.y)
+                let topRight1 = Point(x: 180, y: topRight.y)
+                let topRight2 = Point(x: -180, y: topRight.y)
+                
+                let ring1 = try Polygon.LinearRing(points: [lowLeft, lowRight1, topRight1, topLeft, lowLeft])
+                let ring2 = try Polygon.LinearRing(points: [lowLeft, lowRight2, topRight2, topLeft, lowLeft])
+                let viewPolygon1 = Polygon(exterior: ring1)
+                let viewPolygon2 = Polygon(exterior: ring2)
+                
+                return [viewPolygon1, viewPolygon2]
+            } else {
+                let ring = try Polygon.LinearRing(points: [lowLeft, lowRight, topRight, topLeft, lowLeft])
+                let viewPolygon = Polygon(exterior: ring)
+                
+                return [viewPolygon]
+            }
+        } catch {}
 
+        return []
+    }
+    
+    static func intersects(polygon: Polygon, mapRegion: MKCoordinateRegion) -> Bool {
+        let mapPolygons = Helpers.toPolygons(mapRegion: mapRegion)
+        return mapPolygons.first { p in
+            if let intersects = try? polygon.intersects(p) {
+                return intersects
+            }
+            return false
+        } != nil
     }
     
 }

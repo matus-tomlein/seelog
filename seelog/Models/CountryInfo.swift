@@ -84,7 +84,7 @@ struct CountryInfo {
     
     var geometry10mDescription: GeometryDescription {
         GeometryDescription(
-            geometry: geometry10m,
+            geometry: geometry10m ?? geometry50m ?? geometry110m,
             minLatitude: minLatitude,
             minLongitude: minLongitude,
             maxLatitude: maxLatitude,
@@ -94,7 +94,7 @@ struct CountryInfo {
     
     var geometry50mDescription: GeometryDescription {
         GeometryDescription(
-            geometry: geometry50m,
+            geometry: geometry50m ?? geometry10m ?? geometry110m,
             minLatitude: minLatitude,
             minLongitude: minLongitude,
             maxLatitude: maxLatitude,
@@ -104,7 +104,7 @@ struct CountryInfo {
     
     var geometry110mDescription: GeometryDescription {
         GeometryDescription(
-            geometry: geometry110m,
+            geometry: geometry110m ?? geometry50m ?? geometry10m,
             minLatitude: minLatitude,
             minLongitude: minLongitude,
             maxLatitude: maxLatitude,
@@ -119,6 +119,17 @@ struct CountryInfo {
             return geometry50mDescription
         } else {
             return geometry110mDescription
+        }
+    }
+    
+    func geometry(zoomType: ZoomType) -> GeometryDescription {
+        switch zoomType {
+        case .far:
+            return geometry110mDescription
+        case .medium:
+            return geometry50mDescription
+        case .close:
+            return geometry10mDescription
         }
     }
 }

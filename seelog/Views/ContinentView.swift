@@ -18,27 +18,36 @@ struct ContinentView: View {
 
     var body: some View {
         List {
-            WorldView(
-                background: (continents: [continent.continentInfo], countries: [], regions: []),
-                foreground: (continents: [], countries: countries.map { $0.countryInfo }, regions: [], timezones: []),
-                cities: cities.map { $0.cityInfo },
-                positions: [],
-                detailed: false,
-                opaque: false
-            )
-
+            NavigationLink(destination: DrawablesMapView(
+                borderDrawables: [continent],
+                drawables: countries,
+                cities: cities
+            )) {
+                WorldView(
+                    background: (continents: [continent.continentInfo], countries: [], regions: []),
+                    foreground: (continents: [], countries: countries.map { $0.countryInfo }, regions: [], timezones: []),
+                    cities: cities.map { $0.cityInfo },
+                    positions: [],
+                    detailed: false,
+                    opaque: false
+                )
+            }
+            
             StayDurationBarChartView(destination: continent)
                 .environmentObject(selectedYearState)
-            TextInfoView(info: continent.info(year: year), addHeading: false)
-            CountriesListView(
-                countries: countries,
-                selectedYearState: selectedYearState
-            )
-            CitiesListView(
-                cities: cities,
-                selectedYearState: selectedYearState
-            )
-//            TripsListView(destination: continent)
+            
+            if !countries.isEmpty {
+                CountriesListView(
+                    countries: countries,
+                    selectedYearState: selectedYearState
+                )
+            }
+            if !cities.isEmpty {
+                CitiesListView(
+                    cities: cities,
+                    selectedYearState: selectedYearState
+                )
+            }
         }
         .navigationBarTitle(continent.continentInfo.name)
     }

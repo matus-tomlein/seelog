@@ -28,12 +28,7 @@ struct TimezonesView: View {
                     .environmentObject(selectedYearState)
             }.listRowInsets(EdgeInsets())
 
-            ForEach(TextInfoGenerator.timezones(model: self.model
-            , year: selectedYear, addLink: false)) { textInfo in
-                TextInfoView(info: textInfo)
-            }
-
-            Section(header: Text("All timezones")) {
+            Section(header: Text("\(timezones.count) timezones")) {
                 ForEach(timezones) { timezone in
                     TimezoneListItemView(
                         timezone: timezone,
@@ -42,7 +37,6 @@ struct TimezonesView: View {
                 }
             }
         }
-        .navigationBarTitle("Timezones")
     }
 }
 

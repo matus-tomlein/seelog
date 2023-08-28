@@ -13,36 +13,48 @@ struct CityView: View {
     @EnvironmentObject var viewState: ViewState
     @ObservedObject var selectedYearState = SelectedYearState()
     var year: Int? { return selectedYearState.year }
-
+    
     var body: some View {
         List {
             city.region.map { region in
-                WorldView(
-                    background: (continents: [], countries: [], regions: [region.stateInfo]),
-                    foreground: (continents: [], countries: [], regions: [], timezones: []),
-                    cities: [city.cityInfo],
-                    positions: region.positions(year: year),
-                    detailed: true,
-                    opaque: false
-                )
+                NavigationLink(destination: DrawablesMapView(
+                    borderDrawables: [region],
+                    drawables: [],
+                    cities: [city]
+                )) {
+                    WorldView(
+                        background: (continents: [], countries: [], regions: [region.stateInfo]),
+                        foreground: (continents: [], countries: [], regions: [], timezones: []),
+                        cities: [city.cityInfo],
+                        positions: region.positions(year: year),
+                        detailed: true,
+                        opaque: false
+                    )
+                }
             }
 
             StayDurationBarChartView(destination: city)
                 .environmentObject(selectedYearState)
-            TextInfoView(info: city.info(year: year), addHeading: false)
-            ContinentListItemView(
-                continent: city.continent,
-                selectedYearState: selectedYearState
-            )
-            CountryListItemView(
-                country: city.country,
-                selectedYearState: selectedYearState
-            )
-            city.region.map { region in
-                StateListItemView(
-                    region: region,
+            
+            Section(header: Text("Continent")) {
+                ContinentListItemView(
+                    continent: city.continent,
                     selectedYearState: selectedYearState
                 )
+            }
+            Section(header: Text("Country")) {
+                CountryListItemView(
+                    country: city.country,
+                    selectedYearState: selectedYearState
+                )
+            }
+            Section(header: Text("Region")) {
+                city.region.map { region in
+                    StateListItemView(
+                        region: region,
+                        selectedYearState: selectedYearState
+                    )
+                }
             }
 //            TripsListView(destination: city)
         }

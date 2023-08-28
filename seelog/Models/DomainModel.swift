@@ -49,6 +49,12 @@ class DomainModel {
             }
         }
     }
+    var _cache: ModelCache?
+    var cache: ModelCache {
+        if let _cache { return _cache }
+        _cache = ModelCache(model: self)
+        return _cache!
+    }
 
     init(trips: [Trip], seenGeometries: [SeenGeometry], geoDatabase: GeoDatabase) {
         self.world = World(trips: trips)
@@ -293,7 +299,6 @@ func loadTrips() -> [Trip] {
         let csv = try NamedCSV(url: URL(fileURLWithPath: filePath))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        var index = 0
         return csv.rows.enumerated().map { (index, row) in
             Trip(
                 id: index,

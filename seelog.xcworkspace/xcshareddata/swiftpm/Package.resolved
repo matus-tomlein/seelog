@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "geoswiftmapkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/GEOSwift/GEOSwiftMapKit.git",
+      "state" : {
+        "revision" : "3acdf05c60515337d38feb0c69388d074b63bd23",
+        "version" : "4.0.0"
+      }
+    },
+    {
       "identity" : "sqlite.swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/stephencelis/SQLite.swift.git",

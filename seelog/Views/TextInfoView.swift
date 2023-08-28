@@ -11,49 +11,15 @@ import SwiftUI
 struct TextInfoInnerView: View {
     var info: TextInfo
     var addHeading: Bool = true
-    var status: String {
-        switch info.status {
-        case .notVisited:
-            return "You didn't visit."
-            
-        case .visited:
-            return "Visited for a while."
-            
-        case .hanged:
-            return "Hanged around."
-            
-        case .explored:
-            return "You explored it here well!"
-            
-        case .native:
-            return "You are basically a native!"
-
-        case .new:
-            return "First year here."
-            
-        case .stayed:
-            return "You stayed here for a long time!"
-            
-        case .passedThrough:
-            return "Just passed through."
-            
-        case .regular:
-            return "You are a regular!"
-        }
-    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 3) {
-            if !addHeading {
-                Text(status).font(.headline)
-            }
-
             if info.enabled {
                 if addHeading {
                     if info.status == Status.passedThrough {
                         Text(info.heading)
-                        .bold()
-                        .foregroundColor(.gray)
+                            .bold()
+                            .foregroundColor(.gray)
                     } else {
                         Text(info.heading)
                             .font(.headline)
@@ -68,8 +34,8 @@ struct TextInfoInnerView: View {
                 }
             } else if addHeading {
                 Text(info.heading)
-                .bold()
-                .foregroundColor(.gray)
+                    .bold()
+                    .foregroundColor(.gray)
             }
         }
     }
@@ -79,8 +45,8 @@ struct TextInfoView: View {
     @EnvironmentObject var viewState: ViewState
     var info: TextInfo
     var addHeading: Bool = true
-    let backgroundOpacity = 0.25
-
+    let backgroundOpacity = 0.2
+    
     var body: some View {
         infoBodyWithBackground()
     }
@@ -109,53 +75,53 @@ extension TextInfoView {
         if !addHeading {
             return AnyView(TextInfoInnerView(info: info, addHeading: false))
         }
-
+        
         switch info.link {
         case .countries:
             return AnyView(NavigationLink(destination: CountriesView().environmentObject(self.viewState)) {
                 TextInfoInnerView(info: info)
             })
-
+            
         case .country(let country):
             return AnyView(NavigationLink(destination: CountryView(country: country).environmentObject(self.viewState)) {
                 TextInfoInnerView(info: info)
             })
-
+            
         case .region(let region):
             return AnyView(NavigationLink(destination: StateView(state: region).environmentObject(self.viewState)) {
                 TextInfoInnerView(info: info)
             })
-
+            
         case .cities:
             return AnyView(NavigationLink(destination: CitiesView().environmentObject(self.viewState)) {
                 TextInfoInnerView(info: info)
             })
-                
+            
         case .city(let city):
             return AnyView(NavigationLink(destination: CityView(city: city).environmentObject(self.viewState)) {
                 TextInfoInnerView(info: info)
             })
-
+            
         case .timezones:
             return AnyView(NavigationLink(destination: TimezonesView().environmentObject(self.viewState)) {
                 TextInfoInnerView(info: info)
             })
-
+            
         case .timezone(let timezone):
             return AnyView(NavigationLink(destination: TimezoneView(timezone: timezone).environmentObject(self.viewState)) {
                 TextInfoInnerView(info: info)
             })
-
+            
         case .continents:
             return AnyView(NavigationLink(destination: ContinentsView().environmentObject(self.viewState)) {
                 TextInfoInnerView(info: info)
             })
-
+            
         case .continent(let continent):
             return AnyView(NavigationLink(destination: ContinentView(continent: continent).environmentObject(self.viewState)) {
                 TextInfoInnerView(info: info)
             })
-
+            
         default:
             return AnyView(TextInfoInnerView(info: info))
         }

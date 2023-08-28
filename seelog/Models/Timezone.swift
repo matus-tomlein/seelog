@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import MapKit
+import GEOSwift
 
-struct Timezone: Identifiable, Trippable {
-    var id: Int32 { get { return timezoneInfo.timezoneId } }
+struct Timezone: Identifiable, Trippable, Drawable {
+    var id: Int32 { return timezoneInfo.timezoneId }
+    var _id: String { return "\(id)" }
     var name: String { return timezoneInfo.name }
     var timezoneInfo: TimezoneInfo
 
@@ -38,6 +41,14 @@ struct Timezone: Identifiable, Trippable {
     
     func explored(year: Int?) -> Bool? {
         return nil
+    }
+    
+    func polygons(zoomType: ZoomType) -> [Polygon] {
+        timezoneInfo.geometryDescription.polygons
+    }
+    
+    func intersects(mapRegion: MKCoordinateRegion) -> Bool {
+        return true
     }
 }
 

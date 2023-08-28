@@ -3,22 +3,8 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
-
-/* Begin PBXAggregateTarget section */
-		6B04670724D1D335009892AF /* GitVersion */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 6B04670824D1D335009892AF /* Build configuration list for PBXAggregateTarget "GitVersion" */;
-			buildPhases = (
-				6B04670B24D1D33B009892AF /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = GitVersion;
-			productName = GitVersion;
-		};
-/* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		6B04671124D1FE83009892AF /* SelectedYearState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B04671024D1FE83009892AF /* SelectedYearState.swift */; };
@@ -34,6 +20,11 @@
 		6B2439292A8AAF24006A126A /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2439282A8AAF24006A126A /* SwiftCSV */; };
 		6B24392C2A8AAF4B006A126A /* GEOSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6B24392B2A8AAF4B006A126A /* GEOSwift */; };
 		6B24392F2A8AAF84006A126A /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 6B24392E2A8AAF84006A126A /* SQLite */; };
+		6B2439322A8D5C93006A126A /* DrawablesMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2439312A8D5C93006A126A /* DrawablesMapView.swift */; };
+		6B35C2902A9A3C200037DC51 /* PlacesMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35C28F2A9A3C200037DC51 /* PlacesMapView.swift */; };
+		6B35C2922A9A50090037DC51 /* ModelCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35C2912A9A50090037DC51 /* ModelCache.swift */; };
+		6B35C2942A9A59280037DC51 /* Drawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35C2932A9A59280037DC51 /* Drawable.swift */; };
+		6B35C2962A9A9AE10037DC51 /* PlacesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35C2952A9A9AE10037DC51 /* PlacesView.swift */; };
 		6B50C1A0240BEE480090B578 /* CountriesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50C19F240BEE480090B578 /* CountriesListView.swift */; };
 		6B50C1A2240BF0690090B578 /* WorldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50C1A1240BF0690090B578 /* WorldView.swift */; };
 		6B50C1A4240BF8FF0090B578 /* StateListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50C1A3240BF8FF0090B578 /* StateListItemView.swift */; };
@@ -123,16 +114,12 @@
 		6BF5BF96240305390038AD9E /* CityListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5BF95240305390038AD9E /* CityListItemView.swift */; };
 		6BF5BF98240306CB0038AD9E /* TimezoneListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5BF97240306CB0038AD9E /* TimezoneListItemView.swift */; };
 		6BFA74C22446350A004139EA /* seen_areas.csv in Resources */ = {isa = PBXBuildFile; fileRef = 6BFA74C12446350A004139EA /* seen_areas.csv */; };
+		6BFB19BD2A90866E0035594B /* GEOSwiftMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6BFB19BC2A90866E0035594B /* GEOSwiftMapKit */; };
+		6BFB19BF2A9088E20035594B /* CountryPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFB19BE2A9088E20035594B /* CountryPolygon.swift */; };
+		6BFB19C12A9097420035594B /* ZoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFB19C02A9097420035594B /* ZoomType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6B04670C24D1D36D009892AF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B521D0223B74C7A00570CF2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6B04670724D1D335009892AF;
-			remoteInfo = GitVersion;
-		};
 		6B521D2123B74C7F00570CF2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6B521D0223B74C7A00570CF2 /* Project object */;
@@ -160,6 +147,11 @@
 		6B20F13324CEF71400ED5766 /* TextInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfo.swift; sourceTree = "<group>"; };
 		6B20F13624CEF80B00ED5766 /* TextInfoGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfoGenerator.swift; sourceTree = "<group>"; };
 		6B20F13824CEF9D400ED5766 /* TextInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInfoView.swift; sourceTree = "<group>"; };
+		6B2439312A8D5C93006A126A /* DrawablesMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawablesMapView.swift; sourceTree = "<group>"; };
+		6B35C28F2A9A3C200037DC51 /* PlacesMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesMapView.swift; sourceTree = "<group>"; };
+		6B35C2912A9A50090037DC51 /* ModelCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelCache.swift; sourceTree = "<group>"; };
+		6B35C2932A9A59280037DC51 /* Drawable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawable.swift; sourceTree = "<group>"; };
+		6B35C2952A9A9AE10037DC51 /* PlacesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesView.swift; sourceTree = "<group>"; };
 		6B50C19F240BEE480090B578 /* CountriesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListView.swift; sourceTree = "<group>"; };
 		6B50C1A1240BF0690090B578 /* WorldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldView.swift; sourceTree = "<group>"; };
 		6B50C1A3240BF8FF0090B578 /* StateListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateListItemView.swift; sourceTree = "<group>"; };
@@ -255,6 +247,8 @@
 		6BF5BF95240305390038AD9E /* CityListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListItemView.swift; sourceTree = "<group>"; };
 		6BF5BF97240306CB0038AD9E /* TimezoneListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimezoneListItemView.swift; sourceTree = "<group>"; };
 		6BFA74C12446350A004139EA /* seen_areas.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = seen_areas.csv; sourceTree = "<group>"; };
+		6BFB19BE2A9088E20035594B /* CountryPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPolygon.swift; sourceTree = "<group>"; };
+		6BFB19C02A9097420035594B /* ZoomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +256,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BFB19BD2A90866E0035594B /* GEOSwiftMapKit in Frameworks */,
 				6B24392F2A8AAF84006A126A /* SQLite in Frameworks */,
 				6B24392C2A8AAF4B006A126A /* GEOSwift in Frameworks */,
 				6B2439292A8AAF24006A126A /* SwiftCSV in Frameworks */,
@@ -304,6 +299,17 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		6B2439302A8D5C78006A126A /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				6B2439312A8D5C93006A126A /* DrawablesMapView.swift */,
+				6BFB19BE2A9088E20035594B /* CountryPolygon.swift */,
+				6BFB19C02A9097420035594B /* ZoomType.swift */,
+				6B35C28F2A9A3C200037DC51 /* PlacesMapView.swift */,
+			);
+			path = Maps;
+			sourceTree = "<group>";
+		};
 		6B521D0123B74C7A00570CF2 = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +317,7 @@
 				6B521D2323B74C7F00570CF2 /* seelogTests */,
 				6B521D2E23B74C7F00570CF2 /* seelogUITests */,
 				6B521D0B23B74C7A00570CF2 /* Products */,
+				6BFB19BB2A90866E0035594B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -412,6 +419,8 @@
 				6BB193EE24026B13008BEFDD /* World.swift */,
 				6B5F97BE24139C4300624419 /* GeometryDescription.swift */,
 				6B20F13324CEF71400ED5766 /* TextInfo.swift */,
+				6B35C2912A9A50090037DC51 /* ModelCache.swift */,
+				6B35C2932A9A59280037DC51 /* Drawable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -437,6 +446,7 @@
 		6B660E0623BD2E00000CD3BB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6B2439302A8D5C78006A126A /* Maps */,
 				6B1D517C278A1E7B009D6B07 /* Charts */,
 				6B5F97C02413B5F000624419 /* BadgeView.swift */,
 				6B660E3523CB7CD7000CD3BB /* BarChartView.swift */,
@@ -476,6 +486,7 @@
 				6B20F12F24CD824B00ED5766 /* LogbookView.swift */,
 				6B20F13824CEF9D400ED5766 /* TextInfoView.swift */,
 				6B04671024D1FE83009892AF /* SelectedYearState.swift */,
+				6B35C2952A9A9AE10037DC51 /* PlacesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -492,6 +503,13 @@
 			path = DemoData;
 			sourceTree = "<group>";
 		};
+		6BFB19BB2A90866E0035594B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -506,13 +524,13 @@
 			buildRules = (
 			);
 			dependencies = (
-				6B04670D24D1D36D009892AF /* PBXTargetDependency */,
 			);
 			name = seelog;
 			packageProductDependencies = (
 				6B2439282A8AAF24006A126A /* SwiftCSV */,
 				6B24392B2A8AAF4B006A126A /* GEOSwift */,
 				6B24392E2A8AAF84006A126A /* SQLite */,
+				6BFB19BC2A90866E0035594B /* GEOSwiftMapKit */,
 			);
 			productName = seelog;
 			productReference = 6B521D0A23B74C7A00570CF2 /* Seelog.app */;
@@ -560,13 +578,11 @@
 		6B521D0223B74C7A00570CF2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = "Matus Tomlein";
 				TargetAttributes = {
-					6B04670724D1D335009892AF = {
-						CreatedOnToolsVersion = 11.6;
-					};
 					6B521D0923B74C7A00570CF2 = {
 						CreatedOnToolsVersion = 11.3;
 					};
@@ -593,6 +609,7 @@
 				6B2439272A8AAF24006A126A /* XCRemoteSwiftPackageReference "SwiftCSV" */,
 				6B24392A2A8AAF4B006A126A /* XCRemoteSwiftPackageReference "GEOSwift" */,
 				6B24392D2A8AAF84006A126A /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+				6BFB19BA2A9083600035594B /* XCRemoteSwiftPackageReference "GEOSwiftMapKit" */,
 			);
 			productRefGroup = 6B521D0B23B74C7A00570CF2 /* Products */;
 			projectDirPath = "";
@@ -601,7 +618,6 @@
 				6B521D0923B74C7A00570CF2 /* seelog */,
 				6B521D1F23B74C7F00570CF2 /* seelogTests */,
 				6B521D2A23B74C7F00570CF2 /* seelogUITests */,
-				6B04670724D1D335009892AF /* GitVersion */,
 			);
 		};
 /* End PBXProject section */
@@ -640,26 +656,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		6B04670B24D1D33B009892AF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd seelog && ./GitVersion.sh\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		6B521D0623B74C7A00570CF2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -673,6 +669,7 @@
 				6B521D7023BCFCCB00570CF2 /* ContinentInfo.swift in Sources */,
 				6BCBE70C23F0823A00DBC9D7 /* Timezone.swift in Sources */,
 				6BF5BF94240304AB0038AD9E /* ContinentListItemView.swift in Sources */,
+				6B35C2922A9A50090037DC51 /* ModelCache.swift in Sources */,
 				6B521D5F23BCFC9900570CF2 /* DatabaseInitializer.swift in Sources */,
 				6B8F6F8C244C3CE100402F4F /* ChartColorTemplates.swift in Sources */,
 				6BB193F724026F79008BEFDD /* StatesListView.swift in Sources */,
@@ -685,6 +682,8 @@
 				6BB193E72401C276008BEFDD /* ContinentView.swift in Sources */,
 				6B521DC023BCFD4200570CF2 /* Date.swift in Sources */,
 				6B1D5184278A20EE009D6B07 /* TimezonesBarChartView.swift in Sources */,
+				6B35C2942A9A59280037DC51 /* Drawable.swift in Sources */,
+				6B2439322A8D5C93006A126A /* DrawablesMapView.swift in Sources */,
 				6BB193E92401C77A008BEFDD /* TimezoneView.swift in Sources */,
 				6B5CC36F23F95E7900628C7F /* MainView.swift in Sources */,
 				6B521DB923BCFD4200570CF2 /* BlockingQueue.swift in Sources */,
@@ -705,8 +704,10 @@
 				6BF5BF98240306CB0038AD9E /* TimezoneListItemView.swift in Sources */,
 				6BCBE6FE23F0719200DBC9D7 /* SeenArea.swift in Sources */,
 				6B521D5D23BCFC9900570CF2 /* DatabaseCreator.swift in Sources */,
+				6BFB19BF2A9088E20035594B /* CountryPolygon.swift in Sources */,
 				6B20F13424CEF71500ED5766 /* TextInfo.swift in Sources */,
 				6B521D7523BCFCCB00570CF2 /* ViewState.swift in Sources */,
+				6BFB19C12A9097420035594B /* ZoomType.swift in Sources */,
 				6B521DBC23BCFD4200570CF2 /* CountryCodeMappings.swift in Sources */,
 				6BCBE70823F0819E00DBC9D7 /* Region.swift in Sources */,
 				6BB193F524026EB4008BEFDD /* CitiesListView.swift in Sources */,
@@ -719,6 +720,7 @@
 				6B6B5973244CB66A00E52D9D /* SphericalMercator.swift in Sources */,
 				6B521DC223BCFD4200570CF2 /* ConcurrentArray.swift in Sources */,
 				6B521D1023B74C7A00570CF2 /* SceneDelegate.swift in Sources */,
+				6B35C2902A9A3C200037DC51 /* PlacesMapView.swift in Sources */,
 				6B521D7A23BCFCCB00570CF2 /* StatsProvider.swift in Sources */,
 				6B1D5180278A1FD2009D6B07 /* CitiesBarChartView.swift in Sources */,
 				6BF5BF8C2402F3A30038AD9E /* CitiesHeatView.swift in Sources */,
@@ -739,6 +741,7 @@
 				6BF5BF922402FB780038AD9E /* CountryListItemView.swift in Sources */,
 				6B521DBA23BCFD4200570CF2 /* IAPHelper.swift in Sources */,
 				6BF5BF96240305390038AD9E /* CityListItemView.swift in Sources */,
+				6B35C2962A9A9AE10037DC51 /* PlacesView.swift in Sources */,
 				6B521D7323BCFCCB00570CF2 /* CompleteHistoryPurchase.swift in Sources */,
 				6B521D7B23BCFCCB00570CF2 /* GeoDatabase.swift in Sources */,
 				6B20F13024CD824B00ED5766 /* LogbookView.swift in Sources */,
@@ -774,11 +777,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6B04670D24D1D36D009892AF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6B04670724D1D335009892AF /* GitVersion */;
-			targetProxy = 6B04670C24D1D36D009892AF /* PBXContainerItemProxy */;
-		};
 		6B521D2223B74C7F00570CF2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6B521D0923B74C7A00570CF2 /* seelog */;
@@ -803,24 +801,11 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		6B04670924D1D335009892AF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		6B04670A24D1D335009892AF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		6B521D3223B74C7F00570CF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -843,6 +828,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -853,6 +839,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -881,6 +868,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -903,6 +891,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -913,6 +902,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -943,6 +933,7 @@
 				INFOPLIST_FILE = seelog/Info.plist;
 				INFOPLIST_PREFIX_HEADER = seelog/InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -968,6 +959,7 @@
 				INFOPLIST_FILE = seelog/Info.plist;
 				INFOPLIST_PREFIX_HEADER = seelog/InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1068,15 +1060,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6B04670824D1D335009892AF /* Build configuration list for PBXAggregateTarget "GitVersion" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6B04670924D1D335009892AF /* Debug */,
-				6B04670A24D1D335009892AF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		6B521D0523B74C7A00570CF2 /* Build configuration list for PBXProject "seelog" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1140,6 +1123,14 @@
 				minimumVersion = 0.14.1;
 			};
 		};
+		6BFB19BA2A9083600035594B /* XCRemoteSwiftPackageReference "GEOSwiftMapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/GEOSwift/GEOSwiftMapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1157,6 +1148,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6B24392D2A8AAF84006A126A /* XCRemoteSwiftPackageReference "SQLite.swift" */;
 			productName = SQLite;
+		};
+		6BFB19BC2A90866E0035594B /* GEOSwiftMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BFB19BA2A9083600035594B /* XCRemoteSwiftPackageReference "GEOSwiftMapKit" */;
+			productName = GEOSwiftMapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

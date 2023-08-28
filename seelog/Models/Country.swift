@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import GEOSwift
+import MapKit
 
-struct Country: Identifiable, Trippable {
+struct Country: Identifiable, Trippable, Drawable {
     var id: String { return countryInfo.countryKey }
+    var _id: String { return id }
     var name: String { return countryInfo.name }
     var countryInfo: CountryInfo
     var model: DomainModel
@@ -134,5 +137,13 @@ extension Country {
         } else {
             return .conqueror
         }
+    }
+    
+    func polygons(zoomType: ZoomType) -> [Polygon] {
+        countryInfo.geometry(zoomType: zoomType).polygons
+    }
+    
+    func intersects(mapRegion: MKCoordinateRegion) -> Bool {
+        return countryInfo.geometry110mDescription.intersects(mapRegion: mapRegion)
     }
 }

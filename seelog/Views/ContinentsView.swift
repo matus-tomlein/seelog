@@ -26,12 +26,7 @@ struct ContinentsView: View {
                     .environmentObject(selectedYearState)
             }.listRowInsets(EdgeInsets())
 
-            ForEach(TextInfoGenerator.continents(model: self.model
-            , year: selectedYear, addLink: false)) { textInfo in
-                TextInfoView(info: textInfo)
-            }
-
-            Section(header: Text("All continents")) {
+            Section(header: Text("\(continents.count) continents")) {
                 ForEach(continents) { continent in
                     ContinentListItemView(
                         continent: continent,
@@ -40,7 +35,6 @@ struct ContinentsView: View {
                 }
             }
         }
-        .navigationBarTitle("Continents")
     }
 }
 

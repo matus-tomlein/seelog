@@ -10,19 +10,20 @@ import SwiftUI
 
 struct CountriesHeatView: View {
     @EnvironmentObject var viewState: ViewState
-    @EnvironmentObject var selectedYearState: SelectedYearState
-    var selectedYear: Int? { get { return selectedYearState.year } }
-    var countries: [Country] { get { return viewState.model.countriesForYear(selectedYear) } }
+    var year: Int?
+    var countries: [Country] { get { return viewState.model.countriesForYear(year) } }
 
     var body: some View {
-        WorldView(
-            background: (continents: viewState.model.continentInfos, countries: [], regions: []),
-            foreground: (continents: [], countries: countries.map { $0.countryInfo }, regions: [], timezones: []),
-            cities: [],
-            positions: [],
-            detailed: false,
-            opaque: false
-        )
+        NavigationLink(destination: DrawablesMapView(drawables: viewState.model.countriesForYear(year))) {
+            WorldView(
+                background: (continents: viewState.model.continentInfos, countries: [], regions: []),
+                foreground: (continents: [], countries: countries.map { $0.countryInfo }, regions: [], timezones: []),
+                cities: [],
+                positions: [],
+                detailed: false,
+                opaque: false
+            )
+        }
     }
 }
 

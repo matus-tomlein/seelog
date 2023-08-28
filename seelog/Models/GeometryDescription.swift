@@ -8,6 +8,7 @@
 
 import Foundation
 import GEOSwift
+import MapKit
 
 struct GeometryDescription {
     var geometry: Geometry?
@@ -20,6 +21,17 @@ struct GeometryDescription {
     var minY: Double { Helpers.latitudeToY(maxLatitude) }
     var maxX: Double { Helpers.longitudeToX(maxLongitude) }
     var maxY: Double { Helpers.latitudeToY(minLatitude) }
+    
+//    lazy var envelope: Polygon? = {
+//        if let envelopeGeometry = try? geometry?.envelope().geometry {
+//            if case let .polygon(envelope) = envelopeGeometry {
+//                return envelope.exterior.points.map { p in
+//                    Point(x: Helpers.longitudeToX(p.x), Helpers.latitudeToY(p.y))
+//                }
+//            }
+//        }
+//        return nil
+//    }()
     
     var polygons: [Polygon] {
         var polygons: [Polygon] = []
@@ -45,5 +57,34 @@ struct GeometryDescription {
                 return (x: x, y: y)
             }
         }
+    }
+    
+    var centroid: Point? {
+        if let centroid = try? geometry?.centroid() {
+            let (x, y) = Helpers.geolocationToXY(latitude: centroid.y, longitude: centroid.x)
+            return Point(x: x, y: y)
+        }
+        return nil
+    }
+    
+    var boundingRect: Polygon? {
+        guard let envelope = try? geometry?.minimumRotatedRectangle() else { return nil }
+        switch envelope {
+        case let .polygon(polygon):
+            return try? Polygon(
+                exterior: Polygon.LinearRing(
+                    points: polygon.exterior.points.map { p in
+                        Point(x: Helpers.longitudeToX(p.x), y: Helpers.latitudeToY(p.y))
+                    }
+                )
+            )
+        default:
+            return nil
+        }
+    }
+    
+    func intersects(mapRegion: MKCoordinateRegion) -> Bool {
+        guard let envelope = boundingRect else { return false }
+        return Helpers.intersects(polygon: envelope, mapRegion: mapRegion)
     }
 }
