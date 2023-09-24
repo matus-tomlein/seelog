@@ -51,8 +51,8 @@ struct CityView: View {
             }
             Section(header: Text("Region")) {
                 city.region.map { region in
-                    StateListItemView(
-                        region: region,
+                    TrippableListItemView(
+                        trippable: region,
                         selectedYearState: selectedYearState
                     )
                 }

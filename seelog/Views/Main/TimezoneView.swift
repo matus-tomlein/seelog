@@ -29,7 +29,6 @@ struct TimezoneView: View {
             
             StayDurationBarChartView(destination: timezone)
                 .environmentObject(selectedYearState)
-//            TripsListView(destination: timezone)
         }
         .navigationBarTitle(Text(timezone.timezoneInfo.name), displayMode: .inline)
     }

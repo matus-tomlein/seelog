@@ -54,13 +54,45 @@ struct PlacesView: View {
                     yearStats: yearStats
                 )
                 
-                TextInfoView(info: TextInfoGenerator.travelledDistance(
+                let distance = travelledDistanceInfo(
                     model: self.model,
-                    year: year))
+                    year: year
+                )
+                Text(distance.heading)
+                    .font(.headline)
+                Text(distance.body)
+                    .font(.callout)
+                    .foregroundColor(.gray)
             }
             
             CitiesListView(cities: cities, selectedYearState: selectedYearState)
         }
+    }
+    
+    private func travelledDistanceInfo(model: DomainModel, year: Int?) -> (heading: String, body: String) {
+        var body = ""
+        let distanceRounded = model.seenGeometry(year: year)?.travelledDistanceRounded ?? 0
+        let distance = model.seenGeometry(year: year)?.travelledDistance ?? 0
+        let earthCircumference = 40075.0
+        let newYorkToBoston = 353.4
+
+        if distance >= earthCircumference {
+            let times = Int(round(distance / earthCircumference))
+            body =
+                "That's \(format(times)) times around the Earth!"
+        } else if distance >= newYorkToBoston / 2 {
+            let times = Int(round(distance / newYorkToBoston))
+            body = "That's \(format(times)) times from Boston to New York!"
+        }
+
+        return (
+            heading: "Travelled \(format(distanceRounded)) km",
+            body: body
+        )
+    }
+
+    private func format(_ number: Int) -> String {
+        return NumberFormatter.localizedString(from: NSNumber(value: number), number: NumberFormatter.Style.decimal)
     }
 }
 

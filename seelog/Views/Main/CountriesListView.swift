@@ -10,16 +10,13 @@ import SwiftUI
 
 struct CountriesListView: View {
     var countries: [Country]
-    var countriesCount: Int { return countries.filter { $0.visited(year: selectedYear) }.count }
+    var countriesCount: Int { return countries.count }
     @EnvironmentObject var viewState: ViewState
     @ObservedObject var selectedYearState: SelectedYearState
     var selectedYear: Int? { get { return selectedYearState.year } }
-    var showCount: Bool = true
-    var customTitle: String? = nil
-    var title: String { return customTitle ?? (showCount ? "\(countriesCount) countries" : "All countries") }
 
     var body: some View {
-        Section(header: Text(title)) {
+        Section(header: Text("\(countriesCount) countries"  )) {
             TrippableListView(
                 selectedYearState: selectedYearState,
                 trippables: countries
