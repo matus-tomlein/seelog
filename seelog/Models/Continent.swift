@@ -14,8 +14,21 @@ struct Continent: Identifiable, Trippable, Drawable {
     var id: String { return continentInfo.name }
     var _id: String { return id }
     var name: String { return continentInfo.name }
+    var flag: String {
+        switch name {
+        case "Africa": return "🌍"
+        case "Asia": return "🌏"
+        case "Australia": return "🌏"
+        case "Europe": return "🌍"
+        case "North America": return "🌎"
+        case "South America": return "🌎"
+        default: return "🌍"
+        }
+    }
+    var nameWithFlag: String { return flag + " " + name }
     var continentInfo: ContinentInfo
     var model: DomainModel
+    var coordinateRegion: MKCoordinateRegion { return continentInfo.geometryDescription.coordinateRegion }
 
     var cities: [City] { return model.cities.filter { $0.cityInfo.continent == self.id } }
     var countries: [Country] { return model.countries.filter { $0.countryInfo.continent == self.id } }
@@ -28,13 +41,13 @@ struct Continent: Identifiable, Trippable, Drawable {
     func info(year: Int?) -> TextInfo {
         let link = ViewLink.continent(self)
         if !visited(year: year) {
-            return TextInfo(id: id, link: link, heading: continentInfo.name, status: .notVisited, enabled: false)
+            return TextInfo(id: id, link: link, heading: nameWithFlag, status: .notVisited, enabled: false)
         }
         
         return TextInfo(
             id: id,
             link: link,
-            heading: continentInfo.name,
+            heading: nameWithFlag,
             status: status(year: year),
             body: [
                 stayDurationInfo(year: year)

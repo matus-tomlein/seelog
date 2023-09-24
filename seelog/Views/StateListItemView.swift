@@ -14,7 +14,10 @@ struct StateListItemView: View {
     var year: Int? { get { return selectedYearState.year } }
 
     var body: some View {
-        TextInfoView(info: region.info(year: year))
+        TrippableListItemView(
+            trippable: region,
+            selectedYearState: selectedYearState
+        )
     }
 }
 

@@ -16,43 +16,57 @@ struct DrawablesMapView: View {
     var drawables: [Drawable]
     var cities: [City]?
     
+    @State var selectedCountry: Country? = nil
+    @State var selectedRegion: Region? = nil
+    @State var selectedContinent: Continent? = nil
+    @State var selectedTimezone: Timezone? = nil
+    @State var selectedCity: City? = nil
+    @ObservedObject var selectedYearState: SelectedYearState
+    
+    @State var selectedLocation: CGPoint?
     @State var zoomType: ZoomType = .far
     @State var mapRegion: MKCoordinateRegion?
-    @State var selection: (location: CGPoint, country: Country?, region: Region?, continent: Continent?, timezone: Timezone?, city: City?)?
+    @State var isActive = false
     
-    func isSelected(_ drawable: Drawable) -> Bool {
-        if let country = selection?.country { return country._id == drawable._id }
-        if let region = selection?.region { return region._id == drawable._id }
-        if let timezone = selection?.timezone { return timezone._id == drawable._id }
-        if let continent = selection?.continent { return continent._id == drawable._id }
-        return false
-    }
-    
-    func isSelected(_ city: City) -> Bool {
-        if let selected = selection?.city { return selected.id == city.id }
-        return false
+    init(borderDrawables: [Drawable]? = nil, drawables: [Drawable], cities: [City]? = nil, selectedYearState: SelectedYearState) {
+        self.borderDrawables = borderDrawables
+        self.drawables = drawables
+        self.cities = cities
+        self.selectedYearState = selectedYearState
+        self.zoomType = zoomType
+        self.mapRegion = mapRegion
     }
     
     func polygons(_ drawable: Drawable) -> [Polygon] {
         if zoomType == .far { return drawable.polygons(zoomType: .far) }
         if let mapRegion = $mapRegion.wrappedValue {
-            if drawable.intersects(mapRegion: mapRegion) {
+            let drawableRegion = drawable.coordinateRegion
+            if Helpers.intersects(mapRegion1: drawableRegion, mapRegion2: mapRegion) {
                 return drawable.polygons(zoomType: zoomType)
             }
         }
         return drawable.polygons(zoomType: .far)
     }
     
+    var initialPosition: MapCameraPosition {
+        if let borderDrawables {
+            if borderDrawables.count == 1 {
+                if let coordinateRegion = borderDrawables.first?.coordinateRegion {
+                    return .region(coordinateRegion)
+                }
+            }
+        }
+        return .automatic
+    }
+    
     var body: some View {
         MapReader { reader in
-            Map {
+            Map(initialPosition: initialPosition) {
                 if let borderDrawables {
                     ForEach(borderDrawables, id: \._id) { drawable in
                         ForEach(polygons(drawable), id: \.hashValue) { polygon in
                             MapPolygon(MKPolygon(polygon: polygon))
-//                                .foregroundStyle(Color.clear)
-//                                .stroke(Color.red)
-                                .foregroundStyle(isSelected(drawable) ? .red : .gray.opacity(0.5))
+                                .foregroundStyle(.gray.opacity(0.5))
                                 .stroke(Color.white)
                                 .stroke(lineWidth: 10)
                         }
@@ -61,7 +75,7 @@ struct DrawablesMapView: View {
                 ForEach(drawables, id: \._id) { drawable in
                     ForEach(polygons(drawable), id: \.hashValue) { polygon in
                         MapPolygon(MKPolygon(polygon: polygon))
-                            .foregroundStyle(isSelected(drawable) ? .red : .red.opacity(0.5))
+                            .foregroundStyle(.red.opacity(0.5))
                             .stroke(Color.white)
                             .stroke(lineWidth: 10)
                     }
@@ -81,29 +95,38 @@ struct DrawablesMapView: View {
             }
             .onTapGesture(perform: { location in
                 if let point = reader.convert(location, from: .local) {
-                    if selection?.location == location { return }
-                    self.selection = nil
+                    if selectedLocation == location || isActive { return }
+                    if selectedLocation != nil { clearSelection() }
+                    var found = false
                     for drawable in drawables {
                         for polygon in drawable.polygons(zoomType: .far) {
                             if (try? polygon.intersects(Point(point))) ?? false {
+                                found = true
                                 switch drawable {
                                 case let country as Country:
-                                    self.selection = (location: location, country: country, region: nil, continent: nil, timezone: nil, city: nil)
+                                    selectedCountry = country
                                     
                                 case let region as Region:
-                                    self.selection = (location: location, country: nil, region: region, continent: nil, timezone: nil, city: nil)
+                                    selectedRegion = region
                                     
                                 case let continent as Continent:
-                                    self.selection = (location: location, country: nil, region: nil, continent: continent, timezone: nil, city: nil)
+                                    selectedContinent = continent
                                     
                                 case let timezone as Timezone:
-                                    self.selection = (location: location, country: nil, region: nil, continent: nil, timezone: timezone, city: nil)
+                                    selectedTimezone = timezone
                                     
-                                default: break
+                                default:
+                                    found = false
                                 }
                                 break
                             }
                         }
+                    }
+                    if found {
+                        selectedLocation = location
+                        isActive = true
+                    } else {
+                        clearSelection()
                     }
                 }
             })
@@ -112,43 +135,76 @@ struct DrawablesMapView: View {
                 self.mapRegion = context.region
             }
         }
-        //        .navigationBarTitle(title)
-        .navigationBarItems(
-            trailing: Button(action: {}, label: {
-                if let country = selection?.country {
-                    NavigationLink(destination: CountryView(country: country)) {
-                        Text(country.countryInfo.name)
-                    }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                if selectedLocation != nil && isActive {
+                    Button(action: {}, label: {
+                        if let country = selectedCountry {
+                            NavigationLink(
+                                destination: CountryView(
+                                    country: country,
+                                    selectedYearState: selectedYearState
+                                ), isActive: $isActive) {
+                            }
+                        }
+                        else if let continent = selectedContinent {
+                            NavigationLink(
+                                destination: ContinentView(
+                                    continent: continent,
+                                    selectedYearState: selectedYearState
+                                ), isActive: $isActive) {
+                            }
+                        }
+                        else if let region = selectedRegion {
+                            NavigationLink(
+                                destination: StateView(
+                                    state: region,
+                                    selectedYearState: selectedYearState
+                                ), isActive: $isActive) {
+                            }
+                        }
+                        else if let timezone = selectedTimezone {
+                            NavigationLink(
+                                destination: TimezoneView(
+                                    timezone: timezone,
+                                    selectedYearState: selectedYearState
+                                ), isActive: $isActive) {
+                            }
+                        }
+                        else if let city = selectedCity {
+                            NavigationLink(
+                                destination: CityView(
+                                    city: city,
+                                    selectedYearState: selectedYearState
+                                ), isActive: $isActive) {
+                            }
+                        }
+                    })
                 }
-                else if let continent = selection?.continent {
-                    NavigationLink(destination: ContinentView(continent: continent)) {
-                        Text(continent.continentInfo.name)
-                    }
-                }
-                else if let region = selection?.region {
-                    NavigationLink(destination: StateView(state: region)) {
-                        Text(region.stateInfo.name)
-                    }
-                }
-                else if let timezone = selection?.timezone {
-                    NavigationLink(destination: TimezoneView(timezone: timezone)) {
-                        Text(timezone.timezoneInfo.name)
-                    }
-                }
-                else if let city = selection?.city {
-                    NavigationLink(destination: CityView(city: city)) {
-                        Text(city.cityInfo.name)
-                    }
-                }
-            }))
+            }
+        }
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    func clearSelection() {
+        selectedLocation = nil
+        selectedCountry = nil
+        selectedRegion = nil
+        selectedContinent = nil
+        selectedTimezone = nil
     }
 }
 
-struct CountriesMapView_Previews: PreviewProvider {
+struct DrawablesMapView_Previews: PreviewProvider {
+    @State static var selected: Drawable? = nil
+    
     static var previews: some View {
         let model = simulatedDomainModel()
         
-        return DrawablesMapView(drawables: model.countries, cities: model.cities)
+        return DrawablesMapView(
+            drawables: model.countries,
+            cities: model.cities,
+            selectedYearState: SelectedYearState()
+        )
     }
 }

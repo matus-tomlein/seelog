@@ -67,6 +67,13 @@ struct GeometryDescription {
         return nil
     }
     
+    var coordinateRegion: MKCoordinateRegion {
+        let span = MKCoordinateSpan(latitudeDelta: maxLatitude - minLatitude, longitudeDelta: maxLongitude - minLongitude)
+        let center = CLLocationCoordinate2D(latitude: (maxLatitude - span.latitudeDelta / 2), longitude: maxLongitude - span.longitudeDelta / 2)
+        
+        return MKCoordinateRegion(center: center, span: span)
+    }
+    
     var boundingRect: Polygon? {
         guard let envelope = try? geometry?.minimumRotatedRectangle() else { return nil }
         switch envelope {

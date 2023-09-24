@@ -15,6 +15,7 @@ struct StayDurationBarChartView: View {
     var body: some View {
         Section(header: Text(destination.stayDurationInfo(year: selectedYearState.year))) {
             BarChartView(
+                selectedYearState: selectedYearState,
                 showCounts: true,
                 yearStats: destination.stayStatsByYear()
             )

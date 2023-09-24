@@ -15,7 +15,7 @@ struct ContinentsHeatView: View {
     var continents: [Continent] { get { return viewState.model.continentsForYear(selectedYear) } }
 
     var body: some View {
-        NavigationLink(destination: DrawablesMapView(drawables: continents)) {
+        NavigationLink(destination: ContinentsMapView(selectedYearState: selectedYearState)) {
             WorldView(
                 background: (continents: viewState.model.continentInfos, countries: [], regions: []),
                 foreground: (continents: continents.map { $0.continentInfo }, countries: [], regions: [], timezones: []),

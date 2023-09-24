@@ -10,13 +10,18 @@ import SwiftUI
 
 struct CountriesBarChartView: View {
     @EnvironmentObject var viewState: ViewState
-    @ObservedObject var selectedYearState = SelectedYearState()
+    @ObservedObject var selectedYearState: SelectedYearState
     
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.countryYearCounts } }
     var totalCount: Int { get { return viewState.model.countriesForYear(nil).count } }
 
     var body: some View {
-        BarChartView(showCounts: true, yearStats: yearStats, total: totalCount)
+        BarChartView(
+            selectedYearState: selectedYearState,
+            showCounts: true,
+            yearStats: yearStats,
+            total: totalCount
+        )
     }
 }
 
@@ -24,7 +29,7 @@ struct CountriesBarChartView_Previews: PreviewProvider {
     static var previews: some View {
         let model = simulatedDomainModel()
         
-        return CountriesBarChartView().environmentObject(ViewState(model: model))
-            .environmentObject(SelectedYearState())
+        return CountriesBarChartView(selectedYearState: SelectedYearState())
+            .environmentObject(ViewState(model: model))
     }
 }

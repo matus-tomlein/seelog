@@ -77,6 +77,7 @@ enum Status {
 
 protocol Trippable {
     var name: String { get }
+    var nameWithFlag: String { get }
     var trips: [Trip] { get }
     var tripsByYear: [Int: [Trip]] { get }
     var stayDuration: Int { get }
@@ -170,6 +171,10 @@ extension Trippable {
         // how much of the year was spent there
         // how many years did you return
         return sentences.joined(separator: " ")
+    }
+    
+    func isNew(year: Int?) -> Bool {
+        return isFirstYear(year ?? Date().year())
     }
 
     func status(year: Int?) -> Status {

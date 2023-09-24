@@ -10,7 +10,7 @@ import Foundation
 
 class TextInfoGenerator {
     
-    static func travelledDistance(model: DomainModel, year: Int?) -> [TextInfo] {
+    static func travelledDistance(model: DomainModel, year: Int?) -> TextInfo {
         var body: [String] = []
         let distanceRounded = model.seenGeometry(year: year)?.travelledDistanceRounded ?? 0
         let distance = model.seenGeometry(year: year)?.travelledDistance ?? 0
@@ -20,24 +20,22 @@ class TextInfoGenerator {
         if distance >= earthCircumference {
             let times = Int(round(distance / earthCircumference))
             body.append(
-                "That's \(times) times around the Earth!"
+                "That's \(format(times)) times around the Earth!"
             )
         } else if distance >= newYorkToBoston / 2 {
             let times = Int(round(distance / newYorkToBoston))
             body.append(
-                "That's \(times) times from Boston to New York!"
+                "That's \(format(times)) times from Boston to New York!"
             )
         }
 
-        return [
-            TextInfo(
-                id: "distance",
-                link: .none,
-                heading: "Travelled \(distanceRounded) km",
-                status: .visited,
-                body: body
-            )
-        ]
+        return TextInfo(
+            id: "distance",
+            link: .none,
+            heading: "Travelled \(format(distanceRounded)) km",
+            status: .visited,
+            body: body
+        )
     }
 
     static func countriesHome(model: DomainModel, year: Int?) -> [TextInfo] {
@@ -214,6 +212,10 @@ class TextInfoGenerator {
         }
 
         return descriptions
+    }
+    
+    private static func format(_ number: Int) -> String {
+        return NumberFormatter.localizedString(from: NSNumber(value: number), number: NumberFormatter.Style.decimal)
     }
 
 }

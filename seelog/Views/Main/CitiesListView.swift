@@ -15,16 +15,15 @@ struct CitiesListView: View {
     var citiesCount: Int { return cities.filter { $0.visited(year: selectedYear) }.count }
     var selectedYear: Int? { get { return selectedYearState.year } }
     var showCount: Bool = true
-    var title: String { return showCount ? "\(citiesCount) cities" : "All cities" }
-
+    var customTitle: String? = nil
+    var title: String { return customTitle ?? (showCount ? "\(citiesCount) cities" : "All cities") }
+    
     var body: some View {
         Section(header: Text(title)) {
-            ForEach(cities) { city in
-                CityListItemView(
-                    city: city,
-                    selectedYearState: self.selectedYearState
-                )
-            }
+            TrippableListView(
+                selectedYearState: selectedYearState,
+                trippables: cities
+            )
         }
     }
 }

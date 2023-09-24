@@ -11,17 +11,17 @@ import SwiftUI
 struct ContinentView: View {
     var continent: Continent
     @EnvironmentObject var viewState: ViewState
-    @ObservedObject var selectedYearState = SelectedYearState()
+    @ObservedObject var selectedYearState: SelectedYearState
     var year: Int? { return selectedYearState.year }
     var countries: [Country] { return continent.countriesForYear(year) }
     var cities: [City] { return continent.citiesForYear(year) }
 
     var body: some View {
         List {
-            NavigationLink(destination: DrawablesMapView(
-                borderDrawables: [continent],
-                drawables: countries,
-                cities: cities
+            NavigationLink(destination: ContinentMapView(
+                selectedYearState: selectedYearState,
+                year: year,
+                continent: continent
             )) {
                 WorldView(
                     background: (continents: [continent.continentInfo], countries: [], regions: []),
@@ -49,7 +49,7 @@ struct ContinentView: View {
                 )
             }
         }
-        .navigationBarTitle(continent.continentInfo.name)
+        .navigationBarTitle(continent.nameWithFlag)
     }
 }
 
@@ -57,7 +57,10 @@ struct ContinentView_Previews: PreviewProvider {
     static var previews: some View {
         let model = simulatedDomainModel()
         
-        return ContinentView(continent: model.continents[3])
+        return ContinentView(
+            continent: model.continents[3],
+            selectedYearState: SelectedYearState()
+        )
             .environmentObject(ViewState(model: model))
     }
 }

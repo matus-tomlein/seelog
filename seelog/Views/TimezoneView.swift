@@ -11,12 +11,12 @@ import SwiftUI
 struct TimezoneView: View {
     var timezone: Timezone
     @EnvironmentObject var viewState: ViewState
-    @ObservedObject var selectedYearState = SelectedYearState()
+    @ObservedObject var selectedYearState: SelectedYearState
     var year: Int? { return selectedYearState.year }
 
     var body: some View {
         List {
-            NavigationLink(destination: DrawablesMapView(drawables: [timezone])) {
+            NavigationLink(destination: DrawablesMapView(drawables: [timezone], selectedYearState: selectedYearState)) {
                 WorldView(
                     background: (continents: viewState.model.continentInfos, countries: [], regions: []),
                     foreground: (continents: [], countries: [], regions: [], timezones: [timezone.timezoneInfo]),
@@ -29,7 +29,6 @@ struct TimezoneView: View {
             
             StayDurationBarChartView(destination: timezone)
                 .environmentObject(selectedYearState)
-            TextInfoView(info: timezone.info(year: year), addHeading: false)
 //            TripsListView(destination: timezone)
         }
         .navigationBarTitle(Text(timezone.timezoneInfo.name), displayMode: .inline)
@@ -41,8 +40,8 @@ struct TimezoneView_Previews: PreviewProvider {
         let model = simulatedDomainModel()
         
         return TimezoneView(
-            timezone: model.timezones[0]
+            timezone: model.timezones[0],
+            selectedYearState: SelectedYearState()
         ).environmentObject(ViewState(model: model))
-        .environmentObject(SelectedYearState())
     }
 }

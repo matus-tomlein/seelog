@@ -17,12 +17,10 @@ struct StatesListView: View {
     
     var body: some View {
         Section(header: Text("\(statesCount) regions out of \(total)")) {
-            ForEach(states) { state in
-                StateListItemView(
-                    region: state,
-                    selectedYearState: self.selectedYearState
-                )
-            }
+            TrippableListView(
+                selectedYearState: selectedYearState,
+                trippables: states
+            )
         }
     }
 }

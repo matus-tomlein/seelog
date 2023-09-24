@@ -13,7 +13,10 @@ import MapKit
 struct Country: Identifiable, Trippable, Drawable {
     var id: String { return countryInfo.countryKey }
     var _id: String { return id }
+    var coordinateRegion: MKCoordinateRegion { return countryInfo.geometry(zoomType: .far).coordinateRegion }
     var name: String { return countryInfo.name }
+    var flag: String { return Helpers.flag(country: countryInfo.countryKey) }
+    var nameWithFlag: String { return flag + " " + name }
     var countryInfo: CountryInfo
     var model: DomainModel
 
@@ -45,7 +48,7 @@ struct Country: Identifiable, Trippable, Drawable {
         return TextInfo(
             id: id,
             link: link,
-            heading: countryInfo.name,
+            heading: nameWithFlag,
             status: status(year: year),
             body: [
                 stayDurationInfo(year: year),

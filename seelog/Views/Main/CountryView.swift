@@ -11,7 +11,7 @@ import SwiftUI
 struct CountryView: View {
     var country: Country
     @EnvironmentObject var viewState: ViewState
-    @ObservedObject var selectedYearState = SelectedYearState()
+    @ObservedObject var selectedYearState: SelectedYearState
     var year: Int? { return selectedYearState.year }
     var cities: [City] { return country.citiesForYear(year: year) }
     var regions: [Region] { return country.regionsForYear(year) }
@@ -20,11 +20,7 @@ struct CountryView: View {
 
     var body: some View {
         List {
-            NavigationLink(destination: DrawablesMapView(
-                borderDrawables: [country],
-                drawables: regions,
-                cities: cities
-            )) {
+            NavigationLink(destination: CountryMapView(selectedYearState: selectedYearState, country: country)) {
                 WorldView(
                     background: (continents: [], countries: [country.countryInfo], regions: []),
                     foreground: (continents: [], countries: [], regions: regions.map { $0.stateInfo }, timezones: []),
@@ -39,8 +35,8 @@ struct CountryView: View {
                 .environmentObject(selectedYearState)
             
             Section(header: Text("Continent")) {
-                ContinentListItemView(
-                    continent: country.continent,
+                TrippableListItemView(
+                    trippable: country.continent,
                     selectedYearState: selectedYearState
                 )
             }
@@ -59,7 +55,7 @@ struct CountryView: View {
                 )
             }
         }
-        .navigationBarTitle(country.countryInfo.name)
+        .navigationBarTitle(country.nameWithFlag)
     }
 }
 
@@ -68,8 +64,8 @@ struct CountryView_Previews: PreviewProvider {
         let model = simulatedDomainModel()
         
         return CountryView(
-            country: model.countries.first(where: { $0.countryInfo.name == "Hungary" })!
+            country: model.countries.first(where: { $0.countryInfo.name == "Hungary" })!,
+            selectedYearState: SelectedYearState()
         ).environmentObject(ViewState(model: model))
-        .environmentObject(SelectedYearState())
     }
 }

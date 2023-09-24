@@ -31,8 +31,6 @@ class VisitPeriodManager {
         return visitPeriods?.filter({ period -> Bool in
             let correctCategory = currentTab == .places ||
                 (period.type == .country && currentTab == .countries) ||
-                (period.type == .state && currentTab == .states) ||
-                (period.type == .city && currentTab == .cities) ||
                 (period.type == .timezone && currentTab == .timezones) ||
                 (period.type == .continent && currentTab == .continents)
 

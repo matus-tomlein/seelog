@@ -134,7 +134,7 @@ class Helpers {
             }
             return String(usv)
         } else {
-            return country
+            return ""
         }
     }
 
@@ -253,7 +253,15 @@ class Helpers {
         )
     }
     
-    static func formatNumber(_ num: Double) ->String{
+    static func formatNumber(_ num: Int) ->String {
+        return NumberFormatter.localizedString(from: NSNumber(value: num), number: NumberFormatter.Style.decimal)
+    }
+    
+    static func formatNumber(_ num: Double) ->String {
+        return NumberFormatter.localizedString(from: NSNumber(value: num), number: NumberFormatter.Style.decimal)
+    }
+    
+    static func formatShortNumber(_ num: Double) ->String {
         let thousandNum = num / 1000
         let millionNum = num / 1000000
         if num >= 1000 && num < 1000000 {
@@ -353,6 +361,16 @@ class Helpers {
                 return intersects
             }
             return false
+        } != nil
+    }
+    
+    static func intersects(mapRegion1: MKCoordinateRegion, mapRegion2: MKCoordinateRegion) -> Bool {
+        let mapPolygons1 = Helpers.toPolygons(mapRegion: mapRegion1)
+        let mapPolygons2 = Helpers.toPolygons(mapRegion: mapRegion2)
+        return mapPolygons1.first { p1 in
+            mapPolygons2.first { p2 in
+                return (try? p1.intersects(p2)) ?? false
+            } != nil
         } != nil
     }
     

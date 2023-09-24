@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct BarChartViewInner: View {
-    @EnvironmentObject var selectedYearState: SelectedYearState
+    @ObservedObject var selectedYearState: SelectedYearState
     var showCounts: Bool
     var yearStats: [(year: Int, count: Int)]
     var total: Int?
@@ -33,7 +33,7 @@ struct BarChartViewInner: View {
         HStack(alignment: .bottom) {
             VStack(alignment: .center) {
                 if showCounts {
-                    Text(Helpers.formatNumber(Double(self.totalCount())))
+                    Text(Helpers.formatShortNumber(Double(self.totalCount())))
                         .foregroundColor(color(nil))
                         .fontWeight(.semibold)
                 }
@@ -56,7 +56,7 @@ struct BarChartViewInner: View {
             ForEach(yearStatsWithoutEmpty, id: \.year) { stat in
                 VStack(alignment: .center) {
                     if self.showCounts {
-                        Text(Helpers.formatNumber(Double(stat.count)))
+                        Text(Helpers.formatShortNumber(Double(stat.count)))
                             .foregroundColor(self.color(stat.year))
                             .fontWeight(.semibold)
                     }
@@ -102,29 +102,30 @@ struct BarChartViewInner: View {
 }
 
 struct BarChartView: View {
-    @EnvironmentObject var selectedYearState: SelectedYearState
+    @ObservedObject var selectedYearState: SelectedYearState
     var showCounts: Bool
     var yearStats: [(year: Int, count: Int)]
     var total: Int?
 
     var body: some View {
         ScrollView(.horizontal) {
-            BarChartViewInner(showCounts: showCounts, yearStats: yearStats, total: total)
+            BarChartViewInner(selectedYearState: selectedYearState, showCounts: showCounts, yearStats: yearStats, total: total)
         }
     }
 }
 
 struct BarChartView_Previews: PreviewProvider {
     static var previews: some View {
-        return Group {
-            return BarChartView(
+        Group {
+            BarChartView(
+                selectedYearState: SelectedYearState(),
                 showCounts: true,
                 yearStats: [
                     (year: 2020, count: 180),
                     (year: 2019, count: 4),
                     (year: 2018, count: 1)
                 ]
-            ).environmentObject(SelectedYearState())
+            )
         }
     }
 }

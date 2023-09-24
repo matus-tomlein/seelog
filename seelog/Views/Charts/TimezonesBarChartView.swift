@@ -10,13 +10,18 @@ import SwiftUI
 
 struct TimezonesBarChartView: View {
     @EnvironmentObject var viewState: ViewState
-    @ObservedObject var selectedYearState = SelectedYearState()
+    @ObservedObject var selectedYearState: SelectedYearState
     
     var yearStats: [(year: Int, count: Int)] { get { return viewState.model.timezonesYearCounts } }
     var totalCount: Int { get { return viewState.model.timezonesForYear(nil).count } }
 
     var body: some View {
-        BarChartView(showCounts: true, yearStats: yearStats, total: totalCount)
+        BarChartView(
+            selectedYearState: selectedYearState,
+            showCounts: true,
+            yearStats: yearStats,
+            total: totalCount
+        )
     }
 }
 
@@ -24,8 +29,7 @@ struct TimezonesBarChartView_Previews: PreviewProvider {
     static var previews: some View {
         let model = simulatedDomainModel()
         
-        return TimezonesBarChartView()
+        return TimezonesBarChartView(selectedYearState: SelectedYearState())
             .environmentObject(ViewState(model: model))
-            .environmentObject(SelectedYearState())
     }
 }

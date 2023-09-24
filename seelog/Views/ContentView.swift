@@ -8,15 +8,6 @@
 
 import SwiftUI
 
-enum SelectedTab {
-    case places
-    case countries
-    case states
-    case cities
-    case timezones
-    case continents
-}
-
 enum TableViewSetting {
     case trips
     case timeSpent

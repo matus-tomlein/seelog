@@ -31,28 +31,29 @@ struct LogbookView: View {
     var continentsYearStats: [(year: Int, count: Int)] { get { return viewState.model.continentYearCounts } }
     var timezonesYearStats: [(year: Int, count: Int)] { get { return viewState.model.timezonesYearCounts } }
     
-    @State private var tab = 0
+    @State private var tab: SelectedTab = .countries
 
     var body: some View {
         Group {
             switch tab {
-            case 1: PlacesView()
-            case 2: ContinentsView()
-            case 3: TimezonesView()
-            default: CountriesView()
+            case .places: PlacesView(selectedYearState: selectedYearState)
+            case .continents: ContinentsView(selectedYearState: selectedYearState)
+            case .timezones: TimezonesView(selectedYearState: selectedYearState)
+            case .countries: CountriesView(selectedYearState: selectedYearState)
             }
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Picker("What is your favorite color?", selection: $tab) {
-                    Text("Countries").tag(0)
-                    Text("Places").tag(1)
-                    Text("Continents").tag(2)
-                    Text("Timezones").tag(3)
+                Picker("", selection: $tab) {
+                    Text("Countries").tag(SelectedTab.countries)
+                    Text("Places").tag(SelectedTab.places)
+                    Text("Continents").tag(SelectedTab.continents)
+                    Text("Timezones").tag(SelectedTab.timezones)
                 }
                 .pickerStyle(.segmented)
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

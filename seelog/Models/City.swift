@@ -11,6 +11,7 @@ import Foundation
 struct City: Identifiable, Trippable {
     var id: Int64 { return cityInfo.cityKey }
     var name: String { return cityInfo.name }
+    var nameWithFlag: String { return "🌆 " + name }
     var cityInfo: CityInfo
     var model: DomainModel
     

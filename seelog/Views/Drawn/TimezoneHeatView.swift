@@ -15,7 +15,7 @@ struct TimezoneHeatView: View {
     var timezones: [Timezone] { get { return viewState.model.timezonesForYear(selectedYear) } }
 
     var body: some View {
-        NavigationLink(destination: DrawablesMapView(drawables: timezones)) {
+        NavigationLink(destination: TimezonesMapView(selectedYearState: selectedYearState)) {
             WorldView(
                 background: (continents: viewState.model.continentInfos, countries: [], regions: []),
                 foreground: (continents: [], countries: [], regions: [], timezones: timezones.map { $0.timezoneInfo }),

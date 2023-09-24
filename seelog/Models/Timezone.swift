@@ -14,7 +14,9 @@ struct Timezone: Identifiable, Trippable, Drawable {
     var id: Int32 { return timezoneInfo.timezoneId }
     var _id: String { return "\(id)" }
     var name: String { return timezoneInfo.name }
+    var nameWithFlag: String { return name }
     var timezoneInfo: TimezoneInfo
+    var coordinateRegion: MKCoordinateRegion { return timezoneInfo.geometryDescription.coordinateRegion }
 
     var stayDurationByYear: [Int: Int]
     var trips: [Trip]

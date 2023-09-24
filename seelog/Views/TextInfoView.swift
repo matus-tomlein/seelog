@@ -76,55 +76,7 @@ extension TextInfoView {
             return AnyView(TextInfoInnerView(info: info, addHeading: false))
         }
         
-        switch info.link {
-        case .countries:
-            return AnyView(NavigationLink(destination: CountriesView().environmentObject(self.viewState)) {
-                TextInfoInnerView(info: info)
-            })
-            
-        case .country(let country):
-            return AnyView(NavigationLink(destination: CountryView(country: country).environmentObject(self.viewState)) {
-                TextInfoInnerView(info: info)
-            })
-            
-        case .region(let region):
-            return AnyView(NavigationLink(destination: StateView(state: region).environmentObject(self.viewState)) {
-                TextInfoInnerView(info: info)
-            })
-            
-        case .cities:
-            return AnyView(NavigationLink(destination: CitiesView().environmentObject(self.viewState)) {
-                TextInfoInnerView(info: info)
-            })
-            
-        case .city(let city):
-            return AnyView(NavigationLink(destination: CityView(city: city).environmentObject(self.viewState)) {
-                TextInfoInnerView(info: info)
-            })
-            
-        case .timezones:
-            return AnyView(NavigationLink(destination: TimezonesView().environmentObject(self.viewState)) {
-                TextInfoInnerView(info: info)
-            })
-            
-        case .timezone(let timezone):
-            return AnyView(NavigationLink(destination: TimezoneView(timezone: timezone).environmentObject(self.viewState)) {
-                TextInfoInnerView(info: info)
-            })
-            
-        case .continents:
-            return AnyView(NavigationLink(destination: ContinentsView().environmentObject(self.viewState)) {
-                TextInfoInnerView(info: info)
-            })
-            
-        case .continent(let continent):
-            return AnyView(NavigationLink(destination: ContinentView(continent: continent).environmentObject(self.viewState)) {
-                TextInfoInnerView(info: info)
-            })
-            
-        default:
-            return AnyView(TextInfoInnerView(info: info))
-        }
+        return AnyView(TextInfoInnerView(info: info))
     }
 }
 

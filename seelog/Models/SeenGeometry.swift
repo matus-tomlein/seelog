@@ -93,10 +93,11 @@ struct SeenGeometry: Identifiable {
     
     func polygons(zoomType: ZoomType) -> [Polygon] {
         let positions = zoomType == .far ? higherLevelPositions : positions
-        let polygons = positions.map { $0.polygon }.filter({ $0 != nil }).map({ $0! })
+        let polygons = positions.compactMap { $0.polygon }
+        
         let heatmap = MultiPolygon(polygons: polygons)
         
-        guard let buffered = try? heatmap.buffer(by: 0.05) else { return [] }
+        guard let buffered = try? heatmap.buffer(by: 0.0) else { return heatmap.polygons }
         
         let processedHeatmap = Helpers.convexHeatmap(heatmap: buffered)
         

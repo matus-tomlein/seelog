@@ -14,8 +14,10 @@ struct Region: Identifiable, Trippable, Drawable {
     var id: String { return stateInfo.stateKey }
     var _id: String { return id }
     var name: String { return stateInfo.name }
+    var nameWithFlag: String { return "\(country.flag) \(name)" }
     var stateInfo: StateInfo
     var model: DomainModel
+    var coordinateRegion: MKCoordinateRegion { return stateInfo.geometry(zoomType: .far).coordinateRegion }
 
     var cities: [City] { return model.cities.filter { city in city.cityInfo.stateKey == self.id } }
     var country: Country { return model.country(id: stateInfo.countryKey) }

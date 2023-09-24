@@ -12,6 +12,7 @@ import MapKit
 
 protocol Drawable {
     var _id: String { get }
+    var coordinateRegion: MKCoordinateRegion { get }
     func polygons(zoomType: ZoomType) -> [Polygon]
     func intersects(mapRegion: MKCoordinateRegion) -> Bool
 }

@@ -15,16 +15,15 @@ struct CountriesListView: View {
     @ObservedObject var selectedYearState: SelectedYearState
     var selectedYear: Int? { get { return selectedYearState.year } }
     var showCount: Bool = true
-    var title: String { return showCount ? "\(countriesCount) countries" : "All countries" }
+    var customTitle: String? = nil
+    var title: String { return customTitle ?? (showCount ? "\(countriesCount) countries" : "All countries") }
 
     var body: some View {
         Section(header: Text(title)) {
-            ForEach(countries) { country in
-                CountryListItemView(
-                    country: country,
-                    selectedYearState: self.selectedYearState
-                )
-            }
+            TrippableListView(
+                selectedYearState: selectedYearState,
+                trippables: countries
+            )
         }
     }
 }

@@ -11,6 +11,7 @@ import Foundation
 struct World: Identifiable, Trippable {
     var id: String { get { return "world" } }
     var name: String { return "World" }
+    var nameWithFlag: String { return name }
 
     var stayDurationByYear: [Int: Int]
     var trips: [Trip]

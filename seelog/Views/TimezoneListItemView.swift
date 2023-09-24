@@ -15,7 +15,7 @@ struct TimezoneListItemView: View {
     var selectedYear: Int? { get { return selectedYearState.year } }
 
     var body: some View {
-        TextInfoView(info: timezone.info(year: selectedYear))
+        TrippableListItemView(trippable: timezone, selectedYearState: selectedYearState)
     }
 }
 

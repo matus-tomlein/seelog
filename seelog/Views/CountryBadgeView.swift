@@ -22,7 +22,7 @@ struct CountryBadgeView: View {
     }
 
     var body: some View {
-        NavigationLink(destination: CountryView(country: country)
+        NavigationLink(destination: CountryView(country: country, selectedYearState: selectedYearState)
             .environmentObject(self.viewState)
         ) {
             VStack {
