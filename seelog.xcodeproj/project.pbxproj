@@ -527,6 +527,7 @@
 				6B521D0623B74C7A00570CF2 /* Sources */,
 				6B521D0723B74C7A00570CF2 /* Frameworks */,
 				6B521D0823B74C7A00570CF2 /* Resources */,
+				6B124B262ACDD5420086F3E6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -662,6 +663,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6B124B262ACDD5420086F3E6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd seelog\nif [ -e generated.sqlite ]\nthen\n    echo \"Database exists\"\nelse\n    curl https://f001.backblazeb2.com/file/referred/seelog/generated.sqlite --output generated.sqlite\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6B521D0623B74C7A00570CF2 /* Sources */ = {
@@ -934,6 +955,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"seelog/Preview Content\"";
 				DEVELOPMENT_TEAM = V487J8L84E;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = seelog/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Seelog;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
@@ -964,6 +986,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"seelog/Preview Content\"";
 				DEVELOPMENT_TEAM = V487J8L84E;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = seelog/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Seelog;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
