@@ -135,6 +135,7 @@
 
 /* Begin PBXFileReference section */
 		6B04671024D1FE83009892AF /* SelectedYearState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedYearState.swift; sourceTree = "<group>"; };
+		6B124B282ACDE1F60086F3E6 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		6B1D517D278A1E8F009D6B07 /* CountriesBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesBarChartView.swift; sourceTree = "<group>"; };
 		6B1D517F278A1FD2009D6B07 /* CitiesBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitiesBarChartView.swift; sourceTree = "<group>"; };
 		6B1D5181278A20AA009D6B07 /* ContinentsBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinentsBarChartView.swift; sourceTree = "<group>"; };
@@ -274,6 +275,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B124B272ACDE1CF0086F3E6 /* ci_scripts */ = {
+			isa = PBXGroup;
+			children = (
+				6B124B282ACDE1F60086F3E6 /* ci_post_clone.sh */,
+			);
+			path = ci_scripts;
+			sourceTree = "<group>";
+		};
 		6B1D517C278A1E7B009D6B07 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +313,7 @@
 		6B521D0123B74C7A00570CF2 = {
 			isa = PBXGroup;
 			children = (
+				6B124B272ACDE1CF0086F3E6 /* ci_scripts */,
 				6B521D0C23B74C7A00570CF2 /* seelog */,
 				6B521D2323B74C7F00570CF2 /* seelogTests */,
 				6B521D2E23B74C7F00570CF2 /* seelogUITests */,
