@@ -24,7 +24,7 @@ struct TimezonesView: View {
             }
 
             Section(header: Text("\(timezones.count) timezones")) {
-                TimezonesBarChartView(selectedYearState: SelectedYearState())
+                TimezonesBarChartView(selectedYearState: selectedYearState)
 
                 TrippableListView(
                     selectedYearState: selectedYearState,

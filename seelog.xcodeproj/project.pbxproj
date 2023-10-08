@@ -24,8 +24,6 @@
 		6B35C2962A9A9AE10037DC51 /* PlacesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35C2952A9A9AE10037DC51 /* PlacesView.swift */; };
 		6B50C1A0240BEE480090B578 /* CountriesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50C19F240BEE480090B578 /* CountriesListView.swift */; };
 		6B50C1A2240BF0690090B578 /* WorldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B50C1A1240BF0690090B578 /* WorldView.swift */; };
-		6B521D0E23B74C7A00570CF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D0D23B74C7A00570CF2 /* AppDelegate.swift */; };
-		6B521D1023B74C7A00570CF2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D0F23B74C7A00570CF2 /* SceneDelegate.swift */; };
 		6B521D1223B74C7A00570CF2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D1123B74C7A00570CF2 /* ContentView.swift */; };
 		6B521D1423B74C7F00570CF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B521D1323B74C7F00570CF2 /* Assets.xcassets */; };
 		6B521D1723B74C7F00570CF2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B521D1623B74C7F00570CF2 /* Preview Assets.xcassets */; };
@@ -99,6 +97,7 @@
 		6BE6749323EEBD0C00102673 /* visit_periods.csv in Resources */ = {isa = PBXBuildFile; fileRef = 6BE6749223EEBD0C00102673 /* visit_periods.csv */; };
 		6BE6749723EF049200102673 /* CountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE6749623EF049200102673 /* CountryView.swift */; };
 		6BE6749923F00C7700102673 /* VisitPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE6749823F00C7700102673 /* VisitPeriod.swift */; };
+		6BEC6D062AD29ED50061AA96 /* seelogApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEC6D052AD29ED50061AA96 /* seelogApp.swift */; };
 		6BF5BF862402C0FC0038AD9E /* LoadingViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5BF852402C0FC0038AD9E /* LoadingViewState.swift */; };
 		6BF5BF882402C2290038AD9E /* InitializationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5BF872402C2290038AD9E /* InitializationController.swift */; };
 		6BF5BF8A2402F2B60038AD9E /* CountriesHeatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5BF892402F2B60038AD9E /* CountriesHeatView.swift */; };
@@ -127,8 +126,6 @@
 		6B50C19F240BEE480090B578 /* CountriesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListView.swift; sourceTree = "<group>"; };
 		6B50C1A1240BF0690090B578 /* WorldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldView.swift; sourceTree = "<group>"; };
 		6B521D0A23B74C7A00570CF2 /* Seelog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seelog.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B521D0D23B74C7A00570CF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6B521D0F23B74C7A00570CF2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6B521D1123B74C7A00570CF2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6B521D1323B74C7F00570CF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B521D1623B74C7F00570CF2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -207,6 +204,7 @@
 		6BE6749223EEBD0C00102673 /* visit_periods.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = visit_periods.csv; path = seelog/visit_periods.csv; sourceTree = SOURCE_ROOT; };
 		6BE6749623EF049200102673 /* CountryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryView.swift; sourceTree = "<group>"; };
 		6BE6749823F00C7700102673 /* VisitPeriod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPeriod.swift; sourceTree = "<group>"; };
+		6BEC6D052AD29ED50061AA96 /* seelogApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = seelogApp.swift; sourceTree = "<group>"; };
 		6BF5BF852402C0FC0038AD9E /* LoadingViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewState.swift; sourceTree = "<group>"; };
 		6BF5BF872402C2290038AD9E /* InitializationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializationController.swift; sourceTree = "<group>"; };
 		6BF5BF892402F2B60038AD9E /* CountriesHeatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesHeatView.swift; sourceTree = "<group>"; };
@@ -294,8 +292,7 @@
 				6B521DC423BCFD4900570CF2 /* Helpers */,
 				6B521D6223BCFCBD00570CF2 /* Models */,
 				6B521D6123BCFCAE00570CF2 /* Initialization */,
-				6B521D0D23B74C7A00570CF2 /* AppDelegate.swift */,
-				6B521D0F23B74C7A00570CF2 /* SceneDelegate.swift */,
+				6BEC6D052AD29ED50061AA96 /* seelogApp.swift */,
 				6B521DC523BCFDF500570CF2 /* seelog.xcdatamodeld */,
 				6B660E1823CB30FA000CD3BB /* generated.sqlite */,
 				6B521D1323B74C7F00570CF2 /* Assets.xcassets */,
@@ -576,6 +573,7 @@
 				6B521D7723BCFCCB00570CF2 /* Photo.swift in Sources */,
 				6B660E1723CB24EA000CD3BB /* DomainModel.swift in Sources */,
 				6B50C1A0240BEE480090B578 /* CountriesListView.swift in Sources */,
+				6BEC6D062AD29ED50061AA96 /* seelogApp.swift in Sources */,
 				6B6E2EDC2ABF2C41009D1E22 /* TrippableView.swift in Sources */,
 				6B521D7023BCFCCB00570CF2 /* ContinentInfo.swift in Sources */,
 				6BCBE70C23F0823A00DBC9D7 /* Timezone.swift in Sources */,
@@ -607,7 +605,6 @@
 				6BCBE70423F07E5A00DBC9D7 /* Year.swift in Sources */,
 				6B660E0C23BE6388000CD3BB /* ContinentsView.swift in Sources */,
 				6B5F97C12413B5F000624419 /* BadgeView.swift in Sources */,
-				6B521D0E23B74C7A00570CF2 /* AppDelegate.swift in Sources */,
 				6B660E3623CB7CD7000CD3BB /* BarChartView.swift in Sources */,
 				6BCBE70A23F081FE00DBC9D7 /* Continent.swift in Sources */,
 				6BCBE6FE23F0719200DBC9D7 /* SeenArea.swift in Sources */,
@@ -627,7 +624,6 @@
 				6BF5BF902402F4AE0038AD9E /* TimezoneHeatView.swift in Sources */,
 				6B6B5973244CB66A00E52D9D /* SphericalMercator.swift in Sources */,
 				6B521DC223BCFD4200570CF2 /* ConcurrentArray.swift in Sources */,
-				6B521D1023B74C7A00570CF2 /* SceneDelegate.swift in Sources */,
 				6B35C2902A9A3C200037DC51 /* PlacesMapView.swift in Sources */,
 				6B521D7A23BCFCCB00570CF2 /* StatsProvider.swift in Sources */,
 				6B1D5180278A1FD2009D6B07 /* CitiesBarChartView.swift in Sources */,
@@ -801,6 +797,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = seelog/Seelog.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"seelog/Preview Content\"";
 				DEVELOPMENT_TEAM = V487J8L84E;
 				ENABLE_PREVIEWS = YES;
@@ -808,8 +805,6 @@
 				INFOPLIST_FILE = seelog/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Seelog;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
-				INFOPLIST_PREFIX_HEADER = seelog/InfoPlist.h;
-				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -832,6 +827,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = seelog/Seelog.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"seelog/Preview Content\"";
 				DEVELOPMENT_TEAM = V487J8L84E;
 				ENABLE_PREVIEWS = YES;
@@ -839,8 +835,6 @@
 				INFOPLIST_FILE = seelog/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Seelog;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
-				INFOPLIST_PREFIX_HEADER = seelog/InfoPlist.h;
-				INFOPLIST_PREPROCESS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
