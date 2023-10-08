@@ -30,8 +30,6 @@
 		6B521D1423B74C7F00570CF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B521D1323B74C7F00570CF2 /* Assets.xcassets */; };
 		6B521D1723B74C7F00570CF2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B521D1623B74C7F00570CF2 /* Preview Assets.xcassets */; };
 		6B521D1A23B74C7F00570CF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B521D1823B74C7F00570CF2 /* LaunchScreen.storyboard */; };
-		6B521D2523B74C7F00570CF2 /* seelogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D2423B74C7F00570CF2 /* seelogTests.swift */; };
-		6B521D3023B74C7F00570CF2 /* seelogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D2F23B74C7F00570CF2 /* seelogUITests.swift */; };
 		6B521D4023B7571C00570CF2 /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D3F23B7571C00570CF2 /* CircleImage.swift */; };
 		6B521D5623BCFC9900570CF2 /* VisitPeriodUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D4B23BCFC9800570CF2 /* VisitPeriodUpdater.swift */; };
 		6B521D5823BCFC9900570CF2 /* PhotoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B521D4D23BCFC9800570CF2 /* PhotoInfo.swift */; };
@@ -68,8 +66,6 @@
 		6B660E0E23BE63A0000CD3BB /* TimezonesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B660E0D23BE63A0000CD3BB /* TimezonesView.swift */; };
 		6B660E1723CB24EA000CD3BB /* DomainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B660E1623CB24EA000CD3BB /* DomainModel.swift */; };
 		6B660E1923CB30FA000CD3BB /* generated.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6B660E1823CB30FA000CD3BB /* generated.sqlite */; };
-		6B660E1A23CB30FA000CD3BB /* generated.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6B660E1823CB30FA000CD3BB /* generated.sqlite */; };
-		6B660E1B23CB30FA000CD3BB /* generated.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6B660E1823CB30FA000CD3BB /* generated.sqlite */; };
 		6B660E3623CB7CD7000CD3BB /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B660E3523CB7CD7000CD3BB /* BarChartView.swift */; };
 		6B6B5973244CB66A00E52D9D /* SphericalMercator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6B5972244CB66900E52D9D /* SphericalMercator.swift */; };
 		6B6E2ED82ABF2BF6009D1E22 /* TrippablesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6E2ED72ABF2BF6009D1E22 /* TrippablesListView.swift */; };
@@ -101,8 +97,6 @@
 		6BCBE70E23F0827200DBC9D7 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70D23F0827200DBC9D7 /* City.swift */; };
 		6BCBE71023F0934500DBC9D7 /* SeenGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCBE70F23F0934500DBC9D7 /* SeenGeometry.swift */; };
 		6BE6749323EEBD0C00102673 /* visit_periods.csv in Resources */ = {isa = PBXBuildFile; fileRef = 6BE6749223EEBD0C00102673 /* visit_periods.csv */; };
-		6BE6749423EEBD1100102673 /* visit_periods.csv in Resources */ = {isa = PBXBuildFile; fileRef = 6BE6749223EEBD0C00102673 /* visit_periods.csv */; };
-		6BE6749523EEBD1200102673 /* visit_periods.csv in Resources */ = {isa = PBXBuildFile; fileRef = 6BE6749223EEBD0C00102673 /* visit_periods.csv */; };
 		6BE6749723EF049200102673 /* CountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE6749623EF049200102673 /* CountryView.swift */; };
 		6BE6749923F00C7700102673 /* VisitPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE6749823F00C7700102673 /* VisitPeriod.swift */; };
 		6BF5BF862402C0FC0038AD9E /* LoadingViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF5BF852402C0FC0038AD9E /* LoadingViewState.swift */; };
@@ -115,23 +109,6 @@
 		6BFB19BD2A90866E0035594B /* GEOSwiftMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6BFB19BC2A90866E0035594B /* GEOSwiftMapKit */; };
 		6BFB19C12A9097420035594B /* ZoomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFB19C02A9097420035594B /* ZoomType.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		6B521D2123B74C7F00570CF2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B521D0223B74C7A00570CF2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6B521D0923B74C7A00570CF2;
-			remoteInfo = seelog;
-		};
-		6B521D2C23B74C7F00570CF2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6B521D0223B74C7A00570CF2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6B521D0923B74C7A00570CF2;
-			remoteInfo = seelog;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		6B04671024D1FE83009892AF /* SelectedYearState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedYearState.swift; sourceTree = "<group>"; };
@@ -157,12 +134,6 @@
 		6B521D1623B74C7F00570CF2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6B521D1923B74C7F00570CF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B521D1B23B74C7F00570CF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B521D2023B74C7F00570CF2 /* seelogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = seelogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B521D2423B74C7F00570CF2 /* seelogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seelogTests.swift; sourceTree = "<group>"; };
-		6B521D2623B74C7F00570CF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B521D2B23B74C7F00570CF2 /* seelogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = seelogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B521D2F23B74C7F00570CF2 /* seelogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seelogUITests.swift; sourceTree = "<group>"; };
-		6B521D3123B74C7F00570CF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B521D3F23B7571C00570CF2 /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		6B521D4B23BCFC9800570CF2 /* VisitPeriodUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitPeriodUpdater.swift; sourceTree = "<group>"; };
 		6B521D4D23BCFC9800570CF2 /* PhotoInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoInfo.swift; sourceTree = "<group>"; };
@@ -258,20 +229,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6B521D1D23B74C7F00570CF2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6B521D2823B74C7F00570CF2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -315,8 +272,6 @@
 			children = (
 				6B124B272ACDE1CF0086F3E6 /* ci_scripts */,
 				6B521D0C23B74C7A00570CF2 /* seelog */,
-				6B521D2323B74C7F00570CF2 /* seelogTests */,
-				6B521D2E23B74C7F00570CF2 /* seelogUITests */,
 				6B521D0B23B74C7A00570CF2 /* Products */,
 				6BFB19BB2A90866E0035594B /* Frameworks */,
 			);
@@ -326,8 +281,6 @@
 			isa = PBXGroup;
 			children = (
 				6B521D0A23B74C7A00570CF2 /* Seelog.app */,
-				6B521D2023B74C7F00570CF2 /* seelogTests.xctest */,
-				6B521D2B23B74C7F00570CF2 /* seelogUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -359,24 +312,6 @@
 				6B521D1623B74C7F00570CF2 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		6B521D2323B74C7F00570CF2 /* seelogTests */ = {
-			isa = PBXGroup;
-			children = (
-				6B521D2423B74C7F00570CF2 /* seelogTests.swift */,
-				6B521D2623B74C7F00570CF2 /* Info.plist */,
-			);
-			path = seelogTests;
-			sourceTree = "<group>";
-		};
-		6B521D2E23B74C7F00570CF2 /* seelogUITests */ = {
-			isa = PBXGroup;
-			children = (
-				6B521D2F23B74C7F00570CF2 /* seelogUITests.swift */,
-				6B521D3123B74C7F00570CF2 /* Info.plist */,
-			);
-			path = seelogUITests;
 			sourceTree = "<group>";
 		};
 		6B521D6123BCFCAE00570CF2 /* Initialization */ = {
@@ -554,42 +489,6 @@
 			productReference = 6B521D0A23B74C7A00570CF2 /* Seelog.app */;
 			productType = "com.apple.product-type.application";
 		};
-		6B521D1F23B74C7F00570CF2 /* seelogTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6B521D3723B74C7F00570CF2 /* Build configuration list for PBXNativeTarget "seelogTests" */;
-			buildPhases = (
-				6B521D1C23B74C7F00570CF2 /* Sources */,
-				6B521D1D23B74C7F00570CF2 /* Frameworks */,
-				6B521D1E23B74C7F00570CF2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				6B521D2223B74C7F00570CF2 /* PBXTargetDependency */,
-			);
-			name = seelogTests;
-			productName = seelogTests;
-			productReference = 6B521D2023B74C7F00570CF2 /* seelogTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		6B521D2A23B74C7F00570CF2 /* seelogUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6B521D3A23B74C7F00570CF2 /* Build configuration list for PBXNativeTarget "seelogUITests" */;
-			buildPhases = (
-				6B521D2723B74C7F00570CF2 /* Sources */,
-				6B521D2823B74C7F00570CF2 /* Frameworks */,
-				6B521D2923B74C7F00570CF2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				6B521D2D23B74C7F00570CF2 /* PBXTargetDependency */,
-			);
-			name = seelogUITests;
-			productName = seelogUITests;
-			productReference = 6B521D2B23B74C7F00570CF2 /* seelogUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -603,14 +502,6 @@
 				TargetAttributes = {
 					6B521D0923B74C7A00570CF2 = {
 						CreatedOnToolsVersion = 11.3;
-					};
-					6B521D1F23B74C7F00570CF2 = {
-						CreatedOnToolsVersion = 11.3;
-						TestTargetID = 6B521D0923B74C7A00570CF2;
-					};
-					6B521D2A23B74C7F00570CF2 = {
-						CreatedOnToolsVersion = 11.3;
-						TestTargetID = 6B521D0923B74C7A00570CF2;
 					};
 				};
 			};
@@ -634,8 +525,6 @@
 			projectRoot = "";
 			targets = (
 				6B521D0923B74C7A00570CF2 /* seelog */,
-				6B521D1F23B74C7F00570CF2 /* seelogTests */,
-				6B521D2A23B74C7F00570CF2 /* seelogUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -651,24 +540,6 @@
 				6B521D1423B74C7F00570CF2 /* Assets.xcassets in Resources */,
 				6BFA74C22446350A004139EA /* seen_areas.csv in Resources */,
 				6B660E1923CB30FA000CD3BB /* generated.sqlite in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6B521D1E23B74C7F00570CF2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6B660E1A23CB30FA000CD3BB /* generated.sqlite in Resources */,
-				6BE6749523EEBD1200102673 /* visit_periods.csv in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6B521D2923B74C7F00570CF2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6B660E1B23CB30FA000CD3BB /* generated.sqlite in Resources */,
-				6BE6749423EEBD1100102673 /* visit_periods.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,36 +664,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6B521D1C23B74C7F00570CF2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6B521D2523B74C7F00570CF2 /* seelogTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6B521D2723B74C7F00570CF2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6B521D3023B74C7F00570CF2 /* seelogUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		6B521D2223B74C7F00570CF2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6B521D0923B74C7A00570CF2 /* seelog */;
-			targetProxy = 6B521D2123B74C7F00570CF2 /* PBXContainerItemProxy */;
-		};
-		6B521D2D23B74C7F00570CF2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6B521D0923B74C7A00570CF2 /* seelog */;
-			targetProxy = 6B521D2C23B74C7F00570CF2 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6B521D1823B74C7F00570CF2 /* LaunchScreen.storyboard */ = {
@@ -889,7 +731,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -946,13 +787,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -1018,90 +857,6 @@
 			};
 			name = Release;
 		};
-		6B521D3823B74C7F00570CF2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V487J8L84E;
-				INFOPLIST_FILE = seelogTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.seelog.seelogTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/seelog.app/seelog";
-			};
-			name = Debug;
-		};
-		6B521D3923B74C7F00570CF2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V487J8L84E;
-				INFOPLIST_FILE = seelogTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.seelog.seelogTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/seelog.app/seelog";
-			};
-			name = Release;
-		};
-		6B521D3B23B74C7F00570CF2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V487J8L84E;
-				INFOPLIST_FILE = seelogUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.seelog.seelogUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = seelog;
-			};
-			name = Debug;
-		};
-		6B521D3C23B74C7F00570CF2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V487J8L84E;
-				INFOPLIST_FILE = seelogUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.seelog.seelogUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = seelog;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1119,24 +874,6 @@
 			buildConfigurations = (
 				6B521D3523B74C7F00570CF2 /* Debug */,
 				6B521D3623B74C7F00570CF2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6B521D3723B74C7F00570CF2 /* Build configuration list for PBXNativeTarget "seelogTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6B521D3823B74C7F00570CF2 /* Debug */,
-				6B521D3923B74C7F00570CF2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6B521D3A23B74C7F00570CF2 /* Build configuration list for PBXNativeTarget "seelogUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6B521D3B23B74C7F00570CF2 /* Debug */,
-				6B521D3C23B74C7F00570CF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
